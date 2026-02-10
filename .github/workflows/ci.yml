@@ -139,7 +139,7 @@ jobs:
     continue-on-error: true
     env:
       MIX_ENV: test
-      STRIPE_SPEC_CHANNEL: preview
+      STRIPE_SPEC_CHANNEL: latest
 
     strategy:
       matrix:
