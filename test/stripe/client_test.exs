@@ -62,6 +62,8 @@ defmodule Stripe.ClientTest do
     end
 
     test "raises when api_key not configured" do
+      Application.delete_env(:stripe_elixir, :api_key)
+
       assert_raise ArgumentError, ~r/Stripe API key not configured/, fn ->
         Stripe.client()
       end
