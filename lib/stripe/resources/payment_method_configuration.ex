@@ -1,0 +1,276 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Resources.PaymentMethodConfiguration do
+  @moduledoc """
+  PaymentMethodConfigResourcePaymentMethodConfiguration
+
+  PaymentMethodConfigurations control which payment methods are displayed to your customers when you don't explicitly specify payment method types. You can have multiple configurations with different sets of payment methods for different scenarios.
+
+  There are two types of PaymentMethodConfigurations. Which is used depends on the [charge type](https://docs.stripe.com/connect/charges):
+
+  **Direct** configurations apply to payments created on your account, including Connect destination charges, Connect separate charges and transfers, and payments not involving Connect.
+
+  **Child** configurations apply to payments created on your connected accounts using direct charges, and charges with the on_behalf_of parameter.
+
+  Child configurations have a `parent` that sets default values and controls which settings connected accounts may override. You can specify a parent ID at payment time, and Stripe will automatically resolve the connected account’s associated child configuration. Parent configurations are [managed in the dashboard](https://dashboard.stripe.com/settings/payment_methods/connected_accounts) and are not available in this API.
+
+  Related guides:
+  - [Payment Method Configurations API](https://docs.stripe.com/connect/payment-method-configurations)
+  - [Multiple configurations on dynamic payment methods](https://docs.stripe.com/payments/multiple-payment-method-configs)
+  - [Multiple configurations for your Connect accounts](https://docs.stripe.com/connect/multiple-payment-method-configurations)
+  """
+
+  @typedoc """
+  * `acss_debit` - Expandable.
+  * `active` - Whether the configuration can be used for new payments.
+  * `affirm` - Expandable.
+  * `afterpay_clearpay` - Expandable.
+  * `alipay` - Expandable.
+  * `alma` - Expandable.
+  * `amazon_pay` - Expandable.
+  * `apple_pay` - Expandable.
+  * `application` - For child configs, the Connect application associated with the configuration. Max length: 5000. Nullable.
+  * `au_becs_debit` - Expandable.
+  * `bacs_debit` - Expandable.
+  * `bancontact` - Expandable.
+  * `billie` - Expandable.
+  * `blik` - Expandable.
+  * `boleto` - Expandable.
+  * `card` - Expandable.
+  * `cartes_bancaires` - Expandable.
+  * `cashapp` - Expandable.
+  * `crypto` - Expandable.
+  * `customer_balance` - Expandable.
+  * `eps` - Expandable.
+  * `fpx` - Expandable.
+  * `giropay` - Expandable.
+  * `google_pay` - Expandable.
+  * `grabpay` - Expandable.
+  * `id` - Unique identifier for the object. Max length: 5000.
+  * `ideal` - Expandable.
+  * `is_default` - The default configuration is used whenever a payment method configuration is not specified.
+  * `jcb` - Expandable.
+  * `kakao_pay` - Expandable.
+  * `klarna` - Expandable.
+  * `konbini` - Expandable.
+  * `kr_card` - Expandable.
+  * `link` - Expandable.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `mb_way` - Expandable.
+  * `mobilepay` - Expandable.
+  * `multibanco` - Expandable.
+  * `name` - The configuration's name. Max length: 5000.
+  * `naver_pay` - Expandable.
+  * `nz_bank_account` - Expandable.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `payment_method_configuration`.
+  * `oxxo` - Expandable.
+  * `p24` - Expandable.
+  * `parent` - For child configs, the configuration's parent configuration. Max length: 5000. Nullable.
+  * `pay_by_bank` - Expandable.
+  * `payco` - Expandable.
+  * `paynow` - Expandable.
+  * `paypal` - Expandable.
+  * `payto` - Expandable.
+  * `pix` - Expandable.
+  * `promptpay` - Expandable.
+  * `revolut_pay` - Expandable.
+  * `samsung_pay` - Expandable.
+  * `satispay` - Expandable.
+  * `sepa_debit` - Expandable.
+  * `sofort` - Expandable.
+  * `swish` - Expandable.
+  * `twint` - Expandable.
+  * `us_bank_account` - Expandable.
+  * `wechat_pay` - Expandable.
+  * `zip` - Expandable.
+  """
+  @type t :: %__MODULE__{
+          acss_debit: map() | nil,
+          active: boolean(),
+          affirm: map() | nil,
+          afterpay_clearpay: map() | nil,
+          alipay: map() | nil,
+          alma: map() | nil,
+          amazon_pay: map() | nil,
+          apple_pay: map() | nil,
+          application: String.t(),
+          au_becs_debit: map() | nil,
+          bacs_debit: map() | nil,
+          bancontact: map() | nil,
+          billie: map() | nil,
+          blik: map() | nil,
+          boleto: map() | nil,
+          card: map() | nil,
+          cartes_bancaires: map() | nil,
+          cashapp: map() | nil,
+          crypto: map() | nil,
+          customer_balance: map() | nil,
+          eps: map() | nil,
+          fpx: map() | nil,
+          giropay: map() | nil,
+          google_pay: map() | nil,
+          grabpay: map() | nil,
+          id: String.t(),
+          ideal: map() | nil,
+          is_default: boolean(),
+          jcb: map() | nil,
+          kakao_pay: map() | nil,
+          klarna: map() | nil,
+          konbini: map() | nil,
+          kr_card: map() | nil,
+          link: map() | nil,
+          livemode: boolean(),
+          mb_way: map() | nil,
+          mobilepay: map() | nil,
+          multibanco: map() | nil,
+          name: String.t(),
+          naver_pay: map() | nil,
+          nz_bank_account: map() | nil,
+          object: String.t(),
+          oxxo: map() | nil,
+          p24: map() | nil,
+          parent: String.t(),
+          pay_by_bank: map() | nil,
+          payco: map() | nil,
+          paynow: map() | nil,
+          paypal: map() | nil,
+          payto: map() | nil,
+          pix: map() | nil,
+          promptpay: map() | nil,
+          revolut_pay: map() | nil,
+          samsung_pay: map() | nil,
+          satispay: map() | nil,
+          sepa_debit: map() | nil,
+          sofort: map() | nil,
+          swish: map() | nil,
+          twint: map() | nil,
+          us_bank_account: map() | nil,
+          wechat_pay: map() | nil,
+          zip: map() | nil
+        }
+
+  defstruct [
+    :acss_debit,
+    :active,
+    :affirm,
+    :afterpay_clearpay,
+    :alipay,
+    :alma,
+    :amazon_pay,
+    :apple_pay,
+    :application,
+    :au_becs_debit,
+    :bacs_debit,
+    :bancontact,
+    :billie,
+    :blik,
+    :boleto,
+    :card,
+    :cartes_bancaires,
+    :cashapp,
+    :crypto,
+    :customer_balance,
+    :eps,
+    :fpx,
+    :giropay,
+    :google_pay,
+    :grabpay,
+    :id,
+    :ideal,
+    :is_default,
+    :jcb,
+    :kakao_pay,
+    :klarna,
+    :konbini,
+    :kr_card,
+    :link,
+    :livemode,
+    :mb_way,
+    :mobilepay,
+    :multibanco,
+    :name,
+    :naver_pay,
+    :nz_bank_account,
+    :object,
+    :oxxo,
+    :p24,
+    :parent,
+    :pay_by_bank,
+    :payco,
+    :paynow,
+    :paypal,
+    :payto,
+    :pix,
+    :promptpay,
+    :revolut_pay,
+    :samsung_pay,
+    :satispay,
+    :sepa_debit,
+    :sofort,
+    :swish,
+    :twint,
+    :us_bank_account,
+    :wechat_pay,
+    :zip
+  ]
+
+  @object_name "payment_method_configuration"
+  def object_name, do: @object_name
+
+  def expandable_fields,
+    do: [
+      "acss_debit",
+      "affirm",
+      "afterpay_clearpay",
+      "alipay",
+      "alma",
+      "amazon_pay",
+      "apple_pay",
+      "au_becs_debit",
+      "bacs_debit",
+      "bancontact",
+      "billie",
+      "blik",
+      "boleto",
+      "card",
+      "cartes_bancaires",
+      "cashapp",
+      "crypto",
+      "customer_balance",
+      "eps",
+      "fpx",
+      "giropay",
+      "google_pay",
+      "grabpay",
+      "ideal",
+      "jcb",
+      "kakao_pay",
+      "klarna",
+      "konbini",
+      "kr_card",
+      "link",
+      "mb_way",
+      "mobilepay",
+      "multibanco",
+      "naver_pay",
+      "nz_bank_account",
+      "oxxo",
+      "p24",
+      "pay_by_bank",
+      "payco",
+      "paynow",
+      "paypal",
+      "payto",
+      "pix",
+      "promptpay",
+      "revolut_pay",
+      "samsung_pay",
+      "satispay",
+      "sepa_debit",
+      "sofort",
+      "swish",
+      "twint",
+      "us_bank_account",
+      "wechat_pay",
+      "zip"
+    ]
+end

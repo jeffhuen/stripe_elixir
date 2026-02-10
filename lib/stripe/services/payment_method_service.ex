@@ -1,0 +1,113 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Services.PaymentMethodService do
+  @moduledoc """
+  PaymentMethod
+
+  PaymentMethod objects represent your customer's payment instruments.
+  You can use them with [PaymentIntents](https://docs.stripe.com/payments/payment-intents) to collect payments or save them to
+  Customer objects to store instrument details for future payments.
+
+  Related guides: [Payment Methods](https://docs.stripe.com/payments/payment-methods) and [More Payment Scenarios](https://docs.stripe.com/payments/more-payment-scenarios).
+  """
+  alias Stripe.Client
+
+  @doc """
+  Attach a PaymentMethod to a Customer
+
+  Attaches a PaymentMethod object to a Customer.
+
+  To attach a new PaymentMethod to a customer for future payments, we recommend you use a [SetupIntent](https://docs.stripe.com/docs/api/setup_intents)
+  or a PaymentIntent with [setup_future_usage](https://docs.stripe.com/docs/api/payment_intents/create#create_payment_intent-setup_future_usage).
+  These approaches will perform any necessary steps to set up the PaymentMethod for future payments. Using the `/v1/payment_methods/:id/attach`
+  endpoint without first using a SetupIntent or PaymentIntent with `setup_future_usage` does not optimize the PaymentMethod for
+  future use, which makes later declines and payment friction more likely.
+  See [Optimizing cards for future payments](https://docs.stripe.com/docs/payments/payment-intents#future-usage) for more information about setting up
+  future payments.
+
+  To use this PaymentMethod as the default for invoice or subscription payments,
+  set [`invoice_settings.default_payment_method`](https://docs.stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method),
+  on the Customer to the PaymentMethod’s ID.
+  """
+  @spec attach(Client.t(), String.t(), map(), keyword()) ::
+          {:ok, term()} | {:error, Stripe.Error.t()}
+  def attach(client, payment_method, params \\ %{}, opts \\ []) do
+    Client.request(
+      client,
+      :post,
+      "/v1/payment_methods/#{payment_method}/attach",
+      Keyword.merge(opts, params: params)
+    )
+  end
+
+  @doc """
+  Shares a PaymentMethod
+
+  Creates a PaymentMethod object. Read the [Stripe.js reference](https://docs.stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
+
+  Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents](https://docs.stripe.com/docs/payments/accept-a-payment) API to accept a payment immediately or the [SetupIntent](https://docs.stripe.com/docs/payments/save-and-reuse) API to collect payment method details ahead of a future payment.
+  """
+  @spec create(Client.t(), map(), keyword()) ::
+          {:ok, term()} | {:error, Stripe.Error.t()}
+  def create(client, params \\ %{}, opts \\ []) do
+    Client.request(client, :post, "/v1/payment_methods", Keyword.merge(opts, params: params))
+  end
+
+  @doc """
+  Detach a PaymentMethod from a Customer
+
+  Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
+  """
+  @spec detach(Client.t(), String.t(), map(), keyword()) ::
+          {:ok, term()} | {:error, Stripe.Error.t()}
+  def detach(client, payment_method, params \\ %{}, opts \\ []) do
+    Client.request(
+      client,
+      :post,
+      "/v1/payment_methods/#{payment_method}/detach",
+      Keyword.merge(opts, params: params)
+    )
+  end
+
+  @doc """
+  List PaymentMethods
+
+  Returns a list of all PaymentMethods.
+  """
+  @spec list(Client.t(), map(), keyword()) ::
+          {:ok, term()} | {:error, Stripe.Error.t()}
+  def list(client, params \\ %{}, opts \\ []) do
+    Client.request(client, :get, "/v1/payment_methods", Keyword.merge(opts, params: params))
+  end
+
+  @doc """
+  Retrieve a PaymentMethod
+
+  Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a payment method attached to a Customer, you should use [Retrieve a Customer’s PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer)
+  """
+  @spec retrieve(Client.t(), String.t(), map(), keyword()) ::
+          {:ok, term()} | {:error, Stripe.Error.t()}
+  def retrieve(client, payment_method, params \\ %{}, opts \\ []) do
+    Client.request(
+      client,
+      :get,
+      "/v1/payment_methods/#{payment_method}",
+      Keyword.merge(opts, params: params)
+    )
+  end
+
+  @doc """
+  Update a PaymentMethod
+
+  Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
+  """
+  @spec update(Client.t(), String.t(), map(), keyword()) ::
+          {:ok, term()} | {:error, Stripe.Error.t()}
+  def update(client, payment_method, params \\ %{}, opts \\ []) do
+    Client.request(
+      client,
+      :post,
+      "/v1/payment_methods/#{payment_method}",
+      Keyword.merge(opts, params: params)
+    )
+  end
+end

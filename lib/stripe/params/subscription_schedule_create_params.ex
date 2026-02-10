@@ -1,0 +1,171 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Params.SubscriptionScheduleCreateParams do
+  @moduledoc "Parameters for subscription schedule create."
+
+  @typedoc """
+  * `billing_mode` - Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+  * `customer` - The identifier of the customer to create the subscription schedule for. Max length: 5000.
+  * `customer_account` - The identifier of the account to create the subscription schedule for. Max length: 5000.
+  * `default_settings` - Object representing the subscription schedule's default settings.
+  * `end_behavior` - Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription. Possible values: `cancel`, `none`, `release`, `renew`.
+  * `expand` - Specifies which fields in the response should be expanded.
+  * `from_subscription` - Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls. Max length: 5000.
+  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+  * `phases` - List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
+  * `start_date` - When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
+  """
+  @type t :: %__MODULE__{
+          billing_mode: map() | nil,
+          customer: String.t() | nil,
+          customer_account: String.t() | nil,
+          default_settings: map() | nil,
+          end_behavior: String.t() | nil,
+          expand: [String.t()] | nil,
+          from_subscription: String.t() | nil,
+          metadata: map() | nil,
+          phases: [map()] | nil,
+          start_date: map() | nil
+        }
+
+  defstruct [
+    :billing_mode,
+    :customer,
+    :customer_account,
+    :default_settings,
+    :end_behavior,
+    :expand,
+    :from_subscription,
+    :metadata,
+    :phases,
+    :start_date
+  ]
+
+  defmodule BillingMode do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `flexible` - Configure behavior for flexible billing mode.
+    * `type` - Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`. Possible values: `classic`, `flexible`.
+    """
+    @type t :: %__MODULE__{
+            flexible: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:flexible, :type]
+  end
+
+  defmodule DefaultSettings do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `application_fee_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
+    * `automatic_tax` - Default settings for automatic tax computation.
+    * `billing_cycle_anchor` - Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `automatic`, `phase_start`.
+    * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+    * `collection_method` - Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation. Possible values: `charge_automatically`, `send_invoice`.
+    * `default_payment_method` - ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings. Max length: 5000.
+    * `description` - Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+    * `invoice_settings` - All invoices will be billed using the specified settings.
+    * `on_behalf_of` - The account on behalf of which to charge, for each of the associated subscription's invoices.
+    * `transfer_data` - The data with which to automatically create a Transfer for each of the associated subscription's invoices.
+    """
+    @type t :: %__MODULE__{
+            application_fee_percent: float() | nil,
+            automatic_tax: map() | nil,
+            billing_cycle_anchor: String.t() | nil,
+            billing_thresholds: map() | nil,
+            collection_method: String.t() | nil,
+            default_payment_method: String.t() | nil,
+            description: map() | nil,
+            invoice_settings: map() | nil,
+            on_behalf_of: map() | nil,
+            transfer_data: map() | nil
+          }
+    defstruct [
+      :application_fee_percent,
+      :automatic_tax,
+      :billing_cycle_anchor,
+      :billing_thresholds,
+      :collection_method,
+      :default_payment_method,
+      :description,
+      :invoice_settings,
+      :on_behalf_of,
+      :transfer_data
+    ]
+  end
+
+  defmodule Phases do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `add_invoice_items` - A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
+    * `application_fee_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
+    * `automatic_tax` - Automatic tax settings for this phase.
+    * `billing_cycle_anchor` - Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `automatic`, `phase_start`.
+    * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+    * `collection_method` - Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation. Possible values: `charge_automatically`, `send_invoice`.
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `default_payment_method` - ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings. Max length: 5000.
+    * `default_tax_rates` - A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://docs.stripe.com/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
+    * `description` - Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+    * `discounts` - The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+    * `duration` - The number of intervals the phase should last. If set, `end_date` must not be set.
+    * `end_date` - The date at which this phase of the subscription schedule ends. If set, `duration` must not be set. Format: Unix timestamp.
+    * `invoice_settings` - All invoices will be billed using the specified settings.
+    * `items` - List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
+    * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
+    * `on_behalf_of` - The account on behalf of which to charge, for each of the associated subscription's invoices.
+    * `proration_behavior` - Controls whether the subscription schedule should create [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://docs.stripe.com/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase. Possible values: `always_invoice`, `create_prorations`, `none`.
+    * `transfer_data` - The data with which to automatically create a Transfer for each of the associated subscription's invoices.
+    * `trial` - If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
+    * `trial_end` - Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial` Format: Unix timestamp.
+    """
+    @type t :: %__MODULE__{
+            add_invoice_items: [map()] | nil,
+            application_fee_percent: float() | nil,
+            automatic_tax: map() | nil,
+            billing_cycle_anchor: String.t() | nil,
+            billing_thresholds: map() | nil,
+            collection_method: String.t() | nil,
+            currency: String.t() | nil,
+            default_payment_method: String.t() | nil,
+            default_tax_rates: map() | nil,
+            description: map() | nil,
+            discounts: map() | nil,
+            duration: map() | nil,
+            end_date: integer() | nil,
+            invoice_settings: map() | nil,
+            items: [map()] | nil,
+            metadata: map() | nil,
+            on_behalf_of: String.t() | nil,
+            proration_behavior: String.t() | nil,
+            transfer_data: map() | nil,
+            trial: boolean() | nil,
+            trial_end: integer() | nil
+          }
+    defstruct [
+      :add_invoice_items,
+      :application_fee_percent,
+      :automatic_tax,
+      :billing_cycle_anchor,
+      :billing_thresholds,
+      :collection_method,
+      :currency,
+      :default_payment_method,
+      :default_tax_rates,
+      :description,
+      :discounts,
+      :duration,
+      :end_date,
+      :invoice_settings,
+      :items,
+      :metadata,
+      :on_behalf_of,
+      :proration_behavior,
+      :transfer_data,
+      :trial,
+      :trial_end
+    ]
+  end
+end

@@ -1,0 +1,92 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Params.Treasury.FinancialAccountUpdateParams do
+  @moduledoc "Parameters for financial account update."
+
+  @typedoc """
+  * `expand` - Specifies which fields in the response should be expanded.
+  * `features` - Encodes whether a FinancialAccount has access to a particular feature, with a status enum and associated `status_details`. Stripe or the platform may control features via the requested field.
+  * `forwarding_settings` - A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
+  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+  * `nickname` - The nickname for the FinancialAccount.
+  * `platform_restrictions` - The set of functionalities that the platform can restrict on the FinancialAccount.
+  """
+  @type t :: %__MODULE__{
+          expand: [String.t()] | nil,
+          features: map() | nil,
+          forwarding_settings: map() | nil,
+          metadata: map() | nil,
+          nickname: map() | nil,
+          platform_restrictions: map() | nil
+        }
+
+  defstruct [
+    :expand,
+    :features,
+    :forwarding_settings,
+    :metadata,
+    :nickname,
+    :platform_restrictions
+  ]
+
+  defmodule Features do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `card_issuing` - Encodes the FinancialAccount's ability to be used with the Issuing product, including attaching cards to and drawing funds from the FinancialAccount.
+    * `deposit_insurance` - Represents whether this FinancialAccount is eligible for deposit insurance. Various factors determine the insurance amount.
+    * `financial_addresses` - Contains Features that add FinancialAddresses to the FinancialAccount.
+    * `inbound_transfers` - Contains settings related to adding funds to a FinancialAccount from another Account with the same owner.
+    * `intra_stripe_flows` - Represents the ability for the FinancialAccount to send money to, or receive money from other FinancialAccounts (for example, via OutboundPayment).
+    * `outbound_payments` - Includes Features related to initiating money movement out of the FinancialAccount to someone else's bucket of money.
+    * `outbound_transfers` - Contains a Feature and settings related to moving money out of the FinancialAccount into another Account with the same owner.
+    """
+    @type t :: %__MODULE__{
+            card_issuing: map() | nil,
+            deposit_insurance: map() | nil,
+            financial_addresses: map() | nil,
+            inbound_transfers: map() | nil,
+            intra_stripe_flows: map() | nil,
+            outbound_payments: map() | nil,
+            outbound_transfers: map() | nil
+          }
+    defstruct [
+      :card_issuing,
+      :deposit_insurance,
+      :financial_addresses,
+      :inbound_transfers,
+      :intra_stripe_flows,
+      :outbound_payments,
+      :outbound_transfers
+    ]
+  end
+
+  defmodule ForwardingSettings do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `financial_account` - The financial_account id
+    * `payment_method` - The payment_method or bank account id. This needs to be a verified bank account. Max length: 5000.
+    * `type` - The type of the bank account provided. This can be either "financial_account" or "payment_method" Possible values: `financial_account`, `payment_method`.
+    """
+    @type t :: %__MODULE__{
+            financial_account: String.t() | nil,
+            payment_method: String.t() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:financial_account, :payment_method, :type]
+  end
+
+  defmodule PlatformRestrictions do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `inbound_flows` - Restricts all inbound money movement. Possible values: `restricted`, `unrestricted`.
+    * `outbound_flows` - Restricts all outbound money movement. Possible values: `restricted`, `unrestricted`.
+    """
+    @type t :: %__MODULE__{
+            inbound_flows: String.t() | nil,
+            outbound_flows: String.t() | nil
+          }
+    defstruct [:inbound_flows, :outbound_flows]
+  end
+end

@@ -1,0 +1,105 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Resources.InvoiceItem do
+  @moduledoc """
+  InvoiceItem
+
+  Invoice Items represent the component lines of an [invoice](https://docs.stripe.com/api/invoices). When you create an invoice item with an `invoice` field, it is attached to the specified invoice and included as [an invoice line item](https://docs.stripe.com/api/invoices/line_item) within [invoice.lines](https://docs.stripe.com/api/invoices/object#invoice_object-lines).
+
+  Invoice Items can be created before you are ready to actually send the invoice. This can be particularly useful when combined
+  with a [subscription](https://docs.stripe.com/api/subscriptions). Sometimes you want to add a charge or credit to a customer, but actually charge
+  or credit the customer's card only at the end of a regular billing cycle. This is useful for combining several charges
+  (to minimize per-transaction fees), or for having Stripe tabulate your usage-based billing totals.
+
+  Related guides: [Integrate with the Invoicing API](https://docs.stripe.com/invoicing/integration), [Subscription Invoices](https://docs.stripe.com/billing/invoices/subscription#adding-upcoming-invoice-items).
+  """
+
+  @typedoc """
+  * `amount` - Amount (in the `currency` specified) of the invoice item. This should always be equal to `unit_amount * quantity`.
+  * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `customer` - The ID of the customer to bill for this invoice item. Expandable.
+  * `customer_account` - The ID of the account to bill for this invoice item. Max length: 5000. Nullable.
+  * `date` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+  * `description` - An arbitrary string attached to the object. Often useful for displaying to users. Max length: 5000. Nullable.
+  * `discountable` - If true, discounts will apply to this invoice item. Always false for prorations.
+  * `discounts` - The discounts which apply to the invoice item. Item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount. Nullable. Expandable.
+  * `id` - Unique identifier for the object. Max length: 5000.
+  * `invoice` - The ID of the invoice this invoice item belongs to. Nullable. Expandable.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
+  * `net_amount` - The amount after discounts, but before credits and taxes. This field is `null` for `discountable=true` items.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `invoiceitem`.
+  * `parent` - The parent that generated this invoice item. Nullable. Expandable.
+  * `period` - Expandable.
+  * `pricing` - The pricing information of the invoice item. Nullable. Expandable.
+  * `proration` - Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
+  * `proration_details` - Expandable.
+  * `quantity` - Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
+  * `tax_rates` - The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Nullable. Expandable.
+  * `test_clock` - ID of the test clock this invoice item belongs to. Nullable. Expandable.
+  """
+  @type t :: %__MODULE__{
+          amount: integer(),
+          currency: String.t(),
+          customer: map(),
+          customer_account: String.t(),
+          date: integer(),
+          description: String.t(),
+          discountable: boolean(),
+          discounts: [String.t() | map()],
+          id: String.t(),
+          invoice: String.t() | map(),
+          livemode: boolean(),
+          metadata: map(),
+          net_amount: integer() | nil,
+          object: String.t(),
+          parent: map(),
+          period: map(),
+          pricing: map(),
+          proration: boolean(),
+          proration_details: map() | nil,
+          quantity: integer(),
+          tax_rates: [String.t() | map()],
+          test_clock: String.t() | map()
+        }
+
+  defstruct [
+    :amount,
+    :currency,
+    :customer,
+    :customer_account,
+    :date,
+    :description,
+    :discountable,
+    :discounts,
+    :id,
+    :invoice,
+    :livemode,
+    :metadata,
+    :net_amount,
+    :object,
+    :parent,
+    :period,
+    :pricing,
+    :proration,
+    :proration_details,
+    :quantity,
+    :tax_rates,
+    :test_clock
+  ]
+
+  @object_name "invoiceitem"
+  def object_name, do: @object_name
+
+  def expandable_fields,
+    do: [
+      "customer",
+      "discounts",
+      "invoice",
+      "parent",
+      "period",
+      "pricing",
+      "proration_details",
+      "tax_rates",
+      "test_clock"
+    ]
+end

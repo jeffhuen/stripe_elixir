@@ -1,0 +1,39 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Params.BalanceTransactionListParams do
+  @moduledoc "Parameters for balance transaction list."
+
+  @typedoc """
+  * `created` - Only return transactions that were created during the given date interval.
+  * `currency` - Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+  * `ending_before` - A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list. Max length: 5000.
+  * `expand` - Specifies which fields in the response should be expanded.
+  * `limit` - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  * `payout` - For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID. Max length: 5000.
+  * `source` - Only returns transactions associated with the given object. Max length: 5000.
+  * `starting_after` - A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `obj_foo`, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list. Max length: 5000.
+  * `type` - Only returns transactions of the given type. One of: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `climate_order_purchase`, `climate_order_refund`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `obligation_outbound`, `obligation_reversal_inbound`, `payment`, `payment_failure_refund`, `payment_network_reserve_hold`, `payment_network_reserve_release`, `payment_refund`, `payment_reversal`, `payment_unreconciled`, `payout`, `payout_cancel`, `payout_failure`, `payout_minimum_balance_hold`, `payout_minimum_balance_release`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `reserve_hold`, `reserve_release`, `stripe_fee`, `stripe_fx_fee`, `stripe_balance_payment_debit`, `stripe_balance_payment_debit_reversal`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`. Max length: 5000.
+  """
+  @type t :: %__MODULE__{
+          created: map() | nil,
+          currency: String.t() | nil,
+          ending_before: String.t() | nil,
+          expand: [String.t()] | nil,
+          limit: integer() | nil,
+          payout: String.t() | nil,
+          source: String.t() | nil,
+          starting_after: String.t() | nil,
+          type: String.t() | nil
+        }
+
+  defstruct [
+    :created,
+    :currency,
+    :ending_before,
+    :expand,
+    :limit,
+    :payout,
+    :source,
+    :starting_after,
+    :type
+  ]
+end

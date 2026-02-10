@@ -1,0 +1,77 @@
+name: Sync OpenAPI Spec
+
+on:
+  schedule:
+    # Weekly: Monday 08:00 UTC
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    name: Sync & Generate
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.19"
+          otp-version: "27"
+
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-1.19-27-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-1.19-27-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Sync OpenAPI spec
+        run: bash scripts/sync_openapi.sh
+
+      - name: Sync Ruby SDK (for parity)
+        run: bash scripts/sync_ruby.sh
+
+      - name: Generate SDK
+        run: mix stripe.generate --clean --stats
+
+      - name: Compile (warnings as errors)
+        run: mix compile --warnings-as-errors
+
+      - name: Run tests
+        run: mix test
+
+      - name: Parity check
+        run: bash scripts/diff_ruby.sh
+
+      - name: Read spec version
+        id: version
+        run: echo "tag=$(cat OPENAPI_VERSION)" >> "$GITHUB_OUTPUT"
+
+      - name: Create PR if artifacts changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: sync OpenAPI spec ${{ steps.version.outputs.tag }}"
+          title: "chore: sync OpenAPI spec ${{ steps.version.outputs.tag }}"
+          body: |
+            Automated spec sync from `stripe/openapi` tag `${{ steps.version.outputs.tag }}`.
+
+            Generated via `sync_openapi.sh` → `mix stripe.generate --clean --stats`.
+            All gates passed: compile, test, parity.
+          branch: openapi-sync/${{ steps.version.outputs.tag }}
+          base: main
+          labels: openapi-sync
+          delete-branch: true

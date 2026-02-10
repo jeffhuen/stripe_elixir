@@ -1,0 +1,103 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Params.InvoiceLineItemUpdateParams do
+  @moduledoc "Parameters for invoice line item update."
+
+  @typedoc """
+  * `amount` - The integer amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. If you want to apply a credit to the customer's account, pass a negative amount.
+  * `description` - An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking. Max length: 5000.
+  * `discountable` - Controls whether discounts apply to this line item. Defaults to false for prorations or negative line items, and true for all other line items. Cannot be set to true for prorations.
+  * `discounts` - The coupons, promotion codes & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
+  * `expand` - Specifies which fields in the response should be expanded.
+  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For [type=subscription](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-type) line items, the incoming metadata specified on the request is directly used to set this value, in contrast to [type=invoiceitem](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-type) line items, where any existing metadata on the invoice line is merged with the incoming data.
+  * `period` - The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+  * `price_data` - Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
+  * `pricing` - The pricing information for the invoice item.
+  * `quantity` - Non-negative integer. The quantity of units for the line item.
+  * `tax_amounts` - A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+  * `tax_rates` - The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
+  """
+  @type t :: %__MODULE__{
+          amount: integer() | nil,
+          description: String.t() | nil,
+          discountable: boolean() | nil,
+          discounts: map() | nil,
+          expand: [String.t()] | nil,
+          metadata: map() | nil,
+          period: map() | nil,
+          price_data: map() | nil,
+          pricing: map() | nil,
+          quantity: integer() | nil,
+          tax_amounts: map() | nil,
+          tax_rates: map() | nil
+        }
+
+  defstruct [
+    :amount,
+    :description,
+    :discountable,
+    :discounts,
+    :expand,
+    :metadata,
+    :period,
+    :price_data,
+    :pricing,
+    :quantity,
+    :tax_amounts,
+    :tax_rates
+  ]
+
+  defmodule Period do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `end` - The end of the period, which must be greater than or equal to the start. This value is inclusive. Format: Unix timestamp.
+    * `start` - The start of the period. This value is inclusive. Format: Unix timestamp.
+    """
+    @type t :: %__MODULE__{
+            end: integer() | nil,
+            start: integer() | nil
+          }
+    defstruct [:end, :start]
+  end
+
+  defmodule PriceData do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `product` - The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required. Max length: 5000.
+    * `product_data` - Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+    * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+    * `unit_amount` - A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+    * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+    """
+    @type t :: %__MODULE__{
+            currency: String.t() | nil,
+            product: String.t() | nil,
+            product_data: map() | nil,
+            tax_behavior: String.t() | nil,
+            unit_amount: integer() | nil,
+            unit_amount_decimal: String.t() | nil
+          }
+    defstruct [
+      :currency,
+      :product,
+      :product_data,
+      :tax_behavior,
+      :unit_amount,
+      :unit_amount_decimal
+    ]
+  end
+
+  defmodule Pricing do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `price` - The ID of the price object. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            price: String.t() | nil
+          }
+    defstruct [:price]
+  end
+end

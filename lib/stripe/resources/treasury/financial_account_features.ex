@@ -1,0 +1,55 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Resources.Treasury.FinancialAccountFeatures do
+  @moduledoc """
+  TreasuryFinancialAccountsResourceFinancialAccountFeatures
+
+  Encodes whether a FinancialAccount has access to a particular Feature, with a `status` enum and associated `status_details`.
+  Stripe or the platform can control Features via the requested field.
+  """
+
+  @typedoc """
+  * `card_issuing` - Expandable.
+  * `deposit_insurance` - Expandable.
+  * `financial_addresses` - Expandable.
+  * `inbound_transfers` - Expandable.
+  * `intra_stripe_flows` - Expandable.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `treasury.financial_account_features`.
+  * `outbound_payments` - Expandable.
+  * `outbound_transfers` - Expandable.
+  """
+  @type t :: %__MODULE__{
+          card_issuing: String.t() | map() | nil,
+          deposit_insurance: String.t() | map() | nil,
+          financial_addresses: String.t() | map() | nil,
+          inbound_transfers: String.t() | map() | nil,
+          intra_stripe_flows: String.t() | map() | nil,
+          object: String.t(),
+          outbound_payments: String.t() | map() | nil,
+          outbound_transfers: String.t() | map() | nil
+        }
+
+  defstruct [
+    :card_issuing,
+    :deposit_insurance,
+    :financial_addresses,
+    :inbound_transfers,
+    :intra_stripe_flows,
+    :object,
+    :outbound_payments,
+    :outbound_transfers
+  ]
+
+  @object_name "treasury.financial_account_features"
+  def object_name, do: @object_name
+
+  def expandable_fields,
+    do: [
+      "card_issuing",
+      "deposit_insurance",
+      "financial_addresses",
+      "inbound_transfers",
+      "intra_stripe_flows",
+      "outbound_payments",
+      "outbound_transfers"
+    ]
+end

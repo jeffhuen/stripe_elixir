@@ -1,0 +1,77 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Resources.Radar.ValueList do
+  @moduledoc """
+  RadarListList
+
+  Value lists allow you to group values together which can then be referenced in rules.
+
+  Related guide: [Default Stripe lists](https://docs.stripe.com/radar/lists#managing-list-items)
+  """
+
+  @typedoc """
+  * `alias` - The name of the value list for use in rules. Max length: 5000.
+  * `created` - Time at which the object was created. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+  * `created_by` - The name or email address of the user who created this value list. Max length: 5000.
+  * `id` - Unique identifier for the object. Max length: 5000.
+  * `item_type` - The type of items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Possible values: `card_bin`, `card_fingerprint`, `case_sensitive_string`, `country`, `customer_id`, `email`, `ip_address`, `sepa_debit_fingerprint`, `string`, `us_bank_account_fingerprint`.
+  * `list_items` - List of items contained within this value list. Expandable.
+  * `livemode` - Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+  * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+  * `name` - The name of the value list. Max length: 5000.
+  * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `radar.value_list`.
+  """
+  @type t :: %__MODULE__{
+          alias: String.t(),
+          created: integer(),
+          created_by: String.t(),
+          id: String.t(),
+          item_type: String.t(),
+          list_items: map(),
+          livemode: boolean(),
+          metadata: map(),
+          name: String.t(),
+          object: String.t()
+        }
+
+  defstruct [
+    :alias,
+    :created,
+    :created_by,
+    :id,
+    :item_type,
+    :list_items,
+    :livemode,
+    :metadata,
+    :name,
+    :object
+  ]
+
+  @object_name "radar.value_list"
+  def object_name, do: @object_name
+
+  def expandable_fields, do: ["list_items"]
+
+  defmodule ListItems do
+    @moduledoc false
+
+    @typedoc """
+    * `data` - Details about each object.
+    * `has_more` - True if this list has another page of items after this one that can be fetched.
+    * `object` - String representing the object's type. Objects of the same type share the same value. Always has the value `list`. Possible values: `list`.
+    * `url` - The URL where this list can be accessed. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            data: [map()] | nil,
+            has_more: boolean() | nil,
+            object: String.t() | nil,
+            url: String.t() | nil
+          }
+    defstruct [:data, :has_more, :object, :url]
+  end
+
+  def __inner_types__ do
+    %{
+      "list_items" => __MODULE__.ListItems
+    }
+  end
+end

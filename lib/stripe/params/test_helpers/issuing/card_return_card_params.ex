@@ -1,0 +1,13 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.Params.TestHelpers.Issuing.CardReturnCardParams do
+  @moduledoc "Parameters for card return card."
+
+  @typedoc """
+  * `expand` - Specifies which fields in the response should be expanded.
+  """
+  @type t :: %__MODULE__{
+          expand: [String.t()] | nil
+        }
+
+  defstruct [:expand]
+end

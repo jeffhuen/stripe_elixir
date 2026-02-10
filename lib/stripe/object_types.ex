@@ -1,0 +1,385 @@
+# File generated from our OpenAPI spec
+defmodule Stripe.ObjectTypes do
+  @moduledoc false
+
+  def object_name_to_module do
+    %{
+      "account" => Stripe.Resources.Account,
+      "account_link" => Stripe.Resources.AccountLink,
+      "account_session" => Stripe.Resources.AccountSession,
+      "address" => Stripe.Resources.Address,
+      "api_errors" => Stripe.Resources.StripeError,
+      "apple_pay_domain" => Stripe.Resources.ApplePayDomain,
+      "application" => Stripe.Resources.Application,
+      "application_fee" => Stripe.Resources.ApplicationFee,
+      "apps.secret" => Stripe.Resources.Apps.Secret,
+      "balance" => Stripe.Resources.Balance,
+      "balance_settings" => Stripe.Resources.BalanceSettings,
+      "balance_transaction" => Stripe.Resources.BalanceTransaction,
+      "balance_transaction_source" => Stripe.Resources.BalanceTransactionSource,
+      "bank_account" => Stripe.Resources.BankAccount,
+      "billing.alert" => Stripe.Resources.Billing.Alert,
+      "billing.alert_triggered" => Stripe.Resources.Billing.AlertTriggered,
+      "billing.credit_balance_summary" => Stripe.Resources.Billing.CreditBalanceSummary,
+      "billing.credit_balance_transaction" =>
+        Stripe.Resources.Billing.CreditBalanceTransaction,
+      "billing.credit_grant" => Stripe.Resources.Billing.CreditGrant,
+      "billing.meter" => Stripe.Resources.Billing.Meter,
+      "billing.meter_event" => Stripe.Resources.Billing.MeterEvent,
+      "billing.meter_event_adjustment" => Stripe.Resources.Billing.MeterEventAdjustment,
+      "billing.meter_event_summary" => Stripe.Resources.Billing.MeterEventSummary,
+      "billing_portal.configuration" => Stripe.Resources.BillingPortal.Configuration,
+      "billing_portal.session" => Stripe.Resources.BillingPortal.Session,
+      "capability" => Stripe.Resources.Capability,
+      "card" => Stripe.Resources.Card,
+      "cash_balance" => Stripe.Resources.CashBalance,
+      "charge" => Stripe.Resources.Charge,
+      "checkout.session" => Stripe.Resources.Checkout.Session,
+      "checkout_afterpay_clearpay_payment_method_options" =>
+        Stripe.Resources.AfterpayClearpay,
+      "climate.order" => Stripe.Resources.Climate.Order,
+      "climate.product" => Stripe.Resources.Climate.Product,
+      "climate.supplier" => Stripe.Resources.Climate.Supplier,
+      "confirmation_token" => Stripe.Resources.ConfirmationToken,
+      "connect_collection_transfer" => Stripe.Resources.ConnectCollectionTransfer,
+      "connect_embedded_account_config_claim" => Stripe.Resources.AccountConfig,
+      "connect_embedded_account_features_claim" => Stripe.Resources.AccountFeatures,
+      "connect_embedded_account_session_create_components" => Stripe.Resources.Components,
+      "connect_embedded_base_config_claim" => Stripe.Resources.BaseConfig,
+      "connect_embedded_base_features" => Stripe.Resources.BaseFeatures,
+      "connect_embedded_disputes_list_config" => Stripe.Resources.DisputesListConfig,
+      "connect_embedded_disputes_list_features" => Stripe.Resources.DisputesListFeatures,
+      "connect_embedded_financial_account_config_claim" =>
+        Stripe.Resources.FinancialAccountConfig,
+      "connect_embedded_financial_account_features" =>
+        Stripe.Resources.FinancialAccountFeatures,
+      "connect_embedded_financial_account_transactions_config_claim" =>
+        Stripe.Resources.FinancialAccountTransactionsConfig,
+      "connect_embedded_financial_account_transactions_features" =>
+        Stripe.Resources.FinancialAccountTransactionsFeatures,
+      "connect_embedded_instant_payouts_promotion_config" =>
+        Stripe.Resources.InstantPayoutsPromotionConfig,
+      "connect_embedded_instant_payouts_promotion_features" =>
+        Stripe.Resources.InstantPayoutsPromotionFeatures,
+      "connect_embedded_issuing_card_config_claim" => Stripe.Resources.IssuingCardConfig,
+      "connect_embedded_issuing_card_features" => Stripe.Resources.IssuingCardFeatures,
+      "connect_embedded_issuing_cards_list_config_claim" =>
+        Stripe.Resources.IssuingCardsListConfig,
+      "connect_embedded_issuing_cards_list_features" =>
+        Stripe.Resources.IssuingCardsListFeatures,
+      "connect_embedded_payment_disputes_config" => Stripe.Resources.PaymentDisputesConfig,
+      "connect_embedded_payment_disputes_features" =>
+        Stripe.Resources.PaymentDisputesFeatures,
+      "connect_embedded_payments_config_claim" => Stripe.Resources.PaymentsConfig,
+      "connect_embedded_payments_features" => Stripe.Resources.PaymentsFeatures,
+      "connect_embedded_payouts_config" => Stripe.Resources.PayoutsConfig,
+      "connect_embedded_payouts_features" => Stripe.Resources.PayoutsFeatures,
+      "country_spec" => Stripe.Resources.CountrySpec,
+      "coupon" => Stripe.Resources.Coupon,
+      "credit_balance" => Stripe.Resources.Billing.CreditBalance,
+      "credit_note" => Stripe.Resources.CreditNote,
+      "credit_note_line_item" => Stripe.Resources.CreditNoteLineItem,
+      "customer" => Stripe.Resources.Customer,
+      "customer_balance_resource_cash_balance_transaction_resource_adjusted_for_overdraft" =>
+        Stripe.Resources.AdjustedForOverdraft,
+      "customer_balance_resource_cash_balance_transaction_resource_refunded_from_payment_transaction" =>
+        Stripe.Resources.RefundedFromPayment,
+      "customer_balance_resource_cash_balance_transaction_resource_transferred_to_balance" =>
+        Stripe.Resources.TransferredToBalance,
+      "customer_balance_resource_cash_balance_transaction_resource_unapplied_from_payment_transaction" =>
+        Stripe.Resources.UnappliedFromPayment,
+      "customer_balance_transaction" => Stripe.Resources.CustomerBalanceTransaction,
+      "customer_cash_balance_transaction" =>
+        Stripe.Resources.CustomerCashBalanceTransaction,
+      "customer_session" => Stripe.Resources.CustomerSession,
+      "deleted_account" => Stripe.Resources.DeletedAccount,
+      "deleted_apple_pay_domain" => Stripe.Resources.DeletedApplePayDomain,
+      "deleted_application" => Stripe.Resources.DeletedApplication,
+      "deleted_bank_account" => Stripe.Resources.DeletedBankAccount,
+      "deleted_card" => Stripe.Resources.DeletedCard,
+      "deleted_coupon" => Stripe.Resources.DeletedCoupon,
+      "deleted_customer" => Stripe.Resources.DeletedCustomer,
+      "deleted_discount" => Stripe.Resources.DeletedDiscount,
+      "deleted_external_account" => Stripe.Resources.DeletedExternalAccount,
+      "deleted_invoice" => Stripe.Resources.DeletedInvoice,
+      "deleted_invoiceitem" => Stripe.Resources.DeletedInvoiceItem,
+      "deleted_payment_source" => Stripe.Resources.DeletedPaymentSource,
+      "deleted_person" => Stripe.Resources.DeletedPerson,
+      "deleted_plan" => Stripe.Resources.DeletedPlan,
+      "deleted_price" => Stripe.Resources.DeletedPrice,
+      "deleted_product" => Stripe.Resources.DeletedProduct,
+      "deleted_product_feature" => Stripe.Resources.DeletedProductFeature,
+      "deleted_radar.value_list" => Stripe.Resources.Radar.DeletedValueList,
+      "deleted_radar.value_list_item" => Stripe.Resources.Radar.DeletedValueListItem,
+      "deleted_subscription_item" => Stripe.Resources.DeletedSubscriptionItem,
+      "deleted_tax_id" => Stripe.Resources.DeletedTaxId,
+      "deleted_terminal.configuration" => Stripe.Resources.Terminal.DeletedConfiguration,
+      "deleted_terminal.location" => Stripe.Resources.Terminal.DeletedLocation,
+      "deleted_terminal.reader" => Stripe.Resources.Terminal.DeletedReader,
+      "deleted_test_helpers.test_clock" => Stripe.Resources.TestHelpers.DeletedTestClock,
+      "deleted_webhook_endpoint" => Stripe.Resources.DeletedWebhookEndpoint,
+      "discount" => Stripe.Resources.Discount,
+      "dispute" => Stripe.Resources.Dispute,
+      "entitlements.active_entitlement" => Stripe.Resources.Entitlements.ActiveEntitlement,
+      "entitlements.active_entitlement_summary" =>
+        Stripe.Resources.Entitlements.ActiveEntitlementSummary,
+      "entitlements.feature" => Stripe.Resources.Entitlements.Feature,
+      "ephemeral_key" => Stripe.Resources.EphemeralKey,
+      "error" => Stripe.Resources.StripeErrorResponse,
+      "event" => Stripe.Resources.Event,
+      "exchange_rate" => Stripe.Resources.ExchangeRate,
+      "external_account" => Stripe.Resources.ExternalAccount,
+      "fee_refund" => Stripe.Resources.FeeRefund,
+      "file" => Stripe.Resources.File,
+      "file_link" => Stripe.Resources.FileLink,
+      "financial_connections.account" => Stripe.Resources.FinancialConnections.Account,
+      "financial_connections.account_owner" =>
+        Stripe.Resources.FinancialConnections.AccountOwner,
+      "financial_connections.account_ownership" =>
+        Stripe.Resources.FinancialConnections.AccountOwnership,
+      "financial_connections.session" => Stripe.Resources.FinancialConnections.Session,
+      "financial_connections.transaction" =>
+        Stripe.Resources.FinancialConnections.Transaction,
+      "forwarding.request" => Stripe.Resources.Forwarding.Request,
+      "funding_instructions" => Stripe.Resources.FundingInstructions,
+      "funding_instructions_bank_transfer" => Stripe.Resources.BankTransfer,
+      "funding_instructions_bank_transfer_sort_code_record" =>
+        Stripe.Resources.SortCodeRecords,
+      "identity.verification_report" => Stripe.Resources.Identity.VerificationReport,
+      "identity.verification_session" => Stripe.Resources.Identity.VerificationSession,
+      "invoice" => Stripe.Resources.Invoice,
+      "invoice_payment" => Stripe.Resources.InvoicePayment,
+      "invoice_rendering_template" => Stripe.Resources.InvoiceRenderingTemplate,
+      "invoiceitem" => Stripe.Resources.InvoiceItem,
+      "issuing.authorization" => Stripe.Resources.Issuing.Authorization,
+      "issuing.card" => Stripe.Resources.Issuing.Card,
+      "issuing.cardholder" => Stripe.Resources.Issuing.Cardholder,
+      "issuing.dispute" => Stripe.Resources.Issuing.Dispute,
+      "issuing.personalization_design" => Stripe.Resources.Issuing.PersonalizationDesign,
+      "issuing.physical_bundle" => Stripe.Resources.Issuing.PhysicalBundle,
+      "issuing.token" => Stripe.Resources.Issuing.Token,
+      "issuing.transaction" => Stripe.Resources.Issuing.Transaction,
+      "item" => Stripe.Resources.LineItem,
+      "line_item" => Stripe.Resources.InvoiceLineItem,
+      "login_link" => Stripe.Resources.LoginLink,
+      "mandate" => Stripe.Resources.Mandate,
+      "mandate_amazon_pay" => Stripe.Resources.AmazonPay,
+      "mandate_cashapp" => Stripe.Resources.Cashapp,
+      "mandate_kr_card" => Stripe.Resources.KrCard,
+      "mandate_nz_bank_account" => Stripe.Resources.NzBankAccount,
+      "mandate_payto" => Stripe.Resources.Payto,
+      "mandate_revolut_pay" => Stripe.Resources.RevolutPay,
+      "notification_event_data" => Stripe.Resources.EventData,
+      "outbound_transfers_payment_method_details" =>
+        Stripe.Resources.DestinationPaymentMethodDetails,
+      "payment_attempt_record" => Stripe.Resources.PaymentAttemptRecord,
+      "payment_flows_installment_options" => Stripe.Resources.Installments,
+      "payment_intent" => Stripe.Resources.PaymentIntent,
+      "payment_intent_amount_details_line_item" =>
+        Stripe.Resources.PaymentIntentAmountDetailsLineItem,
+      "payment_intent_next_action_alipay_handle_redirect" =>
+        Stripe.Resources.NextActionAlipayHandleRedirect,
+      "payment_intent_next_action_boleto" =>
+        Stripe.Resources.NextActionDisplayBoletoDetails,
+      "payment_intent_next_action_card_await_notification" =>
+        Stripe.Resources.NextActionCardAwaitNotification,
+      "payment_intent_next_action_cashapp_handle_redirect_or_display_qr_code" =>
+        Stripe.Resources.CashappHandleRedirectOrDisplayQrCode,
+      "payment_intent_next_action_cashapp_qr_code" => Stripe.Resources.CashappQrCode,
+      "payment_intent_next_action_display_bank_transfer_instructions" =>
+        Stripe.Resources.NextActionDisplayBankTransferInstructions,
+      "payment_intent_next_action_display_multibanco_details" =>
+        Stripe.Resources.NextActionMultibancoDisplayDetails,
+      "payment_intent_next_action_display_oxxo_details" =>
+        Stripe.Resources.NextActionOxxoDisplayDetails,
+      "payment_intent_next_action_konbini" =>
+        Stripe.Resources.NextActionKonbiniDisplayDetails,
+      "payment_intent_next_action_konbini_familymart" => Stripe.Resources.Familymart,
+      "payment_intent_next_action_konbini_lawson" => Stripe.Resources.Lawson,
+      "payment_intent_next_action_konbini_ministop" => Stripe.Resources.Ministop,
+      "payment_intent_next_action_konbini_seicomart" => Stripe.Resources.Seicomart,
+      "payment_intent_next_action_konbini_stores" => Stripe.Resources.Stores,
+      "payment_intent_next_action_paynow_display_qr_code" =>
+        Stripe.Resources.PaynowDisplayQrCode,
+      "payment_intent_next_action_pix_display_qr_code" => Stripe.Resources.PixDisplayQrCode,
+      "payment_intent_next_action_promptpay_display_qr_code" =>
+        Stripe.Resources.PromptpayDisplayQrCode,
+      "payment_intent_next_action_swish_handle_redirect_or_display_qr_code" =>
+        Stripe.Resources.SwishHandleRedirectOrDisplayQrCode,
+      "payment_intent_next_action_swish_qr_code" => Stripe.Resources.SwishQrCode,
+      "payment_intent_next_action_wechat_pay_display_qr_code" =>
+        Stripe.Resources.WechatPayDisplayQrCode,
+      "payment_intent_next_action_wechat_pay_redirect_to_android_app" =>
+        Stripe.Resources.WechatPayRedirectToAndroidApp,
+      "payment_intent_next_action_wechat_pay_redirect_to_ios_app" =>
+        Stripe.Resources.WechatPayRedirectToIosApp,
+      "payment_intent_payment_method_options_mandate_options_sepa_debit" =>
+        Stripe.Resources.SepaDebitMandateOptions,
+      "payment_intent_processing_customer_notification" =>
+        Stripe.Resources.CustomerNotification,
+      "payment_link" => Stripe.Resources.PaymentLink,
+      "payment_links_resource_custom_fields_dropdown_option" =>
+        Stripe.Resources.CustomFieldDropdownOption,
+      "payment_method" => Stripe.Resources.PaymentMethod,
+      "payment_method_configuration" => Stripe.Resources.PaymentMethodConfiguration,
+      "payment_method_crypto" => Stripe.Resources.Crypto,
+      "payment_method_custom" => Stripe.Resources.Custom,
+      "payment_method_details_card_present_offline" => Stripe.Resources.Offline,
+      "payment_method_details_interac_present_receipt" => Stripe.Resources.Receipt,
+      "payment_method_details_kakao_pay" => Stripe.Resources.KakaoPay,
+      "payment_method_details_mb_way" => Stripe.Resources.MbWay,
+      "payment_method_details_payco" => Stripe.Resources.Payco,
+      "payment_method_domain" => Stripe.Resources.PaymentMethodDomain,
+      "payment_method_naver_pay" => Stripe.Resources.NaverPay,
+      "payment_method_options_card_present_routing" => Stripe.Resources.Routing,
+      "payment_method_samsung_pay" => Stripe.Resources.SamsungPay,
+      "payment_pages_checkout_session_custom_fields_dropdown" =>
+        Stripe.Resources.CustomFieldDropdown,
+      "payment_pages_checkout_session_custom_fields_numeric" =>
+        Stripe.Resources.CustomFieldNumeric,
+      "payment_pages_checkout_session_permissions" => Stripe.Resources.Permissions,
+      "payment_pages_checkout_session_shipping_address_collection" =>
+        Stripe.Resources.ShippingAddressCollection,
+      "payment_pages_private_card_payment_method_options_resource_restrictions" =>
+        Stripe.Resources.CheckoutCardRestrictions,
+      "payment_record" => Stripe.Resources.PaymentRecord,
+      "payment_source" => Stripe.Resources.PaymentSource,
+      "payout" => Stripe.Resources.Payout,
+      "person" => Stripe.Resources.Person,
+      "plan" => Stripe.Resources.Plan,
+      "price" => Stripe.Resources.Price,
+      "product" => Stripe.Resources.Product,
+      "product_feature" => Stripe.Resources.ProductFeature,
+      "promotion_code" => Stripe.Resources.PromotionCode,
+      "quote" => Stripe.Resources.Quote,
+      "radar.early_fraud_warning" => Stripe.Resources.Radar.EarlyFraudWarning,
+      "radar.payment_evaluation" => Stripe.Resources.Radar.PaymentEvaluation,
+      "radar.value_list" => Stripe.Resources.Radar.ValueList,
+      "radar.value_list_item" => Stripe.Resources.Radar.ValueListItem,
+      "received_payment_method_details_financial_account" =>
+        Stripe.Resources.FinancialAccount,
+      "refund" => Stripe.Resources.Refund,
+      "reporting.report_run" => Stripe.Resources.Reporting.ReportRun,
+      "reporting.report_type" => Stripe.Resources.Reporting.ReportType,
+      "reserve_transaction" => Stripe.Resources.ReserveTransaction,
+      "review" => Stripe.Resources.Review,
+      "rule" => Stripe.Resources.Radar.Rule,
+      "scheduled_query_run" => Stripe.Resources.Sigma.ScheduledQueryRun,
+      "setup_attempt" => Stripe.Resources.SetupAttempt,
+      "setup_attempt_payment_method_details_au_becs_debit" => Stripe.Resources.AuBecsDebit,
+      "setup_attempt_payment_method_details_card_present" => Stripe.Resources.CardPresent,
+      "setup_intent" => Stripe.Resources.SetupIntent,
+      "setup_intent_next_action_redirect_to_url" =>
+        Stripe.Resources.NextActionRedirectToUrl,
+      "setup_intent_payment_method_options_card_mandate_options" =>
+        Stripe.Resources.MandateOptions,
+      "setup_intent_payment_method_options_mandate_options_bacs_debit" =>
+        Stripe.Resources.BacsDebitMandateOptions,
+      "shipping" => Stripe.Resources.ShippingDetails,
+      "shipping_rate" => Stripe.Resources.ShippingRate,
+      "source" => Stripe.Resources.Source,
+      "source_mandate_notification" => Stripe.Resources.SourceMandateNotification,
+      "source_transaction" => Stripe.Resources.SourceTransaction,
+      "source_type_ach_credit_transfer" => Stripe.Resources.AchCreditTransfer,
+      "source_type_ach_debit" => Stripe.Resources.AchDebit,
+      "source_type_acss_debit" => Stripe.Resources.AcssDebit,
+      "source_type_alipay" => Stripe.Resources.Alipay,
+      "source_type_bancontact" => Stripe.Resources.Bancontact,
+      "source_type_eps" => Stripe.Resources.Eps,
+      "source_type_giropay" => Stripe.Resources.Giropay,
+      "source_type_ideal" => Stripe.Resources.Ideal,
+      "source_type_klarna" => Stripe.Resources.Klarna,
+      "source_type_multibanco" => Stripe.Resources.Multibanco,
+      "source_type_p24" => Stripe.Resources.P24,
+      "source_type_sepa_credit_transfer" => Stripe.Resources.SepaCreditTransfer,
+      "source_type_sepa_debit" => Stripe.Resources.SepaDebit,
+      "source_type_sofort" => Stripe.Resources.Sofort,
+      "source_type_three_d_secure" => Stripe.Resources.ThreeDSecure,
+      "source_type_wechat" => Stripe.Resources.Wechat,
+      "subscription" => Stripe.Resources.Subscription,
+      "subscription_item" => Stripe.Resources.SubscriptionItem,
+      "subscription_schedule" => Stripe.Resources.SubscriptionSchedule,
+      "tax.association" => Stripe.Resources.Tax.Association,
+      "tax.calculation" => Stripe.Resources.Tax.Calculation,
+      "tax.calculation_line_item" => Stripe.Resources.Tax.CalculationLineItem,
+      "tax.registration" => Stripe.Resources.Tax.Registration,
+      "tax.settings" => Stripe.Resources.Tax.Settings,
+      "tax.transaction" => Stripe.Resources.Tax.Transaction,
+      "tax.transaction_line_item" => Stripe.Resources.Tax.TransactionLineItem,
+      "tax_code" => Stripe.Resources.TaxCode,
+      "tax_deducted_at_source" => Stripe.Resources.TaxDeductedAtSource,
+      "tax_id" => Stripe.Resources.TaxId,
+      "tax_rate" => Stripe.Resources.TaxRate,
+      "tax_rate_flat_amount" => Stripe.Resources.TaxRateFlatAmount,
+      "terminal.configuration" => Stripe.Resources.Terminal.Configuration,
+      "terminal.connection_token" => Stripe.Resources.Terminal.ConnectionToken,
+      "terminal.location" => Stripe.Resources.Terminal.Location,
+      "terminal.onboarding_link" => Stripe.Resources.Terminal.OnboardingLink,
+      "terminal.reader" => Stripe.Resources.Terminal.Reader,
+      "test_helpers.test_clock" => Stripe.Resources.TestHelpers.TestClock,
+      "token" => Stripe.Resources.Token,
+      "topup" => Stripe.Resources.Topup,
+      "transfer" => Stripe.Resources.Transfer,
+      "transfer_reversal" => Stripe.Resources.TransferReversal,
+      "treasury.credit_reversal" => Stripe.Resources.Treasury.CreditReversal,
+      "treasury.debit_reversal" => Stripe.Resources.Treasury.DebitReversal,
+      "treasury.financial_account" => Stripe.Resources.Treasury.FinancialAccount,
+      "treasury.financial_account_features" =>
+        Stripe.Resources.Treasury.FinancialAccountFeatures,
+      "treasury.inbound_transfer" => Stripe.Resources.Treasury.InboundTransfer,
+      "treasury.outbound_payment" => Stripe.Resources.Treasury.OutboundPayment,
+      "treasury.outbound_transfer" => Stripe.Resources.Treasury.OutboundTransfer,
+      "treasury.received_credit" => Stripe.Resources.Treasury.ReceivedCredit,
+      "treasury.received_debit" => Stripe.Resources.Treasury.ReceivedDebit,
+      "treasury.transaction" => Stripe.Resources.Treasury.Transaction,
+      "treasury.transaction_entry" => Stripe.Resources.Treasury.TransactionEntry,
+      "treasury_financial_accounts_resource_aba_record" => Stripe.Resources.Aba,
+      "treasury_financial_accounts_resource_aba_toggle_settings" =>
+        Stripe.Resources.AbaToggleSettings,
+      "treasury_financial_accounts_resource_closed_status_details" =>
+        Stripe.Resources.Closed,
+      "treasury_financial_accounts_resource_financial_addresses_features" =>
+        Stripe.Resources.FinancialAddresses,
+      "treasury_financial_accounts_resource_inbound_ach_toggle_settings" =>
+        Stripe.Resources.InboundAchToggleSettings,
+      "treasury_financial_accounts_resource_inbound_transfers" =>
+        Stripe.Resources.InboundTransfers,
+      "treasury_financial_accounts_resource_outbound_ach_toggle_settings" =>
+        Stripe.Resources.OutboundAchToggleSettings,
+      "treasury_financial_accounts_resource_outbound_payments" =>
+        Stripe.Resources.OutboundPayments,
+      "treasury_financial_accounts_resource_outbound_transfers" =>
+        Stripe.Resources.OutboundTransfers,
+      "treasury_financial_accounts_resource_platform_restrictions" =>
+        Stripe.Resources.PlatformRestriction,
+      "treasury_financial_accounts_resource_status_details" =>
+        Stripe.Resources.StatusDetails,
+      "treasury_financial_accounts_resource_toggle_settings" =>
+        Stripe.Resources.ToggleSettings,
+      "treasury_inbound_transfers_resource_inbound_transfer_resource_status_transitions" =>
+        Stripe.Resources.StatusTransitions,
+      "treasury_outbound_transfers_resource_returned_details" =>
+        Stripe.Resources.ReturnedDetails,
+      "treasury_shared_resource_billing_details" => Stripe.Resources.BillingDetails,
+      "treasury_shared_resource_initiating_payment_method_details_us_bank_account" =>
+        Stripe.Resources.UsBankAccount,
+      "webhook_endpoint" => Stripe.Resources.WebhookEndpoint
+    }
+  end
+
+  def v2_object_name_to_module do
+    %{
+      "v2.billing.meter_event" => Stripe.Resources.V2.Billing.MeterEvent,
+      "v2.billing.meter_event_adjustment" =>
+        Stripe.Resources.V2.Billing.MeterEventAdjustment,
+      "v2.billing.meter_event_session" => Stripe.Resources.V2.Billing.MeterEventSession,
+      "v2.core.account" => Stripe.Resources.V2.Core.Account,
+      "v2.core.account_link" => Stripe.Resources.V2.Core.AccountLink,
+      "v2.core.account_person" => Stripe.Resources.V2.Core.AccountPerson,
+      "v2.core.account_person_token" => Stripe.Resources.V2.Core.AccountPersonToken,
+      "v2.core.account_token" => Stripe.Resources.V2.Core.AccountToken,
+      "v2.core.event" => Stripe.Resources.V2.Core.Event,
+      "v2.core.event_destination" => Stripe.Resources.V2.Core.EventDestination
+    }
+  end
+end

@@ -1,0 +1,136 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    strategy:
+      matrix:
+        elixir: ["1.19"]
+        otp: ["27"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Sync OpenAPI spec
+        run: bash scripts/sync_openapi.sh
+
+      - name: Sync Ruby SDK (for parity)
+        run: bash scripts/sync_ruby.sh
+
+      - name: Generate SDK (first pass)
+        run: mix stripe.generate --clean --stats
+
+      - name: Codegen determinism check
+        run: |
+          # Snapshot first-pass output
+          find lib/stripe/services lib/stripe/resources lib/stripe/params lib/stripe/events lib/stripe/events.ex lib/stripe/event_types.ex lib/stripe/object_types.ex -type f 2>/dev/null | sort | xargs shasum -a 256 > /tmp/gen_pass1.sha
+          # Re-generate
+          mix stripe.generate --clean --stats
+          # Snapshot second-pass output
+          find lib/stripe/services lib/stripe/resources lib/stripe/params lib/stripe/events lib/stripe/events.ex lib/stripe/event_types.ex lib/stripe/object_types.ex -type f 2>/dev/null | sort | xargs shasum -a 256 > /tmp/gen_pass2.sha
+          # Diff
+          if ! diff -q /tmp/gen_pass1.sha /tmp/gen_pass2.sha > /dev/null 2>&1; then
+            echo "FAIL: Codegen is non-deterministic. Differences:"
+            diff /tmp/gen_pass1.sha /tmp/gen_pass2.sha
+            exit 1
+          fi
+          echo "OK: Codegen is deterministic."
+
+      - name: Compile (warnings as errors)
+        run: mix compile --warnings-as-errors
+
+      - name: Run tests
+        run: mix test
+
+      - name: Build docs
+        run: mix docs --warnings-as-errors
+        env:
+          MIX_ENV: dev
+
+      - name: Parity check (diff_ruby.sh)
+        run: bash scripts/diff_ruby.sh
+
+  preview-drift:
+    name: Preview Spec Drift (non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      MIX_ENV: test
+      STRIPE_SPEC_CHANNEL: preview
+
+    strategy:
+      matrix:
+        elixir: ["1.19"]
+        otp: ["27"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Sync OpenAPI spec (preview channel)
+        run: bash scripts/sync_openapi.sh
+
+      - name: Sync Ruby SDK (for parity)
+        run: bash scripts/sync_ruby.sh
+
+      - name: Generate SDK
+        run: mix stripe.generate --clean --stats
+
+      - name: Compile (warnings as errors)
+        run: mix compile --warnings-as-errors
+
+      - name: Run tests
+        run: mix test
+
+      - name: Parity check (diff_ruby.sh)
+        run: bash scripts/diff_ruby.sh
