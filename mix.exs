@@ -67,13 +67,11 @@ defmodule Stripe.MixProject do
   defp package do
     [
       name: "stripe_elixir",
-      description: """
-      A Stripe library for Elixir — typed SDK, client, and webhooks generated \
-      from the official OpenAPI spec. Typed resources, params, and services for \
-      every Stripe API endpoint. Per-client configuration, automatic retries, \
-      streaming pagination, OAuth, telemetry, and webhook signature verification. \
-      Maintains 1:1 service parity with the official Ruby SDK.\
-      """,
+      description:
+        "Stripe SDK for Elixir — typed resources, params, and services generated " <>
+          "from the official OpenAPI spec. Per-client configuration, automatic retries, " <>
+          "streaming pagination, OAuth, telemetry, and webhook signature verification. " <>
+          "1:1 service parity with the official Ruby SDK.",
       maintainers: ["Jeff Huen"],
       licenses: ["MIT"],
       links: %{
