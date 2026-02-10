@@ -152,10 +152,12 @@ defmodule Stripe.Integration.StripeMockTest do
 
   describe "error responses" do
     test "404 returns an error tuple" do
-      {:error, error} = Stripe.Client.request(@client, :get, "/v1/charges/nonexistent_123")
+      # stripe-mock returns 200 for any well-formed resource ID, so hit a
+      # completely invalid route to get a real 404.
+      {:error, error} = Stripe.Client.request(@client, :get, "/v1/not_a_real_resource")
 
       assert %Stripe.Error{} = error
-      assert error.http_status in [404, 400]
+      assert error.http_status == 404
     end
   end
 end
