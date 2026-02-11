@@ -27,19 +27,19 @@ defmodule Stripe.Resources.Review do
   """
   @type t :: %__MODULE__{
           billing_zip: String.t(),
-          charge: String.t() | map(),
+          charge: String.t() | Stripe.Resources.Charge.t(),
           closed_reason: String.t(),
           created: integer(),
           id: String.t(),
           ip_address: String.t(),
-          ip_address_location: map(),
+          ip_address_location: __MODULE__.IpAddressLocation.t(),
           livemode: boolean(),
           object: String.t(),
           open: boolean(),
           opened_reason: String.t(),
-          payment_intent: String.t() | map() | nil,
+          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
           reason: String.t(),
-          session: map()
+          session: __MODULE__.Session.t()
         }
 
   defstruct [
@@ -65,7 +65,7 @@ defmodule Stripe.Resources.Review do
   def expandable_fields, do: ["charge", "ip_address_location", "payment_intent", "session"]
 
   defmodule IpAddressLocation do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `city` - The city where the payment originated. Max length: 5000. Nullable.
@@ -85,7 +85,7 @@ defmodule Stripe.Resources.Review do
   end
 
   defmodule Session do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `browser` - The browser used in this browser session (e.g., `Chrome`). Max length: 5000. Nullable.

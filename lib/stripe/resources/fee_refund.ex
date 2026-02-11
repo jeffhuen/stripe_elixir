@@ -22,10 +22,10 @@ defmodule Stripe.Resources.FeeRefund do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_transaction: String.t() | map(),
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
           created: integer(),
           currency: String.t(),
-          fee: String.t() | map(),
+          fee: String.t() | Stripe.Resources.ApplicationFee.t(),
           id: String.t(),
           metadata: map(),
           object: String.t()

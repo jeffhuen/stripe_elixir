@@ -43,22 +43,22 @@ defmodule Stripe.Resources.Identity.VerificationSession do
           client_secret: String.t(),
           created: integer(),
           id: String.t(),
-          last_error: map(),
-          last_verification_report: String.t() | map(),
+          last_error: __MODULE__.LastError.t(),
+          last_verification_report: String.t() | Stripe.Resources.Identity.VerificationReport.t(),
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          options: map(),
-          provided_details: map() | nil,
-          redaction: map(),
+          options: __MODULE__.Options.t(),
+          provided_details: __MODULE__.ProvidedDetails.t() | nil,
+          redaction: __MODULE__.Redaction.t(),
           related_customer: String.t(),
           related_customer_account: String.t(),
-          related_person: map() | nil,
+          related_person: __MODULE__.RelatedPerson.t() | nil,
           status: String.t(),
           type: String.t(),
           url: String.t(),
           verification_flow: String.t() | nil,
-          verified_outputs: map() | nil
+          verified_outputs: __MODULE__.VerifiedOutputs.t() | nil
         }
 
   defstruct [
@@ -99,7 +99,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
     ]
 
   defmodule LastError do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `code` - A short machine-readable string giving the reason for the verification or user-session failure. Possible values: `abandoned`, `consent_declined`, `country_not_supported`, `device_not_supported`, `document_expired`, `document_type_not_supported`, `document_unverified_other`, `email_unverified_other`, `email_verification_declined`, `id_number_insufficient_document_data`, `id_number_mismatch`, `id_number_unverified_other`, `phone_unverified_other`, `phone_verification_declined`, `selfie_document_missing_photo`, `selfie_face_mismatch`, `selfie_manipulated`, `selfie_unverified_other`, `under_supported_age`. Nullable.
@@ -113,7 +113,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
   end
 
   defmodule Options do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `document`
@@ -123,16 +123,16 @@ defmodule Stripe.Resources.Identity.VerificationSession do
     * `phone`
     """
     @type t :: %__MODULE__{
-            document: map() | nil,
-            email: map() | nil,
+            document: __MODULE__.Document.t() | nil,
+            email: __MODULE__.Email.t() | nil,
             id_number: map() | nil,
-            matching: map() | nil,
-            phone: map() | nil
+            matching: __MODULE__.Matching.t() | nil,
+            phone: __MODULE__.Phone.t() | nil
           }
     defstruct [:document, :email, :id_number, :matching, :phone]
 
     defmodule Document do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `allowed_types` - Array of strings of allowed identity document types. If the provided identity document isn’t one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
@@ -155,7 +155,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
     end
 
     defmodule Email do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `require_verification` - Request one time password verification of `provided_details.email`.
@@ -167,7 +167,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
     end
 
     defmodule Matching do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `dob` - Strictness of the DOB matching policy to apply. Possible values: `none`, `similar`.
@@ -181,7 +181,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
     end
 
     defmodule Phone do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `require_verification` - Request one time password verification of `provided_details.phone`.
@@ -203,7 +203,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
   end
 
   defmodule ProvidedDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `email` - Email of user being verified Max length: 5000.
@@ -217,7 +217,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
   end
 
   defmodule Redaction do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - Indicates whether this object and its related objects have been redacted or not. Possible values: `processing`, `redacted`.
@@ -229,7 +229,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
   end
 
   defmodule RelatedPerson do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account` - Token referencing the associated Account of the related Person resource. Max length: 5000.
@@ -243,7 +243,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
   end
 
   defmodule VerifiedOutputs do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address` - The user's verified address. Nullable.
@@ -259,8 +259,8 @@ defmodule Stripe.Resources.Identity.VerificationSession do
     * `unparsed_sex` - The user's verified sex as it appears in the document. Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            dob: map() | nil,
+            address: Stripe.Resources.Address.t() | nil,
+            dob: __MODULE__.Dob.t() | nil,
             email: String.t() | nil,
             first_name: String.t() | nil,
             id_number: String.t() | nil,
@@ -286,7 +286,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
     ]
 
     defmodule Dob do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `day` - Numerical day between 1 and 31. Nullable.

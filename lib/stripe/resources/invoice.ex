@@ -128,81 +128,81 @@ defmodule Stripe.Resources.Invoice do
   @type t :: %__MODULE__{
           account_country: String.t(),
           account_name: String.t(),
-          account_tax_ids: [map()],
+          account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()],
           amount_due: integer(),
           amount_overpaid: integer(),
           amount_paid: integer(),
           amount_remaining: integer(),
           amount_shipping: integer(),
-          application: map(),
+          application: String.t() | Stripe.Resources.Application.t(),
           attempt_count: integer(),
           attempted: boolean(),
           auto_advance: boolean() | nil,
-          automatic_tax: map(),
+          automatic_tax: __MODULE__.AutomaticTax.t(),
           automatically_finalizes_at: integer(),
           billing_reason: String.t(),
           collection_method: String.t(),
-          confirmation_secret: map() | nil,
+          confirmation_secret: __MODULE__.ConfirmationSecret.t() | nil,
           created: integer(),
           currency: String.t(),
-          custom_fields: [map()],
-          customer: map(),
+          custom_fields: [__MODULE__.CustomFields.t()],
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
-          customer_address: map(),
+          customer_address: Stripe.Resources.Address.t(),
           customer_email: String.t(),
           customer_name: String.t(),
           customer_phone: String.t(),
-          customer_shipping: map(),
+          customer_shipping: Stripe.Resources.ShippingDetails.t(),
           customer_tax_exempt: String.t(),
-          customer_tax_ids: [map()] | nil,
-          default_payment_method: String.t() | map(),
-          default_source: String.t() | map(),
-          default_tax_rates: [map()],
+          customer_tax_ids: [__MODULE__.CustomerTaxIds.t()] | nil,
+          default_payment_method: String.t() | Stripe.Resources.PaymentMethod.t(),
+          default_source: String.t() | Stripe.Resources.PaymentSource.t(),
+          default_tax_rates: [Stripe.Resources.TaxRate.t()],
           description: String.t(),
-          discounts: [map()],
+          discounts: [String.t() | Stripe.Resources.Discount.t()],
           due_date: integer(),
           effective_at: integer(),
           ending_balance: integer(),
           footer: String.t(),
-          from_invoice: map(),
+          from_invoice: __MODULE__.FromInvoice.t(),
           hosted_invoice_url: String.t() | nil,
           id: String.t() | nil,
           invoice_pdf: String.t() | nil,
-          issuer: map(),
-          last_finalization_error: map(),
-          latest_revision: String.t() | map(),
-          lines: map(),
+          issuer: __MODULE__.Issuer.t(),
+          last_finalization_error: Stripe.Resources.StripeError.t(),
+          latest_revision: String.t() | Stripe.Resources.Invoice.t(),
+          lines: __MODULE__.Lines.t(),
           livemode: boolean(),
           metadata: map(),
           next_payment_attempt: integer(),
           number: String.t(),
           object: String.t(),
-          on_behalf_of: String.t() | map(),
-          parent: map(),
-          payment_settings: map(),
-          payments: map() | nil,
+          on_behalf_of: String.t() | Stripe.Resources.Account.t(),
+          parent: __MODULE__.Parent.t(),
+          payment_settings: __MODULE__.PaymentSettings.t(),
+          payments: __MODULE__.Payments.t() | nil,
           period_end: integer(),
           period_start: integer(),
           post_payment_credit_notes_amount: integer(),
           pre_payment_credit_notes_amount: integer(),
           receipt_number: String.t(),
-          rendering: map(),
-          shipping_cost: map(),
-          shipping_details: map(),
+          rendering: __MODULE__.Rendering.t(),
+          shipping_cost: __MODULE__.ShippingCost.t(),
+          shipping_details: Stripe.Resources.ShippingDetails.t(),
           starting_balance: integer(),
           statement_descriptor: String.t(),
           status: String.t(),
-          status_transitions: map(),
-          subscription: String.t() | map() | nil,
+          status_transitions: __MODULE__.StatusTransitions.t(),
+          subscription: String.t() | Stripe.Resources.Subscription.t() | nil,
           subtotal: integer(),
           subtotal_excluding_tax: integer(),
-          test_clock: String.t() | map(),
-          threshold_reason: map() | nil,
+          test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t(),
+          threshold_reason: __MODULE__.ThresholdReason.t() | nil,
           total: integer(),
-          total_discount_amounts: [map()],
+          total_discount_amounts: [__MODULE__.TotalDiscountAmounts.t()],
           total_excluding_tax: integer(),
-          total_pretax_credit_amounts: [map()],
-          total_taxes: [map()],
+          total_pretax_credit_amounts: [__MODULE__.TotalPretaxCreditAmounts.t()],
+          total_taxes: [__MODULE__.TotalTaxes.t()],
           webhooks_delivered_at: integer()
         }
 
@@ -327,7 +327,7 @@ defmodule Stripe.Resources.Invoice do
     ]
 
   defmodule AutomaticTax do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `finalization_requires_location_inputs`, `finalization_system_error`. Nullable.
@@ -339,21 +339,21 @@ defmodule Stripe.Resources.Invoice do
     @type t :: %__MODULE__{
             disabled_reason: String.t() | nil,
             enabled: boolean() | nil,
-            liability: map() | nil,
+            liability: __MODULE__.Liability.t() | nil,
             provider: String.t() | nil,
             status: String.t() | nil
           }
     defstruct [:disabled_reason, :enabled, :liability, :provider, :status]
 
     defmodule Liability do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account` - The connected account being referenced when `type` is `account`.
       * `type` - Type of the account referenced. Possible values: `account`, `self`.
       """
       @type t :: %__MODULE__{
-              account: String.t() | map() | nil,
+              account: String.t() | Stripe.Resources.Account.t() | nil,
               type: String.t() | nil
             }
       defstruct [:account, :type]
@@ -367,7 +367,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule ConfirmationSecret do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `client_secret` - The client_secret of the payment that Stripe creates for the invoice after finalization. Max length: 5000.
@@ -381,7 +381,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule CustomFields do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `name` - The name of the custom field. Max length: 5000.
@@ -395,7 +395,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule CustomerTaxIds do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `type` - The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `unknown`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`.
@@ -409,7 +409,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule FromInvoice do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `action` - The relation between this invoice and the cloned invoice Max length: 5000.
@@ -417,27 +417,27 @@ defmodule Stripe.Resources.Invoice do
     """
     @type t :: %__MODULE__{
             action: String.t() | nil,
-            invoice: String.t() | map() | nil
+            invoice: String.t() | Stripe.Resources.Invoice.t() | nil
           }
     defstruct [:action, :invoice]
   end
 
   defmodule Issuer do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account` - The connected account being referenced when `type` is `account`.
     * `type` - Type of the account referenced. Possible values: `account`, `self`.
     """
     @type t :: %__MODULE__{
-            account: String.t() | map() | nil,
+            account: String.t() | Stripe.Resources.Account.t() | nil,
             type: String.t() | nil
           }
     defstruct [:account, :type]
   end
 
   defmodule Lines do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -446,7 +446,7 @@ defmodule Stripe.Resources.Invoice do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.InvoiceLineItem.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -455,7 +455,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule Parent do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `quote_details` - Details about the quote that generated this invoice Nullable.
@@ -463,14 +463,14 @@ defmodule Stripe.Resources.Invoice do
     * `type` - The type of parent that generated this invoice Possible values: `quote_details`, `subscription_details`.
     """
     @type t :: %__MODULE__{
-            quote_details: map() | nil,
-            subscription_details: map() | nil,
+            quote_details: __MODULE__.QuoteDetails.t() | nil,
+            subscription_details: __MODULE__.SubscriptionDetails.t() | nil,
             type: String.t() | nil
           }
     defstruct [:quote_details, :subscription_details, :type]
 
     defmodule QuoteDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `quote` - The quote that generated this invoice Max length: 5000.
@@ -482,7 +482,7 @@ defmodule Stripe.Resources.Invoice do
     end
 
     defmodule SubscriptionDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
@@ -492,7 +492,7 @@ defmodule Stripe.Resources.Invoice do
       """
       @type t :: %__MODULE__{
               metadata: map() | nil,
-              subscription: String.t() | map() | nil,
+              subscription: String.t() | Stripe.Resources.Subscription.t() | nil,
               subscription_proration_date: integer() | nil
             }
       defstruct [:metadata, :subscription, :subscription_proration_date]
@@ -507,7 +507,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule PaymentSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `default_mandate` - ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set. Max length: 5000. Nullable.
@@ -516,13 +516,13 @@ defmodule Stripe.Resources.Invoice do
     """
     @type t :: %__MODULE__{
             default_mandate: String.t() | nil,
-            payment_method_options: map() | nil,
+            payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
             payment_method_types: [String.t()] | nil
           }
     defstruct [:default_mandate, :payment_method_options, :payment_method_types]
 
     defmodule PaymentMethodOptions do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `acss_debit` - If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent. Nullable.
@@ -535,14 +535,14 @@ defmodule Stripe.Resources.Invoice do
       * `us_bank_account` - If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent. Nullable.
       """
       @type t :: %__MODULE__{
-              acss_debit: map() | nil,
-              bancontact: map() | nil,
-              card: map() | nil,
-              customer_balance: map() | nil,
+              acss_debit: __MODULE__.AcssDebit.t() | nil,
+              bancontact: __MODULE__.Bancontact.t() | nil,
+              card: __MODULE__.Card.t() | nil,
+              customer_balance: __MODULE__.CustomerBalance.t() | nil,
               konbini: map() | nil,
-              payto: map() | nil,
+              payto: __MODULE__.Payto.t() | nil,
               sepa_debit: map() | nil,
-              us_bank_account: map() | nil
+              us_bank_account: __MODULE__.UsBankAccount.t() | nil
             }
       defstruct [
         :acss_debit,
@@ -556,20 +556,20 @@ defmodule Stripe.Resources.Invoice do
       ]
 
       defmodule AcssDebit do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `mandate_options`
         * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
         """
         @type t :: %__MODULE__{
-                mandate_options: map() | nil,
+                mandate_options: __MODULE__.MandateOptions.t() | nil,
                 verification_method: String.t() | nil
               }
         defstruct [:mandate_options, :verification_method]
 
         defmodule MandateOptions do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`. Nullable.
@@ -588,7 +588,7 @@ defmodule Stripe.Resources.Invoice do
       end
 
       defmodule Bancontact do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `preferred_language` - Preferred language of the Bancontact authorization page that the customer is redirected to. Possible values: `de`, `en`, `fr`, `nl`.
@@ -600,20 +600,20 @@ defmodule Stripe.Resources.Invoice do
       end
 
       defmodule Card do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `installments`
         * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`. Nullable.
         """
         @type t :: %__MODULE__{
-                installments: map() | nil,
+                installments: __MODULE__.Installments.t() | nil,
                 request_three_d_secure: String.t() | nil
               }
         defstruct [:installments, :request_three_d_secure]
 
         defmodule Installments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `enabled` - Whether Installments are enabled for this Invoice. Nullable.
@@ -632,33 +632,33 @@ defmodule Stripe.Resources.Invoice do
       end
 
       defmodule CustomerBalance do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bank_transfer`
         * `funding_type` - The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`. Possible values: `bank_transfer`. Nullable.
         """
         @type t :: %__MODULE__{
-                bank_transfer: map() | nil,
+                bank_transfer: __MODULE__.BankTransfer.t() | nil,
                 funding_type: String.t() | nil
               }
         defstruct [:bank_transfer, :funding_type]
 
         defmodule BankTransfer do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `eu_bank_transfer`
           * `type` - The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Nullable.
           """
           @type t :: %__MODULE__{
-                  eu_bank_transfer: map() | nil,
+                  eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
                   type: String.t() | nil
                 }
           defstruct [:eu_bank_transfer, :type]
 
           defmodule EuBankTransfer do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
@@ -684,18 +684,18 @@ defmodule Stripe.Resources.Invoice do
       end
 
       defmodule Payto do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `mandate_options`
         """
         @type t :: %__MODULE__{
-                mandate_options: map() | nil
+                mandate_options: __MODULE__.MandateOptions.t() | nil
               }
         defstruct [:mandate_options]
 
         defmodule MandateOptions do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `amount` - The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit. Nullable.
@@ -718,20 +718,20 @@ defmodule Stripe.Resources.Invoice do
       end
 
       defmodule UsBankAccount do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `financial_connections`
         * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
         """
         @type t :: %__MODULE__{
-                financial_connections: map() | nil,
+                financial_connections: __MODULE__.FinancialConnections.t() | nil,
                 verification_method: String.t() | nil
               }
         defstruct [:financial_connections, :verification_method]
 
         defmodule FinancialConnections do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `filters`
@@ -739,14 +739,14 @@ defmodule Stripe.Resources.Invoice do
           * `prefetch` - Data features requested to be retrieved upon account creation. Nullable.
           """
           @type t :: %__MODULE__{
-                  filters: map() | nil,
+                  filters: __MODULE__.Filters.t() | nil,
                   permissions: [String.t()] | nil,
                   prefetch: [String.t()] | nil
                 }
           defstruct [:filters, :permissions, :prefetch]
 
           defmodule Filters do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
@@ -791,7 +791,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule Payments do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -800,7 +800,7 @@ defmodule Stripe.Resources.Invoice do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.InvoicePayment.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -809,7 +809,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule Rendering do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
@@ -819,14 +819,14 @@ defmodule Stripe.Resources.Invoice do
     """
     @type t :: %__MODULE__{
             amount_tax_display: String.t() | nil,
-            pdf: map() | nil,
+            pdf: __MODULE__.Pdf.t() | nil,
             template: String.t() | nil,
             template_version: integer() | nil
           }
     defstruct [:amount_tax_display, :pdf, :template, :template_version]
 
     defmodule Pdf do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `page_size` - Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale. Possible values: `a4`, `auto`, `letter`. Nullable.
@@ -845,7 +845,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule ShippingCost do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_subtotal` - Total shipping cost before any taxes are applied.
@@ -858,13 +858,13 @@ defmodule Stripe.Resources.Invoice do
             amount_subtotal: integer() | nil,
             amount_tax: integer() | nil,
             amount_total: integer() | nil,
-            shipping_rate: String.t() | map() | nil,
-            taxes: [map()] | nil
+            shipping_rate: String.t() | Stripe.Resources.ShippingRate.t() | nil,
+            taxes: [__MODULE__.Taxes.t()] | nil
           }
     defstruct [:amount_subtotal, :amount_tax, :amount_total, :shipping_rate, :taxes]
 
     defmodule Taxes do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Amount of tax applied for this rate.
@@ -874,7 +874,7 @@ defmodule Stripe.Resources.Invoice do
       """
       @type t :: %__MODULE__{
               amount: integer() | nil,
-              rate: map() | nil,
+              rate: Stripe.Resources.TaxRate.t() | nil,
               taxability_reason: String.t() | nil,
               taxable_amount: integer() | nil
             }
@@ -889,7 +889,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule StatusTransitions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `finalized_at` - The time that the invoice draft was finalized. Format: Unix timestamp. Nullable.
@@ -907,7 +907,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule ThresholdReason do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_gte` - The total invoice amount threshold boundary if it triggered the threshold invoice. Nullable.
@@ -915,12 +915,12 @@ defmodule Stripe.Resources.Invoice do
     """
     @type t :: %__MODULE__{
             amount_gte: integer() | nil,
-            item_reasons: [map()] | nil
+            item_reasons: [__MODULE__.ItemReasons.t()] | nil
           }
     defstruct [:amount_gte, :item_reasons]
 
     defmodule ItemReasons do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `line_item_ids` - The IDs of the line items that triggered the threshold invoice.
@@ -941,7 +941,7 @@ defmodule Stripe.Resources.Invoice do
   end
 
   defmodule TotalDiscountAmounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount, in cents (or local equivalent), of the discount.
@@ -949,13 +949,13 @@ defmodule Stripe.Resources.Invoice do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            discount: map() | nil
+            discount: String.t() | Stripe.Resources.Discount.t() | nil
           }
     defstruct [:amount, :discount]
   end
 
   defmodule TotalPretaxCreditAmounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount, in cents (or local equivalent), of the pretax credit amount.
@@ -965,15 +965,16 @@ defmodule Stripe.Resources.Invoice do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            credit_balance_transaction: String.t() | map() | nil,
-            discount: map() | nil,
+            credit_balance_transaction:
+              String.t() | Stripe.Resources.Billing.CreditBalanceTransaction.t() | nil,
+            discount: String.t() | Stripe.Resources.Discount.t() | nil,
             type: String.t() | nil
           }
     defstruct [:amount, :credit_balance_transaction, :discount, :type]
   end
 
   defmodule TotalTaxes do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount of the tax, in cents (or local equivalent).
@@ -986,7 +987,7 @@ defmodule Stripe.Resources.Invoice do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             tax_behavior: String.t() | nil,
-            tax_rate_details: map() | nil,
+            tax_rate_details: __MODULE__.TaxRateDetails.t() | nil,
             taxability_reason: String.t() | nil,
             taxable_amount: integer() | nil,
             type: String.t() | nil
@@ -1001,7 +1002,7 @@ defmodule Stripe.Resources.Invoice do
     ]
 
     defmodule TaxRateDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `tax_rate` - ID of the tax rate Max length: 5000.

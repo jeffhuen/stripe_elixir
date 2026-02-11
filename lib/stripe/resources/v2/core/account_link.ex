@@ -22,7 +22,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
           livemode: boolean(),
           object: String.t(),
           url: String.t(),
-          use_case: map()
+          use_case: __MODULE__.UseCase.t()
         }
 
   defstruct [:account, :created, :expires_at, :livemode, :object, :url, :use_case]
@@ -31,7 +31,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
   def object_name, do: @object_name
 
   defmodule UseCase do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account_onboarding` - Hash containing configuration options for an Account Link object that onboards a new account.
@@ -39,14 +39,14 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
     * `type` - Open Enum. The type of Account Link the user is requesting. Possible values: `account_onboarding`, `account_update`.
     """
     @type t :: %__MODULE__{
-            account_onboarding: map() | nil,
-            account_update: map() | nil,
+            account_onboarding: __MODULE__.AccountOnboarding.t() | nil,
+            account_update: __MODULE__.AccountUpdate.t() | nil,
             type: String.t() | nil
           }
     defstruct [:account_onboarding, :account_update, :type]
 
     defmodule AccountOnboarding do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `collection_options` - Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
@@ -55,7 +55,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
       * `return_url` - The URL that the user will be redirected to upon completing the linked flow.
       """
       @type t :: %__MODULE__{
-              collection_options: map() | nil,
+              collection_options: __MODULE__.CollectionOptions.t() | nil,
               configurations: [String.t()] | nil,
               refresh_url: String.t() | nil,
               return_url: String.t() | nil
@@ -63,7 +63,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
       defstruct [:collection_options, :configurations, :refresh_url, :return_url]
 
       defmodule CollectionOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `fields` - Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don’t specify collection_options, the default value is currently_due. Possible values: `currently_due`, `eventually_due`.
@@ -84,7 +84,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
     end
 
     defmodule AccountUpdate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `collection_options` - Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
@@ -93,7 +93,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
       * `return_url` - The URL that the user will be redirected to upon completing the linked flow.
       """
       @type t :: %__MODULE__{
-              collection_options: map() | nil,
+              collection_options: __MODULE__.CollectionOptions.t() | nil,
               configurations: [String.t()] | nil,
               refresh_url: String.t() | nil,
               return_url: String.t() | nil
@@ -101,7 +101,7 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
       defstruct [:collection_options, :configurations, :refresh_url, :return_url]
 
       defmodule CollectionOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `fields` - Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). The default value is `currently_due`. Possible values: `currently_due`, `eventually_due`.

@@ -20,7 +20,7 @@ defmodule Stripe.Resources.CashBalance do
           customer_account: String.t(),
           livemode: boolean(),
           object: String.t(),
-          settings: map()
+          settings: __MODULE__.Settings.t()
         }
 
   defstruct [:available, :customer, :customer_account, :livemode, :object, :settings]
@@ -31,7 +31,7 @@ defmodule Stripe.Resources.CashBalance do
   def expandable_fields, do: ["settings"]
 
   defmodule Settings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `reconciliation_mode` - The configuration for how funds that land in the customer cash balance are reconciled. Possible values: `automatic`, `manual`.

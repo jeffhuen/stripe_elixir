@@ -25,18 +25,18 @@ defmodule Stripe.Resources.Issuing.Dispute do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_transactions: [map()] | nil,
+          balance_transactions: [Stripe.Resources.BalanceTransaction.t()] | nil,
           created: integer(),
           currency: String.t(),
-          evidence: map(),
+          evidence: __MODULE__.Evidence.t(),
           id: String.t(),
           livemode: boolean(),
           loss_reason: String.t() | nil,
           metadata: map(),
           object: String.t(),
           status: String.t(),
-          transaction: String.t() | map(),
-          treasury: map() | nil
+          transaction: String.t() | Stripe.Resources.Issuing.Transaction.t(),
+          treasury: __MODULE__.Treasury.t() | nil
         }
 
   defstruct [
@@ -61,7 +61,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
   def expandable_fields, do: ["balance_transactions", "evidence", "transaction", "treasury"]
 
   defmodule Evidence do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `canceled`
@@ -75,15 +75,15 @@ defmodule Stripe.Resources.Issuing.Dispute do
     * `service_not_as_described`
     """
     @type t :: %__MODULE__{
-            canceled: map() | nil,
-            duplicate: map() | nil,
-            fraudulent: map() | nil,
-            merchandise_not_as_described: map() | nil,
-            no_valid_authorization: map() | nil,
-            not_received: map() | nil,
-            other: map() | nil,
+            canceled: __MODULE__.Canceled.t() | nil,
+            duplicate: __MODULE__.Duplicate.t() | nil,
+            fraudulent: __MODULE__.Fraudulent.t() | nil,
+            merchandise_not_as_described: __MODULE__.MerchandiseNotAsDescribed.t() | nil,
+            no_valid_authorization: __MODULE__.NoValidAuthorization.t() | nil,
+            not_received: __MODULE__.NotReceived.t() | nil,
+            other: __MODULE__.Other.t() | nil,
             reason: String.t() | nil,
-            service_not_as_described: map() | nil
+            service_not_as_described: __MODULE__.ServiceNotAsDescribed.t() | nil
           }
     defstruct [
       :canceled,
@@ -98,7 +98,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
     ]
 
     defmodule Canceled do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
@@ -113,7 +113,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
       * `returned_at` - Date when the product was returned or attempted to be returned. Format: Unix timestamp. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
               canceled_at: integer() | nil,
               cancellation_policy_provided: boolean() | nil,
               cancellation_reason: String.t() | nil,
@@ -139,7 +139,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
     end
 
     defmodule Duplicate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
@@ -150,10 +150,10 @@ defmodule Stripe.Resources.Issuing.Dispute do
       * `original_transaction` - Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
-              card_statement: String.t() | map() | nil,
-              cash_receipt: String.t() | map() | nil,
-              check_image: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
+              card_statement: String.t() | Stripe.Resources.File.t() | nil,
+              cash_receipt: String.t() | Stripe.Resources.File.t() | nil,
+              check_image: String.t() | Stripe.Resources.File.t() | nil,
               explanation: String.t() | nil,
               original_transaction: String.t() | nil
             }
@@ -168,21 +168,21 @@ defmodule Stripe.Resources.Issuing.Dispute do
     end
 
     defmodule Fraudulent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
       * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
               explanation: String.t() | nil
             }
       defstruct [:additional_documentation, :explanation]
     end
 
     defmodule MerchandiseNotAsDescribed do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
@@ -193,7 +193,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
       * `returned_at` - Date when the product was returned or attempted to be returned. Format: Unix timestamp. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
               explanation: String.t() | nil,
               received_at: integer() | nil,
               return_description: String.t() | nil,
@@ -211,21 +211,21 @@ defmodule Stripe.Resources.Issuing.Dispute do
     end
 
     defmodule NoValidAuthorization do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
       * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
               explanation: String.t() | nil
             }
       defstruct [:additional_documentation, :explanation]
     end
 
     defmodule NotReceived do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
@@ -235,7 +235,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
       * `product_type` - Whether the product was a merchandise or service. Possible values: `merchandise`, `service`. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
               expected_at: integer() | nil,
               explanation: String.t() | nil,
               product_description: String.t() | nil,
@@ -251,7 +251,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
     end
 
     defmodule Other do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
@@ -260,7 +260,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
       * `product_type` - Whether the product was a merchandise or service. Possible values: `merchandise`, `service`. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
               explanation: String.t() | nil,
               product_description: String.t() | nil,
               product_type: String.t() | nil
@@ -269,7 +269,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
     end
 
     defmodule ServiceNotAsDescribed do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
@@ -279,7 +279,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
       * `received_at` - Date when the product was received. Format: Unix timestamp. Nullable.
       """
       @type t :: %__MODULE__{
-              additional_documentation: String.t() | map() | nil,
+              additional_documentation: String.t() | Stripe.Resources.File.t() | nil,
               canceled_at: integer() | nil,
               cancellation_reason: String.t() | nil,
               explanation: String.t() | nil,
@@ -309,7 +309,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
   end
 
   defmodule Treasury do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `debit_reversal` - The Treasury [DebitReversal](https://docs.stripe.com/api/treasury/debit_reversals) representing this Issuing dispute Max length: 5000. Nullable.

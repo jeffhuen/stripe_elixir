@@ -18,7 +18,7 @@ defmodule Stripe.Resources.Tax.Association do
           id: String.t(),
           object: String.t(),
           payment_intent: String.t(),
-          tax_transaction_attempts: [map()]
+          tax_transaction_attempts: [__MODULE__.TaxTransactionAttempts.t()]
         }
 
   defstruct [:calculation, :id, :object, :payment_intent, :tax_transaction_attempts]
@@ -29,7 +29,7 @@ defmodule Stripe.Resources.Tax.Association do
   def expandable_fields, do: ["tax_transaction_attempts"]
 
   defmodule TaxTransactionAttempts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `committed`
@@ -38,15 +38,15 @@ defmodule Stripe.Resources.Tax.Association do
     * `status` - The status of the transaction attempt. This can be `errored` or `committed`. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            committed: map() | nil,
-            errored: map() | nil,
+            committed: __MODULE__.Committed.t() | nil,
+            errored: __MODULE__.Errored.t() | nil,
             source: String.t() | nil,
             status: String.t() | nil
           }
     defstruct [:committed, :errored, :source, :status]
 
     defmodule Committed do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `transaction` - The [Tax Transaction](https://docs.stripe.com/api/tax/transaction/object) Max length: 5000.
@@ -58,7 +58,7 @@ defmodule Stripe.Resources.Tax.Association do
     end
 
     defmodule Errored do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reason` - Details on why we couldn't commit the tax transaction. Possible values: `another_payment_associated_with_calculation`, `calculation_expired`, `currency_mismatch`, `original_transaction_voided`, `unique_reference_violation`.

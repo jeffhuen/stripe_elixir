@@ -8,7 +8,7 @@ defmodule Stripe.Resources.RefundedFromPayment do
   * `refund` - The [Refund](https://docs.stripe.com/api/refunds/object) that moved these funds into the customer's cash balance. Expandable.
   """
   @type t :: %__MODULE__{
-          refund: String.t() | map()
+          refund: String.t() | Stripe.Resources.Refund.t()
         }
 
   defstruct [:refund]

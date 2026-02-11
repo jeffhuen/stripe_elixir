@@ -11,8 +11,8 @@ defmodule Stripe.Resources.OutboundTransfers do
   * `us_domestic_wire` - Expandable.
   """
   @type t :: %__MODULE__{
-          ach: map() | nil,
-          us_domestic_wire: map() | nil
+          ach: Stripe.Resources.OutboundAchToggleSettings.t() | nil,
+          us_domestic_wire: Stripe.Resources.ToggleSettings.t() | nil
         }
 
   defstruct [:ach, :us_domestic_wire]

@@ -16,7 +16,7 @@ defmodule Stripe.Resources.FinancialConnections.AccountOwnership do
           created: integer(),
           id: String.t(),
           object: String.t(),
-          owners: map()
+          owners: __MODULE__.Owners.t()
         }
 
   defstruct [:created, :id, :object, :owners]
@@ -27,7 +27,7 @@ defmodule Stripe.Resources.FinancialConnections.AccountOwnership do
   def expandable_fields, do: ["owners"]
 
   defmodule Owners do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -36,7 +36,7 @@ defmodule Stripe.Resources.FinancialConnections.AccountOwnership do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.FinancialConnections.AccountOwner.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil

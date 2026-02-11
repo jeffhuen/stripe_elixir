@@ -8,7 +8,7 @@ defmodule Stripe.Resources.TransferredToBalance do
   * `balance_transaction` - The [Balance Transaction](https://docs.stripe.com/api/balance_transactions/object) that corresponds to funds transferred to your Stripe balance. Expandable.
   """
   @type t :: %__MODULE__{
-          balance_transaction: String.t() | map()
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t()
         }
 
   defstruct [:balance_transaction]

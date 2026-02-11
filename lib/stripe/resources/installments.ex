@@ -10,7 +10,7 @@ defmodule Stripe.Resources.Installments do
   """
   @type t :: %__MODULE__{
           enabled: boolean(),
-          plan: map() | nil
+          plan: __MODULE__.Plan.t() | nil
         }
 
   defstruct [:enabled, :plan]
@@ -21,7 +21,7 @@ defmodule Stripe.Resources.Installments do
   def expandable_fields, do: ["plan"]
 
   defmodule Plan do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `count` - For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card. Nullable.

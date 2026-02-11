@@ -23,16 +23,16 @@ defmodule Stripe.Resources.SourceMandateNotification do
   * `type` - The type of source this mandate notification is attached to. Should be the source type identifier code for the payment method, such as `three_d_secure`. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          acss_debit: map() | nil,
+          acss_debit: __MODULE__.AcssDebit.t() | nil,
           amount: integer(),
-          bacs_debit: map() | nil,
+          bacs_debit: __MODULE__.BacsDebit.t() | nil,
           created: integer(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
           reason: String.t(),
-          sepa_debit: map() | nil,
-          source: map(),
+          sepa_debit: __MODULE__.SepaDebit.t() | nil,
+          source: Stripe.Resources.Source.t(),
           status: String.t(),
           type: String.t()
         }
@@ -58,7 +58,7 @@ defmodule Stripe.Resources.SourceMandateNotification do
   def expandable_fields, do: ["acss_debit", "bacs_debit", "sepa_debit", "source"]
 
   defmodule AcssDebit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `statement_descriptor` - The statement descriptor associate with the debit. Max length: 5000.
@@ -70,7 +70,7 @@ defmodule Stripe.Resources.SourceMandateNotification do
   end
 
   defmodule BacsDebit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
@@ -82,7 +82,7 @@ defmodule Stripe.Resources.SourceMandateNotification do
   end
 
   defmodule SepaDebit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `creditor_identifier` - SEPA creditor ID. Max length: 5000.

@@ -34,17 +34,17 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   """
   @type t :: %__MODULE__{
           account: String.t(),
-          additional_addresses: [map()] | nil,
-          additional_names: [map()] | nil,
-          additional_terms_of_service: map() | nil,
-          address: map() | nil,
+          additional_addresses: [__MODULE__.AdditionalAddresses.t()] | nil,
+          additional_names: [__MODULE__.AdditionalNames.t()] | nil,
+          additional_terms_of_service: __MODULE__.AdditionalTermsOfService.t() | nil,
+          address: __MODULE__.Address.t() | nil,
           created: String.t(),
-          date_of_birth: map() | nil,
-          documents: map() | nil,
+          date_of_birth: __MODULE__.DateOfBirth.t() | nil,
+          documents: __MODULE__.Documents.t() | nil,
           email: String.t() | nil,
           given_name: String.t() | nil,
           id: String.t(),
-          id_numbers: [map()] | nil,
+          id_numbers: [__MODULE__.IdNumbers.t()] | nil,
           legal_gender: String.t() | nil,
           livemode: boolean(),
           metadata: map() | nil,
@@ -52,9 +52,9 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
           object: String.t(),
           phone: String.t() | nil,
           political_exposure: String.t() | nil,
-          relationship: map() | nil,
-          script_addresses: map() | nil,
-          script_names: map() | nil,
+          relationship: __MODULE__.Relationship.t() | nil,
+          script_addresses: __MODULE__.ScriptAddresses.t() | nil,
+          script_names: __MODULE__.ScriptNames.t() | nil,
           surname: String.t() | nil,
           updated: String.t()
         }
@@ -90,7 +90,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   def object_name, do: @object_name
 
   defmodule AdditionalAddresses do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `city` - City, district, suburb, town, or village.
@@ -116,7 +116,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule AdditionalNames do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `full_name` - The individual's full name.
@@ -134,18 +134,18 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule AdditionalTermsOfService do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account` - Stripe terms of service agreement.
     """
     @type t :: %__MODULE__{
-            account: map() | nil
+            account: __MODULE__.Account.t() | nil
           }
     defstruct [:account]
 
     defmodule Account do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `date` - The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
@@ -168,7 +168,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule Address do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `city` - City, district, suburb, town, or village.
@@ -192,7 +192,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule DateOfBirth do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `day` - The day of birth, between 1 and 31.
@@ -208,7 +208,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule Documents do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `company_authorization` - One or more documents that demonstrate proof that this person is authorized to represent the company.
@@ -218,11 +218,11 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     * `visa` - One or more documents showing the person’s visa required for living in the country where they are residing.
     """
     @type t :: %__MODULE__{
-            company_authorization: map() | nil,
-            passport: map() | nil,
-            primary_verification: map() | nil,
-            secondary_verification: map() | nil,
-            visa: map() | nil
+            company_authorization: __MODULE__.CompanyAuthorization.t() | nil,
+            passport: __MODULE__.Passport.t() | nil,
+            primary_verification: __MODULE__.PrimaryVerification.t() | nil,
+            secondary_verification: __MODULE__.SecondaryVerification.t() | nil,
+            visa: __MODULE__.Visa.t() | nil
           }
     defstruct [
       :company_authorization,
@@ -233,7 +233,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     ]
 
     defmodule CompanyAuthorization do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -247,7 +247,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     end
 
     defmodule Passport do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -261,20 +261,20 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     end
 
     defmodule PrimaryVerification do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
       * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
       """
       @type t :: %__MODULE__{
-              front_back: map() | nil,
+              front_back: __MODULE__.FrontBack.t() | nil,
               type: String.t() | nil
             }
       defstruct [:front_back, :type]
 
       defmodule FrontBack do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -295,20 +295,20 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     end
 
     defmodule SecondaryVerification do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
       * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
       """
       @type t :: %__MODULE__{
-              front_back: map() | nil,
+              front_back: __MODULE__.FrontBack.t() | nil,
               type: String.t() | nil
             }
       defstruct [:front_back, :type]
 
       defmodule FrontBack do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -329,7 +329,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     end
 
     defmodule Visa do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -354,7 +354,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule IdNumbers do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `type` - The ID number type of an individual. Possible values: `ae_eid`, `ao_nif`, `ar_cuil`, `ar_dni`, `at_stn`, `az_tin`, `bd_brc`, `bd_etin`, `bd_nid`, `be_nrn`, `bg_ucn`, `bn_nric`, `br_cpf`, `ca_sin`, `ch_oasi`, `cl_rut`, `cn_pp`, `co_nuip`, `cr_ci`, `cr_cpf`, `cr_dimex`, `cr_nite`, `cy_tic`, `cz_rc`, `de_stn`, `dk_cpr`, `do_cie`, `do_rcn`, `ec_ci`, `ee_ik`, `es_nif`, `fi_hetu`, `fr_nir`, `gb_nino`, `gr_afm`, `gt_nit`, `hk_id`, `hr_oib`, `hu_ad`, `id_nik`, `ie_ppsn`, `is_kt`, `it_cf`, `jp_inc`, `ke_pin`, `kz_iin`, `li_peid`, `lt_ak`, `lu_nif`, `lv_pk`, `mx_rfc`, `my_nric`, `mz_nuit`, `ng_nin`, `nl_bsn`, `no_nin`, `nz_ird`, `pe_dni`, `pk_cnic`, `pk_snic`, `pl_pesel`, `pt_nif`, `ro_cnp`, `sa_tin`, `se_pin`, `sg_fin`, `sg_nric`, `sk_dic`, `th_lc`, `th_pin`, `tr_tin`, `us_itin`, `us_itin_last_4`, `us_ssn`, `us_ssn_last_4`, `uy_dni`, `za_id`.
@@ -366,7 +366,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule Relationship do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `authorizer` - Whether the individual is an authorizer of the Account's identity.
@@ -401,20 +401,20 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule ScriptAddresses do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `kana` - Kana Address.
     * `kanji` - Kanji Address.
     """
     @type t :: %__MODULE__{
-            kana: map() | nil,
-            kanji: map() | nil
+            kana: __MODULE__.Kana.t() | nil,
+            kanji: __MODULE__.Kanji.t() | nil
           }
     defstruct [:kana, :kanji]
 
     defmodule Kana do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - City, district, suburb, town, or village.
@@ -438,7 +438,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     end
 
     defmodule Kanji do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - City, district, suburb, town, or village.
@@ -470,20 +470,20 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
   end
 
   defmodule ScriptNames do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `kana` - Persons name in kana script.
     * `kanji` - Persons name in kanji script.
     """
     @type t :: %__MODULE__{
-            kana: map() | nil,
-            kanji: map() | nil
+            kana: __MODULE__.Kana.t() | nil,
+            kanji: __MODULE__.Kanji.t() | nil
           }
     defstruct [:kana, :kanji]
 
     defmodule Kana do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `given_name` - The person's first or given name.
@@ -497,7 +497,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
     end
 
     defmodule Kanji do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `given_name` - The person's first or given name.

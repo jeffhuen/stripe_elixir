@@ -40,19 +40,19 @@ defmodule Stripe.Resources.Price do
           created: integer(),
           currency: String.t(),
           currency_options: map() | nil,
-          custom_unit_amount: map(),
+          custom_unit_amount: __MODULE__.CustomUnitAmount.t(),
           id: String.t(),
           livemode: boolean(),
           lookup_key: String.t(),
           metadata: map(),
           nickname: String.t(),
           object: String.t(),
-          product: map(),
-          recurring: map(),
+          product: String.t() | Stripe.Resources.Product.t(),
+          recurring: __MODULE__.Recurring.t(),
           tax_behavior: String.t(),
-          tiers: [map()] | nil,
+          tiers: [__MODULE__.Tiers.t()] | nil,
           tiers_mode: String.t(),
-          transform_quantity: map(),
+          transform_quantity: __MODULE__.TransformQuantity.t(),
           type: String.t(),
           unit_amount: integer(),
           unit_amount_decimal: String.t()
@@ -96,7 +96,7 @@ defmodule Stripe.Resources.Price do
     ]
 
   defmodule CustomUnitAmount do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `maximum` - The maximum unit amount the customer can specify for this item. Nullable.
@@ -112,7 +112,7 @@ defmodule Stripe.Resources.Price do
   end
 
   defmodule Recurring do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `interval` - The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
@@ -132,7 +132,7 @@ defmodule Stripe.Resources.Price do
   end
 
   defmodule Tiers do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `flat_amount` - Price for the entire tier. Nullable.
@@ -152,7 +152,7 @@ defmodule Stripe.Resources.Price do
   end
 
   defmodule TransformQuantity do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `divide_by` - Divide usage by this number.

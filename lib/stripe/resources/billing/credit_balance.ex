@@ -9,8 +9,8 @@ defmodule Stripe.Resources.Billing.CreditBalance do
   * `ledger_balance` - Expandable.
   """
   @type t :: %__MODULE__{
-          available_balance: map(),
-          ledger_balance: map()
+          available_balance: __MODULE__.AvailableBalance.t(),
+          ledger_balance: __MODULE__.LedgerBalance.t()
         }
 
   defstruct [:available_balance, :ledger_balance]
@@ -21,20 +21,20 @@ defmodule Stripe.Resources.Billing.CreditBalance do
   def expandable_fields, do: ["available_balance", "ledger_balance"]
 
   defmodule AvailableBalance do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `monetary` - The monetary amount. Nullable.
     * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
     """
     @type t :: %__MODULE__{
-            monetary: map() | nil,
+            monetary: __MODULE__.Monetary.t() | nil,
             type: String.t() | nil
           }
     defstruct [:monetary, :type]
 
     defmodule Monetary do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
@@ -55,20 +55,20 @@ defmodule Stripe.Resources.Billing.CreditBalance do
   end
 
   defmodule LedgerBalance do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `monetary` - The monetary amount. Nullable.
     * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
     """
     @type t :: %__MODULE__{
-            monetary: map() | nil,
+            monetary: __MODULE__.Monetary.t() | nil,
             type: String.t() | nil
           }
     defstruct [:monetary, :type]
 
     defmodule Monetary do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.

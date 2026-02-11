@@ -36,9 +36,9 @@ defmodule Stripe.Resources.Reporting.ReportRun do
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          parameters: map(),
+          parameters: __MODULE__.Parameters.t(),
           report_type: String.t(),
-          result: map(),
+          result: Stripe.Resources.File.t(),
           status: String.t(),
           succeeded_at: integer()
         }
@@ -62,7 +62,7 @@ defmodule Stripe.Resources.Reporting.ReportRun do
   def expandable_fields, do: ["parameters", "result"]
 
   defmodule Parameters do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `columns` - The set of output columns requested for inclusion in the report run.

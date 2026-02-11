@@ -37,7 +37,7 @@ defmodule Stripe.Resources.Issuing.Card do
   @type t :: %__MODULE__{
           brand: String.t(),
           cancellation_reason: String.t(),
-          cardholder: map(),
+          cardholder: Stripe.Resources.Issuing.Cardholder.t(),
           created: integer(),
           currency: String.t(),
           cvc: String.t() | nil,
@@ -46,21 +46,21 @@ defmodule Stripe.Resources.Issuing.Card do
           financial_account: String.t() | nil,
           id: String.t(),
           last4: String.t(),
-          latest_fraud_warning: map(),
+          latest_fraud_warning: __MODULE__.LatestFraudWarning.t(),
           livemode: boolean(),
           metadata: map(),
           number: String.t() | nil,
           object: String.t(),
-          personalization_design: String.t() | map(),
-          replaced_by: String.t() | map(),
-          replacement_for: String.t() | map(),
+          personalization_design: String.t() | Stripe.Resources.Issuing.PersonalizationDesign.t(),
+          replaced_by: String.t() | Stripe.Resources.Issuing.Card.t(),
+          replacement_for: String.t() | Stripe.Resources.Issuing.Card.t(),
           replacement_reason: String.t(),
           second_line: String.t(),
-          shipping: map(),
-          spending_controls: map(),
+          shipping: __MODULE__.Shipping.t(),
+          spending_controls: __MODULE__.SpendingControls.t(),
           status: String.t(),
           type: String.t(),
-          wallets: map()
+          wallets: __MODULE__.Wallets.t()
         }
 
   defstruct [
@@ -108,7 +108,7 @@ defmodule Stripe.Resources.Issuing.Card do
     ]
 
   defmodule LatestFraudWarning do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `started_at` - Timestamp of the most recent fraud warning. Format: Unix timestamp. Nullable.
@@ -122,7 +122,7 @@ defmodule Stripe.Resources.Issuing.Card do
   end
 
   defmodule Shipping do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address`
@@ -140,10 +140,10 @@ defmodule Stripe.Resources.Issuing.Card do
     * `type` - Packaging options. Possible values: `bulk`, `individual`.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            address_validation: map() | nil,
+            address: Stripe.Resources.Address.t() | nil,
+            address_validation: __MODULE__.AddressValidation.t() | nil,
             carrier: String.t() | nil,
-            customs: map() | nil,
+            customs: __MODULE__.Customs.t() | nil,
             eta: integer() | nil,
             name: String.t() | nil,
             phone_number: String.t() | nil,
@@ -171,7 +171,7 @@ defmodule Stripe.Resources.Issuing.Card do
     ]
 
     defmodule AddressValidation do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mode` - The address validation capabilities to use. Possible values: `disabled`, `normalization_only`, `validation_and_normalization`.
@@ -180,14 +180,14 @@ defmodule Stripe.Resources.Issuing.Card do
       """
       @type t :: %__MODULE__{
               mode: String.t() | nil,
-              normalized_address: map() | nil,
+              normalized_address: Stripe.Resources.Address.t() | nil,
               result: String.t() | nil
             }
       defstruct [:mode, :normalized_address, :result]
     end
 
     defmodule Customs do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `eori_number` - A registration number used for customs in Europe. See [https://www.gov.uk/eori](https://www.gov.uk/eori) for the UK and [https://ec.europa.eu/taxation_customs/business/customs-procedures-import-and-export/customs-procedures/economic-operators-registration-and-identification-number-eori_en](https://ec.europa.eu/taxation_customs/business/customs-procedures-import-and-export/customs-procedures/economic-operators-registration-and-identification-number-eori_en) for the EU. Max length: 5000. Nullable.
@@ -207,7 +207,7 @@ defmodule Stripe.Resources.Issuing.Card do
   end
 
   defmodule SpendingControls do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `allowed_categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`. Nullable.
@@ -222,7 +222,7 @@ defmodule Stripe.Resources.Issuing.Card do
             allowed_merchant_countries: [String.t()] | nil,
             blocked_categories: [String.t()] | nil,
             blocked_merchant_countries: [String.t()] | nil,
-            spending_limits: [map()] | nil,
+            spending_limits: [__MODULE__.SpendingLimits.t()] | nil,
             spending_limits_currency: String.t() | nil
           }
     defstruct [
@@ -235,7 +235,7 @@ defmodule Stripe.Resources.Issuing.Card do
     ]
 
     defmodule SpendingLimits do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Maximum amount allowed to spend per interval. This amount is in the card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -258,7 +258,7 @@ defmodule Stripe.Resources.Issuing.Card do
   end
 
   defmodule Wallets do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `apple_pay`
@@ -266,14 +266,14 @@ defmodule Stripe.Resources.Issuing.Card do
     * `primary_account_identifier` - Unique identifier for a card used with digital wallets Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            apple_pay: map() | nil,
-            google_pay: map() | nil,
+            apple_pay: __MODULE__.ApplePay.t() | nil,
+            google_pay: __MODULE__.GooglePay.t() | nil,
             primary_account_identifier: String.t() | nil
           }
     defstruct [:apple_pay, :google_pay, :primary_account_identifier]
 
     defmodule ApplePay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `eligible` - Apple Pay Eligibility
@@ -287,7 +287,7 @@ defmodule Stripe.Resources.Issuing.Card do
     end
 
     defmodule GooglePay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `eligible` - Google Pay Eligibility

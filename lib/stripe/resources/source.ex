@@ -57,45 +57,45 @@ defmodule Stripe.Resources.Source do
   * `wechat`
   """
   @type t :: %__MODULE__{
-          ach_credit_transfer: map() | nil,
-          ach_debit: map() | nil,
-          acss_debit: map() | nil,
-          alipay: map() | nil,
+          ach_credit_transfer: Stripe.Resources.AchCreditTransfer.t() | nil,
+          ach_debit: Stripe.Resources.AchDebit.t() | nil,
+          acss_debit: Stripe.Resources.AcssDebit.t() | nil,
+          alipay: Stripe.Resources.Alipay.t() | nil,
           allow_redisplay: String.t(),
           amount: integer(),
-          au_becs_debit: map() | nil,
-          bancontact: map() | nil,
-          card: map() | nil,
-          card_present: map() | nil,
+          au_becs_debit: Stripe.Resources.AuBecsDebit.t() | nil,
+          bancontact: Stripe.Resources.Bancontact.t() | nil,
+          card: Stripe.Resources.Card.t() | nil,
+          card_present: Stripe.Resources.CardPresent.t() | nil,
           client_secret: String.t(),
-          code_verification: map() | nil,
+          code_verification: __MODULE__.CodeVerification.t() | nil,
           created: integer(),
           currency: String.t(),
           customer: String.t() | nil,
-          eps: map() | nil,
+          eps: Stripe.Resources.Eps.t() | nil,
           flow: String.t(),
-          giropay: map() | nil,
+          giropay: Stripe.Resources.Giropay.t() | nil,
           id: String.t(),
-          ideal: map() | nil,
-          klarna: map() | nil,
+          ideal: Stripe.Resources.Ideal.t() | nil,
+          klarna: Stripe.Resources.Klarna.t() | nil,
           livemode: boolean(),
           metadata: map(),
-          multibanco: map() | nil,
+          multibanco: Stripe.Resources.Multibanco.t() | nil,
           object: String.t(),
-          owner: map(),
-          p24: map() | nil,
-          receiver: map() | nil,
-          redirect: map() | nil,
-          sepa_credit_transfer: map() | nil,
-          sepa_debit: map() | nil,
-          sofort: map() | nil,
-          source_order: map() | nil,
+          owner: __MODULE__.Owner.t(),
+          p24: Stripe.Resources.P24.t() | nil,
+          receiver: __MODULE__.Receiver.t() | nil,
+          redirect: __MODULE__.Redirect.t() | nil,
+          sepa_credit_transfer: Stripe.Resources.SepaCreditTransfer.t() | nil,
+          sepa_debit: Stripe.Resources.SepaDebit.t() | nil,
+          sofort: Stripe.Resources.Sofort.t() | nil,
+          source_order: __MODULE__.SourceOrder.t() | nil,
           statement_descriptor: String.t(),
           status: String.t(),
-          three_d_secure: map() | nil,
+          three_d_secure: Stripe.Resources.ThreeDSecure.t() | nil,
           type: String.t(),
           usage: String.t(),
-          wechat: map() | nil
+          wechat: Stripe.Resources.Wechat.t() | nil
         }
 
   defstruct [
@@ -147,7 +147,7 @@ defmodule Stripe.Resources.Source do
     do: ["code_verification", "owner", "receiver", "redirect", "source_order"]
 
   defmodule CodeVerification do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `attempts_remaining` - The number of attempts remaining to authenticate the source object with a verification code.
@@ -161,7 +161,7 @@ defmodule Stripe.Resources.Source do
   end
 
   defmodule Owner do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address` - Owner's address. Nullable.
@@ -174,11 +174,11 @@ defmodule Stripe.Resources.Source do
     * `verified_phone` - Verified owner's phone number (including extension). Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: Stripe.Resources.Address.t() | nil,
             email: String.t() | nil,
             name: String.t() | nil,
             phone: String.t() | nil,
-            verified_address: map() | nil,
+            verified_address: Stripe.Resources.Address.t() | nil,
             verified_email: String.t() | nil,
             verified_name: String.t() | nil,
             verified_phone: String.t() | nil
@@ -196,7 +196,7 @@ defmodule Stripe.Resources.Source do
   end
 
   defmodule Receiver do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address` - The address of the receiver source. This is the value that should be communicated to the customer to send their funds to. Max length: 5000. Nullable.
@@ -225,7 +225,7 @@ defmodule Stripe.Resources.Source do
   end
 
   defmodule Redirect do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `failure_reason` - The failure reason for the redirect, either `user_abort` (the customer aborted or dropped out of the redirect flow), `declined` (the authentication failed or the transaction was declined), or `processing_error` (the redirect failed due to a technical error). Present only if the redirect status is `failed`. Max length: 5000. Nullable.
@@ -243,7 +243,7 @@ defmodule Stripe.Resources.Source do
   end
 
   defmodule SourceOrder do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
@@ -256,13 +256,13 @@ defmodule Stripe.Resources.Source do
             amount: integer() | nil,
             currency: String.t() | nil,
             email: String.t() | nil,
-            items: [map()] | nil,
-            shipping: map() | nil
+            items: [__MODULE__.Items.t()] | nil,
+            shipping: Stripe.Resources.ShippingDetails.t() | nil
           }
     defstruct [:amount, :currency, :email, :items, :shipping]
 
     defmodule Items do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - The amount (price) for this order item. Nullable.

@@ -25,20 +25,20 @@ defmodule Stripe.Resources.Treasury.Transaction do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_impact: map(),
+          balance_impact: __MODULE__.BalanceImpact.t(),
           created: integer(),
           currency: String.t(),
           description: String.t(),
-          entries: map() | nil,
+          entries: __MODULE__.Entries.t() | nil,
           financial_account: String.t(),
           flow: String.t(),
-          flow_details: map() | nil,
+          flow_details: __MODULE__.FlowDetails.t() | nil,
           flow_type: String.t(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
           status: String.t(),
-          status_transitions: map()
+          status_transitions: __MODULE__.StatusTransitions.t()
         }
 
   defstruct [
@@ -65,7 +65,7 @@ defmodule Stripe.Resources.Treasury.Transaction do
   def expandable_fields, do: ["balance_impact", "entries", "flow_details", "status_transitions"]
 
   defmodule BalanceImpact do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `cash` - The change made to funds the user can spend right now.
@@ -81,7 +81,7 @@ defmodule Stripe.Resources.Treasury.Transaction do
   end
 
   defmodule Entries do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -90,7 +90,7 @@ defmodule Stripe.Resources.Treasury.Transaction do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.Treasury.TransactionEntry.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -99,7 +99,7 @@ defmodule Stripe.Resources.Treasury.Transaction do
   end
 
   defmodule FlowDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `credit_reversal`
@@ -113,14 +113,14 @@ defmodule Stripe.Resources.Treasury.Transaction do
     * `type` - Type of the flow that created the Transaction. Set to the same value as `flow_type`. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
     """
     @type t :: %__MODULE__{
-            credit_reversal: map() | nil,
-            debit_reversal: map() | nil,
-            inbound_transfer: map() | nil,
-            issuing_authorization: map() | nil,
-            outbound_payment: map() | nil,
-            outbound_transfer: map() | nil,
-            received_credit: map() | nil,
-            received_debit: map() | nil,
+            credit_reversal: Stripe.Resources.Treasury.CreditReversal.t() | nil,
+            debit_reversal: Stripe.Resources.Treasury.DebitReversal.t() | nil,
+            inbound_transfer: Stripe.Resources.Treasury.InboundTransfer.t() | nil,
+            issuing_authorization: Stripe.Resources.Issuing.Authorization.t() | nil,
+            outbound_payment: Stripe.Resources.Treasury.OutboundPayment.t() | nil,
+            outbound_transfer: Stripe.Resources.Treasury.OutboundTransfer.t() | nil,
+            received_credit: Stripe.Resources.Treasury.ReceivedCredit.t() | nil,
+            received_debit: Stripe.Resources.Treasury.ReceivedDebit.t() | nil,
             type: String.t() | nil
           }
     defstruct [
@@ -137,7 +137,7 @@ defmodule Stripe.Resources.Treasury.Transaction do
   end
 
   defmodule StatusTransitions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `posted_at` - Timestamp describing when the Transaction changed status to `posted`. Format: Unix timestamp. Nullable.

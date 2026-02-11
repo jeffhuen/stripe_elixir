@@ -33,16 +33,16 @@ defmodule Stripe.Resources.PaymentRecord do
   * `shipping_details` - Shipping information for this payment. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          amount: map(),
-          amount_authorized: map(),
-          amount_canceled: map(),
-          amount_failed: map(),
-          amount_guaranteed: map(),
-          amount_refunded: map(),
-          amount_requested: map(),
+          amount: __MODULE__.Amount.t(),
+          amount_authorized: __MODULE__.AmountAuthorized.t(),
+          amount_canceled: __MODULE__.AmountCanceled.t(),
+          amount_failed: __MODULE__.AmountFailed.t(),
+          amount_guaranteed: __MODULE__.AmountGuaranteed.t(),
+          amount_refunded: __MODULE__.AmountRefunded.t(),
+          amount_requested: __MODULE__.AmountRequested.t(),
           application: String.t(),
           created: integer(),
-          customer_details: map(),
+          customer_details: __MODULE__.CustomerDetails.t(),
           customer_presence: String.t(),
           description: String.t(),
           id: String.t(),
@@ -50,10 +50,10 @@ defmodule Stripe.Resources.PaymentRecord do
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          payment_method_details: map(),
-          processor_details: map(),
+          payment_method_details: __MODULE__.PaymentMethodDetails.t(),
+          processor_details: __MODULE__.ProcessorDetails.t(),
           reported_by: String.t(),
-          shipping_details: map()
+          shipping_details: __MODULE__.ShippingDetails.t()
         }
 
   defstruct [
@@ -99,7 +99,7 @@ defmodule Stripe.Resources.PaymentRecord do
     ]
 
   defmodule Amount do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -113,7 +113,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule AmountAuthorized do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -127,7 +127,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule AmountCanceled do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -141,7 +141,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule AmountFailed do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -155,7 +155,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule AmountGuaranteed do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -169,7 +169,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule AmountRefunded do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -183,7 +183,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule AmountRequested do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -197,7 +197,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule CustomerDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `customer` - ID of the Stripe Customer associated with this payment. Max length: 5000. Nullable.
@@ -215,7 +215,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule PaymentMethodDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `ach_credit_transfer`
@@ -283,66 +283,66 @@ defmodule Stripe.Resources.PaymentRecord do
     * `zip`
     """
     @type t :: %__MODULE__{
-            ach_credit_transfer: map() | nil,
-            ach_debit: map() | nil,
-            acss_debit: map() | nil,
-            affirm: map() | nil,
-            afterpay_clearpay: map() | nil,
-            alipay: map() | nil,
-            alma: map() | nil,
-            amazon_pay: map() | nil,
-            au_becs_debit: map() | nil,
-            bacs_debit: map() | nil,
-            bancontact: map() | nil,
-            billie: map() | nil,
-            billing_details: map() | nil,
-            blik: map() | nil,
-            boleto: map() | nil,
-            card: map() | nil,
-            card_present: map() | nil,
-            cashapp: map() | nil,
-            crypto: map() | nil,
-            custom: map() | nil,
+            ach_credit_transfer: __MODULE__.AchCreditTransfer.t() | nil,
+            ach_debit: __MODULE__.AchDebit.t() | nil,
+            acss_debit: __MODULE__.AcssDebit.t() | nil,
+            affirm: __MODULE__.Affirm.t() | nil,
+            afterpay_clearpay: __MODULE__.AfterpayClearpay.t() | nil,
+            alipay: __MODULE__.Alipay.t() | nil,
+            alma: __MODULE__.Alma.t() | nil,
+            amazon_pay: __MODULE__.AmazonPay.t() | nil,
+            au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
+            bacs_debit: __MODULE__.BacsDebit.t() | nil,
+            bancontact: __MODULE__.Bancontact.t() | nil,
+            billie: __MODULE__.Billie.t() | nil,
+            billing_details: __MODULE__.BillingDetails.t() | nil,
+            blik: __MODULE__.Blik.t() | nil,
+            boleto: __MODULE__.Boleto.t() | nil,
+            card: __MODULE__.Card.t() | nil,
+            card_present: __MODULE__.CardPresent.t() | nil,
+            cashapp: __MODULE__.Cashapp.t() | nil,
+            crypto: Stripe.Resources.Crypto.t() | nil,
+            custom: __MODULE__.Custom.t() | nil,
             customer_balance: map() | nil,
-            eps: map() | nil,
-            fpx: map() | nil,
-            giropay: map() | nil,
-            grabpay: map() | nil,
-            ideal: map() | nil,
-            interac_present: map() | nil,
-            kakao_pay: map() | nil,
-            klarna: map() | nil,
-            konbini: map() | nil,
-            kr_card: map() | nil,
-            link: map() | nil,
-            mb_way: map() | nil,
-            mobilepay: map() | nil,
-            multibanco: map() | nil,
-            naver_pay: map() | nil,
-            nz_bank_account: map() | nil,
-            oxxo: map() | nil,
-            p24: map() | nil,
+            eps: __MODULE__.Eps.t() | nil,
+            fpx: __MODULE__.Fpx.t() | nil,
+            giropay: __MODULE__.Giropay.t() | nil,
+            grabpay: __MODULE__.Grabpay.t() | nil,
+            ideal: __MODULE__.Ideal.t() | nil,
+            interac_present: __MODULE__.InteracPresent.t() | nil,
+            kakao_pay: Stripe.Resources.KakaoPay.t() | nil,
+            klarna: __MODULE__.Klarna.t() | nil,
+            konbini: __MODULE__.Konbini.t() | nil,
+            kr_card: Stripe.Resources.KrCard.t() | nil,
+            link: __MODULE__.Link.t() | nil,
+            mb_way: Stripe.Resources.MbWay.t() | nil,
+            mobilepay: __MODULE__.Mobilepay.t() | nil,
+            multibanco: __MODULE__.Multibanco.t() | nil,
+            naver_pay: Stripe.Resources.NaverPay.t() | nil,
+            nz_bank_account: __MODULE__.NzBankAccount.t() | nil,
+            oxxo: __MODULE__.Oxxo.t() | nil,
+            p24: __MODULE__.P24.t() | nil,
             pay_by_bank: map() | nil,
-            payco: map() | nil,
+            payco: Stripe.Resources.Payco.t() | nil,
             payment_method: String.t() | nil,
-            paynow: map() | nil,
-            paypal: map() | nil,
-            payto: map() | nil,
-            pix: map() | nil,
-            promptpay: map() | nil,
-            revolut_pay: map() | nil,
-            samsung_pay: map() | nil,
-            satispay: map() | nil,
-            sepa_credit_transfer: map() | nil,
-            sepa_debit: map() | nil,
-            sofort: map() | nil,
+            paynow: __MODULE__.Paynow.t() | nil,
+            paypal: __MODULE__.Paypal.t() | nil,
+            payto: __MODULE__.Payto.t() | nil,
+            pix: __MODULE__.Pix.t() | nil,
+            promptpay: __MODULE__.Promptpay.t() | nil,
+            revolut_pay: __MODULE__.RevolutPay.t() | nil,
+            samsung_pay: Stripe.Resources.SamsungPay.t() | nil,
+            satispay: __MODULE__.Satispay.t() | nil,
+            sepa_credit_transfer: __MODULE__.SepaCreditTransfer.t() | nil,
+            sepa_debit: __MODULE__.SepaDebit.t() | nil,
+            sofort: __MODULE__.Sofort.t() | nil,
             stripe_account: map() | nil,
-            swish: map() | nil,
+            swish: __MODULE__.Swish.t() | nil,
             twint: map() | nil,
             type: String.t() | nil,
-            us_bank_account: map() | nil,
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil,
             wechat: map() | nil,
-            wechat_pay: map() | nil,
+            wechat_pay: __MODULE__.WechatPay.t() | nil,
             zip: map() | nil
           }
     defstruct [
@@ -410,7 +410,7 @@ defmodule Stripe.Resources.PaymentRecord do
     ]
 
     defmodule AchCreditTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_number` - Account number to transfer funds to. Max length: 5000. Nullable.
@@ -428,7 +428,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule AchDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_type` - Type of entity that holds the account. This can be either `individual` or `company`. Possible values: `company`, `individual`. Nullable.
@@ -457,7 +457,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule AcssDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_name` - Name of the bank associated with the bank account. Max length: 5000. Nullable.
@@ -489,7 +489,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Affirm do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
@@ -505,7 +505,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule AfterpayClearpay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `order_id` - The Afterpay order ID associated with this payment intent. Max length: 5000. Nullable.
@@ -519,7 +519,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Alipay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `buyer_id` - Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same. Max length: 5000.
@@ -535,20 +535,20 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Alma do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `installments`
       * `transaction_id` - The Alma transaction ID associated with this payment. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              installments: map() | nil,
+              installments: __MODULE__.Installments.t() | nil,
               transaction_id: String.t() | nil
             }
       defstruct [:installments, :transaction_id]
 
       defmodule Installments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `count` - The number of installments.
@@ -567,33 +567,33 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule AmazonPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `funding`
       * `transaction_id` - The Amazon Pay transaction ID associated with this payment. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              funding: map() | nil,
+              funding: __MODULE__.Funding.t() | nil,
               transaction_id: String.t() | nil
             }
       defstruct [:funding, :transaction_id]
 
       defmodule Funding do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `card`
         * `type` - funding type of the underlying payment method. Possible values: `card`. Nullable.
         """
         @type t :: %__MODULE__{
-                card: map() | nil,
+                card: __MODULE__.Card.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:card, :type]
 
         defmodule Card do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `brand` - Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`. Max length: 5000. Nullable.
@@ -629,7 +629,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule AuBecsDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bsb_number` - Bank-State-Branch number of the bank account. Max length: 5000. Nullable.
@@ -649,7 +649,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule BacsDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `expected_debit_date` - Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format. Max length: 5000.
@@ -669,7 +669,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Bancontact do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_code` - Bank code of bank associated with the bank account. Max length: 5000. Nullable.
@@ -687,8 +687,8 @@ defmodule Stripe.Resources.PaymentRecord do
               bank_code: String.t() | nil,
               bank_name: String.t() | nil,
               bic: String.t() | nil,
-              generated_sepa_debit: String.t() | map() | nil,
-              generated_sepa_debit_mandate: String.t() | map() | nil,
+              generated_sepa_debit: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
+              generated_sepa_debit_mandate: String.t() | Stripe.Resources.Mandate.t() | nil,
               iban_last4: String.t() | nil,
               preferred_language: String.t() | nil,
               verified_name: String.t() | nil
@@ -706,7 +706,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Billie do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `transaction_id` - The Billie transaction ID associated with this payment. Max length: 5000. Nullable.
@@ -718,7 +718,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule BillingDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `address`
@@ -727,7 +727,7 @@ defmodule Stripe.Resources.PaymentRecord do
       * `phone` - The billing phone number associated with the method of payment. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              address: map() | nil,
+              address: __MODULE__.Address.t() | nil,
               email: String.t() | nil,
               name: String.t() | nil,
               phone: String.t() | nil
@@ -735,7 +735,7 @@ defmodule Stripe.Resources.PaymentRecord do
       defstruct [:address, :email, :name, :phone]
 
       defmodule Address do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
@@ -764,7 +764,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Blik do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `buyer_id` - A unique and immutable identifier assigned by BLIK to every buyer. Max length: 5000. Nullable.
@@ -776,7 +776,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Boleto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `tax_id` - The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers) Max length: 5000.
@@ -788,7 +788,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `authorization_code` - The authorization code of the payment. Max length: 5000. Nullable.
@@ -821,7 +821,7 @@ defmodule Stripe.Resources.PaymentRecord do
               authorization_code: String.t() | nil,
               brand: String.t() | nil,
               capture_before: integer() | nil,
-              checks: map() | nil,
+              checks: __MODULE__.Checks.t() | nil,
               country: String.t() | nil,
               description: String.t() | nil,
               exp_month: integer() | nil,
@@ -829,18 +829,18 @@ defmodule Stripe.Resources.PaymentRecord do
               fingerprint: String.t() | nil,
               funding: String.t() | nil,
               iin: String.t() | nil,
-              installments: map() | nil,
+              installments: __MODULE__.Installments.t() | nil,
               issuer: String.t() | nil,
               last4: String.t() | nil,
               moto: boolean() | nil,
               network: String.t() | nil,
               network_advice_code: String.t() | nil,
               network_decline_code: String.t() | nil,
-              network_token: map() | nil,
+              network_token: __MODULE__.NetworkToken.t() | nil,
               network_transaction_id: String.t() | nil,
               stored_credential_usage: String.t() | nil,
-              three_d_secure: map() | nil,
-              wallet: map() | nil
+              three_d_secure: __MODULE__.ThreeDSecure.t() | nil,
+              wallet: __MODULE__.Wallet.t() | nil
             }
       defstruct [
         :authorization_code,
@@ -869,7 +869,7 @@ defmodule Stripe.Resources.PaymentRecord do
       ]
 
       defmodule Checks do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address_line1_check` - Possible values: `fail`, `pass`, `unavailable`, `unchecked`. Nullable.
@@ -885,18 +885,18 @@ defmodule Stripe.Resources.PaymentRecord do
       end
 
       defmodule Installments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `plan` - Nullable.
         """
         @type t :: %__MODULE__{
-                plan: map() | nil
+                plan: __MODULE__.Plan.t() | nil
               }
         defstruct [:plan]
 
         defmodule Plan do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `count` - For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card. Nullable.
@@ -919,7 +919,7 @@ defmodule Stripe.Resources.PaymentRecord do
       end
 
       defmodule NetworkToken do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `used` - Indicates if Stripe used a network token, either user provided or Stripe managed when processing the transaction.
@@ -931,7 +931,7 @@ defmodule Stripe.Resources.PaymentRecord do
       end
 
       defmodule ThreeDSecure do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `authentication_flow` - Possible values: `challenge`, `frictionless`. Nullable.
@@ -949,7 +949,7 @@ defmodule Stripe.Resources.PaymentRecord do
       end
 
       defmodule Wallet do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `apple_pay`
@@ -958,7 +958,7 @@ defmodule Stripe.Resources.PaymentRecord do
         * `type` - The type of the card wallet, one of `apple_pay` or `google_pay`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type. Max length: 5000.
         """
         @type t :: %__MODULE__{
-                apple_pay: map() | nil,
+                apple_pay: __MODULE__.ApplePay.t() | nil,
                 dynamic_last4: String.t() | nil,
                 google_pay: map() | nil,
                 type: String.t() | nil
@@ -966,7 +966,7 @@ defmodule Stripe.Resources.PaymentRecord do
         defstruct [:apple_pay, :dynamic_last4, :google_pay, :type]
 
         defmodule ApplePay do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `type` - Type of the apple_pay transaction, one of `apple_pay` or `apple_pay_later`. Max length: 5000.
@@ -996,7 +996,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule CardPresent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_authorized` - The authorized amount Nullable.
@@ -1047,12 +1047,12 @@ defmodule Stripe.Resources.PaymentRecord do
               last4: String.t() | nil,
               network: String.t() | nil,
               network_transaction_id: String.t() | nil,
-              offline: map() | nil,
+              offline: Stripe.Resources.Offline.t() | nil,
               overcapture_supported: boolean() | nil,
               preferred_locales: [String.t()] | nil,
               read_method: String.t() | nil,
-              receipt: map() | nil,
-              wallet: map() | nil
+              receipt: __MODULE__.Receipt.t() | nil,
+              wallet: __MODULE__.Wallet.t() | nil
             }
       defstruct [
         :amount_authorized,
@@ -1083,7 +1083,7 @@ defmodule Stripe.Resources.PaymentRecord do
       ]
 
       defmodule Receipt do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account_type` - The type of account being debited or credited Possible values: `checking`, `credit`, `prepaid`, `unknown`.
@@ -1121,7 +1121,7 @@ defmodule Stripe.Resources.PaymentRecord do
       end
 
       defmodule Wallet do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `type` - The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`. Possible values: `apple_pay`, `google_pay`, `samsung_pay`, `unknown`.
@@ -1141,7 +1141,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Cashapp do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `buyer_id` - A unique and immutable identifier assigned by Cash App to every buyer. Max length: 5000. Nullable.
@@ -1157,7 +1157,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Custom do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `display_name` - Display name for the custom (user-defined) payment method type used to make this payment. Max length: 5000.
@@ -1171,7 +1171,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Eps do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank` - The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`. Possible values: `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, `vr_bank_braunau`. Nullable.
@@ -1187,7 +1187,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Fpx do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_type` - Account holder type, if provided. Can be one of `individual` or `company`. Possible values: `company`, `individual`. Nullable.
@@ -1203,7 +1203,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Giropay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_code` - Bank code of bank associated with the bank account. Max length: 5000. Nullable.
@@ -1223,7 +1223,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Grabpay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `transaction_id` - Unique transaction id generated by GrabPay Max length: 5000. Nullable.
@@ -1235,7 +1235,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Ideal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank` - The customer's bank. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`. Possible values: `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, `yoursafe`. Nullable.
@@ -1250,8 +1250,8 @@ defmodule Stripe.Resources.PaymentRecord do
       @type t :: %__MODULE__{
               bank: String.t() | nil,
               bic: String.t() | nil,
-              generated_sepa_debit: String.t() | map() | nil,
-              generated_sepa_debit_mandate: String.t() | map() | nil,
+              generated_sepa_debit: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
+              generated_sepa_debit_mandate: String.t() | Stripe.Resources.Mandate.t() | nil,
               iban_last4: String.t() | nil,
               transaction_id: String.t() | nil,
               verified_name: String.t() | nil
@@ -1268,7 +1268,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule InteracPresent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `brand` - Card brand. Can be `interac`, `mastercard` or `visa`. Max length: 5000. Nullable.
@@ -1310,7 +1310,7 @@ defmodule Stripe.Resources.PaymentRecord do
               network_transaction_id: String.t() | nil,
               preferred_locales: [String.t()] | nil,
               read_method: String.t() | nil,
-              receipt: map() | nil
+              receipt: Stripe.Resources.Receipt.t() | nil
             }
       defstruct [
         :brand,
@@ -1335,7 +1335,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Klarna do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `payer_details` - The payer details for this transaction. Nullable.
@@ -1345,25 +1345,25 @@ defmodule Stripe.Resources.PaymentRecord do
       Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `cs-CZ`, `en-CZ`, `ro-RO`, `en-RO`, `el-GR`, `en-GR`, `en-AU`, `en-NZ`, `en-CA`, `fr-CA`, `pl-PL`, `en-PL`, `pt-PT`, `en-PT`, `de-CH`, `fr-CH`, `it-CH`, or `en-CH` Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              payer_details: map() | nil,
+              payer_details: __MODULE__.PayerDetails.t() | nil,
               payment_method_category: String.t() | nil,
               preferred_locale: String.t() | nil
             }
       defstruct [:payer_details, :payment_method_category, :preferred_locale]
 
       defmodule PayerDetails do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address` - The payer's address Nullable.
         """
         @type t :: %__MODULE__{
-                address: map() | nil
+                address: __MODULE__.Address.t() | nil
               }
         defstruct [:address]
 
         defmodule Address do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `country` - The payer address country Max length: 5000. Nullable.
@@ -1389,18 +1389,18 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Konbini do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `store` - If the payment succeeded, this contains the details of the convenience store where the payment was completed. Nullable.
       """
       @type t :: %__MODULE__{
-              store: map() | nil
+              store: __MODULE__.Store.t() | nil
             }
       defstruct [:store]
 
       defmodule Store do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `chain` - The name of the convenience store chain where the payment was completed. Possible values: `familymart`, `lawson`, `ministop`, `seicomart`. Nullable.
@@ -1419,7 +1419,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Link do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `country` - Two-letter ISO code representing the funding source country beneath the Link payment.
@@ -1432,18 +1432,18 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Mobilepay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `card` - Internal card details Nullable.
       """
       @type t :: %__MODULE__{
-              card: map() | nil
+              card: __MODULE__.Card.t() | nil
             }
       defstruct [:card]
 
       defmodule Card do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `brand` - Brand of the card used in the transaction Max length: 5000. Nullable.
@@ -1470,7 +1470,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Multibanco do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `entity` - Entity number associated with this Multibanco payment. Max length: 5000. Nullable.
@@ -1484,7 +1484,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule NzBankAccount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_name` - The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod’s billing details. Max length: 5000. Nullable.
@@ -1516,7 +1516,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Oxxo do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `number` - OXXO reference number Max length: 5000. Nullable.
@@ -1528,7 +1528,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule P24 do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank` - The customer's bank. Can be one of `ing`, `citi_handlowy`, `tmobile_usbugi_bankowe`, `plus_bank`, `etransfer_pocztowy24`, `banki_spbdzielcze`, `bank_nowy_bfg_sa`, `getin_bank`, `velobank`, `blik`, `noble_pay`, `ideabank`, `envelobank`, `santander_przelew24`, `nest_przelew`, `mbank_mtransfer`, `inteligo`, `pbac_z_ipko`, `bnp_paribas`, `credit_agricole`, `toyota_bank`, `bank_pekao_sa`, `volkswagen_bank`, `bank_millennium`, `alior_bank`, or `boz`. Possible values: `alior_bank`, `bank_millennium`, `bank_nowy_bfg_sa`, `bank_pekao_sa`, `banki_spbdzielcze`, `blik`, `bnp_paribas`, `boz`, `citi_handlowy`, `credit_agricole`, `envelobank`, `etransfer_pocztowy24`, `getin_bank`, `ideabank`, `ing`, `inteligo`, `mbank_mtransfer`, `nest_przelew`, `noble_pay`, `pbac_z_ipko`, `plus_bank`, `santander_przelew24`, `tmobile_usbugi_bankowe`, `toyota_bank`, `velobank`, `volkswagen_bank`. Nullable.
@@ -1546,7 +1546,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Paynow do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `location` - ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to. Max length: 5000.
@@ -1562,7 +1562,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Paypal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `country` - Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated. Max length: 5000. Nullable.
@@ -1579,7 +1579,7 @@ defmodule Stripe.Resources.PaymentRecord do
               payer_email: String.t() | nil,
               payer_id: String.t() | nil,
               payer_name: String.t() | nil,
-              seller_protection: map() | nil,
+              seller_protection: __MODULE__.SellerProtection.t() | nil,
               transaction_id: String.t() | nil
             }
       defstruct [
@@ -1592,7 +1592,7 @@ defmodule Stripe.Resources.PaymentRecord do
       ]
 
       defmodule SellerProtection do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `dispute_categories` - An array of conditions that are covered for the transaction, if applicable. Nullable.
@@ -1613,7 +1613,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Payto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bsb_number` - Bank-State-Branch number of the bank account. Max length: 5000. Nullable.
@@ -1631,7 +1631,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Pix do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_transaction_id` - Unique transaction id generated by BCB Max length: 5000. Nullable.
@@ -1643,7 +1643,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Promptpay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - Bill reference generated by PromptPay Max length: 5000. Nullable.
@@ -1655,33 +1655,33 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule RevolutPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `funding`
       * `transaction_id` - The Revolut Pay transaction ID associated with this payment. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              funding: map() | nil,
+              funding: __MODULE__.Funding.t() | nil,
               transaction_id: String.t() | nil
             }
       defstruct [:funding, :transaction_id]
 
       defmodule Funding do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `card`
         * `type` - funding type of the underlying payment method. Possible values: `card`. Nullable.
         """
         @type t :: %__MODULE__{
-                card: map() | nil,
+                card: __MODULE__.Card.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:card, :type]
 
         defmodule Card do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `brand` - Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`. Max length: 5000. Nullable.
@@ -1717,7 +1717,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Satispay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `transaction_id` - The Satispay transaction ID associated with this payment. Max length: 5000. Nullable.
@@ -1729,7 +1729,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule SepaCreditTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_name` - Name of the bank associated with the bank account. Max length: 5000. Nullable.
@@ -1745,7 +1745,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule SepaDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_code` - Bank code of bank associated with the bank account. Max length: 5000. Nullable.
@@ -1777,7 +1777,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Sofort do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_code` - Bank code of bank associated with the bank account. Max length: 5000. Nullable.
@@ -1797,8 +1797,8 @@ defmodule Stripe.Resources.PaymentRecord do
               bank_name: String.t() | nil,
               bic: String.t() | nil,
               country: String.t() | nil,
-              generated_sepa_debit: String.t() | map() | nil,
-              generated_sepa_debit_mandate: String.t() | map() | nil,
+              generated_sepa_debit: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
+              generated_sepa_debit_mandate: String.t() | Stripe.Resources.Mandate.t() | nil,
               iban_last4: String.t() | nil,
               preferred_language: String.t() | nil,
               verified_name: String.t() | nil
@@ -1817,7 +1817,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule Swish do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fingerprint` - Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer Max length: 5000. Nullable.
@@ -1833,7 +1833,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule UsBankAccount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_type` - The type of entity that holds the account. This can be either 'individual' or 'company'. Possible values: `company`, `individual`. Nullable.
@@ -1853,7 +1853,7 @@ defmodule Stripe.Resources.PaymentRecord do
               expected_debit_date: String.t() | nil,
               fingerprint: String.t() | nil,
               last4: String.t() | nil,
-              mandate: String.t() | map() | nil,
+              mandate: String.t() | Stripe.Resources.Mandate.t() | nil,
               payment_reference: String.t() | nil,
               routing_number: String.t() | nil
             }
@@ -1871,7 +1871,7 @@ defmodule Stripe.Resources.PaymentRecord do
     end
 
     defmodule WechatPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fingerprint` - Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same. Max length: 5000. Nullable.
@@ -1941,20 +1941,20 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule ProcessorDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `custom`
     * `type` - The processor used for this payment attempt. Possible values: `custom`.
     """
     @type t :: %__MODULE__{
-            custom: map() | nil,
+            custom: __MODULE__.Custom.t() | nil,
             type: String.t() | nil
           }
     defstruct [:custom, :type]
 
     defmodule Custom do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `payment_reference` - An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID. Max length: 5000. Nullable.
@@ -1973,7 +1973,7 @@ defmodule Stripe.Resources.PaymentRecord do
   end
 
   defmodule ShippingDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address`
@@ -1981,14 +1981,14 @@ defmodule Stripe.Resources.PaymentRecord do
     * `phone` - The shipping recipient's phone number. Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             name: String.t() | nil,
             phone: String.t() | nil
           }
     defstruct [:address, :name, :phone]
 
     defmodule Address do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.

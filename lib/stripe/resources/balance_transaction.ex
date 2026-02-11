@@ -36,12 +36,12 @@ defmodule Stripe.Resources.BalanceTransaction do
           description: String.t(),
           exchange_rate: float(),
           fee: integer(),
-          fee_details: [map()],
+          fee_details: [__MODULE__.FeeDetails.t()],
           id: String.t(),
           net: integer(),
           object: String.t(),
           reporting_category: String.t(),
-          source: String.t() | map(),
+          source: String.t() | Stripe.Resources.BalanceTransactionSource.t(),
           status: String.t(),
           type: String.t()
         }
@@ -71,7 +71,7 @@ defmodule Stripe.Resources.BalanceTransaction do
   def expandable_fields, do: ["fee_details", "source"]
 
   defmodule FeeDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - Amount of the fee, in cents.

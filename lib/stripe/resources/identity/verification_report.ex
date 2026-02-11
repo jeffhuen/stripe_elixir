@@ -35,15 +35,15 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   @type t :: %__MODULE__{
           client_reference_id: String.t(),
           created: integer(),
-          document: map() | nil,
-          email: map() | nil,
+          document: __MODULE__.Document.t() | nil,
+          email: __MODULE__.Email.t() | nil,
           id: String.t(),
-          id_number: map() | nil,
+          id_number: __MODULE__.IdNumber.t() | nil,
           livemode: boolean(),
           object: String.t(),
-          options: map() | nil,
-          phone: map() | nil,
-          selfie: map() | nil,
+          options: __MODULE__.Options.t() | nil,
+          phone: __MODULE__.Phone.t() | nil,
+          selfie: __MODULE__.Selfie.t() | nil,
           type: String.t(),
           verification_flow: String.t() | nil,
           verification_session: String.t()
@@ -72,7 +72,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   def expandable_fields, do: ["document", "email", "id_number", "options", "phone", "selfie"]
 
   defmodule Document do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address` - Address as it appears in the document. Nullable.
@@ -92,13 +92,13 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     * `unparsed_sex` - Sex as it appears in the document. Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            dob: map() | nil,
-            error: map() | nil,
-            expiration_date: map() | nil,
+            address: Stripe.Resources.Address.t() | nil,
+            dob: __MODULE__.Dob.t() | nil,
+            error: __MODULE__.Error.t() | nil,
+            expiration_date: __MODULE__.ExpirationDate.t() | nil,
             files: [String.t()] | nil,
             first_name: String.t() | nil,
-            issued_date: map() | nil,
+            issued_date: __MODULE__.IssuedDate.t() | nil,
             issuing_country: String.t() | nil,
             last_name: String.t() | nil,
             number: String.t() | nil,
@@ -127,7 +127,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     ]
 
     defmodule Dob do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `day` - Numerical day between 1 and 31. Nullable.
@@ -143,7 +143,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     end
 
     defmodule Error do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `document_expired`, `document_type_not_supported`, `document_unverified_other`. Nullable.
@@ -157,7 +157,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     end
 
     defmodule ExpirationDate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `day` - Numerical day between 1 and 31. Nullable.
@@ -173,7 +173,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     end
 
     defmodule IssuedDate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `day` - Numerical day between 1 and 31. Nullable.
@@ -199,7 +199,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   end
 
   defmodule Email do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `email` - Email to be verified. Max length: 5000. Nullable.
@@ -208,13 +208,13 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     """
     @type t :: %__MODULE__{
             email: String.t() | nil,
-            error: map() | nil,
+            error: __MODULE__.Error.t() | nil,
             status: String.t() | nil
           }
     defstruct [:email, :error, :status]
 
     defmodule Error do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `email_unverified_other`, `email_verification_declined`. Nullable.
@@ -235,7 +235,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   end
 
   defmodule IdNumber do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `dob` - Date of birth. Nullable.
@@ -247,8 +247,8 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     * `status` - Status of this `id_number` check. Possible values: `unverified`, `verified`.
     """
     @type t :: %__MODULE__{
-            dob: map() | nil,
-            error: map() | nil,
+            dob: __MODULE__.Dob.t() | nil,
+            error: __MODULE__.Error.t() | nil,
             first_name: String.t() | nil,
             id_number: String.t() | nil,
             id_number_type: String.t() | nil,
@@ -258,7 +258,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     defstruct [:dob, :error, :first_name, :id_number, :id_number_type, :last_name, :status]
 
     defmodule Dob do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `day` - Numerical day between 1 and 31. Nullable.
@@ -274,7 +274,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     end
 
     defmodule Error do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `id_number_insufficient_document_data`, `id_number_mismatch`, `id_number_unverified_other`. Nullable.
@@ -296,20 +296,20 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   end
 
   defmodule Options do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `document`
     * `id_number`
     """
     @type t :: %__MODULE__{
-            document: map() | nil,
+            document: __MODULE__.Document.t() | nil,
             id_number: map() | nil
           }
     defstruct [:document, :id_number]
 
     defmodule Document do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `allowed_types` - Array of strings of allowed identity document types. If the provided identity document isn’t one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
@@ -339,7 +339,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   end
 
   defmodule Phone do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `error` - Details on the verification error. Present when status is `unverified`. Nullable.
@@ -347,14 +347,14 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     * `status` - Status of this `phone` check. Possible values: `unverified`, `verified`.
     """
     @type t :: %__MODULE__{
-            error: map() | nil,
+            error: __MODULE__.Error.t() | nil,
             phone: String.t() | nil,
             status: String.t() | nil
           }
     defstruct [:error, :phone, :status]
 
     defmodule Error do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `phone_unverified_other`, `phone_verification_declined`. Nullable.
@@ -375,7 +375,7 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   end
 
   defmodule Selfie do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `document` - ID of the [File](https://docs.stripe.com/api/files) holding the image of the identity document used in this check. Max length: 5000. Nullable.
@@ -385,14 +385,14 @@ defmodule Stripe.Resources.Identity.VerificationReport do
     """
     @type t :: %__MODULE__{
             document: String.t() | nil,
-            error: map() | nil,
+            error: __MODULE__.Error.t() | nil,
             selfie: String.t() | nil,
             status: String.t() | nil
           }
     defstruct [:document, :error, :selfie, :status]
 
     defmodule Error do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `selfie_document_missing_photo`, `selfie_face_mismatch`, `selfie_manipulated`, `selfie_unverified_other`. Nullable.

@@ -32,20 +32,20 @@ defmodule Stripe.Resources.SetupAttempt do
   * `usage` - The value of [usage](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-usage) on the SetupIntent at the time of this confirmation, one of `off_session` or `on_session`. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          application: String.t() | map(),
+          application: String.t() | Stripe.Resources.Application.t(),
           attach_to_self: boolean() | nil,
           created: integer(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           flow_directions: [String.t()],
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          on_behalf_of: String.t() | map(),
-          payment_method: String.t() | map(),
-          payment_method_details: map(),
-          setup_error: map(),
-          setup_intent: String.t() | map(),
+          on_behalf_of: String.t() | Stripe.Resources.Account.t(),
+          payment_method: String.t() | Stripe.Resources.PaymentMethod.t(),
+          payment_method_details: __MODULE__.PaymentMethodDetails.t(),
+          setup_error: Stripe.Resources.StripeError.t(),
+          setup_intent: String.t() | Stripe.Resources.SetupIntent.t(),
           status: String.t(),
           usage: String.t()
         }
@@ -84,7 +84,7 @@ defmodule Stripe.Resources.SetupAttempt do
     ]
 
   defmodule PaymentMethodDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `acss_debit`
@@ -114,27 +114,27 @@ defmodule Stripe.Resources.SetupAttempt do
     @type t :: %__MODULE__{
             acss_debit: map() | nil,
             amazon_pay: map() | nil,
-            au_becs_debit: map() | nil,
+            au_becs_debit: Stripe.Resources.AuBecsDebit.t() | nil,
             bacs_debit: map() | nil,
-            bancontact: map() | nil,
+            bancontact: Stripe.Resources.Bancontact.t() | nil,
             boleto: map() | nil,
-            card: map() | nil,
-            card_present: map() | nil,
+            card: __MODULE__.Card.t() | nil,
+            card_present: Stripe.Resources.CardPresent.t() | nil,
             cashapp: map() | nil,
-            ideal: map() | nil,
+            ideal: __MODULE__.Ideal.t() | nil,
             kakao_pay: map() | nil,
             klarna: map() | nil,
             kr_card: map() | nil,
             link: map() | nil,
-            naver_pay: map() | nil,
-            nz_bank_account: map() | nil,
+            naver_pay: __MODULE__.NaverPay.t() | nil,
+            nz_bank_account: Stripe.Resources.NzBankAccount.t() | nil,
             paypal: map() | nil,
             payto: map() | nil,
-            revolut_pay: map() | nil,
+            revolut_pay: Stripe.Resources.RevolutPay.t() | nil,
             sepa_debit: map() | nil,
-            sofort: map() | nil,
+            sofort: __MODULE__.Sofort.t() | nil,
             type: String.t() | nil,
-            us_bank_account: map() | nil
+            us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
           }
     defstruct [
       :acss_debit,
@@ -163,7 +163,7 @@ defmodule Stripe.Resources.SetupAttempt do
     ]
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `brand` - Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`. Max length: 5000. Nullable.
@@ -185,7 +185,7 @@ defmodule Stripe.Resources.SetupAttempt do
       """
       @type t :: %__MODULE__{
               brand: String.t() | nil,
-              checks: map() | nil,
+              checks: __MODULE__.Checks.t() | nil,
               country: String.t() | nil,
               description: String.t() | nil,
               exp_month: integer() | nil,
@@ -196,8 +196,8 @@ defmodule Stripe.Resources.SetupAttempt do
               issuer: String.t() | nil,
               last4: String.t() | nil,
               network: String.t() | nil,
-              three_d_secure: map() | nil,
-              wallet: map() | nil
+              three_d_secure: __MODULE__.ThreeDSecure.t() | nil,
+              wallet: __MODULE__.Wallet.t() | nil
             }
       defstruct [
         :brand,
@@ -217,7 +217,7 @@ defmodule Stripe.Resources.SetupAttempt do
       ]
 
       defmodule Checks do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address_line1_check` - If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`. Max length: 5000. Nullable.
@@ -233,7 +233,7 @@ defmodule Stripe.Resources.SetupAttempt do
       end
 
       defmodule ThreeDSecure do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `authentication_flow` - For authenticated transactions: how the customer was authenticated by
@@ -266,7 +266,7 @@ defmodule Stripe.Resources.SetupAttempt do
       end
 
       defmodule Wallet do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `apple_pay`
@@ -291,7 +291,7 @@ defmodule Stripe.Resources.SetupAttempt do
     end
 
     defmodule Ideal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank` - The customer's bank. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`. Possible values: `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, `yoursafe`. Nullable.
@@ -305,8 +305,8 @@ defmodule Stripe.Resources.SetupAttempt do
       @type t :: %__MODULE__{
               bank: String.t() | nil,
               bic: String.t() | nil,
-              generated_sepa_debit: String.t() | map() | nil,
-              generated_sepa_debit_mandate: String.t() | map() | nil,
+              generated_sepa_debit: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
+              generated_sepa_debit_mandate: String.t() | Stripe.Resources.Mandate.t() | nil,
               iban_last4: String.t() | nil,
               verified_name: String.t() | nil
             }
@@ -321,7 +321,7 @@ defmodule Stripe.Resources.SetupAttempt do
     end
 
     defmodule NaverPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `buyer_id` - Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same. Max length: 5000.
@@ -333,7 +333,7 @@ defmodule Stripe.Resources.SetupAttempt do
     end
 
     defmodule Sofort do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_code` - Bank code of bank associated with the bank account. Max length: 5000. Nullable.
@@ -351,8 +351,8 @@ defmodule Stripe.Resources.SetupAttempt do
               bank_code: String.t() | nil,
               bank_name: String.t() | nil,
               bic: String.t() | nil,
-              generated_sepa_debit: String.t() | map() | nil,
-              generated_sepa_debit_mandate: String.t() | map() | nil,
+              generated_sepa_debit: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
+              generated_sepa_debit_mandate: String.t() | Stripe.Resources.Mandate.t() | nil,
               iban_last4: String.t() | nil,
               preferred_language: String.t() | nil,
               verified_name: String.t() | nil

@@ -30,7 +30,7 @@ defmodule Stripe.Resources.Topup do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_transaction: String.t() | map(),
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
           created: integer(),
           currency: String.t(),
           description: String.t(),
@@ -41,7 +41,7 @@ defmodule Stripe.Resources.Topup do
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          source: map(),
+          source: Stripe.Resources.Source.t(),
           statement_descriptor: String.t(),
           status: String.t(),
           transfer_group: String.t()

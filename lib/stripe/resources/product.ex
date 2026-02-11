@@ -37,19 +37,19 @@ defmodule Stripe.Resources.Product do
   @type t :: %__MODULE__{
           active: boolean(),
           created: integer(),
-          default_price: String.t() | map() | nil,
+          default_price: String.t() | Stripe.Resources.Price.t() | nil,
           description: String.t(),
           id: String.t(),
           images: [String.t()],
           livemode: boolean(),
-          marketing_features: [map()],
+          marketing_features: [__MODULE__.MarketingFeatures.t()],
           metadata: map(),
           name: String.t(),
           object: String.t(),
-          package_dimensions: map(),
+          package_dimensions: __MODULE__.PackageDimensions.t(),
           shippable: boolean(),
           statement_descriptor: String.t() | nil,
-          tax_code: String.t() | map() | nil,
+          tax_code: String.t() | Stripe.Resources.TaxCode.t() | nil,
           type: String.t(),
           unit_label: String.t() | nil,
           updated: integer(),
@@ -85,7 +85,7 @@ defmodule Stripe.Resources.Product do
     do: ["default_price", "marketing_features", "package_dimensions", "tax_code"]
 
   defmodule MarketingFeatures do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `name` - The marketing feature name. Up to 80 characters long. Max length: 5000.
@@ -97,7 +97,7 @@ defmodule Stripe.Resources.Product do
   end
 
   defmodule PackageDimensions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `height` - Height, in inches.

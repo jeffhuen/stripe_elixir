@@ -27,7 +27,7 @@ defmodule Stripe.Resources.AccountSession do
   @type t :: %__MODULE__{
           account: String.t(),
           client_secret: String.t(),
-          components: map(),
+          components: Stripe.Resources.Components.t(),
           expires_at: integer(),
           livemode: boolean(),
           object: String.t()

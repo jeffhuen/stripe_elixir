@@ -29,7 +29,7 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
           livemode: boolean(),
           object: String.t(),
           status: String.t(),
-          status_transitions: map(),
+          status_transitions: __MODULE__.StatusTransitions.t(),
           transacted_at: integer(),
           transaction_refresh: String.t(),
           updated: integer()
@@ -56,7 +56,7 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
   def expandable_fields, do: ["status_transitions"]
 
   defmodule StatusTransitions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `posted_at` - Time at which this transaction posted. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.

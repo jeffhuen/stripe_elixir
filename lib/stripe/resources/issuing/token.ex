@@ -21,14 +21,14 @@ defmodule Stripe.Resources.Issuing.Token do
   * `wallet_provider` - The digital wallet for this token, if one was used. Possible values: `apple_pay`, `google_pay`, `samsung_pay`.
   """
   @type t :: %__MODULE__{
-          card: String.t() | map(),
+          card: String.t() | Stripe.Resources.Issuing.Card.t(),
           created: integer(),
           device_fingerprint: String.t(),
           id: String.t(),
           last4: String.t() | nil,
           livemode: boolean(),
           network: String.t(),
-          network_data: map() | nil,
+          network_data: __MODULE__.NetworkData.t() | nil,
           network_updated_at: integer(),
           object: String.t(),
           status: String.t(),
@@ -56,7 +56,7 @@ defmodule Stripe.Resources.Issuing.Token do
   def expandable_fields, do: ["card", "network_data"]
 
   defmodule NetworkData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `device`
@@ -66,16 +66,16 @@ defmodule Stripe.Resources.Issuing.Token do
     * `wallet_provider`
     """
     @type t :: %__MODULE__{
-            device: map() | nil,
-            mastercard: map() | nil,
+            device: __MODULE__.Device.t() | nil,
+            mastercard: __MODULE__.Mastercard.t() | nil,
             type: String.t() | nil,
-            visa: map() | nil,
-            wallet_provider: map() | nil
+            visa: __MODULE__.Visa.t() | nil,
+            wallet_provider: __MODULE__.WalletProvider.t() | nil
           }
     defstruct [:device, :mastercard, :type, :visa, :wallet_provider]
 
     defmodule Device do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `device_fingerprint` - An obfuscated ID derived from the device ID. Max length: 5000.
@@ -97,7 +97,7 @@ defmodule Stripe.Resources.Issuing.Token do
     end
 
     defmodule Mastercard do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `card_reference_id` - A unique reference ID from MasterCard to represent the card account number. Max length: 5000.
@@ -120,7 +120,7 @@ defmodule Stripe.Resources.Issuing.Token do
     end
 
     defmodule Visa do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `card_reference_id` - A unique reference ID from Visa to represent the card account number. Max length: 5000.
@@ -138,7 +138,7 @@ defmodule Stripe.Resources.Issuing.Token do
     end
 
     defmodule WalletProvider do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_id` - The wallet provider-given account ID of the digital wallet the token belongs to. Max length: 5000.
@@ -156,7 +156,7 @@ defmodule Stripe.Resources.Issuing.Token do
               account_id: String.t() | nil,
               account_trust_score: integer() | nil,
               card_number_source: String.t() | nil,
-              cardholder_address: map() | nil,
+              cardholder_address: __MODULE__.CardholderAddress.t() | nil,
               cardholder_name: String.t() | nil,
               device_trust_score: integer() | nil,
               hashed_account_email_address: String.t() | nil,
@@ -178,7 +178,7 @@ defmodule Stripe.Resources.Issuing.Token do
       ]
 
       defmodule CardholderAddress do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `line1` - The street address of the cardholder tokenizing the card. Max length: 5000.

@@ -43,32 +43,32 @@ defmodule Stripe.Resources.Issuing.Authorization do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          amount_details: map(),
+          amount_details: __MODULE__.AmountDetails.t(),
           approved: boolean(),
           authorization_method: String.t(),
-          balance_transactions: [map()],
-          card: map(),
-          cardholder: String.t() | map(),
+          balance_transactions: [Stripe.Resources.BalanceTransaction.t()],
+          card: Stripe.Resources.Issuing.Card.t(),
+          cardholder: String.t() | Stripe.Resources.Issuing.Cardholder.t(),
           created: integer(),
           currency: String.t(),
-          fleet: map(),
-          fraud_challenges: [map()] | nil,
-          fuel: map(),
+          fleet: __MODULE__.Fleet.t(),
+          fraud_challenges: [__MODULE__.FraudChallenges.t()] | nil,
+          fuel: __MODULE__.Fuel.t(),
           id: String.t(),
           livemode: boolean(),
           merchant_amount: integer(),
           merchant_currency: String.t(),
-          merchant_data: map(),
+          merchant_data: __MODULE__.MerchantData.t(),
           metadata: map(),
-          network_data: map(),
+          network_data: __MODULE__.NetworkData.t(),
           object: String.t(),
-          pending_request: map(),
-          request_history: [map()],
+          pending_request: __MODULE__.PendingRequest.t(),
+          request_history: [__MODULE__.RequestHistory.t()],
           status: String.t(),
-          token: String.t() | map() | nil,
-          transactions: [map()],
-          treasury: map() | nil,
-          verification_data: map(),
+          token: String.t() | Stripe.Resources.Issuing.Token.t() | nil,
+          transactions: [Stripe.Resources.Issuing.Transaction.t()],
+          treasury: __MODULE__.Treasury.t() | nil,
+          verification_data: __MODULE__.VerificationData.t(),
           verified_by_fraud_challenge: boolean(),
           wallet: String.t()
         }
@@ -128,7 +128,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     ]
 
   defmodule AmountDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `atm_fee` - The fee charged by the ATM for the cash withdrawal. Nullable.
@@ -142,7 +142,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule Fleet do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `cardholder_prompt_data` - Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry. Nullable.
@@ -151,15 +151,15 @@ defmodule Stripe.Resources.Issuing.Authorization do
     * `service_type` - The type of fuel service. Possible values: `full_service`, `non_fuel_transaction`, `self_service`. Nullable.
     """
     @type t :: %__MODULE__{
-            cardholder_prompt_data: map() | nil,
+            cardholder_prompt_data: __MODULE__.CardholderPromptData.t() | nil,
             purchase_type: String.t() | nil,
-            reported_breakdown: map() | nil,
+            reported_breakdown: __MODULE__.ReportedBreakdown.t() | nil,
             service_type: String.t() | nil
           }
     defstruct [:cardholder_prompt_data, :purchase_type, :reported_breakdown, :service_type]
 
     defmodule CardholderPromptData do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `alphanumeric_id` - [Deprecated] An alphanumeric ID, though typical point of sales only support numeric entry. The card program can be configured to prompt for a vehicle ID, driver ID, or generic ID. Max length: 5000. Nullable.
@@ -188,7 +188,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     end
 
     defmodule ReportedBreakdown do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fuel` - Breakdown of fuel portion of the purchase. Nullable.
@@ -196,14 +196,14 @@ defmodule Stripe.Resources.Issuing.Authorization do
       * `tax` - Information about tax included in this transaction. Nullable.
       """
       @type t :: %__MODULE__{
-              fuel: map() | nil,
-              non_fuel: map() | nil,
-              tax: map() | nil
+              fuel: __MODULE__.Fuel.t() | nil,
+              non_fuel: __MODULE__.NonFuel.t() | nil,
+              tax: __MODULE__.Tax.t() | nil
             }
       defstruct [:fuel, :non_fuel, :tax]
 
       defmodule Fuel do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `gross_amount_decimal` - Gross fuel amount that should equal Fuel Quantity multiplied by Fuel Unit Cost, inclusive of taxes. Format: decimal string. Nullable.
@@ -215,7 +215,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
       end
 
       defmodule NonFuel do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `gross_amount_decimal` - Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes. Format: decimal string. Nullable.
@@ -227,7 +227,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
       end
 
       defmodule Tax do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `local_amount_decimal` - Amount of state or provincial Sales Tax included in the transaction amount. `null` if not reported by merchant or not subject to tax. Format: decimal string. Nullable.
@@ -258,7 +258,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule FraudChallenges do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `channel` - The method by which the fraud challenge was delivered to the cardholder. Possible values: `sms`.
@@ -274,7 +274,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule Fuel do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `industry_product_code` - [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased. Max length: 5000. Nullable.
@@ -294,7 +294,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule MerchantData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `category` - A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values. Max length: 5000.
@@ -338,7 +338,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule NetworkData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `acquiring_institution_id` - Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be `null`. Max length: 5000. Nullable.
@@ -354,7 +354,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule PendingRequest do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The additional amount Stripe will hold if the authorization is approved, in the card's [currency](https://docs.stripe.com/api#issuing_authorization_object-pending-request-currency) and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -367,7 +367,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            amount_details: map() | nil,
+            amount_details: __MODULE__.AmountDetails.t() | nil,
             currency: String.t() | nil,
             is_amount_controllable: boolean() | nil,
             merchant_amount: integer() | nil,
@@ -385,7 +385,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     ]
 
     defmodule AmountDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `atm_fee` - The fee charged by the ATM for the cash withdrawal. Nullable.
@@ -406,7 +406,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule RequestHistory do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The `pending_request.amount` at the time of the request, presented in your card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Stripe held this amount from your account to fund the authorization if the request was approved.
@@ -424,7 +424,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            amount_details: map() | nil,
+            amount_details: __MODULE__.AmountDetails.t() | nil,
             approved: boolean() | nil,
             authorization_code: String.t() | nil,
             created: integer() | nil,
@@ -452,7 +452,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     ]
 
     defmodule AmountDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `atm_fee` - The fee charged by the ATM for the cash withdrawal. Nullable.
@@ -473,7 +473,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule Treasury do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `received_credits` - The array of [ReceivedCredits](https://docs.stripe.com/api/treasury/received_credits) associated with this authorization
@@ -489,7 +489,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
   end
 
   defmodule VerificationData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address_line1_check` - Whether the cardholder provided an address first line and if it matched the cardholder’s `billing.address.line1`. Possible values: `match`, `mismatch`, `not_provided`.
@@ -503,11 +503,11 @@ defmodule Stripe.Resources.Issuing.Authorization do
     @type t :: %__MODULE__{
             address_line1_check: String.t() | nil,
             address_postal_code_check: String.t() | nil,
-            authentication_exemption: map() | nil,
+            authentication_exemption: __MODULE__.AuthenticationExemption.t() | nil,
             cvc_check: String.t() | nil,
             expiry_check: String.t() | nil,
             postal_code: String.t() | nil,
-            three_d_secure: map() | nil
+            three_d_secure: __MODULE__.ThreeDSecure.t() | nil
           }
     defstruct [
       :address_line1_check,
@@ -520,7 +520,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     ]
 
     defmodule AuthenticationExemption do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `claimed_by` - The entity that requested the exemption, either the acquiring merchant or the Issuing user. Possible values: `acquirer`, `issuer`.
@@ -534,7 +534,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
     end
 
     defmodule ThreeDSecure do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `result` - The outcome of the 3D Secure authentication request. Possible values: `attempt_acknowledged`, `authenticated`, `failed`, `required`.

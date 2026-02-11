@@ -35,7 +35,7 @@ defmodule Stripe.Resources.Climate.Order do
           amount_fees: integer(),
           amount_subtotal: integer(),
           amount_total: integer(),
-          beneficiary: map() | nil,
+          beneficiary: __MODULE__.Beneficiary.t() | nil,
           canceled_at: integer(),
           cancellation_reason: String.t(),
           certificate: String.t(),
@@ -44,14 +44,14 @@ defmodule Stripe.Resources.Climate.Order do
           currency: String.t(),
           delayed_at: integer(),
           delivered_at: integer(),
-          delivery_details: [map()],
+          delivery_details: [__MODULE__.DeliveryDetails.t()],
           expected_delivery_year: integer(),
           id: String.t(),
           livemode: boolean(),
           metadata: map(),
           metric_tons: String.t(),
           object: String.t(),
-          product: String.t() | map(),
+          product: String.t() | Stripe.Resources.Climate.Product.t(),
           product_substituted_at: integer(),
           status: String.t()
         }
@@ -87,7 +87,7 @@ defmodule Stripe.Resources.Climate.Order do
   def expandable_fields, do: ["beneficiary", "delivery_details", "product"]
 
   defmodule Beneficiary do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
@@ -99,7 +99,7 @@ defmodule Stripe.Resources.Climate.Order do
   end
 
   defmodule DeliveryDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `delivered_at` - Time at which the delivery occurred. Measured in seconds since the Unix epoch. Format: Unix timestamp.
@@ -110,15 +110,15 @@ defmodule Stripe.Resources.Climate.Order do
     """
     @type t :: %__MODULE__{
             delivered_at: integer() | nil,
-            location: map() | nil,
+            location: __MODULE__.Location.t() | nil,
             metric_tons: String.t() | nil,
             registry_url: String.t() | nil,
-            supplier: map() | nil
+            supplier: Stripe.Resources.Climate.Supplier.t() | nil
           }
     defstruct [:delivered_at, :location, :metric_tons, :registry_url, :supplier]
 
     defmodule Location do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - The city where the supplier is located. Max length: 5000. Nullable.

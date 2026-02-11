@@ -14,10 +14,10 @@ defmodule Stripe.Resources.SortCodeRecords do
   * `sort_code` - The six-digit sort code Max length: 5000.
   """
   @type t :: %__MODULE__{
-          account_holder_address: map(),
+          account_holder_address: Stripe.Resources.Address.t(),
           account_holder_name: String.t(),
           account_number: String.t(),
-          bank_address: map(),
+          bank_address: Stripe.Resources.Address.t(),
           sort_code: String.t()
         }
 

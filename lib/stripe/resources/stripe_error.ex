@@ -32,12 +32,12 @@ defmodule Stripe.Resources.StripeError do
           network_advice_code: String.t() | nil,
           network_decline_code: String.t() | nil,
           param: String.t() | nil,
-          payment_intent: map() | nil,
-          payment_method: map() | nil,
+          payment_intent: Stripe.Resources.PaymentIntent.t() | nil,
+          payment_method: Stripe.Resources.PaymentMethod.t() | nil,
           payment_method_type: String.t() | nil,
           request_log_url: String.t() | nil,
-          setup_intent: map() | nil,
-          source: map() | nil,
+          setup_intent: Stripe.Resources.SetupIntent.t() | nil,
+          source: Stripe.Resources.PaymentSource.t() | nil,
           type: String.t()
         }
 

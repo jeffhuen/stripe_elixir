@@ -41,12 +41,12 @@ defmodule Stripe.Resources.Event do
           api_version: String.t(),
           context: String.t() | nil,
           created: integer(),
-          data: map(),
+          data: Stripe.Resources.EventData.t(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
           pending_webhooks: integer(),
-          request: map(),
+          request: __MODULE__.Request.t(),
           type: String.t()
         }
 
@@ -70,7 +70,7 @@ defmodule Stripe.Resources.Event do
   def expandable_fields, do: ["data", "request"]
 
   defmodule Request do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `id` - ID of the API request that caused the event. If null, the event was automatic (e.g., Stripe's automatic subscription handling). Request logs are available in the [dashboard](https://dashboard.stripe.com/logs), but currently not in the API. Max length: 5000. Nullable.

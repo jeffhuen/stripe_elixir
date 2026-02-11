@@ -30,17 +30,17 @@ defmodule Stripe.Resources.Tax.Transaction do
           created: integer(),
           currency: String.t(),
           customer: String.t(),
-          customer_details: map(),
+          customer_details: __MODULE__.CustomerDetails.t(),
           id: String.t(),
-          line_items: map() | nil,
+          line_items: __MODULE__.LineItems.t() | nil,
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
           posted_at: integer(),
           reference: String.t(),
-          reversal: map(),
-          ship_from_details: map(),
-          shipping_cost: map(),
+          reversal: __MODULE__.Reversal.t(),
+          ship_from_details: __MODULE__.ShipFromDetails.t(),
+          shipping_cost: __MODULE__.ShippingCost.t(),
           tax_date: integer(),
           type: String.t()
         }
@@ -71,7 +71,7 @@ defmodule Stripe.Resources.Tax.Transaction do
     do: ["customer_details", "line_items", "reversal", "ship_from_details", "shipping_cost"]
 
   defmodule CustomerDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address` - The customer's postal address (for example, home or business location). Nullable.
@@ -81,16 +81,16 @@ defmodule Stripe.Resources.Tax.Transaction do
     * `taxability_override` - The taxability override used for taxation. Possible values: `customer_exempt`, `none`, `reverse_charge`.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             address_source: String.t() | nil,
             ip_address: String.t() | nil,
-            tax_ids: [map()] | nil,
+            tax_ids: [__MODULE__.TaxIds.t()] | nil,
             taxability_override: String.t() | nil
           }
     defstruct [:address, :address_source, :ip_address, :tax_ids, :taxability_override]
 
     defmodule Address do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
@@ -112,7 +112,7 @@ defmodule Stripe.Resources.Tax.Transaction do
     end
 
     defmodule TaxIds do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `unknown`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`.
@@ -134,7 +134,7 @@ defmodule Stripe.Resources.Tax.Transaction do
   end
 
   defmodule LineItems do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -143,7 +143,7 @@ defmodule Stripe.Resources.Tax.Transaction do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.Tax.TransactionLineItem.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -152,7 +152,7 @@ defmodule Stripe.Resources.Tax.Transaction do
   end
 
   defmodule Reversal do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `original_transaction` - The `id` of the reversed `Transaction` object. Max length: 5000. Nullable.
@@ -164,18 +164,18 @@ defmodule Stripe.Resources.Tax.Transaction do
   end
 
   defmodule ShipFromDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address`
     """
     @type t :: %__MODULE__{
-            address: map() | nil
+            address: __MODULE__.Address.t() | nil
           }
     defstruct [:address]
 
     defmodule Address do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
@@ -204,7 +204,7 @@ defmodule Stripe.Resources.Tax.Transaction do
   end
 
   defmodule ShippingCost do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The shipping amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
@@ -219,13 +219,13 @@ defmodule Stripe.Resources.Tax.Transaction do
             amount_tax: integer() | nil,
             shipping_rate: String.t() | nil,
             tax_behavior: String.t() | nil,
-            tax_breakdown: [map()] | nil,
+            tax_breakdown: [__MODULE__.TaxBreakdown.t()] | nil,
             tax_code: String.t() | nil
           }
     defstruct [:amount, :amount_tax, :shipping_rate, :tax_behavior, :tax_breakdown, :tax_code]
 
     defmodule TaxBreakdown do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -237,9 +237,9 @@ defmodule Stripe.Resources.Tax.Transaction do
       """
       @type t :: %__MODULE__{
               amount: integer() | nil,
-              jurisdiction: map() | nil,
+              jurisdiction: __MODULE__.Jurisdiction.t() | nil,
               sourcing: String.t() | nil,
-              tax_rate_details: map() | nil,
+              tax_rate_details: __MODULE__.TaxRateDetails.t() | nil,
               taxability_reason: String.t() | nil,
               taxable_amount: integer() | nil
             }
@@ -253,7 +253,7 @@ defmodule Stripe.Resources.Tax.Transaction do
       ]
 
       defmodule Jurisdiction do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
@@ -271,7 +271,7 @@ defmodule Stripe.Resources.Tax.Transaction do
       end
 
       defmodule TaxRateDetails do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `display_name` - A localized display name for tax type, intended to be human-readable. For example, "Local Sales and Use Tax", "Value-added tax (VAT)", or "Umsatzsteuer (USt.)". Max length: 5000.

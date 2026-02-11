@@ -44,16 +44,16 @@ defmodule Stripe.Resources.Payout do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          application_fee: String.t() | map(),
+          application_fee: String.t() | Stripe.Resources.ApplicationFee.t(),
           application_fee_amount: integer(),
           arrival_date: integer(),
           automatic: boolean(),
-          balance_transaction: String.t() | map(),
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
           created: integer(),
           currency: String.t(),
           description: String.t(),
-          destination: map(),
-          failure_balance_transaction: String.t() | map(),
+          destination: String.t() | Stripe.Resources.ExternalAccount.t(),
+          failure_balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
           failure_code: String.t(),
           failure_message: String.t(),
           id: String.t(),
@@ -61,14 +61,14 @@ defmodule Stripe.Resources.Payout do
           metadata: map(),
           method: String.t(),
           object: String.t(),
-          original_payout: String.t() | map(),
+          original_payout: String.t() | Stripe.Resources.Payout.t(),
           payout_method: String.t(),
           reconciliation_status: String.t(),
-          reversed_by: String.t() | map(),
+          reversed_by: String.t() | Stripe.Resources.Payout.t(),
           source_type: String.t(),
           statement_descriptor: String.t(),
           status: String.t(),
-          trace_id: map(),
+          trace_id: __MODULE__.TraceId.t(),
           type: String.t()
         }
 
@@ -117,7 +117,7 @@ defmodule Stripe.Resources.Payout do
     ]
 
   defmodule TraceId do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - Possible values are `pending`, `supported`, and `unsupported`. When `payout.status` is `pending` or `in_transit`, this will be `pending`. When the payout transitions to `paid`, `failed`, or `canceled`, this status will become `supported` or `unsupported` shortly after in most cases. In some cases, this may appear as `pending` for up to 10 days after `arrival_date` until transitioning to `supported` or `unsupported`. Max length: 5000.

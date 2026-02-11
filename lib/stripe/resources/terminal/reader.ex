@@ -24,7 +24,7 @@ defmodule Stripe.Resources.Terminal.Reader do
   * `status` - The networking status of the reader. We do not recommend using this field in flows that may block taking payments. Possible values: `offline`, `online`. Nullable.
   """
   @type t :: %__MODULE__{
-          action: map(),
+          action: __MODULE__.Action.t(),
           device_sw_version: String.t(),
           device_type: String.t(),
           id: String.t(),
@@ -32,7 +32,7 @@ defmodule Stripe.Resources.Terminal.Reader do
           label: String.t(),
           last_seen_at: integer(),
           livemode: boolean(),
-          location: String.t() | map(),
+          location: String.t() | Stripe.Resources.Terminal.Location.t(),
           metadata: map(),
           object: String.t(),
           serial_number: String.t(),
@@ -61,7 +61,7 @@ defmodule Stripe.Resources.Terminal.Reader do
   def expandable_fields, do: ["action", "location"]
 
   defmodule Action do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `collect_inputs`
@@ -77,15 +77,15 @@ defmodule Stripe.Resources.Terminal.Reader do
     * `type` - Type of action performed by the reader. Possible values: `collect_inputs`, `collect_payment_method`, `confirm_payment_intent`, `process_payment_intent`, `process_setup_intent`, `refund_payment`, `set_reader_display`.
     """
     @type t :: %__MODULE__{
-            collect_inputs: map() | nil,
-            collect_payment_method: map() | nil,
-            confirm_payment_intent: map() | nil,
+            collect_inputs: __MODULE__.CollectInputs.t() | nil,
+            collect_payment_method: __MODULE__.CollectPaymentMethod.t() | nil,
+            confirm_payment_intent: __MODULE__.ConfirmPaymentIntent.t() | nil,
             failure_code: String.t() | nil,
             failure_message: String.t() | nil,
-            process_payment_intent: map() | nil,
-            process_setup_intent: map() | nil,
-            refund_payment: map() | nil,
-            set_reader_display: map() | nil,
+            process_payment_intent: __MODULE__.ProcessPaymentIntent.t() | nil,
+            process_setup_intent: __MODULE__.ProcessSetupIntent.t() | nil,
+            refund_payment: __MODULE__.RefundPayment.t() | nil,
+            set_reader_display: __MODULE__.SetReaderDisplay.t() | nil,
             status: String.t() | nil,
             type: String.t() | nil
           }
@@ -104,20 +104,20 @@ defmodule Stripe.Resources.Terminal.Reader do
     ]
 
     defmodule CollectInputs do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `inputs` - List of inputs to be collected.
       * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
       """
       @type t :: %__MODULE__{
-              inputs: [map()] | nil,
+              inputs: [__MODULE__.Inputs.t()] | nil,
               metadata: map() | nil
             }
       defstruct [:inputs, :metadata]
 
       defmodule Inputs do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `custom_text` - Default text of input being collected. Nullable.
@@ -133,16 +133,16 @@ defmodule Stripe.Resources.Terminal.Reader do
         * `type` - Type of input being collected. Possible values: `email`, `numeric`, `phone`, `selection`, `signature`, `text`.
         """
         @type t :: %__MODULE__{
-                custom_text: map() | nil,
-                email: map() | nil,
-                numeric: map() | nil,
-                phone: map() | nil,
+                custom_text: __MODULE__.CustomText.t() | nil,
+                email: __MODULE__.Email.t() | nil,
+                numeric: __MODULE__.Numeric.t() | nil,
+                phone: __MODULE__.Phone.t() | nil,
                 required: boolean() | nil,
-                selection: map() | nil,
-                signature: map() | nil,
+                selection: __MODULE__.Selection.t() | nil,
+                signature: __MODULE__.Signature.t() | nil,
                 skipped: boolean() | nil,
-                text: map() | nil,
-                toggles: [map()] | nil,
+                text: __MODULE__.Text.t() | nil,
+                toggles: [__MODULE__.Toggles.t()] | nil,
                 type: String.t() | nil
               }
         defstruct [
@@ -160,7 +160,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         ]
 
         defmodule CustomText do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `description` - Customize the default description for this input Max length: 5000. Nullable.
@@ -178,7 +178,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         end
 
         defmodule Email do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `value` - The collected email address Max length: 5000. Nullable.
@@ -190,7 +190,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         end
 
         defmodule Numeric do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `value` - The collected number Max length: 5000. Nullable.
@@ -202,7 +202,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         end
 
         defmodule Phone do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `value` - The collected phone number Max length: 5000. Nullable.
@@ -214,7 +214,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         end
 
         defmodule Selection do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `choices` - List of possible choices to be selected
@@ -222,14 +222,14 @@ defmodule Stripe.Resources.Terminal.Reader do
           * `text` - The text of the selected choice Max length: 5000. Nullable.
           """
           @type t :: %__MODULE__{
-                  choices: [map()] | nil,
+                  choices: [__MODULE__.Choices.t()] | nil,
                   id: String.t() | nil,
                   text: String.t() | nil
                 }
           defstruct [:choices, :id, :text]
 
           defmodule Choices do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `id` - The identifier for the selected choice. Maximum 50 characters. Max length: 5000. Nullable.
@@ -252,7 +252,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         end
 
         defmodule Signature do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `value` - The File ID of a collected signature image Max length: 5000. Nullable.
@@ -264,7 +264,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         end
 
         defmodule Text do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `value` - The collected text value Max length: 5000. Nullable.
@@ -276,7 +276,7 @@ defmodule Stripe.Resources.Terminal.Reader do
         end
 
         defmodule Toggles do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `default_value` - The toggle's default value. Can be `enabled` or `disabled`. Possible values: `disabled`, `enabled`. Nullable.
@@ -315,7 +315,7 @@ defmodule Stripe.Resources.Terminal.Reader do
     end
 
     defmodule CollectPaymentMethod do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `collect_config`
@@ -323,14 +323,14 @@ defmodule Stripe.Resources.Terminal.Reader do
       * `payment_method`
       """
       @type t :: %__MODULE__{
-              collect_config: map() | nil,
-              payment_intent: String.t() | map() | nil,
-              payment_method: map() | nil
+              collect_config: __MODULE__.CollectConfig.t() | nil,
+              payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
+              payment_method: Stripe.Resources.PaymentMethod.t() | nil
             }
       defstruct [:collect_config, :payment_intent, :payment_method]
 
       defmodule CollectConfig do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `enable_customer_cancellation` - Enable customer-initiated cancellation when processing this payment.
@@ -340,12 +340,12 @@ defmodule Stripe.Resources.Terminal.Reader do
         @type t :: %__MODULE__{
                 enable_customer_cancellation: boolean() | nil,
                 skip_tipping: boolean() | nil,
-                tipping: map() | nil
+                tipping: __MODULE__.Tipping.t() | nil
               }
         defstruct [:enable_customer_cancellation, :skip_tipping, :tipping]
 
         defmodule Tipping do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `amount_eligible` - Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -371,20 +371,20 @@ defmodule Stripe.Resources.Terminal.Reader do
     end
 
     defmodule ConfirmPaymentIntent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `confirm_config`
       * `payment_intent` - Most recent PaymentIntent processed by the reader.
       """
       @type t :: %__MODULE__{
-              confirm_config: map() | nil,
-              payment_intent: String.t() | map() | nil
+              confirm_config: __MODULE__.ConfirmConfig.t() | nil,
+              payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil
             }
       defstruct [:confirm_config, :payment_intent]
 
       defmodule ConfirmConfig do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `return_url` - If the customer doesn't abandon authenticating the payment, they're redirected to this URL after completion. Max length: 5000.
@@ -403,20 +403,20 @@ defmodule Stripe.Resources.Terminal.Reader do
     end
 
     defmodule ProcessPaymentIntent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `payment_intent` - Most recent PaymentIntent processed by the reader.
       * `process_config`
       """
       @type t :: %__MODULE__{
-              payment_intent: String.t() | map() | nil,
-              process_config: map() | nil
+              payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
+              process_config: __MODULE__.ProcessConfig.t() | nil
             }
       defstruct [:payment_intent, :process_config]
 
       defmodule ProcessConfig do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `enable_customer_cancellation` - Enable customer-initiated cancellation when processing this payment.
@@ -428,12 +428,12 @@ defmodule Stripe.Resources.Terminal.Reader do
                 enable_customer_cancellation: boolean() | nil,
                 return_url: String.t() | nil,
                 skip_tipping: boolean() | nil,
-                tipping: map() | nil
+                tipping: __MODULE__.Tipping.t() | nil
               }
         defstruct [:enable_customer_cancellation, :return_url, :skip_tipping, :tipping]
 
         defmodule Tipping do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `amount_eligible` - Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -459,7 +459,7 @@ defmodule Stripe.Resources.Terminal.Reader do
     end
 
     defmodule ProcessSetupIntent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `generated_card` - ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod. Max length: 5000.
@@ -468,13 +468,13 @@ defmodule Stripe.Resources.Terminal.Reader do
       """
       @type t :: %__MODULE__{
               generated_card: String.t() | nil,
-              process_config: map() | nil,
-              setup_intent: String.t() | map() | nil
+              process_config: __MODULE__.ProcessConfig.t() | nil,
+              setup_intent: String.t() | Stripe.Resources.SetupIntent.t() | nil
             }
       defstruct [:generated_card, :process_config, :setup_intent]
 
       defmodule ProcessConfig do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `enable_customer_cancellation` - Enable customer-initiated cancellation when processing this SetupIntent.
@@ -493,7 +493,7 @@ defmodule Stripe.Resources.Terminal.Reader do
     end
 
     defmodule RefundPayment do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - The amount being refunded.
@@ -508,13 +508,13 @@ defmodule Stripe.Resources.Terminal.Reader do
       """
       @type t :: %__MODULE__{
               amount: integer() | nil,
-              charge: String.t() | map() | nil,
+              charge: String.t() | Stripe.Resources.Charge.t() | nil,
               metadata: map() | nil,
-              payment_intent: String.t() | map() | nil,
+              payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
               reason: String.t() | nil,
-              refund: String.t() | map() | nil,
+              refund: String.t() | Stripe.Resources.Refund.t() | nil,
               refund_application_fee: boolean() | nil,
-              refund_payment_config: map() | nil,
+              refund_payment_config: __MODULE__.RefundPaymentConfig.t() | nil,
               reverse_transfer: boolean() | nil
             }
       defstruct [
@@ -530,7 +530,7 @@ defmodule Stripe.Resources.Terminal.Reader do
       ]
 
       defmodule RefundPaymentConfig do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `enable_customer_cancellation` - Enable customer-initiated cancellation when refunding this payment.
@@ -549,20 +549,20 @@ defmodule Stripe.Resources.Terminal.Reader do
     end
 
     defmodule SetReaderDisplay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `cart` - Cart object to be displayed by the reader, including line items, amounts, and currency. Nullable.
       * `type` - Type of information to be displayed by the reader. Only `cart` is currently supported. Possible values: `cart`.
       """
       @type t :: %__MODULE__{
-              cart: map() | nil,
+              cart: __MODULE__.Cart.t() | nil,
               type: String.t() | nil
             }
       defstruct [:cart, :type]
 
       defmodule Cart do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
@@ -572,14 +572,14 @@ defmodule Stripe.Resources.Terminal.Reader do
         """
         @type t :: %__MODULE__{
                 currency: String.t() | nil,
-                line_items: [map()] | nil,
+                line_items: [__MODULE__.LineItems.t()] | nil,
                 tax: integer() | nil,
                 total: integer() | nil
               }
         defstruct [:currency, :line_items, :tax, :total]
 
         defmodule LineItems do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `amount` - The amount of the line item. A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).

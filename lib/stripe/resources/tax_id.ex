@@ -25,15 +25,15 @@ defmodule Stripe.Resources.TaxId do
   @type t :: %__MODULE__{
           country: String.t(),
           created: integer(),
-          customer: String.t() | map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          owner: map(),
+          owner: __MODULE__.Owner.t(),
           type: String.t(),
           value: String.t(),
-          verification: map()
+          verification: __MODULE__.Verification.t()
         }
 
   defstruct [
@@ -56,7 +56,7 @@ defmodule Stripe.Resources.TaxId do
   def expandable_fields, do: ["customer", "owner", "verification"]
 
   defmodule Owner do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account` - The account being referenced when `type` is `account`.
@@ -66,9 +66,9 @@ defmodule Stripe.Resources.TaxId do
     * `type` - Type of owner referenced. Possible values: `account`, `application`, `customer`, `self`.
     """
     @type t :: %__MODULE__{
-            account: String.t() | map() | nil,
-            application: String.t() | map() | nil,
-            customer: String.t() | map() | nil,
+            account: String.t() | Stripe.Resources.Account.t() | nil,
+            application: String.t() | Stripe.Resources.Application.t() | nil,
+            customer: String.t() | Stripe.Resources.Customer.t() | nil,
             customer_account: String.t() | nil,
             type: String.t() | nil
           }
@@ -76,7 +76,7 @@ defmodule Stripe.Resources.TaxId do
   end
 
   defmodule Verification do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - Verification status, one of `pending`, `verified`, `unverified`, or `unavailable`. Possible values: `pending`, `unavailable`, `unverified`, `verified`.

@@ -25,8 +25,8 @@ defmodule Stripe.Resources.Billing.Meter do
   """
   @type t :: %__MODULE__{
           created: integer(),
-          customer_mapping: map(),
-          default_aggregation: map(),
+          customer_mapping: __MODULE__.CustomerMapping.t(),
+          default_aggregation: __MODULE__.DefaultAggregation.t(),
           display_name: String.t(),
           event_name: String.t(),
           event_time_window: String.t(),
@@ -34,9 +34,9 @@ defmodule Stripe.Resources.Billing.Meter do
           livemode: boolean(),
           object: String.t(),
           status: String.t(),
-          status_transitions: map(),
+          status_transitions: __MODULE__.StatusTransitions.t(),
           updated: integer(),
-          value_settings: map()
+          value_settings: __MODULE__.ValueSettings.t()
         }
 
   defstruct [
@@ -62,7 +62,7 @@ defmodule Stripe.Resources.Billing.Meter do
     do: ["customer_mapping", "default_aggregation", "status_transitions", "value_settings"]
 
   defmodule CustomerMapping do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `event_payload_key` - The key in the meter event payload to use for mapping the event to a customer. Max length: 5000.
@@ -76,7 +76,7 @@ defmodule Stripe.Resources.Billing.Meter do
   end
 
   defmodule DefaultAggregation do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `formula` - Specifies how events are aggregated. Possible values: `count`, `last`, `sum`.
@@ -88,7 +88,7 @@ defmodule Stripe.Resources.Billing.Meter do
   end
 
   defmodule StatusTransitions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `deactivated_at` - The time the meter was deactivated, if any. Measured in seconds since Unix epoch. Format: Unix timestamp. Nullable.
@@ -100,7 +100,7 @@ defmodule Stripe.Resources.Billing.Meter do
   end
 
   defmodule ValueSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `event_payload_key` - The key in the meter event payload to use as the value for this meter. Max length: 5000.

@@ -30,15 +30,15 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
           id: String.t(),
-          linked_flows: map(),
+          linked_flows: __MODULE__.LinkedFlows.t(),
           livemode: boolean(),
           metadata: map(),
           network: String.t(),
           object: String.t(),
           received_debit: String.t(),
           status: String.t(),
-          status_transitions: map(),
-          transaction: String.t() | map()
+          status_transitions: __MODULE__.StatusTransitions.t(),
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
   defstruct [
@@ -65,7 +65,7 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
   def expandable_fields, do: ["linked_flows", "status_transitions", "transaction"]
 
   defmodule LinkedFlows do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `issuing_dispute` - Set if there is an Issuing dispute associated with the DebitReversal. Max length: 5000. Nullable.
@@ -77,7 +77,7 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
   end
 
   defmodule StatusTransitions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `completed_at` - Timestamp describing when the DebitReversal changed status to `completed`. Format: Unix timestamp. Nullable.

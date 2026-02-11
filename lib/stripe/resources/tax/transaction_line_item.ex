@@ -29,7 +29,7 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
           product: String.t(),
           quantity: integer(),
           reference: String.t(),
-          reversal: map(),
+          reversal: __MODULE__.Reversal.t(),
           tax_behavior: String.t(),
           tax_code: String.t(),
           type: String.t()
@@ -57,7 +57,7 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
   def expandable_fields, do: ["reversal"]
 
   defmodule Reversal do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `original_line_item` - The `id` of the line item to reverse in the original transaction. Max length: 5000.

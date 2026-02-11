@@ -35,8 +35,8 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
           object: String.t(),
           received_credit: String.t(),
           status: String.t(),
-          status_transitions: map(),
-          transaction: String.t() | map()
+          status_transitions: __MODULE__.StatusTransitions.t(),
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
   defstruct [
@@ -62,7 +62,7 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
   def expandable_fields, do: ["status_transitions", "transaction"]
 
   defmodule StatusTransitions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `posted_at` - Timestamp describing when the CreditReversal changed status to `posted` Format: Unix timestamp. Nullable.

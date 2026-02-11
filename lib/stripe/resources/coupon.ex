@@ -29,7 +29,7 @@ defmodule Stripe.Resources.Coupon do
   """
   @type t :: %__MODULE__{
           amount_off: integer(),
-          applies_to: map() | nil,
+          applies_to: __MODULE__.AppliesTo.t() | nil,
           created: integer(),
           currency: String.t(),
           currency_options: map() | nil,
@@ -73,7 +73,7 @@ defmodule Stripe.Resources.Coupon do
   def expandable_fields, do: ["applies_to", "currency_options"]
 
   defmodule AppliesTo do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `products` - A list of product IDs this coupon applies to

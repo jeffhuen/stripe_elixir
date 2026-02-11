@@ -10,7 +10,7 @@ defmodule Stripe.Resources.FinancialAccountConfig do
   """
   @type t :: %__MODULE__{
           enabled: boolean(),
-          features: map()
+          features: Stripe.Resources.FinancialAccountFeatures.t()
         }
 
   defstruct [:enabled, :features]

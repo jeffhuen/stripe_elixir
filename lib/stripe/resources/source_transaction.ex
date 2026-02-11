@@ -26,17 +26,17 @@ defmodule Stripe.Resources.SourceTransaction do
   * `type` - The type of source this transaction is attached to. Possible values: `ach_credit_transfer`, `ach_debit`, `alipay`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `three_d_secure`, `wechat`.
   """
   @type t :: %__MODULE__{
-          ach_credit_transfer: map() | nil,
+          ach_credit_transfer: __MODULE__.AchCreditTransfer.t() | nil,
           amount: integer(),
-          chf_credit_transfer: map() | nil,
+          chf_credit_transfer: __MODULE__.ChfCreditTransfer.t() | nil,
           created: integer(),
           currency: String.t(),
-          gbp_credit_transfer: map() | nil,
+          gbp_credit_transfer: __MODULE__.GbpCreditTransfer.t() | nil,
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          paper_check: map() | nil,
-          sepa_credit_transfer: map() | nil,
+          paper_check: __MODULE__.PaperCheck.t() | nil,
+          sepa_credit_transfer: __MODULE__.SepaCreditTransfer.t() | nil,
           source: String.t(),
           status: String.t(),
           type: String.t()
@@ -72,7 +72,7 @@ defmodule Stripe.Resources.SourceTransaction do
     ]
 
   defmodule AchCreditTransfer do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `customer_data` - Customer data associated with the transfer. Max length: 5000.
@@ -90,7 +90,7 @@ defmodule Stripe.Resources.SourceTransaction do
   end
 
   defmodule ChfCreditTransfer do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `reference` - Reference associated with the transfer. Max length: 5000.
@@ -116,7 +116,7 @@ defmodule Stripe.Resources.SourceTransaction do
   end
 
   defmodule GbpCreditTransfer do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `fingerprint` - Bank account fingerprint associated with the Stripe owned bank account receiving the transfer. Max length: 5000.
@@ -148,7 +148,7 @@ defmodule Stripe.Resources.SourceTransaction do
   end
 
   defmodule PaperCheck do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available_at` - Time at which the deposited funds will be available for use. Measured in seconds since the Unix epoch. Max length: 5000.
@@ -162,7 +162,7 @@ defmodule Stripe.Resources.SourceTransaction do
   end
 
   defmodule SepaCreditTransfer do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `reference` - Reference associated with the transfer. Max length: 5000.

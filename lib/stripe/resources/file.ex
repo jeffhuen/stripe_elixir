@@ -30,7 +30,7 @@ defmodule Stripe.Resources.File do
           expires_at: integer(),
           filename: String.t(),
           id: String.t(),
-          links: map() | nil,
+          links: __MODULE__.Links.t() | nil,
           object: String.t(),
           purpose: String.t(),
           size: integer(),
@@ -59,7 +59,7 @@ defmodule Stripe.Resources.File do
   def expandable_fields, do: ["links"]
 
   defmodule Links do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -68,7 +68,7 @@ defmodule Stripe.Resources.File do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.FileLink.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil

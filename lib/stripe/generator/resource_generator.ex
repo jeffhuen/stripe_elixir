@@ -11,17 +11,21 @@ defmodule Stripe.Generator.ResourceGenerator do
   Returns `[{file_path, content}]`.
   """
   def generate(spec) do
-    # Build a set of resource schema IDs for ref resolution
-    resource_ids = MapSet.new(spec.resources, & &1.schema_id)
+    # Map ALL resource schema IDs to modules so typespecs can reference the actual
+    # struct type.  Non-primary schemas (e.g. payment_method_details_crypto) share
+    # the same {class_name, package} as their primary, so they resolve to the same module.
+    ref_to_module =
+      spec.resources
+      |> Map.new(fn r -> {r.schema_id, Naming.resource_module(r.class_name, r.package)} end)
 
     spec.resources
     |> Enum.filter(& &1.is_primary)
     |> Enum.map(fn resource ->
-      generate_resource(resource, resource_ids)
+      generate_resource(resource, ref_to_module)
     end)
   end
 
-  defp generate_resource(resource, resource_ids) do
+  defp generate_resource(resource, ref_to_module) do
     module = Naming.resource_module(resource.class_name, resource.package)
     path = Naming.module_to_path(module)
 
@@ -34,7 +38,7 @@ defmodule Stripe.Generator.ResourceGenerator do
     type_fields =
       props
       |> Enum.map_join(",\n", fn p ->
-        type_str = type_to_typespec(p.type, p.name, resource, resource_ids)
+        type_str = type_to_typespec(p.type, p.name, resource, ref_to_module)
 
         type_str =
           if MapSet.member?(required, p.name) do
@@ -54,7 +58,7 @@ defmodule Stripe.Generator.ResourceGenerator do
         ""
       end
 
-    inner_type_blocks = generate_inner_types(resource.inner_types, "  ")
+    inner_type_blocks = generate_inner_types(resource.inner_types, "  ", ref_to_module)
 
     # Build __inner_types__ from BOTH inner types (nested modules) and resource inner refs
     inner_entries =
@@ -130,32 +134,33 @@ defmodule Stripe.Generator.ResourceGenerator do
     {path, content}
   end
 
-  defp generate_inner_types(inner_types, indent) when map_size(inner_types) == 0 do
+  defp generate_inner_types(inner_types, indent, _ref_to_module)
+       when map_size(inner_types) == 0 do
     _ = indent
     ""
   end
 
-  defp generate_inner_types(inner_types, indent) do
+  defp generate_inner_types(inner_types, indent, ref_to_module) do
     inner_types
     |> Enum.sort_by(fn {name, _} -> name end)
     |> Enum.map_join("", fn {_name, inner} ->
-      generate_inner_type_module(inner, indent)
+      generate_inner_type_module(inner, indent, ref_to_module)
     end)
   end
 
-  defp generate_inner_type_module(inner, indent) do
+  defp generate_inner_type_module(inner, indent, ref_to_module) do
     props = Enum.sort_by(inner.properties, & &1.name)
     struct_fields = Enum.map_join(props, ", ", fn p -> ":#{p.name}" end)
 
     type_fields =
       props
       |> Enum.map_join(",\n", fn p ->
-        type_str = simple_typespec(p.type)
+        type_str = simple_typespec(p.type, ref_to_module)
         "#{indent}        #{p.name}: #{type_str} | nil"
       end)
 
     inner_inner_types = inner[:inner_types] || inner.inner_types
-    nested_blocks = generate_inner_types(inner_inner_types, indent <> "  ")
+    nested_blocks = generate_inner_types(inner_inner_types, indent <> "  ", ref_to_module)
 
     inner_types_fn_block =
       if is_map(inner_inner_types) and map_size(inner_inner_types) > 0 do
@@ -187,7 +192,7 @@ defmodule Stripe.Generator.ResourceGenerator do
     """
 
     #{indent}defmodule #{inner.class_name} do
-    #{indent}  @moduledoc false
+    #{indent}  @moduledoc "Nested struct within the parent resource."
     #{typedoc}
     #{indent}  @type t :: %__MODULE__{
     #{type_fields}
@@ -199,22 +204,32 @@ defmodule Stripe.Generator.ResourceGenerator do
 
   # -- Type specs -------------------------------------------------------------
 
-  defp type_to_typespec({:expandable_ref, ref_name}, _field_name, _resource, resource_ids) do
-    if MapSet.member?(resource_ids, ref_name), do: "String.t() | map()", else: "map()"
+  defp type_to_typespec({:expandable_ref, ref_name}, _field_name, _resource, ref_to_module) do
+    case Map.get(ref_to_module, ref_name) do
+      nil -> "map()"
+      mod -> "String.t() | #{inspect(mod)}.t()"
+    end
   end
 
-  defp type_to_typespec({:ref, _ref_name}, _field_name, _resource, _resource_ids), do: "map()"
+  defp type_to_typespec({:ref, ref_name}, _field_name, _resource, ref_to_module) do
+    case Map.get(ref_to_module, ref_name) do
+      nil -> "map()"
+      mod -> "#{inspect(mod)}.t()"
+    end
+  end
 
-  defp type_to_typespec({:list, inner}, field_name, resource, resource_ids) do
-    inner_spec = type_to_typespec(inner, field_name, resource, resource_ids)
+  defp type_to_typespec({:list, inner}, field_name, resource, ref_to_module) do
+    inner_spec = type_to_typespec(inner, field_name, resource, ref_to_module)
     "[#{inner_spec}]"
   end
 
-  defp type_to_typespec({:nullable, inner}, field_name, resource, resource_ids) do
-    type_to_typespec(inner, field_name, resource, resource_ids)
+  defp type_to_typespec({:nullable, inner}, field_name, resource, ref_to_module) do
+    type_to_typespec(inner, field_name, resource, ref_to_module)
   end
 
-  defp type_to_typespec({:inner, _name}, _field_name, _resource, _resource_ids), do: "map()"
+  defp type_to_typespec({:inner, name}, _field_name, _resource, _ref_to_module),
+    do: "__MODULE__.#{name}.t()"
+
   defp type_to_typespec(:string, _, _, _), do: "String.t()"
   defp type_to_typespec(:integer, _, _, _), do: "integer()"
   defp type_to_typespec(:float, _, _, _), do: "float()"
@@ -222,15 +237,32 @@ defmodule Stripe.Generator.ResourceGenerator do
   defp type_to_typespec(:map, _, _, _), do: "map()"
   defp type_to_typespec(_, _, _, _), do: "term()"
 
-  defp simple_typespec(:string), do: "String.t()"
-  defp simple_typespec(:integer), do: "integer()"
-  defp simple_typespec(:float), do: "float()"
-  defp simple_typespec(:boolean), do: "boolean()"
-  defp simple_typespec(:map), do: "map()"
-  defp simple_typespec({:list, inner}), do: "[#{simple_typespec(inner)}]"
-  defp simple_typespec({:nullable, inner}), do: simple_typespec(inner)
-  defp simple_typespec({:ref, _}), do: "map()"
-  defp simple_typespec({:expandable_ref, _}), do: "String.t() | map()"
-  defp simple_typespec({:inner, _}), do: "map()"
-  defp simple_typespec(_), do: "term()"
+  defp simple_typespec(:string, _), do: "String.t()"
+  defp simple_typespec(:integer, _), do: "integer()"
+  defp simple_typespec(:float, _), do: "float()"
+  defp simple_typespec(:boolean, _), do: "boolean()"
+  defp simple_typespec(:map, _), do: "map()"
+
+  defp simple_typespec({:list, inner}, ref_to_module),
+    do: "[#{simple_typespec(inner, ref_to_module)}]"
+
+  defp simple_typespec({:nullable, inner}, ref_to_module),
+    do: simple_typespec(inner, ref_to_module)
+
+  defp simple_typespec({:ref, ref_name}, ref_to_module) do
+    case Map.get(ref_to_module, ref_name) do
+      nil -> "map()"
+      mod -> "#{inspect(mod)}.t()"
+    end
+  end
+
+  defp simple_typespec({:expandable_ref, ref_name}, ref_to_module) do
+    case Map.get(ref_to_module, ref_name) do
+      nil -> "String.t() | map()"
+      mod -> "String.t() | #{inspect(mod)}.t()"
+    end
+  end
+
+  defp simple_typespec({:inner, name}, _), do: "__MODULE__.#{name}.t()"
+  defp simple_typespec(_, _), do: "term()"
 end

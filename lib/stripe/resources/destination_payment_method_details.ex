@@ -11,10 +11,10 @@ defmodule Stripe.Resources.DestinationPaymentMethodDetails do
   * `us_bank_account` - Expandable.
   """
   @type t :: %__MODULE__{
-          billing_details: map(),
-          financial_account: map() | nil,
+          billing_details: Stripe.Resources.BillingDetails.t(),
+          financial_account: Stripe.Resources.FinancialAccount.t() | nil,
           type: String.t(),
-          us_bank_account: map() | nil
+          us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
         }
 
   defstruct [:billing_details, :financial_account, :type, :us_bank_account]

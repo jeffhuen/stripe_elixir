@@ -68,31 +68,31 @@ defmodule Stripe.Resources.SetupIntent do
   Use `on_session` if you intend to only reuse the payment method when the customer is in your checkout flow. Use `off_session` if your customer may or may not be in your checkout flow. If not provided, this value defaults to `off_session`. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          application: String.t() | map(),
+          application: String.t() | Stripe.Resources.Application.t(),
           attach_to_self: boolean() | nil,
-          automatic_payment_methods: map(),
+          automatic_payment_methods: __MODULE__.AutomaticPaymentMethods.t(),
           cancellation_reason: String.t(),
           client_secret: String.t(),
           created: integer(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t() | nil,
           description: String.t(),
           excluded_payment_method_types: [String.t()],
           flow_directions: [String.t()] | nil,
           id: String.t(),
-          last_setup_error: map(),
-          latest_attempt: String.t() | map(),
+          last_setup_error: Stripe.Resources.StripeError.t(),
+          latest_attempt: String.t() | Stripe.Resources.SetupAttempt.t(),
           livemode: boolean(),
-          mandate: String.t() | map(),
+          mandate: String.t() | Stripe.Resources.Mandate.t(),
           metadata: map(),
-          next_action: map(),
+          next_action: __MODULE__.NextAction.t(),
           object: String.t(),
-          on_behalf_of: String.t() | map(),
-          payment_method: String.t() | map(),
-          payment_method_configuration_details: map(),
-          payment_method_options: map(),
+          on_behalf_of: String.t() | Stripe.Resources.Account.t(),
+          payment_method: String.t() | Stripe.Resources.PaymentMethod.t(),
+          payment_method_configuration_details: __MODULE__.PaymentMethodConfigurationDetails.t(),
+          payment_method_options: __MODULE__.PaymentMethodOptions.t(),
           payment_method_types: [String.t()],
-          single_use_mandate: String.t() | map(),
+          single_use_mandate: String.t() | Stripe.Resources.Mandate.t(),
           status: String.t(),
           usage: String.t()
         }
@@ -147,7 +147,7 @@ defmodule Stripe.Resources.SetupIntent do
     ]
 
   defmodule AutomaticPaymentMethods do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `allow_redirects` - Controls whether this SetupIntent will accept redirect-based payment methods.
@@ -163,7 +163,7 @@ defmodule Stripe.Resources.SetupIntent do
   end
 
   defmodule NextAction do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `cashapp_handle_redirect_or_display_qr_code`
@@ -173,11 +173,12 @@ defmodule Stripe.Resources.SetupIntent do
     * `verify_with_microdeposits`
     """
     @type t :: %__MODULE__{
-            cashapp_handle_redirect_or_display_qr_code: map() | nil,
-            redirect_to_url: map() | nil,
+            cashapp_handle_redirect_or_display_qr_code:
+              Stripe.Resources.CashappHandleRedirectOrDisplayQrCode.t() | nil,
+            redirect_to_url: Stripe.Resources.NextActionRedirectToUrl.t() | nil,
             type: String.t() | nil,
             use_stripe_sdk: map() | nil,
-            verify_with_microdeposits: map() | nil
+            verify_with_microdeposits: __MODULE__.VerifyWithMicrodeposits.t() | nil
           }
     defstruct [
       :cashapp_handle_redirect_or_display_qr_code,
@@ -188,7 +189,7 @@ defmodule Stripe.Resources.SetupIntent do
     ]
 
     defmodule VerifyWithMicrodeposits do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `arrival_date` - The timestamp when the microdeposits are expected to land. Format: Unix timestamp.
@@ -211,7 +212,7 @@ defmodule Stripe.Resources.SetupIntent do
   end
 
   defmodule PaymentMethodConfigurationDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `id` - ID of the payment method configuration used. Max length: 5000.
@@ -225,7 +226,7 @@ defmodule Stripe.Resources.SetupIntent do
   end
 
   defmodule PaymentMethodOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `acss_debit`
@@ -241,17 +242,17 @@ defmodule Stripe.Resources.SetupIntent do
     * `us_bank_account`
     """
     @type t :: %__MODULE__{
-            acss_debit: map() | nil,
+            acss_debit: __MODULE__.AcssDebit.t() | nil,
             amazon_pay: map() | nil,
-            bacs_debit: map() | nil,
-            card: map() | nil,
+            bacs_debit: __MODULE__.BacsDebit.t() | nil,
+            card: __MODULE__.Card.t() | nil,
             card_present: map() | nil,
-            klarna: map() | nil,
-            link: map() | nil,
-            paypal: map() | nil,
-            payto: map() | nil,
-            sepa_debit: map() | nil,
-            us_bank_account: map() | nil
+            klarna: __MODULE__.Klarna.t() | nil,
+            link: __MODULE__.Link.t() | nil,
+            paypal: __MODULE__.Paypal.t() | nil,
+            payto: __MODULE__.Payto.t() | nil,
+            sepa_debit: __MODULE__.SepaDebit.t() | nil,
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil
           }
     defstruct [
       :acss_debit,
@@ -268,7 +269,7 @@ defmodule Stripe.Resources.SetupIntent do
     ]
 
     defmodule AcssDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `currency` - Currency supported by the bank account Possible values: `cad`, `usd`. Nullable.
@@ -277,13 +278,13 @@ defmodule Stripe.Resources.SetupIntent do
       """
       @type t :: %__MODULE__{
               currency: String.t() | nil,
-              mandate_options: map() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
               verification_method: String.t() | nil
             }
       defstruct [:currency, :mandate_options, :verification_method]
 
       defmodule MandateOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `custom_mandate_url` - A URL for custom mandate text Max length: 5000.
@@ -316,19 +317,19 @@ defmodule Stripe.Resources.SetupIntent do
     end
 
     defmodule BacsDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil
+              mandate_options: Stripe.Resources.BacsDebitMandateOptions.t() | nil
             }
       defstruct [:mandate_options]
     end
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options` - Configuration options for setting up an eMandate for cards issued in India. Nullable.
@@ -336,7 +337,7 @@ defmodule Stripe.Resources.SetupIntent do
       * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`. Nullable.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: Stripe.Resources.MandateOptions.t() | nil,
               network: String.t() | nil,
               request_three_d_secure: String.t() | nil
             }
@@ -344,7 +345,7 @@ defmodule Stripe.Resources.SetupIntent do
     end
 
     defmodule Klarna do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `currency` - The currency of the setup intent. Three letter ISO currency code. Format: ISO 4217 currency code. Nullable.
@@ -358,7 +359,7 @@ defmodule Stripe.Resources.SetupIntent do
     end
 
     defmodule Link do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `persistent_token` - [Deprecated] This is a legacy parameter that no longer has any function. Max length: 5000. Nullable.
@@ -370,7 +371,7 @@ defmodule Stripe.Resources.SetupIntent do
     end
 
     defmodule Paypal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `billing_agreement_id` - The PayPal Billing Agreement ID (BAID). This is an ID generated by PayPal which represents the mandate between the merchant and the customer. Max length: 5000. Nullable.
@@ -382,18 +383,18 @@ defmodule Stripe.Resources.SetupIntent do
     end
 
     defmodule Payto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil
+              mandate_options: __MODULE__.MandateOptions.t() | nil
             }
       defstruct [:mandate_options]
 
       defmodule MandateOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount` - Amount that will be collected. It is required when `amount_type` is `fixed`. Nullable.
@@ -432,19 +433,19 @@ defmodule Stripe.Resources.SetupIntent do
     end
 
     defmodule SepaDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil
+              mandate_options: Stripe.Resources.SepaDebitMandateOptions.t() | nil
             }
       defstruct [:mandate_options]
     end
 
     defmodule UsBankAccount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `financial_connections`
@@ -452,14 +453,14 @@ defmodule Stripe.Resources.SetupIntent do
       * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
       """
       @type t :: %__MODULE__{
-              financial_connections: map() | nil,
-              mandate_options: map() | nil,
+              financial_connections: __MODULE__.FinancialConnections.t() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
               verification_method: String.t() | nil
             }
       defstruct [:financial_connections, :mandate_options, :verification_method]
 
       defmodule FinancialConnections do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `filters`
@@ -468,7 +469,7 @@ defmodule Stripe.Resources.SetupIntent do
         * `return_url` - For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. Max length: 5000.
         """
         @type t :: %__MODULE__{
-                filters: map() | nil,
+                filters: __MODULE__.Filters.t() | nil,
                 permissions: [String.t()] | nil,
                 prefetch: [String.t()] | nil,
                 return_url: String.t() | nil
@@ -476,7 +477,7 @@ defmodule Stripe.Resources.SetupIntent do
         defstruct [:filters, :permissions, :prefetch, :return_url]
 
         defmodule Filters do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
@@ -495,7 +496,7 @@ defmodule Stripe.Resources.SetupIntent do
       end
 
       defmodule MandateOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `collection_method` - Mandate collection method Possible values: `paper`.

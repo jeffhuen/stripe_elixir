@@ -14,7 +14,7 @@ defmodule Stripe.Resources.Entitlements.ActiveEntitlement do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `entitlements.active_entitlement`.
   """
   @type t :: %__MODULE__{
-          feature: String.t() | map(),
+          feature: String.t() | Stripe.Resources.Entitlements.Feature.t(),
           id: String.t(),
           livemode: boolean(),
           lookup_key: String.t(),

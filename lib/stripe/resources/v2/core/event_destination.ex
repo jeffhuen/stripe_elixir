@@ -26,7 +26,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   * `webhook_endpoint` - Webhook endpoint configuration.
   """
   @type t :: %__MODULE__{
-          amazon_eventbridge: map() | nil,
+          amazon_eventbridge: __MODULE__.AmazonEventbridge.t() | nil,
           created: String.t(),
           description: String.t(),
           enabled_events: [String.t()],
@@ -39,10 +39,10 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
           object: String.t(),
           snapshot_api_version: String.t() | nil,
           status: String.t(),
-          status_details: map() | nil,
+          status_details: __MODULE__.StatusDetails.t() | nil,
           type: String.t(),
           updated: String.t(),
-          webhook_endpoint: map() | nil
+          webhook_endpoint: __MODULE__.WebhookEndpoint.t() | nil
         }
 
   defstruct [
@@ -69,7 +69,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   def object_name, do: @object_name
 
   defmodule AmazonEventbridge do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `aws_account_id` - The AWS account ID.
@@ -85,18 +85,18 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   end
 
   defmodule StatusDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `disabled` - Details about why the event destination has been disabled.
     """
     @type t :: %__MODULE__{
-            disabled: map() | nil
+            disabled: __MODULE__.Disabled.t() | nil
           }
     defstruct [:disabled]
 
     defmodule Disabled do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reason` - Reason event destination has been disabled. Possible values: `no_aws_event_source_exists`, `user`.
@@ -115,7 +115,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
   end
 
   defmodule WebhookEndpoint do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `signing_secret` - The signing secret of the webhook endpoint, only includable on creation.

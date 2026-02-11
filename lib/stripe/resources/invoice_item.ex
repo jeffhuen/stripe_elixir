@@ -40,26 +40,26 @@ defmodule Stripe.Resources.InvoiceItem do
   @type t :: %__MODULE__{
           amount: integer(),
           currency: String.t(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           date: integer(),
           description: String.t(),
           discountable: boolean(),
-          discounts: [String.t() | map()],
+          discounts: [String.t() | Stripe.Resources.Discount.t()],
           id: String.t(),
-          invoice: String.t() | map(),
+          invoice: String.t() | Stripe.Resources.Invoice.t(),
           livemode: boolean(),
           metadata: map(),
           net_amount: integer() | nil,
           object: String.t(),
-          parent: map(),
-          period: map(),
-          pricing: map(),
+          parent: __MODULE__.Parent.t(),
+          period: __MODULE__.Period.t(),
+          pricing: __MODULE__.Pricing.t(),
           proration: boolean(),
-          proration_details: map() | nil,
+          proration_details: __MODULE__.ProrationDetails.t() | nil,
           quantity: integer(),
-          tax_rates: [map()],
-          test_clock: String.t() | map()
+          tax_rates: [Stripe.Resources.TaxRate.t()],
+          test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t()
         }
 
   defstruct [
@@ -104,20 +104,20 @@ defmodule Stripe.Resources.InvoiceItem do
     ]
 
   defmodule Parent do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `subscription_details` - Details about the subscription that generated this invoice item Nullable.
     * `type` - The type of parent that generated this invoice item Possible values: `subscription_details`.
     """
     @type t :: %__MODULE__{
-            subscription_details: map() | nil,
+            subscription_details: __MODULE__.SubscriptionDetails.t() | nil,
             type: String.t() | nil
           }
     defstruct [:subscription_details, :type]
 
     defmodule SubscriptionDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `subscription` - The subscription that generated this invoice item Max length: 5000.
@@ -138,7 +138,7 @@ defmodule Stripe.Resources.InvoiceItem do
   end
 
   defmodule Period do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `end` - The end of the period, which must be greater than or equal to the start. This value is inclusive. Format: Unix timestamp.
@@ -152,7 +152,7 @@ defmodule Stripe.Resources.InvoiceItem do
   end
 
   defmodule Pricing do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `price_details`
@@ -160,21 +160,21 @@ defmodule Stripe.Resources.InvoiceItem do
     * `unit_amount_decimal` - The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
     """
     @type t :: %__MODULE__{
-            price_details: map() | nil,
+            price_details: __MODULE__.PriceDetails.t() | nil,
             type: String.t() | nil,
             unit_amount_decimal: String.t() | nil
           }
     defstruct [:price_details, :type, :unit_amount_decimal]
 
     defmodule PriceDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `price` - The ID of the price this item is associated with.
       * `product` - The ID of the product this item is associated with. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              price: String.t() | map() | nil,
+              price: String.t() | Stripe.Resources.Price.t() | nil,
               product: String.t() | nil
             }
       defstruct [:price, :product]
@@ -188,18 +188,18 @@ defmodule Stripe.Resources.InvoiceItem do
   end
 
   defmodule ProrationDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `discount_amounts` - Discount amounts applied when the proration was created.
     """
     @type t :: %__MODULE__{
-            discount_amounts: [map()] | nil
+            discount_amounts: [__MODULE__.DiscountAmounts.t()] | nil
           }
     defstruct [:discount_amounts]
 
     defmodule DiscountAmounts do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - The amount, in cents (or local equivalent), of the discount.
@@ -207,7 +207,7 @@ defmodule Stripe.Resources.InvoiceItem do
       """
       @type t :: %__MODULE__{
               amount: integer() | nil,
-              discount: map() | nil
+              discount: String.t() | Stripe.Resources.Discount.t() | nil
             }
       defstruct [:amount, :discount]
     end

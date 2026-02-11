@@ -15,7 +15,7 @@ defmodule Stripe.Resources.Billing.MeterEventAdjustment do
   * `type` - Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet. Possible values: `cancel`.
   """
   @type t :: %__MODULE__{
-          cancel: map(),
+          cancel: __MODULE__.Cancel.t(),
           event_name: String.t(),
           livemode: boolean(),
           object: String.t(),
@@ -31,7 +31,7 @@ defmodule Stripe.Resources.Billing.MeterEventAdjustment do
   def expandable_fields, do: ["cancel"]
 
   defmodule Cancel do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `identifier` - Unique identifier for the event. Max length: 100. Nullable.

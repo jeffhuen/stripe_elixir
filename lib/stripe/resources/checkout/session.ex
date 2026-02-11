@@ -107,72 +107,72 @@ defmodule Stripe.Resources.Checkout.Session do
   * `wallet_options` - Wallet-specific configuration for this Checkout Session. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          adaptive_pricing: map(),
-          after_expiration: map(),
+          adaptive_pricing: __MODULE__.AdaptivePricing.t(),
+          after_expiration: __MODULE__.AfterExpiration.t(),
           allow_promotion_codes: boolean(),
           amount_subtotal: integer(),
           amount_total: integer(),
-          automatic_tax: map(),
+          automatic_tax: __MODULE__.AutomaticTax.t(),
           billing_address_collection: String.t(),
-          branding_settings: map() | nil,
+          branding_settings: __MODULE__.BrandingSettings.t() | nil,
           cancel_url: String.t(),
           client_reference_id: String.t(),
           client_secret: String.t(),
-          collected_information: map(),
-          consent: map(),
-          consent_collection: map(),
+          collected_information: __MODULE__.CollectedInformation.t(),
+          consent: __MODULE__.Consent.t(),
+          consent_collection: __MODULE__.ConsentCollection.t(),
           created: integer(),
           currency: String.t(),
-          currency_conversion: map(),
-          custom_fields: [map()],
-          custom_text: map(),
-          customer: map(),
+          currency_conversion: __MODULE__.CurrencyConversion.t(),
+          custom_fields: [__MODULE__.CustomFields.t()],
+          custom_text: __MODULE__.CustomText.t(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           customer_creation: String.t(),
-          customer_details: map(),
+          customer_details: __MODULE__.CustomerDetails.t(),
           customer_email: String.t(),
-          discounts: [map()],
+          discounts: [__MODULE__.Discounts.t()],
           excluded_payment_method_types: [String.t()] | nil,
           expires_at: integer(),
           id: String.t(),
-          invoice: String.t() | map(),
-          invoice_creation: map(),
-          line_items: map() | nil,
+          invoice: String.t() | Stripe.Resources.Invoice.t(),
+          invoice_creation: __MODULE__.InvoiceCreation.t(),
+          line_items: __MODULE__.LineItems.t() | nil,
           livemode: boolean(),
           locale: String.t(),
           metadata: map(),
           mode: String.t(),
-          name_collection: map() | nil,
+          name_collection: __MODULE__.NameCollection.t() | nil,
           object: String.t(),
-          optional_items: [map()] | nil,
+          optional_items: [__MODULE__.OptionalItems.t()] | nil,
           origin_context: String.t(),
-          payment_intent: String.t() | map(),
-          payment_link: String.t() | map(),
+          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t(),
+          payment_link: String.t() | Stripe.Resources.PaymentLink.t(),
           payment_method_collection: String.t(),
-          payment_method_configuration_details: map(),
-          payment_method_options: map(),
+          payment_method_configuration_details: __MODULE__.PaymentMethodConfigurationDetails.t(),
+          payment_method_options: __MODULE__.PaymentMethodOptions.t(),
           payment_method_types: [String.t()],
           payment_status: String.t(),
-          permissions: map(),
-          phone_number_collection: map() | nil,
-          presentment_details: map() | nil,
+          permissions: Stripe.Resources.Permissions.t(),
+          phone_number_collection: __MODULE__.PhoneNumberCollection.t() | nil,
+          presentment_details: __MODULE__.PresentmentDetails.t() | nil,
           recovered_from: String.t(),
           redirect_on_completion: String.t() | nil,
           return_url: String.t() | nil,
-          saved_payment_method_options: map(),
-          setup_intent: String.t() | map(),
-          shipping_address_collection: map(),
-          shipping_cost: map(),
-          shipping_options: [map()],
+          saved_payment_method_options: __MODULE__.SavedPaymentMethodOptions.t(),
+          setup_intent: String.t() | Stripe.Resources.SetupIntent.t(),
+          shipping_address_collection: Stripe.Resources.ShippingAddressCollection.t(),
+          shipping_cost: __MODULE__.ShippingCost.t(),
+          shipping_options: [__MODULE__.ShippingOptions.t()],
           status: String.t(),
           submit_type: String.t(),
-          subscription: String.t() | map(),
+          subscription: String.t() | Stripe.Resources.Subscription.t(),
           success_url: String.t(),
-          tax_id_collection: map() | nil,
-          total_details: map(),
+          tax_id_collection: __MODULE__.TaxIdCollection.t() | nil,
+          total_details: __MODULE__.TotalDetails.t(),
           ui_mode: String.t(),
           url: String.t(),
-          wallet_options: map()
+          wallet_options: __MODULE__.WalletOptions.t()
         }
 
   defstruct [
@@ -286,7 +286,7 @@ defmodule Stripe.Resources.Checkout.Session do
     ]
 
   defmodule AdaptivePricing do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - If enabled, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions).
@@ -298,18 +298,18 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule AfterExpiration do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `recovery` - When set, configuration used to recover the Checkout Session on expiry. Nullable.
     """
     @type t :: %__MODULE__{
-            recovery: map() | nil
+            recovery: __MODULE__.Recovery.t() | nil
           }
     defstruct [:recovery]
 
     defmodule Recovery do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `allow_promotion_codes` - Enables user redeemable promotion codes on the recovered Checkout Sessions. Defaults to `false`
@@ -336,7 +336,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule AutomaticTax do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - Indicates whether automatic tax is enabled for the session
@@ -346,21 +346,21 @@ defmodule Stripe.Resources.Checkout.Session do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil,
+            liability: __MODULE__.Liability.t() | nil,
             provider: String.t() | nil,
             status: String.t() | nil
           }
     defstruct [:enabled, :liability, :provider, :status]
 
     defmodule Liability do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account` - The connected account being referenced when `type` is `account`.
       * `type` - Type of the account referenced. Possible values: `account`, `self`.
       """
       @type t :: %__MODULE__{
-              account: String.t() | map() | nil,
+              account: String.t() | Stripe.Resources.Account.t() | nil,
               type: String.t() | nil
             }
       defstruct [:account, :type]
@@ -374,7 +374,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule BrandingSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `background_color` - A hex color value starting with `#` representing the background color for the Checkout Session. Max length: 5000.
@@ -391,8 +391,8 @@ defmodule Stripe.Resources.Checkout.Session do
             button_color: String.t() | nil,
             display_name: String.t() | nil,
             font_family: String.t() | nil,
-            icon: map() | nil,
-            logo: map() | nil
+            icon: __MODULE__.Icon.t() | nil,
+            logo: __MODULE__.Logo.t() | nil
           }
     defstruct [
       :background_color,
@@ -405,7 +405,7 @@ defmodule Stripe.Resources.Checkout.Session do
     ]
 
     defmodule Icon do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `file` - The ID of a [File upload](https://stripe.com/docs/api/files) representing the icon. Purpose must be `business_icon`. Required if `type` is `file` and disallowed otherwise. Max length: 5000.
@@ -421,7 +421,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Logo do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `file` - The ID of a [File upload](https://stripe.com/docs/api/files) representing the logo. Purpose must be `business_logo`. Required if `type` is `file` and disallowed otherwise. Max length: 5000.
@@ -445,7 +445,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule CollectedInformation do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `business_name` - Customer’s business name for this Checkout Session Max length: 5000. Nullable.
@@ -455,19 +455,19 @@ defmodule Stripe.Resources.Checkout.Session do
     @type t :: %__MODULE__{
             business_name: String.t() | nil,
             individual_name: String.t() | nil,
-            shipping_details: map() | nil
+            shipping_details: __MODULE__.ShippingDetails.t() | nil
           }
     defstruct [:business_name, :individual_name, :shipping_details]
 
     defmodule ShippingDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `address`
       * `name` - Customer name. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              address: map() | nil,
+              address: Stripe.Resources.Address.t() | nil,
               name: String.t() | nil
             }
       defstruct [:address, :name]
@@ -481,7 +481,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule Consent do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `promotions` - If `opt_in`, the customer consents to receiving promotional communications
@@ -496,7 +496,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule ConsentCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `payment_method_reuse_agreement` - If set to `hidden`, it will hide legal text related to the reuse of a payment method. Nullable.
@@ -506,14 +506,14 @@ defmodule Stripe.Resources.Checkout.Session do
     * `terms_of_service` - If set to `required`, it requires customers to accept the terms of service before being able to pay. Possible values: `none`, `required`. Nullable.
     """
     @type t :: %__MODULE__{
-            payment_method_reuse_agreement: map() | nil,
+            payment_method_reuse_agreement: __MODULE__.PaymentMethodReuseAgreement.t() | nil,
             promotions: String.t() | nil,
             terms_of_service: String.t() | nil
           }
     defstruct [:payment_method_reuse_agreement, :promotions, :terms_of_service]
 
     defmodule PaymentMethodReuseAgreement do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `position` - Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's defaults will be used.
@@ -534,7 +534,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule CurrencyConversion do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_subtotal` - Total of all items in source currency before discounts or taxes are applied.
@@ -552,7 +552,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule CustomFields do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `dropdown`
@@ -564,18 +564,18 @@ defmodule Stripe.Resources.Checkout.Session do
     * `type` - The type of the field. Possible values: `dropdown`, `numeric`, `text`.
     """
     @type t :: %__MODULE__{
-            dropdown: map() | nil,
+            dropdown: Stripe.Resources.CustomFieldDropdown.t() | nil,
             key: String.t() | nil,
-            label: map() | nil,
-            numeric: map() | nil,
+            label: __MODULE__.Label.t() | nil,
+            numeric: Stripe.Resources.CustomFieldNumeric.t() | nil,
             optional: boolean() | nil,
-            text: map() | nil,
+            text: __MODULE__.Text.t() | nil,
             type: String.t() | nil
           }
     defstruct [:dropdown, :key, :label, :numeric, :optional, :text, :type]
 
     defmodule Label do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `custom` - Custom text for the label, displayed to the customer. Up to 50 characters. Max length: 5000. Nullable.
@@ -589,7 +589,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Text do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `default_value` - The value that will pre-fill the field on the payment page. Max length: 5000. Nullable.
@@ -615,7 +615,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule CustomText do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `after_submit` - Custom text that should be displayed after the payment confirmation button. Nullable.
@@ -624,15 +624,15 @@ defmodule Stripe.Resources.Checkout.Session do
     * `terms_of_service_acceptance` - Custom text that should be displayed in place of the default terms of service agreement text. Nullable.
     """
     @type t :: %__MODULE__{
-            after_submit: map() | nil,
-            shipping_address: map() | nil,
-            submit: map() | nil,
-            terms_of_service_acceptance: map() | nil
+            after_submit: __MODULE__.AfterSubmit.t() | nil,
+            shipping_address: __MODULE__.ShippingAddress.t() | nil,
+            submit: __MODULE__.Submit.t() | nil,
+            terms_of_service_acceptance: __MODULE__.TermsOfServiceAcceptance.t() | nil
           }
     defstruct [:after_submit, :shipping_address, :submit, :terms_of_service_acceptance]
 
     defmodule AfterSubmit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -644,7 +644,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule ShippingAddress do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -656,7 +656,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Submit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -668,7 +668,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule TermsOfServiceAcceptance do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -690,7 +690,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule CustomerDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address` - The customer's address after a completed Checkout Session. Note: This property is populated only for sessions on or after March 30, 2022. Nullable.
@@ -704,14 +704,14 @@ defmodule Stripe.Resources.Checkout.Session do
     * `tax_ids` - The customer’s tax IDs after a completed Checkout Session. Nullable.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: Stripe.Resources.Address.t() | nil,
             business_name: String.t() | nil,
             email: String.t() | nil,
             individual_name: String.t() | nil,
             name: String.t() | nil,
             phone: String.t() | nil,
             tax_exempt: String.t() | nil,
-            tax_ids: [map()] | nil
+            tax_ids: [__MODULE__.TaxIds.t()] | nil
           }
     defstruct [
       :address,
@@ -725,7 +725,7 @@ defmodule Stripe.Resources.Checkout.Session do
     ]
 
     defmodule TaxIds do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `unknown`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`.
@@ -746,21 +746,21 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule Discounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `coupon` - Coupon attached to the Checkout Session. Nullable.
     * `promotion_code` - Promotion code attached to the Checkout Session. Nullable.
     """
     @type t :: %__MODULE__{
-            coupon: String.t() | map() | nil,
-            promotion_code: String.t() | map() | nil
+            coupon: String.t() | Stripe.Resources.Coupon.t() | nil,
+            promotion_code: String.t() | Stripe.Resources.PromotionCode.t() | nil
           }
     defstruct [:coupon, :promotion_code]
   end
 
   defmodule InvoiceCreation do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - Indicates whether invoice creation is enabled for the Checkout Session.
@@ -768,12 +768,12 @@ defmodule Stripe.Resources.Checkout.Session do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            invoice_data: map() | nil
+            invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
 
     defmodule InvoiceData do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_tax_ids` - The account tax IDs associated with the invoice. Nullable.
@@ -785,13 +785,13 @@ defmodule Stripe.Resources.Checkout.Session do
       * `rendering_options` - Options for invoice PDF rendering. Nullable.
       """
       @type t :: %__MODULE__{
-              account_tax_ids: [map()] | nil,
-              custom_fields: [map()] | nil,
+              account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()] | nil,
+              custom_fields: [__MODULE__.CustomFields.t()] | nil,
               description: String.t() | nil,
               footer: String.t() | nil,
-              issuer: map() | nil,
+              issuer: __MODULE__.Issuer.t() | nil,
               metadata: map() | nil,
-              rendering_options: map() | nil
+              rendering_options: __MODULE__.RenderingOptions.t() | nil
             }
       defstruct [
         :account_tax_ids,
@@ -804,7 +804,7 @@ defmodule Stripe.Resources.Checkout.Session do
       ]
 
       defmodule CustomFields do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `name` - The name of the custom field. Max length: 5000.
@@ -818,21 +818,21 @@ defmodule Stripe.Resources.Checkout.Session do
       end
 
       defmodule Issuer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - The connected account being referenced when `type` is `account`.
         * `type` - Type of the account referenced. Possible values: `account`, `self`.
         """
         @type t :: %__MODULE__{
-                account: String.t() | map() | nil,
+                account: String.t() | Stripe.Resources.Account.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:account, :type]
       end
 
       defmodule RenderingOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
@@ -862,7 +862,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule LineItems do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -871,7 +871,7 @@ defmodule Stripe.Resources.Checkout.Session do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.LineItem.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -880,20 +880,20 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule NameCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `business`
     * `individual`
     """
     @type t :: %__MODULE__{
-            business: map() | nil,
-            individual: map() | nil
+            business: __MODULE__.Business.t() | nil,
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:business, :individual]
 
     defmodule Business do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Indicates whether business name collection is enabled for the session
@@ -907,7 +907,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Individual do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Indicates whether individual name collection is enabled for the session
@@ -929,7 +929,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule OptionalItems do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `adjustable_quantity` - Nullable.
@@ -937,14 +937,14 @@ defmodule Stripe.Resources.Checkout.Session do
     * `quantity`
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             price: String.t() | nil,
             quantity: integer() | nil
           }
     defstruct [:adjustable_quantity, :price, :quantity]
 
     defmodule AdjustableQuantity do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Set to true if the quantity can be adjusted to any non-negative integer.
@@ -967,7 +967,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule PaymentMethodConfigurationDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `id` - ID of the payment method configuration used. Max length: 5000.
@@ -981,7 +981,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule PaymentMethodOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `acss_debit`
@@ -1028,48 +1028,48 @@ defmodule Stripe.Resources.Checkout.Session do
     * `us_bank_account`
     """
     @type t :: %__MODULE__{
-            acss_debit: map() | nil,
-            affirm: map() | nil,
-            afterpay_clearpay: map() | nil,
-            alipay: map() | nil,
-            alma: map() | nil,
-            amazon_pay: map() | nil,
-            au_becs_debit: map() | nil,
-            bacs_debit: map() | nil,
-            bancontact: map() | nil,
-            billie: map() | nil,
-            boleto: map() | nil,
-            card: map() | nil,
-            cashapp: map() | nil,
-            customer_balance: map() | nil,
-            eps: map() | nil,
-            fpx: map() | nil,
-            giropay: map() | nil,
-            grabpay: map() | nil,
-            ideal: map() | nil,
-            kakao_pay: map() | nil,
-            klarna: map() | nil,
-            konbini: map() | nil,
-            kr_card: map() | nil,
-            link: map() | nil,
-            mobilepay: map() | nil,
-            multibanco: map() | nil,
-            naver_pay: map() | nil,
-            oxxo: map() | nil,
-            p24: map() | nil,
-            payco: map() | nil,
-            paynow: map() | nil,
-            paypal: map() | nil,
-            payto: map() | nil,
-            pix: map() | nil,
-            revolut_pay: map() | nil,
-            samsung_pay: map() | nil,
-            satispay: map() | nil,
-            sepa_debit: map() | nil,
-            sofort: map() | nil,
-            swish: map() | nil,
-            twint: map() | nil,
-            us_bank_account: map() | nil
+            acss_debit: __MODULE__.AcssDebit.t() | nil,
+            affirm: __MODULE__.Affirm.t() | nil,
+            afterpay_clearpay: Stripe.Resources.AfterpayClearpay.t() | nil,
+            alipay: __MODULE__.Alipay.t() | nil,
+            alma: __MODULE__.Alma.t() | nil,
+            amazon_pay: __MODULE__.AmazonPay.t() | nil,
+            au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
+            bacs_debit: __MODULE__.BacsDebit.t() | nil,
+            bancontact: __MODULE__.Bancontact.t() | nil,
+            billie: __MODULE__.Billie.t() | nil,
+            boleto: __MODULE__.Boleto.t() | nil,
+            card: __MODULE__.Card.t() | nil,
+            cashapp: __MODULE__.Cashapp.t() | nil,
+            customer_balance: __MODULE__.CustomerBalance.t() | nil,
+            eps: __MODULE__.Eps.t() | nil,
+            fpx: __MODULE__.Fpx.t() | nil,
+            giropay: __MODULE__.Giropay.t() | nil,
+            grabpay: __MODULE__.Grabpay.t() | nil,
+            ideal: __MODULE__.Ideal.t() | nil,
+            kakao_pay: __MODULE__.KakaoPay.t() | nil,
+            klarna: __MODULE__.Klarna.t() | nil,
+            konbini: __MODULE__.Konbini.t() | nil,
+            kr_card: __MODULE__.KrCard.t() | nil,
+            link: __MODULE__.Link.t() | nil,
+            mobilepay: __MODULE__.Mobilepay.t() | nil,
+            multibanco: __MODULE__.Multibanco.t() | nil,
+            naver_pay: __MODULE__.NaverPay.t() | nil,
+            oxxo: __MODULE__.Oxxo.t() | nil,
+            p24: __MODULE__.P24.t() | nil,
+            payco: __MODULE__.Payco.t() | nil,
+            paynow: __MODULE__.Paynow.t() | nil,
+            paypal: __MODULE__.Paypal.t() | nil,
+            payto: __MODULE__.Payto.t() | nil,
+            pix: __MODULE__.Pix.t() | nil,
+            revolut_pay: __MODULE__.RevolutPay.t() | nil,
+            samsung_pay: __MODULE__.SamsungPay.t() | nil,
+            satispay: __MODULE__.Satispay.t() | nil,
+            sepa_debit: __MODULE__.SepaDebit.t() | nil,
+            sofort: __MODULE__.Sofort.t() | nil,
+            swish: __MODULE__.Swish.t() | nil,
+            twint: __MODULE__.Twint.t() | nil,
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil
           }
     defstruct [
       :acss_debit,
@@ -1117,7 +1117,7 @@ defmodule Stripe.Resources.Checkout.Session do
     ]
 
     defmodule AcssDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `currency` - Currency supported by the bank account. Returned when the Session is in `setup` mode. Possible values: `cad`, `usd`.
@@ -1134,7 +1134,7 @@ defmodule Stripe.Resources.Checkout.Session do
       """
       @type t :: %__MODULE__{
               currency: String.t() | nil,
-              mandate_options: map() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil,
               verification_method: String.t() | nil
@@ -1148,7 +1148,7 @@ defmodule Stripe.Resources.Checkout.Session do
       ]
 
       defmodule MandateOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `custom_mandate_url` - A URL for custom mandate text Max length: 5000.
@@ -1181,7 +1181,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Affirm do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1201,7 +1201,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Alipay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1219,7 +1219,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Alma do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1231,7 +1231,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule AmazonPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1251,7 +1251,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule AuBecsDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1271,7 +1271,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule BacsDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
@@ -1285,7 +1285,7 @@ defmodule Stripe.Resources.Checkout.Session do
       * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: Stripe.Resources.BacsDebitMandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil
             }
@@ -1293,7 +1293,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Bancontact do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1311,7 +1311,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Billie do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1323,7 +1323,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Boleto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `expires_after_days` - The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
@@ -1343,7 +1343,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1366,13 +1366,13 @@ defmodule Stripe.Resources.Checkout.Session do
       """
       @type t :: %__MODULE__{
               capture_method: String.t() | nil,
-              installments: map() | nil,
+              installments: __MODULE__.Installments.t() | nil,
               request_extended_authorization: String.t() | nil,
               request_incremental_authorization: String.t() | nil,
               request_multicapture: String.t() | nil,
               request_overcapture: String.t() | nil,
               request_three_d_secure: String.t() | nil,
-              restrictions: map() | nil,
+              restrictions: Stripe.Resources.CheckoutCardRestrictions.t() | nil,
               setup_future_usage: String.t() | nil,
               statement_descriptor_suffix_kana: String.t() | nil,
               statement_descriptor_suffix_kanji: String.t() | nil
@@ -1392,7 +1392,7 @@ defmodule Stripe.Resources.Checkout.Session do
       ]
 
       defmodule Installments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `enabled` - Indicates if installments are enabled
@@ -1411,7 +1411,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Cashapp do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1431,7 +1431,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule CustomerBalance do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_transfer`
@@ -1445,14 +1445,14 @@ defmodule Stripe.Resources.Checkout.Session do
       When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
       """
       @type t :: %__MODULE__{
-              bank_transfer: map() | nil,
+              bank_transfer: __MODULE__.BankTransfer.t() | nil,
               funding_type: String.t() | nil,
               setup_future_usage: String.t() | nil
             }
       defstruct [:bank_transfer, :funding_type, :setup_future_usage]
 
       defmodule BankTransfer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `eu_bank_transfer`
@@ -1462,14 +1462,14 @@ defmodule Stripe.Resources.Checkout.Session do
         * `type` - The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Possible values: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, `us_bank_transfer`. Nullable.
         """
         @type t :: %__MODULE__{
-                eu_bank_transfer: map() | nil,
+                eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
                 requested_address_types: [String.t()] | nil,
                 type: String.t() | nil
               }
         defstruct [:eu_bank_transfer, :requested_address_types, :type]
 
         defmodule EuBankTransfer do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
@@ -1495,7 +1495,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Eps do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1513,7 +1513,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Fpx do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1531,7 +1531,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Giropay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1549,7 +1549,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Grabpay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1567,7 +1567,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Ideal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1585,7 +1585,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule KakaoPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1605,7 +1605,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Klarna do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1625,7 +1625,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Konbini do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `expires_after_days` - The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST. Nullable.
@@ -1645,7 +1645,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule KrCard do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1665,7 +1665,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Link do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1685,7 +1685,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Mobilepay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1705,7 +1705,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Multibanco do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1723,7 +1723,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule NaverPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1743,7 +1743,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Oxxo do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `expires_after_days` - The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -1763,7 +1763,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule P24 do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1781,7 +1781,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Payco do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1793,7 +1793,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Paynow do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1811,7 +1811,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Paypal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1835,7 +1835,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Payto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
@@ -1848,14 +1848,14 @@ defmodule Stripe.Resources.Checkout.Session do
       When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: Stripe.Resources.Payto.t() | nil,
               setup_future_usage: String.t() | nil
             }
       defstruct [:mandate_options, :setup_future_usage]
     end
 
     defmodule Pix do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_includes_iof` - Determines if the amount includes the IOF tax. Possible values: `always`, `never`.
@@ -1877,7 +1877,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule RevolutPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1897,7 +1897,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule SamsungPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1909,7 +1909,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Satispay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1921,7 +1921,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule SepaDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
@@ -1935,7 +1935,7 @@ defmodule Stripe.Resources.Checkout.Session do
       * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: Stripe.Resources.SepaDebitMandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil
             }
@@ -1943,7 +1943,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Sofort do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1961,7 +1961,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Swish do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent. Max length: 5000. Nullable.
@@ -1973,7 +1973,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule Twint do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1991,7 +1991,7 @@ defmodule Stripe.Resources.Checkout.Session do
     end
 
     defmodule UsBankAccount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `financial_connections`
@@ -2006,7 +2006,7 @@ defmodule Stripe.Resources.Checkout.Session do
       * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`.
       """
       @type t :: %__MODULE__{
-              financial_connections: map() | nil,
+              financial_connections: __MODULE__.FinancialConnections.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil,
               verification_method: String.t() | nil
@@ -2014,7 +2014,7 @@ defmodule Stripe.Resources.Checkout.Session do
       defstruct [:financial_connections, :setup_future_usage, :target_date, :verification_method]
 
       defmodule FinancialConnections do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `filters`
@@ -2023,7 +2023,7 @@ defmodule Stripe.Resources.Checkout.Session do
         * `return_url` - For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. Max length: 5000.
         """
         @type t :: %__MODULE__{
-                filters: map() | nil,
+                filters: __MODULE__.Filters.t() | nil,
                 permissions: [String.t()] | nil,
                 prefetch: [String.t()] | nil,
                 return_url: String.t() | nil
@@ -2031,7 +2031,7 @@ defmodule Stripe.Resources.Checkout.Session do
         defstruct [:filters, :permissions, :prefetch, :return_url]
 
         defmodule Filters do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
@@ -2104,7 +2104,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule PhoneNumberCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - Indicates whether phone number collection is enabled for the session
@@ -2116,7 +2116,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule PresentmentDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `presentment_amount` - Amount intended to be collected by this payment, denominated in `presentment_currency`.
@@ -2130,7 +2130,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule SavedPaymentMethodOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `allow_redisplay_filters` - Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with ’allow_redisplay: ‘always’ are shown in Checkout. Nullable.
@@ -2146,7 +2146,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule ShippingCost do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_subtotal` - Total shipping cost before any discounts or taxes are applied.
@@ -2159,13 +2159,13 @@ defmodule Stripe.Resources.Checkout.Session do
             amount_subtotal: integer() | nil,
             amount_tax: integer() | nil,
             amount_total: integer() | nil,
-            shipping_rate: String.t() | map() | nil,
-            taxes: [map()] | nil
+            shipping_rate: String.t() | Stripe.Resources.ShippingRate.t() | nil,
+            taxes: [__MODULE__.Taxes.t()] | nil
           }
     defstruct [:amount_subtotal, :amount_tax, :amount_total, :shipping_rate, :taxes]
 
     defmodule Taxes do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Amount of tax applied for this rate.
@@ -2175,7 +2175,7 @@ defmodule Stripe.Resources.Checkout.Session do
       """
       @type t :: %__MODULE__{
               amount: integer() | nil,
-              rate: map() | nil,
+              rate: Stripe.Resources.TaxRate.t() | nil,
               taxability_reason: String.t() | nil,
               taxable_amount: integer() | nil
             }
@@ -2190,7 +2190,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule ShippingOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `shipping_amount` - A non-negative integer in cents representing how much to charge.
@@ -2198,13 +2198,13 @@ defmodule Stripe.Resources.Checkout.Session do
     """
     @type t :: %__MODULE__{
             shipping_amount: integer() | nil,
-            shipping_rate: String.t() | map() | nil
+            shipping_rate: String.t() | Stripe.Resources.ShippingRate.t() | nil
           }
     defstruct [:shipping_amount, :shipping_rate]
   end
 
   defmodule TaxIdCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - Indicates whether tax ID collection is enabled for the session
@@ -2218,7 +2218,7 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule TotalDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_discount` - This is the sum of all the discounts.
@@ -2230,25 +2230,25 @@ defmodule Stripe.Resources.Checkout.Session do
             amount_discount: integer() | nil,
             amount_shipping: integer() | nil,
             amount_tax: integer() | nil,
-            breakdown: map() | nil
+            breakdown: __MODULE__.Breakdown.t() | nil
           }
     defstruct [:amount_discount, :amount_shipping, :amount_tax, :breakdown]
 
     defmodule Breakdown do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `discounts` - The aggregated discounts.
       * `taxes` - The aggregated tax amounts by rate.
       """
       @type t :: %__MODULE__{
-              discounts: [map()] | nil,
-              taxes: [map()] | nil
+              discounts: [__MODULE__.Discounts.t()] | nil,
+              taxes: [__MODULE__.Taxes.t()] | nil
             }
       defstruct [:discounts, :taxes]
 
       defmodule Discounts do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount` - The amount discounted.
@@ -2256,13 +2256,13 @@ defmodule Stripe.Resources.Checkout.Session do
         """
         @type t :: %__MODULE__{
                 amount: integer() | nil,
-                discount: map() | nil
+                discount: Stripe.Resources.Discount.t() | nil
               }
         defstruct [:amount, :discount]
       end
 
       defmodule Taxes do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount` - Amount of tax applied for this rate.
@@ -2272,7 +2272,7 @@ defmodule Stripe.Resources.Checkout.Session do
         """
         @type t :: %__MODULE__{
                 amount: integer() | nil,
-                rate: map() | nil,
+                rate: Stripe.Resources.TaxRate.t() | nil,
                 taxability_reason: String.t() | nil,
                 taxable_amount: integer() | nil
               }
@@ -2295,18 +2295,18 @@ defmodule Stripe.Resources.Checkout.Session do
   end
 
   defmodule WalletOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `link`
     """
     @type t :: %__MODULE__{
-            link: map() | nil
+            link: __MODULE__.Link.t() | nil
           }
     defstruct [:link]
 
     defmodule Link do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `display` - Describes whether Checkout should display Link. Defaults to `auto`. Possible values: `auto`, `never`.

@@ -39,7 +39,8 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
           currency: String.t(),
           description: String.t(),
           destination_payment_method: String.t(),
-          destination_payment_method_details: map(),
+          destination_payment_method_details:
+            Stripe.Resources.DestinationPaymentMethodDetails.t(),
           expected_arrival_date: integer(),
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
@@ -47,12 +48,12 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          returned_details: map(),
+          returned_details: Stripe.Resources.ReturnedDetails.t(),
           statement_descriptor: String.t(),
           status: String.t(),
-          status_transitions: map(),
-          tracking_details: map(),
-          transaction: String.t() | map()
+          status_transitions: Stripe.Resources.StatusTransitions.t(),
+          tracking_details: __MODULE__.TrackingDetails.t(),
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
   defstruct [
@@ -91,7 +92,7 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
     ]
 
   defmodule TrackingDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `ach`
@@ -99,14 +100,14 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
     * `us_domestic_wire`
     """
     @type t :: %__MODULE__{
-            ach: map() | nil,
+            ach: __MODULE__.Ach.t() | nil,
             type: String.t() | nil,
-            us_domestic_wire: map() | nil
+            us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :type, :us_domestic_wire]
 
     defmodule Ach do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `trace_id` - ACH trace ID of the OutboundTransfer for transfers sent over the `ach` network. Max length: 5000.
@@ -118,7 +119,7 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
     end
 
     defmodule UsDomesticWire do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `chips` - CHIPS System Sequence Number (SSN) of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.

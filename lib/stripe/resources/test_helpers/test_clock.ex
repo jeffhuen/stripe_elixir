@@ -28,7 +28,7 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
           name: String.t(),
           object: String.t(),
           status: String.t(),
-          status_details: map()
+          status_details: __MODULE__.StatusDetails.t()
         }
 
   defstruct [
@@ -49,18 +49,18 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
   def expandable_fields, do: ["status_details"]
 
   defmodule StatusDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `advancing`
     """
     @type t :: %__MODULE__{
-            advancing: map() | nil
+            advancing: __MODULE__.Advancing.t() | nil
           }
     defstruct [:advancing]
 
     defmodule Advancing do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `target_frozen_time` - The `frozen_time` that the Test Clock is advancing towards. Format: Unix timestamp.

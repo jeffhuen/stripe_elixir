@@ -33,14 +33,14 @@ defmodule Stripe.Resources.Treasury.ReceivedDebit do
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
           id: String.t(),
-          initiating_payment_method_details: map() | nil,
-          linked_flows: map(),
+          initiating_payment_method_details: __MODULE__.InitiatingPaymentMethodDetails.t() | nil,
+          linked_flows: __MODULE__.LinkedFlows.t(),
           livemode: boolean(),
           network: String.t(),
           object: String.t(),
-          reversal_details: map(),
+          reversal_details: __MODULE__.ReversalDetails.t(),
           status: String.t(),
-          transaction: String.t() | map()
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
   defstruct [
@@ -69,7 +69,7 @@ defmodule Stripe.Resources.Treasury.ReceivedDebit do
     do: ["initiating_payment_method_details", "linked_flows", "reversal_details", "transaction"]
 
   defmodule InitiatingPaymentMethodDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `balance` - Set when `type` is `balance`. Possible values: `payments`.
@@ -81,11 +81,11 @@ defmodule Stripe.Resources.Treasury.ReceivedDebit do
     """
     @type t :: %__MODULE__{
             balance: String.t() | nil,
-            billing_details: map() | nil,
-            financial_account: map() | nil,
+            billing_details: Stripe.Resources.BillingDetails.t() | nil,
+            financial_account: Stripe.Resources.FinancialAccount.t() | nil,
             issuing_card: String.t() | nil,
             type: String.t() | nil,
-            us_bank_account: map() | nil
+            us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
           }
     defstruct [
       :balance,
@@ -98,7 +98,7 @@ defmodule Stripe.Resources.Treasury.ReceivedDebit do
   end
 
   defmodule LinkedFlows do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `debit_reversal` - The DebitReversal created as a result of this ReceivedDebit being reversed. Max length: 5000. Nullable.
@@ -127,7 +127,7 @@ defmodule Stripe.Resources.Treasury.ReceivedDebit do
   end
 
   defmodule ReversalDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `deadline` - Time before which a ReceivedDebit can be reversed. Format: Unix timestamp. Nullable.

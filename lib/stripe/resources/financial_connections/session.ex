@@ -19,10 +19,10 @@ defmodule Stripe.Resources.FinancialConnections.Session do
   * `return_url` - For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          account_holder: map(),
-          accounts: map(),
+          account_holder: __MODULE__.AccountHolder.t(),
+          accounts: __MODULE__.Accounts.t(),
           client_secret: String.t(),
-          filters: map() | nil,
+          filters: __MODULE__.Filters.t() | nil,
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
@@ -50,7 +50,7 @@ defmodule Stripe.Resources.FinancialConnections.Session do
   def expandable_fields, do: ["account_holder", "accounts", "filters"]
 
   defmodule AccountHolder do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account` - The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
@@ -59,8 +59,8 @@ defmodule Stripe.Resources.FinancialConnections.Session do
     * `type` - Type of account holder that this account belongs to. Possible values: `account`, `customer`.
     """
     @type t :: %__MODULE__{
-            account: String.t() | map() | nil,
-            customer: String.t() | map() | nil,
+            account: String.t() | Stripe.Resources.Account.t() | nil,
+            customer: String.t() | Stripe.Resources.Customer.t() | nil,
             customer_account: String.t() | nil,
             type: String.t() | nil
           }
@@ -68,7 +68,7 @@ defmodule Stripe.Resources.FinancialConnections.Session do
   end
 
   defmodule Accounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -77,7 +77,7 @@ defmodule Stripe.Resources.FinancialConnections.Session do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.FinancialConnections.Account.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -86,7 +86,7 @@ defmodule Stripe.Resources.FinancialConnections.Session do
   end
 
   defmodule Filters do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account_subcategories` - Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`. Nullable.

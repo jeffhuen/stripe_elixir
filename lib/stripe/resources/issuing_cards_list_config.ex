@@ -10,7 +10,7 @@ defmodule Stripe.Resources.IssuingCardsListConfig do
   """
   @type t :: %__MODULE__{
           enabled: boolean(),
-          features: map()
+          features: Stripe.Resources.IssuingCardsListFeatures.t()
         }
 
   defstruct [:enabled, :features]

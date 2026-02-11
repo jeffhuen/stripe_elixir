@@ -14,7 +14,7 @@ defmodule Stripe.Resources.Terminal.OnboardingLink do
   * `redirect_url` - The link passed back to the user for their onboarding. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          link_options: map(),
+          link_options: __MODULE__.LinkOptions.t(),
           link_type: String.t(),
           object: String.t(),
           on_behalf_of: String.t(),
@@ -29,18 +29,18 @@ defmodule Stripe.Resources.Terminal.OnboardingLink do
   def expandable_fields, do: ["link_options"]
 
   defmodule LinkOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `apple_terms_and_conditions` - The options associated with the Apple Terms and Conditions link type. Nullable.
     """
     @type t :: %__MODULE__{
-            apple_terms_and_conditions: map() | nil
+            apple_terms_and_conditions: __MODULE__.AppleTermsAndConditions.t() | nil
           }
     defstruct [:apple_terms_and_conditions]
 
     defmodule AppleTermsAndConditions do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `allow_relinking` - Whether the link should also support users relinking their Apple account. Nullable.

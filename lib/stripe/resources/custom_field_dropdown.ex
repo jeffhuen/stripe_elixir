@@ -11,7 +11,7 @@ defmodule Stripe.Resources.CustomFieldDropdown do
   """
   @type t :: %__MODULE__{
           default_value: String.t(),
-          options: [map()],
+          options: [Stripe.Resources.CustomFieldDropdownOption.t()],
           value: String.t()
         }
 

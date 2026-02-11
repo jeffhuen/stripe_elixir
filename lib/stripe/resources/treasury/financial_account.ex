@@ -29,11 +29,11 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
   """
   @type t :: %__MODULE__{
           active_features: [String.t()] | nil,
-          balance: map(),
+          balance: Stripe.Resources.Balance.t(),
           country: String.t(),
           created: integer(),
-          features: map() | nil,
-          financial_addresses: [map()],
+          features: Stripe.Resources.Treasury.FinancialAccountFeatures.t() | nil,
+          financial_addresses: [__MODULE__.FinancialAddresses.t()],
           id: String.t(),
           is_default: boolean() | nil,
           livemode: boolean(),
@@ -41,10 +41,10 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
           nickname: String.t() | nil,
           object: String.t(),
           pending_features: [String.t()] | nil,
-          platform_restrictions: map() | nil,
+          platform_restrictions: Stripe.Resources.PlatformRestriction.t() | nil,
           restricted_features: [String.t()] | nil,
           status: String.t(),
-          status_details: map(),
+          status_details: Stripe.Resources.StatusDetails.t(),
           supported_currencies: [String.t()]
         }
 
@@ -76,7 +76,7 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
     do: ["balance", "features", "financial_addresses", "platform_restrictions", "status_details"]
 
   defmodule FinancialAddresses do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `aba`
@@ -84,7 +84,7 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
     * `type` - The type of financial address Possible values: `aba`.
     """
     @type t :: %__MODULE__{
-            aba: map() | nil,
+            aba: Stripe.Resources.Aba.t() | nil,
             supported_networks: [String.t()] | nil,
             type: String.t() | nil
           }

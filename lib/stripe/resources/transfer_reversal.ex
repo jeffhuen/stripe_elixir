@@ -32,15 +32,15 @@ defmodule Stripe.Resources.TransferReversal do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_transaction: String.t() | map(),
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
           created: integer(),
           currency: String.t(),
-          destination_payment_refund: String.t() | map(),
+          destination_payment_refund: String.t() | Stripe.Resources.Refund.t(),
           id: String.t(),
           metadata: map(),
           object: String.t(),
-          source_refund: String.t() | map(),
-          transfer: String.t() | map()
+          source_refund: String.t() | Stripe.Resources.Refund.t(),
+          transfer: String.t() | Stripe.Resources.Transfer.t()
         }
 
   defstruct [

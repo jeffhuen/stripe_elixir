@@ -24,18 +24,18 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   * `paypal` - Expandable.
   """
   @type t :: %__MODULE__{
-          amazon_pay: map(),
-          apple_pay: map(),
+          amazon_pay: __MODULE__.AmazonPay.t(),
+          apple_pay: __MODULE__.ApplePay.t(),
           created: integer(),
           domain_name: String.t(),
           enabled: boolean(),
-          google_pay: map(),
+          google_pay: __MODULE__.GooglePay.t(),
           id: String.t(),
-          klarna: map(),
-          link: map(),
+          klarna: __MODULE__.Klarna.t(),
+          link: __MODULE__.Link.t(),
           livemode: boolean(),
           object: String.t(),
-          paypal: map()
+          paypal: __MODULE__.Paypal.t()
         }
 
   defstruct [
@@ -59,7 +59,7 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   def expandable_fields, do: ["amazon_pay", "apple_pay", "google_pay", "klarna", "link", "paypal"]
 
   defmodule AmazonPay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
@@ -67,12 +67,12 @@ defmodule Stripe.Resources.PaymentMethodDomain do
     """
     @type t :: %__MODULE__{
             status: String.t() | nil,
-            status_details: map() | nil
+            status_details: __MODULE__.StatusDetails.t() | nil
           }
     defstruct [:status, :status_details]
 
     defmodule StatusDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
@@ -91,7 +91,7 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   end
 
   defmodule ApplePay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
@@ -99,12 +99,12 @@ defmodule Stripe.Resources.PaymentMethodDomain do
     """
     @type t :: %__MODULE__{
             status: String.t() | nil,
-            status_details: map() | nil
+            status_details: __MODULE__.StatusDetails.t() | nil
           }
     defstruct [:status, :status_details]
 
     defmodule StatusDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
@@ -123,7 +123,7 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   end
 
   defmodule GooglePay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
@@ -131,12 +131,12 @@ defmodule Stripe.Resources.PaymentMethodDomain do
     """
     @type t :: %__MODULE__{
             status: String.t() | nil,
-            status_details: map() | nil
+            status_details: __MODULE__.StatusDetails.t() | nil
           }
     defstruct [:status, :status_details]
 
     defmodule StatusDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
@@ -155,7 +155,7 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   end
 
   defmodule Klarna do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
@@ -163,12 +163,12 @@ defmodule Stripe.Resources.PaymentMethodDomain do
     """
     @type t :: %__MODULE__{
             status: String.t() | nil,
-            status_details: map() | nil
+            status_details: __MODULE__.StatusDetails.t() | nil
           }
     defstruct [:status, :status_details]
 
     defmodule StatusDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
@@ -187,7 +187,7 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   end
 
   defmodule Link do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
@@ -195,12 +195,12 @@ defmodule Stripe.Resources.PaymentMethodDomain do
     """
     @type t :: %__MODULE__{
             status: String.t() | nil,
-            status_details: map() | nil
+            status_details: __MODULE__.StatusDetails.t() | nil
           }
     defstruct [:status, :status_details]
 
     defmodule StatusDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
@@ -219,7 +219,7 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   end
 
   defmodule Paypal do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
@@ -227,12 +227,12 @@ defmodule Stripe.Resources.PaymentMethodDomain do
     """
     @type t :: %__MODULE__{
             status: String.t() | nil,
-            status_details: map() | nil
+            status_details: __MODULE__.StatusDetails.t() | nil
           }
     defstruct [:status, :status_details]
 
     defmodule StatusDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.

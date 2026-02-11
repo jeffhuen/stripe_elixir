@@ -17,12 +17,12 @@ defmodule Stripe.Resources.Tax.Settings do
   * `status_details` - Expandable.
   """
   @type t :: %__MODULE__{
-          defaults: map(),
-          head_office: map(),
+          defaults: __MODULE__.Defaults.t(),
+          head_office: __MODULE__.HeadOffice.t(),
           livemode: boolean(),
           object: String.t(),
           status: String.t(),
-          status_details: map()
+          status_details: __MODULE__.StatusDetails.t()
         }
 
   defstruct [:defaults, :head_office, :livemode, :object, :status, :status_details]
@@ -33,7 +33,7 @@ defmodule Stripe.Resources.Tax.Settings do
   def expandable_fields, do: ["defaults", "head_office", "status_details"]
 
   defmodule Defaults do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `provider` - The tax calculation provider this account uses. Defaults to `stripe` when not using a [third-party provider](https://stripe.com/tax/third-party-apps). Possible values: `anrok`, `avalara`, `sphere`, `stripe`.
@@ -49,19 +49,19 @@ defmodule Stripe.Resources.Tax.Settings do
   end
 
   defmodule HeadOffice do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address`
     """
     @type t :: %__MODULE__{
-            address: map() | nil
+            address: Stripe.Resources.Address.t() | nil
           }
     defstruct [:address]
   end
 
   defmodule StatusDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `active`
@@ -69,12 +69,12 @@ defmodule Stripe.Resources.Tax.Settings do
     """
     @type t :: %__MODULE__{
             active: map() | nil,
-            pending: map() | nil
+            pending: __MODULE__.Pending.t() | nil
           }
     defstruct [:active, :pending]
 
     defmodule Pending do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `missing_fields` - The list of missing fields that are required to perform calculations. It includes the entry `head_office` when the status is `pending`. It is recommended to set the optional values even if they aren't listed as required for calculating taxes. Calculations can fail if missing fields aren't explicitly provided on every call. Nullable.

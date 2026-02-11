@@ -66,50 +66,50 @@ defmodule Stripe.Resources.Subscription do
   * `trial_start` - If the subscription has a trial, the beginning of that trial. Format: Unix timestamp. Nullable.
   """
   @type t :: %__MODULE__{
-          application: map(),
+          application: String.t() | Stripe.Resources.Application.t(),
           application_fee_percent: float(),
-          automatic_tax: map(),
+          automatic_tax: __MODULE__.AutomaticTax.t(),
           billing_cycle_anchor: integer(),
-          billing_cycle_anchor_config: map(),
-          billing_mode: map(),
-          billing_thresholds: map(),
+          billing_cycle_anchor_config: __MODULE__.BillingCycleAnchorConfig.t(),
+          billing_mode: __MODULE__.BillingMode.t(),
+          billing_thresholds: __MODULE__.BillingThresholds.t(),
           cancel_at: integer(),
           cancel_at_period_end: boolean(),
           canceled_at: integer(),
-          cancellation_details: map(),
+          cancellation_details: __MODULE__.CancellationDetails.t(),
           collection_method: String.t(),
           created: integer(),
           currency: String.t(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           days_until_due: integer(),
-          default_payment_method: String.t() | map(),
-          default_source: String.t() | map(),
-          default_tax_rates: [map()] | nil,
+          default_payment_method: String.t() | Stripe.Resources.PaymentMethod.t(),
+          default_source: String.t() | Stripe.Resources.PaymentSource.t(),
+          default_tax_rates: [Stripe.Resources.TaxRate.t()] | nil,
           description: String.t(),
-          discounts: [String.t() | map()],
+          discounts: [String.t() | Stripe.Resources.Discount.t()],
           ended_at: integer(),
           id: String.t(),
-          invoice_settings: map(),
-          items: map(),
-          latest_invoice: String.t() | map(),
+          invoice_settings: __MODULE__.InvoiceSettings.t(),
+          items: __MODULE__.Items.t(),
+          latest_invoice: String.t() | Stripe.Resources.Invoice.t(),
           livemode: boolean(),
           metadata: map(),
           next_pending_invoice_item_invoice: integer(),
           object: String.t(),
-          on_behalf_of: String.t() | map(),
-          pause_collection: map(),
-          payment_settings: map(),
-          pending_invoice_item_interval: map(),
-          pending_setup_intent: String.t() | map(),
-          pending_update: map(),
-          schedule: String.t() | map(),
+          on_behalf_of: String.t() | Stripe.Resources.Account.t(),
+          pause_collection: __MODULE__.PauseCollection.t(),
+          payment_settings: __MODULE__.PaymentSettings.t(),
+          pending_invoice_item_interval: __MODULE__.PendingInvoiceItemInterval.t(),
+          pending_setup_intent: String.t() | Stripe.Resources.SetupIntent.t(),
+          pending_update: __MODULE__.PendingUpdate.t(),
+          schedule: String.t() | Stripe.Resources.SubscriptionSchedule.t(),
           start_date: integer(),
           status: String.t(),
-          test_clock: String.t() | map(),
-          transfer_data: map(),
+          test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t(),
+          transfer_data: __MODULE__.TransferData.t(),
           trial_end: integer(),
-          trial_settings: map(),
+          trial_settings: __MODULE__.TrialSettings.t(),
           trial_start: integer()
         }
 
@@ -193,7 +193,7 @@ defmodule Stripe.Resources.Subscription do
     ]
 
   defmodule AutomaticTax do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `requires_location_inputs`. Nullable.
@@ -203,19 +203,19 @@ defmodule Stripe.Resources.Subscription do
     @type t :: %__MODULE__{
             disabled_reason: String.t() | nil,
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:disabled_reason, :enabled, :liability]
 
     defmodule Liability do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account` - The connected account being referenced when `type` is `account`.
       * `type` - Type of the account referenced. Possible values: `account`, `self`.
       """
       @type t :: %__MODULE__{
-              account: String.t() | map() | nil,
+              account: String.t() | Stripe.Resources.Account.t() | nil,
               type: String.t() | nil
             }
       defstruct [:account, :type]
@@ -229,7 +229,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule BillingCycleAnchorConfig do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `day_of_month` - The day of the month of the billing_cycle_anchor.
@@ -249,7 +249,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule BillingMode do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `flexible` - Configure behavior for flexible billing mode Nullable.
@@ -257,14 +257,14 @@ defmodule Stripe.Resources.Subscription do
     * `updated_at` - Details on when the current billing_mode was adopted. Format: Unix timestamp.
     """
     @type t :: %__MODULE__{
-            flexible: map() | nil,
+            flexible: __MODULE__.Flexible.t() | nil,
             type: String.t() | nil,
             updated_at: integer() | nil
           }
     defstruct [:flexible, :type, :updated_at]
 
     defmodule Flexible do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
@@ -283,7 +283,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule BillingThresholds do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_gte` - Monetary threshold that triggers the subscription to create an invoice Nullable.
@@ -297,7 +297,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule CancellationDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `comment` - Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user. Max length: 5000. Nullable.
@@ -313,27 +313,27 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule InvoiceSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account_tax_ids` - The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription. Nullable.
     * `issuer`
     """
     @type t :: %__MODULE__{
-            account_tax_ids: [map()] | nil,
-            issuer: map() | nil
+            account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()] | nil,
+            issuer: __MODULE__.Issuer.t() | nil
           }
     defstruct [:account_tax_ids, :issuer]
 
     defmodule Issuer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account` - The connected account being referenced when `type` is `account`.
       * `type` - Type of the account referenced. Possible values: `account`, `self`.
       """
       @type t :: %__MODULE__{
-              account: String.t() | map() | nil,
+              account: String.t() | Stripe.Resources.Account.t() | nil,
               type: String.t() | nil
             }
       defstruct [:account, :type]
@@ -347,7 +347,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule Items do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -356,7 +356,7 @@ defmodule Stripe.Resources.Subscription do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.SubscriptionItem.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -365,7 +365,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule PauseCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `behavior` - The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`. Possible values: `keep_as_draft`, `mark_uncollectible`, `void`.
@@ -379,7 +379,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule PaymentSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `payment_method_options` - Payment-method-specific configuration to provide to invoices created by the subscription. Nullable.
@@ -387,14 +387,14 @@ defmodule Stripe.Resources.Subscription do
     * `save_default_payment_method` - Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off`. Possible values: `off`, `on_subscription`. Nullable.
     """
     @type t :: %__MODULE__{
-            payment_method_options: map() | nil,
+            payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
             payment_method_types: [String.t()] | nil,
             save_default_payment_method: String.t() | nil
           }
     defstruct [:payment_method_options, :payment_method_types, :save_default_payment_method]
 
     defmodule PaymentMethodOptions do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `acss_debit` - This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription. Nullable.
@@ -407,14 +407,14 @@ defmodule Stripe.Resources.Subscription do
       * `us_bank_account` - This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription. Nullable.
       """
       @type t :: %__MODULE__{
-              acss_debit: map() | nil,
-              bancontact: map() | nil,
-              card: map() | nil,
-              customer_balance: map() | nil,
+              acss_debit: __MODULE__.AcssDebit.t() | nil,
+              bancontact: __MODULE__.Bancontact.t() | nil,
+              card: __MODULE__.Card.t() | nil,
+              customer_balance: __MODULE__.CustomerBalance.t() | nil,
               konbini: map() | nil,
-              payto: map() | nil,
+              payto: __MODULE__.Payto.t() | nil,
               sepa_debit: map() | nil,
-              us_bank_account: map() | nil
+              us_bank_account: __MODULE__.UsBankAccount.t() | nil
             }
       defstruct [
         :acss_debit,
@@ -428,20 +428,20 @@ defmodule Stripe.Resources.Subscription do
       ]
 
       defmodule AcssDebit do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `mandate_options`
         * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
         """
         @type t :: %__MODULE__{
-                mandate_options: map() | nil,
+                mandate_options: __MODULE__.MandateOptions.t() | nil,
                 verification_method: String.t() | nil
               }
         defstruct [:mandate_options, :verification_method]
 
         defmodule MandateOptions do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`. Nullable.
@@ -460,7 +460,7 @@ defmodule Stripe.Resources.Subscription do
       end
 
       defmodule Bancontact do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `preferred_language` - Preferred language of the Bancontact authorization page that the customer is redirected to. Possible values: `de`, `en`, `fr`, `nl`.
@@ -472,7 +472,7 @@ defmodule Stripe.Resources.Subscription do
       end
 
       defmodule Card do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `mandate_options`
@@ -480,14 +480,14 @@ defmodule Stripe.Resources.Subscription do
         * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`. Nullable.
         """
         @type t :: %__MODULE__{
-                mandate_options: map() | nil,
+                mandate_options: __MODULE__.MandateOptions.t() | nil,
                 network: String.t() | nil,
                 request_three_d_secure: String.t() | nil
               }
         defstruct [:mandate_options, :network, :request_three_d_secure]
 
         defmodule MandateOptions do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `amount` - Amount to be charged for future payments. Nullable.
@@ -510,33 +510,33 @@ defmodule Stripe.Resources.Subscription do
       end
 
       defmodule CustomerBalance do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bank_transfer`
         * `funding_type` - The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`. Possible values: `bank_transfer`. Nullable.
         """
         @type t :: %__MODULE__{
-                bank_transfer: map() | nil,
+                bank_transfer: __MODULE__.BankTransfer.t() | nil,
                 funding_type: String.t() | nil
               }
         defstruct [:bank_transfer, :funding_type]
 
         defmodule BankTransfer do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `eu_bank_transfer`
           * `type` - The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Nullable.
           """
           @type t :: %__MODULE__{
-                  eu_bank_transfer: map() | nil,
+                  eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
                   type: String.t() | nil
                 }
           defstruct [:eu_bank_transfer, :type]
 
           defmodule EuBankTransfer do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
@@ -562,18 +562,18 @@ defmodule Stripe.Resources.Subscription do
       end
 
       defmodule Payto do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `mandate_options`
         """
         @type t :: %__MODULE__{
-                mandate_options: map() | nil
+                mandate_options: __MODULE__.MandateOptions.t() | nil
               }
         defstruct [:mandate_options]
 
         defmodule MandateOptions do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `amount` - The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit. Nullable.
@@ -596,20 +596,20 @@ defmodule Stripe.Resources.Subscription do
       end
 
       defmodule UsBankAccount do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `financial_connections`
         * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
         """
         @type t :: %__MODULE__{
-                financial_connections: map() | nil,
+                financial_connections: __MODULE__.FinancialConnections.t() | nil,
                 verification_method: String.t() | nil
               }
         defstruct [:financial_connections, :verification_method]
 
         defmodule FinancialConnections do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `filters`
@@ -617,14 +617,14 @@ defmodule Stripe.Resources.Subscription do
           * `prefetch` - Data features requested to be retrieved upon account creation. Nullable.
           """
           @type t :: %__MODULE__{
-                  filters: map() | nil,
+                  filters: __MODULE__.Filters.t() | nil,
                   permissions: [String.t()] | nil,
                   prefetch: [String.t()] | nil
                 }
           defstruct [:filters, :permissions, :prefetch]
 
           defmodule Filters do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
@@ -669,7 +669,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule PendingInvoiceItemInterval do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `interval` - Specifies invoicing frequency. Either `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
@@ -683,7 +683,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule PendingUpdate do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `billing_cycle_anchor` - If the update is applied, determines the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format. Format: Unix timestamp. Nullable.
@@ -695,7 +695,7 @@ defmodule Stripe.Resources.Subscription do
     @type t :: %__MODULE__{
             billing_cycle_anchor: integer() | nil,
             expires_at: integer() | nil,
-            subscription_items: [map()] | nil,
+            subscription_items: [Stripe.Resources.SubscriptionItem.t()] | nil,
             trial_end: integer() | nil,
             trial_from_plan: boolean() | nil
           }
@@ -709,7 +709,7 @@ defmodule Stripe.Resources.Subscription do
   end
 
   defmodule TransferData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
@@ -717,24 +717,24 @@ defmodule Stripe.Resources.Subscription do
     """
     @type t :: %__MODULE__{
             amount_percent: float() | nil,
-            destination: String.t() | map() | nil
+            destination: String.t() | Stripe.Resources.Account.t() | nil
           }
     defstruct [:amount_percent, :destination]
   end
 
   defmodule TrialSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `end_behavior`
     """
     @type t :: %__MODULE__{
-            end_behavior: map() | nil
+            end_behavior: __MODULE__.EndBehavior.t() | nil
           }
     defstruct [:end_behavior]
 
     defmodule EndBehavior do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `missing_payment_method` - Indicates how the subscription should change when the trial ends if the user did not provide a payment method. Possible values: `cancel`, `create_invoice`, `pause`.

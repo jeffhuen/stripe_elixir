@@ -28,20 +28,20 @@ defmodule Stripe.Resources.Issuing.Cardholder do
   * `type` - One of `individual` or `company`. See [Choose a cardholder type](https://docs.stripe.com/issuing/other/choose-cardholder) for more details. Possible values: `company`, `individual`.
   """
   @type t :: %__MODULE__{
-          billing: map(),
-          company: map(),
+          billing: __MODULE__.Billing.t(),
+          company: __MODULE__.Company.t(),
           created: integer(),
           email: String.t(),
           id: String.t(),
-          individual: map(),
+          individual: __MODULE__.Individual.t(),
           livemode: boolean(),
           metadata: map(),
           name: String.t(),
           object: String.t(),
           phone_number: String.t(),
           preferred_locales: [String.t()],
-          requirements: map(),
-          spending_controls: map(),
+          requirements: __MODULE__.Requirements.t(),
+          spending_controls: __MODULE__.SpendingControls.t(),
           status: String.t(),
           type: String.t()
         }
@@ -72,19 +72,19 @@ defmodule Stripe.Resources.Issuing.Cardholder do
     do: ["billing", "company", "individual", "requirements", "spending_controls"]
 
   defmodule Billing do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address`
     """
     @type t :: %__MODULE__{
-            address: map() | nil
+            address: Stripe.Resources.Address.t() | nil
           }
     defstruct [:address]
   end
 
   defmodule Company do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `tax_id_provided` - Whether the company's business ID number was provided.
@@ -96,7 +96,7 @@ defmodule Stripe.Resources.Issuing.Cardholder do
   end
 
   defmodule Individual do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `card_issuing` - Information related to the card_issuing program for this cardholder. Nullable.
@@ -106,27 +106,27 @@ defmodule Stripe.Resources.Issuing.Cardholder do
     * `verification` - Government-issued ID document for this cardholder. Nullable.
     """
     @type t :: %__MODULE__{
-            card_issuing: map() | nil,
-            dob: map() | nil,
+            card_issuing: __MODULE__.CardIssuing.t() | nil,
+            dob: __MODULE__.Dob.t() | nil,
             first_name: String.t() | nil,
             last_name: String.t() | nil,
-            verification: map() | nil
+            verification: __MODULE__.Verification.t() | nil
           }
     defstruct [:card_issuing, :dob, :first_name, :last_name, :verification]
 
     defmodule CardIssuing do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `user_terms_acceptance` - Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program. Nullable.
       """
       @type t :: %__MODULE__{
-              user_terms_acceptance: map() | nil
+              user_terms_acceptance: __MODULE__.UserTermsAcceptance.t() | nil
             }
       defstruct [:user_terms_acceptance]
 
       defmodule UserTermsAcceptance do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `date` - The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Format: Unix timestamp. Nullable.
@@ -149,7 +149,7 @@ defmodule Stripe.Resources.Issuing.Cardholder do
     end
 
     defmodule Dob do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `day` - The day of birth, between 1 and 31. Nullable.
@@ -165,26 +165,26 @@ defmodule Stripe.Resources.Issuing.Cardholder do
     end
 
     defmodule Verification do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `document` - An identifying document, either a passport or local ID card. Nullable.
       """
       @type t :: %__MODULE__{
-              document: map() | nil
+              document: __MODULE__.Document.t() | nil
             }
       defstruct [:document]
 
       defmodule Document do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `back` - The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. Nullable.
         * `front` - The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. Nullable.
         """
         @type t :: %__MODULE__{
-                back: String.t() | map() | nil,
-                front: String.t() | map() | nil
+                back: String.t() | Stripe.Resources.File.t() | nil,
+                front: String.t() | Stripe.Resources.File.t() | nil
               }
         defstruct [:back, :front]
       end
@@ -206,7 +206,7 @@ defmodule Stripe.Resources.Issuing.Cardholder do
   end
 
   defmodule Requirements do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `disabled_reason` - If `disabled_reason` is present, all cards will decline authorizations with `cardholder_verification_required` reason. Possible values: `listed`, `rejected.listed`, `requirements.past_due`, `under_review`. Nullable.
@@ -220,7 +220,7 @@ defmodule Stripe.Resources.Issuing.Cardholder do
   end
 
   defmodule SpendingControls do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `allowed_categories` - Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`. Nullable.
@@ -235,7 +235,7 @@ defmodule Stripe.Resources.Issuing.Cardholder do
             allowed_merchant_countries: [String.t()] | nil,
             blocked_categories: [String.t()] | nil,
             blocked_merchant_countries: [String.t()] | nil,
-            spending_limits: [map()] | nil,
+            spending_limits: [__MODULE__.SpendingLimits.t()] | nil,
             spending_limits_currency: String.t() | nil
           }
     defstruct [
@@ -248,7 +248,7 @@ defmodule Stripe.Resources.Issuing.Cardholder do
     ]
 
     defmodule SpendingLimits do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Maximum amount allowed to spend per interval. This amount is in the card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).

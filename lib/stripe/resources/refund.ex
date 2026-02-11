@@ -36,27 +36,27 @@ defmodule Stripe.Resources.Refund do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_transaction: String.t() | map(),
-          charge: String.t() | map(),
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
+          charge: String.t() | Stripe.Resources.Charge.t(),
           created: integer(),
           currency: String.t(),
           description: String.t() | nil,
-          destination_details: map() | nil,
-          failure_balance_transaction: String.t() | map() | nil,
+          destination_details: __MODULE__.DestinationDetails.t() | nil,
+          failure_balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t() | nil,
           failure_reason: String.t() | nil,
           id: String.t(),
           instructions_email: String.t() | nil,
           metadata: map(),
-          next_action: map() | nil,
+          next_action: __MODULE__.NextAction.t() | nil,
           object: String.t(),
-          payment_intent: String.t() | map(),
+          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t(),
           pending_reason: String.t() | nil,
-          presentment_details: map() | nil,
+          presentment_details: __MODULE__.PresentmentDetails.t() | nil,
           reason: String.t(),
           receipt_number: String.t(),
-          source_transfer_reversal: String.t() | map(),
+          source_transfer_reversal: String.t() | Stripe.Resources.TransferReversal.t(),
           status: String.t(),
-          transfer_reversal: String.t() | map()
+          transfer_reversal: String.t() | Stripe.Resources.TransferReversal.t()
         }
 
   defstruct [
@@ -101,7 +101,7 @@ defmodule Stripe.Resources.Refund do
     ]
 
   defmodule DestinationDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `affirm`
@@ -148,34 +148,34 @@ defmodule Stripe.Resources.Refund do
             alma: map() | nil,
             amazon_pay: map() | nil,
             au_bank_transfer: map() | nil,
-            blik: map() | nil,
-            br_bank_transfer: map() | nil,
-            card: map() | nil,
+            blik: __MODULE__.Blik.t() | nil,
+            br_bank_transfer: __MODULE__.BrBankTransfer.t() | nil,
+            card: __MODULE__.Card.t() | nil,
             cashapp: map() | nil,
-            crypto: map() | nil,
+            crypto: __MODULE__.Crypto.t() | nil,
             customer_cash_balance: map() | nil,
             eps: map() | nil,
-            eu_bank_transfer: map() | nil,
-            gb_bank_transfer: map() | nil,
+            eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
+            gb_bank_transfer: __MODULE__.GbBankTransfer.t() | nil,
             giropay: map() | nil,
             grabpay: map() | nil,
-            jp_bank_transfer: map() | nil,
+            jp_bank_transfer: __MODULE__.JpBankTransfer.t() | nil,
             klarna: map() | nil,
-            mb_way: map() | nil,
-            multibanco: map() | nil,
-            mx_bank_transfer: map() | nil,
+            mb_way: __MODULE__.MbWay.t() | nil,
+            multibanco: __MODULE__.Multibanco.t() | nil,
+            mx_bank_transfer: __MODULE__.MxBankTransfer.t() | nil,
             nz_bank_transfer: map() | nil,
-            p24: map() | nil,
+            p24: __MODULE__.P24.t() | nil,
             paynow: map() | nil,
-            paypal: map() | nil,
+            paypal: __MODULE__.Paypal.t() | nil,
             pix: map() | nil,
             revolut: map() | nil,
             sofort: map() | nil,
-            swish: map() | nil,
-            th_bank_transfer: map() | nil,
+            swish: __MODULE__.Swish.t() | nil,
+            th_bank_transfer: __MODULE__.ThBankTransfer.t() | nil,
             twint: map() | nil,
             type: String.t() | nil,
-            us_bank_transfer: map() | nil,
+            us_bank_transfer: __MODULE__.UsBankTransfer.t() | nil,
             wechat_pay: map() | nil,
             zip: map() | nil
           }
@@ -219,7 +219,7 @@ defmodule Stripe.Resources.Refund do
     ]
 
     defmodule Blik do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `network_decline_code` - For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed. Max length: 5000. Nullable.
@@ -235,7 +235,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule BrBankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -249,7 +249,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - Value of the reference number assigned to the refund. Max length: 5000.
@@ -267,7 +267,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule Crypto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The transaction hash of the refund. Max length: 5000. Nullable.
@@ -279,7 +279,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule EuBankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -293,7 +293,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule GbBankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -307,7 +307,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule JpBankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -321,7 +321,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule MbWay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -335,7 +335,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule Multibanco do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -349,7 +349,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule MxBankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -363,7 +363,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule P24 do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -377,7 +377,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule Paypal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `network_decline_code` - For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed. Max length: 5000. Nullable.
@@ -389,7 +389,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule Swish do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `network_decline_code` - For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed. Max length: 5000. Nullable.
@@ -405,7 +405,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule ThBankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -419,7 +419,7 @@ defmodule Stripe.Resources.Refund do
     end
 
     defmodule UsBankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
@@ -454,33 +454,33 @@ defmodule Stripe.Resources.Refund do
   end
 
   defmodule NextAction do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `display_details`
     * `type` - Type of the next action to perform. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            display_details: map() | nil,
+            display_details: __MODULE__.DisplayDetails.t() | nil,
             type: String.t() | nil
           }
     defstruct [:display_details, :type]
 
     defmodule DisplayDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `email_sent`
       * `expires_at` - The expiry timestamp. Format: Unix timestamp.
       """
       @type t :: %__MODULE__{
-              email_sent: map() | nil,
+              email_sent: __MODULE__.EmailSent.t() | nil,
               expires_at: integer() | nil
             }
       defstruct [:email_sent, :expires_at]
 
       defmodule EmailSent do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `email_sent_at` - The timestamp when the email was sent. Format: Unix timestamp.
@@ -508,7 +508,7 @@ defmodule Stripe.Resources.Refund do
   end
 
   defmodule PresentmentDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `presentment_amount` - Amount intended to be collected by this payment, denominated in `presentment_currency`.

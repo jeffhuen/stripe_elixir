@@ -30,7 +30,7 @@ defmodule Stripe.Resources.PromotionCode do
           active: boolean(),
           code: String.t(),
           created: integer(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           expires_at: integer(),
           id: String.t(),
@@ -38,8 +38,8 @@ defmodule Stripe.Resources.PromotionCode do
           max_redemptions: integer(),
           metadata: map(),
           object: String.t(),
-          promotion: map(),
-          restrictions: map(),
+          promotion: __MODULE__.Promotion.t(),
+          restrictions: __MODULE__.Restrictions.t(),
           times_redeemed: integer()
         }
 
@@ -66,21 +66,21 @@ defmodule Stripe.Resources.PromotionCode do
   def expandable_fields, do: ["customer", "promotion", "restrictions"]
 
   defmodule Promotion do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `coupon` - If promotion `type` is `coupon`, the coupon for this promotion. Nullable.
     * `type` - The type of promotion. Possible values: `coupon`.
     """
     @type t :: %__MODULE__{
-            coupon: String.t() | map() | nil,
+            coupon: String.t() | Stripe.Resources.Coupon.t() | nil,
             type: String.t() | nil
           }
     defstruct [:coupon, :type]
   end
 
   defmodule Restrictions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency_options` - Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).

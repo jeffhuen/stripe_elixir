@@ -23,19 +23,19 @@ defmodule Stripe.Resources.SubscriptionItem do
   * `tax_rates` - The tax rates which apply to this `subscription_item`. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          billing_thresholds: map(),
+          billing_thresholds: __MODULE__.BillingThresholds.t(),
           created: integer(),
           current_period_end: integer(),
           current_period_start: integer(),
-          discounts: [String.t() | map()],
+          discounts: [String.t() | Stripe.Resources.Discount.t()],
           id: String.t(),
           metadata: map(),
           object: String.t(),
-          plan: map(),
-          price: map(),
+          plan: Stripe.Resources.Plan.t(),
+          price: Stripe.Resources.Price.t(),
           quantity: integer() | nil,
           subscription: String.t(),
-          tax_rates: [map()]
+          tax_rates: [Stripe.Resources.TaxRate.t()]
         }
 
   defstruct [
@@ -60,7 +60,7 @@ defmodule Stripe.Resources.SubscriptionItem do
   def expandable_fields, do: ["billing_thresholds", "discounts", "plan", "price", "tax_rates"]
 
   defmodule BillingThresholds do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `usage_gte` - Usage threshold that triggers the subscription to create an invoice Nullable.

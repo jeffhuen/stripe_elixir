@@ -86,11 +86,11 @@ defmodule Stripe.Resources.PaymentIntent do
   @type t :: %__MODULE__{
           amount: integer(),
           amount_capturable: integer(),
-          amount_details: map() | nil,
+          amount_details: __MODULE__.AmountDetails.t() | nil,
           amount_received: integer(),
-          application: String.t() | map(),
+          application: String.t() | Stripe.Resources.Application.t(),
           application_fee_amount: integer(),
-          automatic_payment_methods: map(),
+          automatic_payment_methods: __MODULE__.AutomaticPaymentMethods.t(),
           canceled_at: integer(),
           cancellation_reason: String.t(),
           capture_method: String.t(),
@@ -98,35 +98,35 @@ defmodule Stripe.Resources.PaymentIntent do
           confirmation_method: String.t(),
           created: integer(),
           currency: String.t(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           description: String.t(),
           excluded_payment_method_types: [String.t()],
-          hooks: map() | nil,
+          hooks: __MODULE__.Hooks.t() | nil,
           id: String.t(),
-          last_payment_error: map(),
-          latest_charge: String.t() | map(),
+          last_payment_error: Stripe.Resources.StripeError.t(),
+          latest_charge: String.t() | Stripe.Resources.Charge.t(),
           livemode: boolean(),
           metadata: map(),
-          next_action: map(),
+          next_action: __MODULE__.NextAction.t(),
           object: String.t(),
-          on_behalf_of: String.t() | map(),
-          payment_details: map() | nil,
-          payment_method: String.t() | map(),
-          payment_method_configuration_details: map(),
-          payment_method_options: map(),
+          on_behalf_of: String.t() | Stripe.Resources.Account.t(),
+          payment_details: __MODULE__.PaymentDetails.t() | nil,
+          payment_method: String.t() | Stripe.Resources.PaymentMethod.t(),
+          payment_method_configuration_details: __MODULE__.PaymentMethodConfigurationDetails.t(),
+          payment_method_options: __MODULE__.PaymentMethodOptions.t(),
           payment_method_types: [String.t()],
-          presentment_details: map() | nil,
-          processing: map(),
+          presentment_details: __MODULE__.PresentmentDetails.t() | nil,
+          processing: __MODULE__.Processing.t(),
           receipt_email: String.t(),
-          review: String.t() | map(),
+          review: String.t() | Stripe.Resources.Review.t(),
           setup_future_usage: String.t(),
-          shipping: map(),
-          source: map(),
+          shipping: Stripe.Resources.ShippingDetails.t(),
+          source: String.t() | Stripe.Resources.PaymentSource.t(),
           statement_descriptor: String.t(),
           statement_descriptor_suffix: String.t(),
           status: String.t(),
-          transfer_data: map() | nil,
+          transfer_data: __MODULE__.TransferData.t() | nil,
           transfer_group: String.t()
         }
 
@@ -204,7 +204,7 @@ defmodule Stripe.Resources.PaymentIntent do
     ]
 
   defmodule AmountDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `discount_amount` - The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -218,16 +218,16 @@ defmodule Stripe.Resources.PaymentIntent do
     """
     @type t :: %__MODULE__{
             discount_amount: integer() | nil,
-            error: map() | nil,
-            line_items: map() | nil,
-            shipping: map() | nil,
-            tax: map() | nil,
-            tip: map() | nil
+            error: __MODULE__.Error.t() | nil,
+            line_items: __MODULE__.LineItems.t() | nil,
+            shipping: __MODULE__.Shipping.t() | nil,
+            tax: __MODULE__.Tax.t() | nil,
+            tip: __MODULE__.Tip.t() | nil
           }
     defstruct [:discount_amount, :error, :line_items, :shipping, :tax, :tip]
 
     defmodule Error do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - The code of the error that occurred when validating the current amount details. Possible values: `amount_details_amount_mismatch`, `amount_details_tax_shipping_discount_greater_than_amount`. Nullable.
@@ -241,7 +241,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule LineItems do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `data` - Details about each object.
@@ -250,7 +250,7 @@ defmodule Stripe.Resources.PaymentIntent do
       * `url` - The URL where this list can be accessed. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              data: [map()] | nil,
+              data: [Stripe.Resources.PaymentIntentAmountDetailsLineItem.t()] | nil,
               has_more: boolean() | nil,
               object: String.t() | nil,
               url: String.t() | nil
@@ -259,7 +259,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Shipping do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0. Nullable.
@@ -275,7 +275,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Tax do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `total_tax_amount` - The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
@@ -289,7 +289,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Tip do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Portion of the amount that corresponds to a tip.
@@ -312,7 +312,7 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule AutomaticPaymentMethods do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `allow_redirects` - Controls whether this PaymentIntent will accept redirect-based payment methods.
@@ -328,29 +328,29 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule Hooks do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `inputs`
     """
     @type t :: %__MODULE__{
-            inputs: map() | nil
+            inputs: __MODULE__.Inputs.t() | nil
           }
     defstruct [:inputs]
 
     defmodule Inputs do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `tax`
       """
       @type t :: %__MODULE__{
-              tax: map() | nil
+              tax: __MODULE__.Tax.t() | nil
             }
       defstruct [:tax]
 
       defmodule Tax do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `calculation` - The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id Max length: 5000.
@@ -376,7 +376,7 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule NextAction do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `alipay_handle_redirect`
@@ -400,25 +400,30 @@ defmodule Stripe.Resources.PaymentIntent do
     * `wechat_pay_redirect_to_ios_app`
     """
     @type t :: %__MODULE__{
-            alipay_handle_redirect: map() | nil,
-            boleto_display_details: map() | nil,
-            card_await_notification: map() | nil,
-            cashapp_handle_redirect_or_display_qr_code: map() | nil,
-            display_bank_transfer_instructions: map() | nil,
-            konbini_display_details: map() | nil,
-            multibanco_display_details: map() | nil,
-            oxxo_display_details: map() | nil,
-            paynow_display_qr_code: map() | nil,
-            pix_display_qr_code: map() | nil,
-            promptpay_display_qr_code: map() | nil,
-            redirect_to_url: map() | nil,
-            swish_handle_redirect_or_display_qr_code: map() | nil,
+            alipay_handle_redirect: Stripe.Resources.NextActionAlipayHandleRedirect.t() | nil,
+            boleto_display_details: Stripe.Resources.NextActionDisplayBoletoDetails.t() | nil,
+            card_await_notification: Stripe.Resources.NextActionCardAwaitNotification.t() | nil,
+            cashapp_handle_redirect_or_display_qr_code:
+              Stripe.Resources.CashappHandleRedirectOrDisplayQrCode.t() | nil,
+            display_bank_transfer_instructions:
+              Stripe.Resources.NextActionDisplayBankTransferInstructions.t() | nil,
+            konbini_display_details: Stripe.Resources.NextActionKonbiniDisplayDetails.t() | nil,
+            multibanco_display_details:
+              Stripe.Resources.NextActionMultibancoDisplayDetails.t() | nil,
+            oxxo_display_details: Stripe.Resources.NextActionOxxoDisplayDetails.t() | nil,
+            paynow_display_qr_code: Stripe.Resources.PaynowDisplayQrCode.t() | nil,
+            pix_display_qr_code: Stripe.Resources.PixDisplayQrCode.t() | nil,
+            promptpay_display_qr_code: Stripe.Resources.PromptpayDisplayQrCode.t() | nil,
+            redirect_to_url: Stripe.Resources.NextActionRedirectToUrl.t() | nil,
+            swish_handle_redirect_or_display_qr_code:
+              Stripe.Resources.SwishHandleRedirectOrDisplayQrCode.t() | nil,
             type: String.t() | nil,
             use_stripe_sdk: map() | nil,
-            verify_with_microdeposits: map() | nil,
-            wechat_pay_display_qr_code: map() | nil,
-            wechat_pay_redirect_to_android_app: map() | nil,
-            wechat_pay_redirect_to_ios_app: map() | nil
+            verify_with_microdeposits: __MODULE__.VerifyWithMicrodeposits.t() | nil,
+            wechat_pay_display_qr_code: Stripe.Resources.WechatPayDisplayQrCode.t() | nil,
+            wechat_pay_redirect_to_android_app:
+              Stripe.Resources.WechatPayRedirectToAndroidApp.t() | nil,
+            wechat_pay_redirect_to_ios_app: Stripe.Resources.WechatPayRedirectToIosApp.t() | nil
           }
     defstruct [
       :alipay_handle_redirect,
@@ -443,7 +448,7 @@ defmodule Stripe.Resources.PaymentIntent do
     ]
 
     defmodule VerifyWithMicrodeposits do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `arrival_date` - The timestamp when the microdeposits are expected to land. Format: Unix timestamp.
@@ -466,7 +471,7 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule PaymentDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `customer_reference` - A unique value to identify the customer. This field is available only for card payments.
@@ -486,7 +491,7 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule PaymentMethodConfigurationDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `id` - ID of the payment method configuration used. Max length: 5000.
@@ -500,7 +505,7 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule PaymentMethodOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `acss_debit`
@@ -557,58 +562,58 @@ defmodule Stripe.Resources.PaymentIntent do
     * `zip`
     """
     @type t :: %__MODULE__{
-            acss_debit: map() | nil,
-            affirm: map() | nil,
-            afterpay_clearpay: map() | nil,
-            alipay: map() | nil,
-            alma: map() | nil,
-            amazon_pay: map() | nil,
-            au_becs_debit: map() | nil,
-            bacs_debit: map() | nil,
-            bancontact: map() | nil,
-            billie: map() | nil,
-            blik: map() | nil,
-            boleto: map() | nil,
-            card: map() | nil,
-            card_present: map() | nil,
-            cashapp: map() | nil,
-            crypto: map() | nil,
-            customer_balance: map() | nil,
-            eps: map() | nil,
-            fpx: map() | nil,
-            giropay: map() | nil,
-            grabpay: map() | nil,
-            ideal: map() | nil,
+            acss_debit: __MODULE__.AcssDebit.t() | nil,
+            affirm: __MODULE__.Affirm.t() | nil,
+            afterpay_clearpay: __MODULE__.AfterpayClearpay.t() | nil,
+            alipay: __MODULE__.Alipay.t() | nil,
+            alma: __MODULE__.Alma.t() | nil,
+            amazon_pay: __MODULE__.AmazonPay.t() | nil,
+            au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
+            bacs_debit: __MODULE__.BacsDebit.t() | nil,
+            bancontact: __MODULE__.Bancontact.t() | nil,
+            billie: __MODULE__.Billie.t() | nil,
+            blik: __MODULE__.Blik.t() | nil,
+            boleto: __MODULE__.Boleto.t() | nil,
+            card: __MODULE__.Card.t() | nil,
+            card_present: __MODULE__.CardPresent.t() | nil,
+            cashapp: __MODULE__.Cashapp.t() | nil,
+            crypto: __MODULE__.Crypto.t() | nil,
+            customer_balance: __MODULE__.CustomerBalance.t() | nil,
+            eps: __MODULE__.Eps.t() | nil,
+            fpx: __MODULE__.Fpx.t() | nil,
+            giropay: __MODULE__.Giropay.t() | nil,
+            grabpay: __MODULE__.Grabpay.t() | nil,
+            ideal: __MODULE__.Ideal.t() | nil,
             interac_present: map() | nil,
-            kakao_pay: map() | nil,
-            klarna: map() | nil,
-            konbini: map() | nil,
-            kr_card: map() | nil,
-            link: map() | nil,
-            mb_way: map() | nil,
-            mobilepay: map() | nil,
-            multibanco: map() | nil,
-            naver_pay: map() | nil,
-            nz_bank_account: map() | nil,
-            oxxo: map() | nil,
-            p24: map() | nil,
+            kakao_pay: __MODULE__.KakaoPay.t() | nil,
+            klarna: __MODULE__.Klarna.t() | nil,
+            konbini: __MODULE__.Konbini.t() | nil,
+            kr_card: __MODULE__.KrCard.t() | nil,
+            link: __MODULE__.Link.t() | nil,
+            mb_way: __MODULE__.MbWay.t() | nil,
+            mobilepay: __MODULE__.Mobilepay.t() | nil,
+            multibanco: __MODULE__.Multibanco.t() | nil,
+            naver_pay: __MODULE__.NaverPay.t() | nil,
+            nz_bank_account: __MODULE__.NzBankAccount.t() | nil,
+            oxxo: __MODULE__.Oxxo.t() | nil,
+            p24: __MODULE__.P24.t() | nil,
             pay_by_bank: map() | nil,
-            payco: map() | nil,
-            paynow: map() | nil,
-            paypal: map() | nil,
-            payto: map() | nil,
-            pix: map() | nil,
-            promptpay: map() | nil,
-            revolut_pay: map() | nil,
-            samsung_pay: map() | nil,
-            satispay: map() | nil,
-            sepa_debit: map() | nil,
-            sofort: map() | nil,
-            swish: map() | nil,
-            twint: map() | nil,
-            us_bank_account: map() | nil,
-            wechat_pay: map() | nil,
-            zip: map() | nil
+            payco: __MODULE__.Payco.t() | nil,
+            paynow: __MODULE__.Paynow.t() | nil,
+            paypal: __MODULE__.Paypal.t() | nil,
+            payto: __MODULE__.Payto.t() | nil,
+            pix: __MODULE__.Pix.t() | nil,
+            promptpay: __MODULE__.Promptpay.t() | nil,
+            revolut_pay: __MODULE__.RevolutPay.t() | nil,
+            samsung_pay: __MODULE__.SamsungPay.t() | nil,
+            satispay: __MODULE__.Satispay.t() | nil,
+            sepa_debit: __MODULE__.SepaDebit.t() | nil,
+            sofort: __MODULE__.Sofort.t() | nil,
+            swish: __MODULE__.Swish.t() | nil,
+            twint: __MODULE__.Twint.t() | nil,
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil,
+            wechat_pay: __MODULE__.WechatPay.t() | nil,
+            zip: __MODULE__.Zip.t() | nil
           }
     defstruct [
       :acss_debit,
@@ -666,7 +671,7 @@ defmodule Stripe.Resources.PaymentIntent do
     ]
 
     defmodule AcssDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
@@ -681,7 +686,7 @@ defmodule Stripe.Resources.PaymentIntent do
       * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil,
               verification_method: String.t() | nil
@@ -689,7 +694,7 @@ defmodule Stripe.Resources.PaymentIntent do
       defstruct [:mandate_options, :setup_future_usage, :target_date, :verification_method]
 
       defmodule MandateOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `custom_mandate_url` - A URL for custom mandate text Max length: 5000.
@@ -719,7 +724,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Affirm do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -741,7 +746,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule AfterpayClearpay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -764,7 +769,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Alipay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -782,7 +787,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Alma do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -794,7 +799,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule AmazonPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -814,7 +819,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule AuBecsDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -834,7 +839,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule BacsDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
@@ -848,7 +853,7 @@ defmodule Stripe.Resources.PaymentIntent do
       * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: Stripe.Resources.BacsDebitMandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil
             }
@@ -856,7 +861,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Bancontact do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `preferred_language` - Preferred language of the Bancontact authorization page that the customer is redirected to. Possible values: `de`, `en`, `fr`, `nl`.
@@ -876,7 +881,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Billie do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -888,7 +893,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Blik do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -906,7 +911,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Boleto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `expires_after_days` - The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
@@ -926,7 +931,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -953,8 +958,8 @@ defmodule Stripe.Resources.PaymentIntent do
       """
       @type t :: %__MODULE__{
               capture_method: String.t() | nil,
-              installments: map() | nil,
-              mandate_options: map() | nil,
+              installments: __MODULE__.Installments.t() | nil,
+              mandate_options: Stripe.Resources.MandateOptions.t() | nil,
               network: String.t() | nil,
               request_extended_authorization: String.t() | nil,
               request_incremental_authorization: String.t() | nil,
@@ -983,7 +988,7 @@ defmodule Stripe.Resources.PaymentIntent do
       ]
 
       defmodule Installments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `available_plans` - Installment plans that may be selected for this PaymentIntent. Nullable.
@@ -991,14 +996,14 @@ defmodule Stripe.Resources.PaymentIntent do
         * `plan` - Installment plan selected for this PaymentIntent. Nullable.
         """
         @type t :: %__MODULE__{
-                available_plans: [map()] | nil,
+                available_plans: [__MODULE__.AvailablePlans.t()] | nil,
                 enabled: boolean() | nil,
-                plan: map() | nil
+                plan: __MODULE__.Plan.t() | nil
               }
         defstruct [:available_plans, :enabled, :plan]
 
         defmodule AvailablePlans do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `count` - For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card. Nullable.
@@ -1015,7 +1020,7 @@ defmodule Stripe.Resources.PaymentIntent do
         end
 
         defmodule Plan do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `count` - For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card. Nullable.
@@ -1047,7 +1052,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule CardPresent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`, `manual_preferred`.
@@ -1059,7 +1064,7 @@ defmodule Stripe.Resources.PaymentIntent do
               capture_method: String.t() | nil,
               request_extended_authorization: boolean() | nil,
               request_incremental_authorization_support: boolean() | nil,
-              routing: map() | nil
+              routing: Stripe.Resources.Routing.t() | nil
             }
       defstruct [
         :capture_method,
@@ -1070,7 +1075,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Cashapp do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1090,7 +1095,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Crypto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1108,7 +1113,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule CustomerBalance do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_transfer`
@@ -1122,14 +1127,14 @@ defmodule Stripe.Resources.PaymentIntent do
       When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`.
       """
       @type t :: %__MODULE__{
-              bank_transfer: map() | nil,
+              bank_transfer: __MODULE__.BankTransfer.t() | nil,
               funding_type: String.t() | nil,
               setup_future_usage: String.t() | nil
             }
       defstruct [:bank_transfer, :funding_type, :setup_future_usage]
 
       defmodule BankTransfer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `eu_bank_transfer`
@@ -1139,14 +1144,14 @@ defmodule Stripe.Resources.PaymentIntent do
         * `type` - The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Possible values: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, `us_bank_transfer`. Nullable.
         """
         @type t :: %__MODULE__{
-                eu_bank_transfer: map() | nil,
+                eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
                 requested_address_types: [String.t()] | nil,
                 type: String.t() | nil
               }
         defstruct [:eu_bank_transfer, :requested_address_types, :type]
 
         defmodule EuBankTransfer do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
@@ -1172,7 +1177,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Eps do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1190,7 +1195,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Fpx do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1208,7 +1213,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Giropay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1226,7 +1231,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Grabpay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1244,7 +1249,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Ideal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1262,7 +1267,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule KakaoPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1282,7 +1287,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Klarna do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1304,7 +1309,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Konbini do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `confirmation_number` - An optional 10 to 11 digit numeric-only string determining the confirmation code at applicable convenience stores. Max length: 5000. Nullable.
@@ -1336,7 +1341,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule KrCard do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1356,7 +1361,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Link do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1378,7 +1383,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule MbWay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1396,7 +1401,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Mobilepay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1416,7 +1421,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Multibanco do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1434,7 +1439,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule NaverPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1454,7 +1459,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule NzBankAccount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1474,7 +1479,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Oxxo do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `expires_after_days` - The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -1494,7 +1499,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule P24 do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1512,7 +1517,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Payco do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1524,7 +1529,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Paynow do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1542,7 +1547,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Paypal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1566,7 +1571,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Payto do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
@@ -1579,13 +1584,13 @@ defmodule Stripe.Resources.PaymentIntent do
       When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication). Possible values: `none`, `off_session`.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
               setup_future_usage: String.t() | nil
             }
       defstruct [:mandate_options, :setup_future_usage]
 
       defmodule MandateOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount` - Amount that will be collected. It is required when `amount_type` is `fixed`. Nullable.
@@ -1621,7 +1626,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Pix do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_includes_iof` - Determines if the amount includes the IOF tax. Possible values: `always`, `never`.
@@ -1645,7 +1650,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Promptpay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1663,7 +1668,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule RevolutPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1683,7 +1688,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule SamsungPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1695,7 +1700,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Satispay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `capture_method` - Controls when the funds will be captured from the customer's account. Possible values: `manual`.
@@ -1707,7 +1712,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule SepaDebit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `mandate_options`
@@ -1721,7 +1726,7 @@ defmodule Stripe.Resources.PaymentIntent do
       * `target_date` - Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              mandate_options: map() | nil,
+              mandate_options: Stripe.Resources.SepaDebitMandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil
             }
@@ -1729,7 +1734,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Sofort do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `preferred_language` - Preferred language of the SOFORT authorization page that the customer is redirected to. Possible values: `de`, `en`, `es`, `fr`, `it`, `nl`, `pl`. Nullable.
@@ -1749,7 +1754,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Swish do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reference` - A reference for this payment to be displayed in the Swish app. Max length: 35. Nullable.
@@ -1769,7 +1774,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Twint do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1787,7 +1792,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule UsBankAccount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `financial_connections`
@@ -1803,8 +1808,8 @@ defmodule Stripe.Resources.PaymentIntent do
       * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
       """
       @type t :: %__MODULE__{
-              financial_connections: map() | nil,
-              mandate_options: map() | nil,
+              financial_connections: __MODULE__.FinancialConnections.t() | nil,
+              mandate_options: __MODULE__.MandateOptions.t() | nil,
               setup_future_usage: String.t() | nil,
               target_date: String.t() | nil,
               verification_method: String.t() | nil
@@ -1818,7 +1823,7 @@ defmodule Stripe.Resources.PaymentIntent do
       ]
 
       defmodule FinancialConnections do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `filters`
@@ -1827,7 +1832,7 @@ defmodule Stripe.Resources.PaymentIntent do
         * `return_url` - For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. Max length: 5000.
         """
         @type t :: %__MODULE__{
-                filters: map() | nil,
+                filters: __MODULE__.Filters.t() | nil,
                 permissions: [String.t()] | nil,
                 prefetch: [String.t()] | nil,
                 return_url: String.t() | nil
@@ -1835,7 +1840,7 @@ defmodule Stripe.Resources.PaymentIntent do
         defstruct [:filters, :permissions, :prefetch, :return_url]
 
         defmodule Filters do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
@@ -1854,7 +1859,7 @@ defmodule Stripe.Resources.PaymentIntent do
       end
 
       defmodule MandateOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `collection_method` - Mandate collection method Possible values: `paper`.
@@ -1874,7 +1879,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule WechatPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `app_id` - The app ID registered with WeChat Pay. Only required when client is ios or android. Max length: 5000. Nullable.
@@ -1896,7 +1901,7 @@ defmodule Stripe.Resources.PaymentIntent do
     end
 
     defmodule Zip do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `setup_future_usage` - Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1970,7 +1975,7 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule PresentmentDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `presentment_amount` - Amount intended to be collected by this payment, denominated in `presentment_currency`.
@@ -1984,21 +1989,21 @@ defmodule Stripe.Resources.PaymentIntent do
   end
 
   defmodule Processing do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `card`
     * `type` - Type of the payment method for which payment is in `processing` state, one of `card`. Possible values: `card`.
     """
     @type t :: %__MODULE__{
-            card: map() | nil,
+            card: Stripe.Resources.Card.t() | nil,
             type: String.t() | nil
           }
     defstruct [:card, :type]
   end
 
   defmodule TransferData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount transferred to the destination account. This transfer will occur automatically after the payment succeeds. If no amount is specified, by default the entire payment amount is transferred to the destination account.
@@ -2008,7 +2013,7 @@ defmodule Stripe.Resources.PaymentIntent do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            destination: String.t() | map() | nil
+            destination: String.t() | Stripe.Resources.Account.t() | nil
           }
     defstruct [:amount, :destination]
   end

@@ -23,19 +23,19 @@ defmodule Stripe.Resources.Terminal.Configuration do
   * `wifi` - Expandable.
   """
   @type t :: %__MODULE__{
-          bbpos_wisepad3: map() | nil,
-          bbpos_wisepos_e: map() | nil,
+          bbpos_wisepad3: __MODULE__.BbposWisepad3.t() | nil,
+          bbpos_wisepos_e: __MODULE__.BbposWiseposE.t() | nil,
           id: String.t(),
           is_account_default: boolean(),
           livemode: boolean(),
           name: String.t(),
           object: String.t(),
-          offline: map() | nil,
-          reboot_window: map() | nil,
-          stripe_s700: map() | nil,
-          tipping: map() | nil,
-          verifone_p400: map() | nil,
-          wifi: map() | nil
+          offline: __MODULE__.Offline.t() | nil,
+          reboot_window: __MODULE__.RebootWindow.t() | nil,
+          stripe_s700: __MODULE__.StripeS700.t() | nil,
+          tipping: __MODULE__.Tipping.t() | nil,
+          verifone_p400: __MODULE__.VerifoneP400.t() | nil,
+          wifi: __MODULE__.Wifi.t() | nil
         }
 
   defstruct [
@@ -70,31 +70,31 @@ defmodule Stripe.Resources.Terminal.Configuration do
     ]
 
   defmodule BbposWisepad3 do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `splashscreen` - A File ID representing an image to display on the reader
     """
     @type t :: %__MODULE__{
-            splashscreen: String.t() | map() | nil
+            splashscreen: String.t() | Stripe.Resources.File.t() | nil
           }
     defstruct [:splashscreen]
   end
 
   defmodule BbposWiseposE do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `splashscreen` - A File ID representing an image to display on the reader
     """
     @type t :: %__MODULE__{
-            splashscreen: String.t() | map() | nil
+            splashscreen: String.t() | Stripe.Resources.File.t() | nil
           }
     defstruct [:splashscreen]
   end
 
   defmodule Offline do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - Determines whether to allow transactions to be collected while reader is offline. Defaults to false. Nullable.
@@ -106,7 +106,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
   end
 
   defmodule RebootWindow do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `end_hour` - Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
@@ -120,19 +120,19 @@ defmodule Stripe.Resources.Terminal.Configuration do
   end
 
   defmodule StripeS700 do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `splashscreen` - A File ID representing an image to display on the reader
     """
     @type t :: %__MODULE__{
-            splashscreen: String.t() | map() | nil
+            splashscreen: String.t() | Stripe.Resources.File.t() | nil
           }
     defstruct [:splashscreen]
   end
 
   defmodule Tipping do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `aed`
@@ -158,27 +158,27 @@ defmodule Stripe.Resources.Terminal.Configuration do
     * `usd`
     """
     @type t :: %__MODULE__{
-            aed: map() | nil,
-            aud: map() | nil,
-            cad: map() | nil,
-            chf: map() | nil,
-            czk: map() | nil,
-            dkk: map() | nil,
-            eur: map() | nil,
-            gbp: map() | nil,
-            gip: map() | nil,
-            hkd: map() | nil,
-            huf: map() | nil,
-            jpy: map() | nil,
-            mxn: map() | nil,
-            myr: map() | nil,
-            nok: map() | nil,
-            nzd: map() | nil,
-            pln: map() | nil,
-            ron: map() | nil,
-            sek: map() | nil,
-            sgd: map() | nil,
-            usd: map() | nil
+            aed: __MODULE__.Aed.t() | nil,
+            aud: __MODULE__.Aud.t() | nil,
+            cad: __MODULE__.Cad.t() | nil,
+            chf: __MODULE__.Chf.t() | nil,
+            czk: __MODULE__.Czk.t() | nil,
+            dkk: __MODULE__.Dkk.t() | nil,
+            eur: __MODULE__.Eur.t() | nil,
+            gbp: __MODULE__.Gbp.t() | nil,
+            gip: __MODULE__.Gip.t() | nil,
+            hkd: __MODULE__.Hkd.t() | nil,
+            huf: __MODULE__.Huf.t() | nil,
+            jpy: __MODULE__.Jpy.t() | nil,
+            mxn: __MODULE__.Mxn.t() | nil,
+            myr: __MODULE__.Myr.t() | nil,
+            nok: __MODULE__.Nok.t() | nil,
+            nzd: __MODULE__.Nzd.t() | nil,
+            pln: __MODULE__.Pln.t() | nil,
+            ron: __MODULE__.Ron.t() | nil,
+            sek: __MODULE__.Sek.t() | nil,
+            sgd: __MODULE__.Sgd.t() | nil,
+            usd: __MODULE__.Usd.t() | nil
           }
     defstruct [
       :aed,
@@ -205,7 +205,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     ]
 
     defmodule Aed do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -221,7 +221,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Aud do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -237,7 +237,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Cad do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -253,7 +253,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Chf do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -269,7 +269,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Czk do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -285,7 +285,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Dkk do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -301,7 +301,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Eur do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -317,7 +317,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Gbp do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -333,7 +333,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Gip do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -349,7 +349,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Hkd do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -365,7 +365,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Huf do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -381,7 +381,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Jpy do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -397,7 +397,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Mxn do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -413,7 +413,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Myr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -429,7 +429,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Nok do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -445,7 +445,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Nzd do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -461,7 +461,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Pln do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -477,7 +477,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Ron do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -493,7 +493,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Sek do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -509,7 +509,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Sgd do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -525,7 +525,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule Usd do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
@@ -568,19 +568,19 @@ defmodule Stripe.Resources.Terminal.Configuration do
   end
 
   defmodule VerifoneP400 do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `splashscreen` - A File ID representing an image to display on the reader
     """
     @type t :: %__MODULE__{
-            splashscreen: String.t() | map() | nil
+            splashscreen: String.t() | Stripe.Resources.File.t() | nil
           }
     defstruct [:splashscreen]
   end
 
   defmodule Wifi do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enterprise_eap_peap`
@@ -589,15 +589,15 @@ defmodule Stripe.Resources.Terminal.Configuration do
     * `type` - Security type of the WiFi network. The hash with the corresponding name contains the credentials for this security type. Possible values: `enterprise_eap_peap`, `enterprise_eap_tls`, `personal_psk`.
     """
     @type t :: %__MODULE__{
-            enterprise_eap_peap: map() | nil,
-            enterprise_eap_tls: map() | nil,
-            personal_psk: map() | nil,
+            enterprise_eap_peap: __MODULE__.EnterpriseEapPeap.t() | nil,
+            enterprise_eap_tls: __MODULE__.EnterpriseEapTls.t() | nil,
+            personal_psk: __MODULE__.PersonalPsk.t() | nil,
             type: String.t() | nil
           }
     defstruct [:enterprise_eap_peap, :enterprise_eap_tls, :personal_psk, :type]
 
     defmodule EnterpriseEapPeap do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `ca_certificate_file` - A File ID representing a PEM file containing the server certificate Max length: 5000.
@@ -615,7 +615,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule EnterpriseEapTls do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `ca_certificate_file` - A File ID representing a PEM file containing the server certificate Max length: 5000.
@@ -641,7 +641,7 @@ defmodule Stripe.Resources.Terminal.Configuration do
     end
 
     defmodule PersonalPsk do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `password` - Password for connecting to the WiFi network Max length: 5000.

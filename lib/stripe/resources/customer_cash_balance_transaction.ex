@@ -28,22 +28,22 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
   * `unapplied_from_payment` - Expandable.
   """
   @type t :: %__MODULE__{
-          adjusted_for_overdraft: map() | nil,
-          applied_to_payment: map() | nil,
+          adjusted_for_overdraft: Stripe.Resources.AdjustedForOverdraft.t() | nil,
+          applied_to_payment: __MODULE__.AppliedToPayment.t() | nil,
           created: integer(),
           currency: String.t(),
-          customer: String.t() | map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           ending_balance: integer(),
-          funded: map() | nil,
+          funded: __MODULE__.Funded.t() | nil,
           id: String.t(),
           livemode: boolean(),
           net_amount: integer(),
           object: String.t(),
-          refunded_from_payment: map() | nil,
-          transferred_to_balance: map() | nil,
+          refunded_from_payment: Stripe.Resources.RefundedFromPayment.t() | nil,
+          transferred_to_balance: Stripe.Resources.TransferredToBalance.t() | nil,
           type: String.t(),
-          unapplied_from_payment: map() | nil
+          unapplied_from_payment: Stripe.Resources.UnappliedFromPayment.t() | nil
         }
 
   defstruct [
@@ -80,30 +80,30 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
     ]
 
   defmodule AppliedToPayment do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `payment_intent` - The [Payment Intent](https://docs.stripe.com/api/payment_intents/object) that funds were applied to.
     """
     @type t :: %__MODULE__{
-            payment_intent: String.t() | map() | nil
+            payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil
           }
     defstruct [:payment_intent]
   end
 
   defmodule Funded do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `bank_transfer`
     """
     @type t :: %__MODULE__{
-            bank_transfer: map() | nil
+            bank_transfer: __MODULE__.BankTransfer.t() | nil
           }
     defstruct [:bank_transfer]
 
     defmodule BankTransfer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `eu_bank_transfer`
@@ -114,12 +114,12 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
       * `us_bank_transfer`
       """
       @type t :: %__MODULE__{
-              eu_bank_transfer: map() | nil,
-              gb_bank_transfer: map() | nil,
-              jp_bank_transfer: map() | nil,
+              eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
+              gb_bank_transfer: __MODULE__.GbBankTransfer.t() | nil,
+              jp_bank_transfer: __MODULE__.JpBankTransfer.t() | nil,
               reference: String.t() | nil,
               type: String.t() | nil,
-              us_bank_transfer: map() | nil
+              us_bank_transfer: __MODULE__.UsBankTransfer.t() | nil
             }
       defstruct [
         :eu_bank_transfer,
@@ -131,7 +131,7 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
       ]
 
       defmodule EuBankTransfer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bic` - The BIC of the bank of the sender of the funding. Max length: 5000. Nullable.
@@ -147,7 +147,7 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
       end
 
       defmodule GbBankTransfer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account_number_last4` - The last 4 digits of the account number of the sender of the funding. Max length: 5000. Nullable.
@@ -163,7 +163,7 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
       end
 
       defmodule JpBankTransfer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `sender_bank` - The name of the bank of the sender of the funding. Max length: 5000. Nullable.
@@ -179,7 +179,7 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
       end
 
       defmodule UsBankTransfer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `network` - The banking network used for this funding. Possible values: `ach`, `domestic_wire_us`, `swift`.

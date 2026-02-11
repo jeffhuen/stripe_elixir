@@ -25,9 +25,9 @@ defmodule Stripe.Resources.CustomerSession do
   """
   @type t :: %__MODULE__{
           client_secret: String.t(),
-          components: map() | nil,
+          components: __MODULE__.Components.t() | nil,
           created: integer(),
-          customer: String.t() | map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           expires_at: integer(),
           livemode: boolean(),
@@ -51,7 +51,7 @@ defmodule Stripe.Resources.CustomerSession do
   def expandable_fields, do: ["components", "customer"]
 
   defmodule Components do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `buy_button`
@@ -61,11 +61,11 @@ defmodule Stripe.Resources.CustomerSession do
     * `pricing_table`
     """
     @type t :: %__MODULE__{
-            buy_button: map() | nil,
-            customer_sheet: map() | nil,
-            mobile_payment_element: map() | nil,
-            payment_element: map() | nil,
-            pricing_table: map() | nil
+            buy_button: __MODULE__.BuyButton.t() | nil,
+            customer_sheet: __MODULE__.CustomerSheet.t() | nil,
+            mobile_payment_element: __MODULE__.MobilePaymentElement.t() | nil,
+            payment_element: __MODULE__.PaymentElement.t() | nil,
+            pricing_table: __MODULE__.PricingTable.t() | nil
           }
     defstruct [
       :buy_button,
@@ -76,7 +76,7 @@ defmodule Stripe.Resources.CustomerSession do
     ]
 
     defmodule BuyButton do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Whether the buy button is enabled.
@@ -88,7 +88,7 @@ defmodule Stripe.Resources.CustomerSession do
     end
 
     defmodule CustomerSheet do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Whether the customer sheet is enabled.
@@ -96,12 +96,12 @@ defmodule Stripe.Resources.CustomerSession do
       """
       @type t :: %__MODULE__{
               enabled: boolean() | nil,
-              features: map() | nil
+              features: __MODULE__.Features.t() | nil
             }
       defstruct [:enabled, :features]
 
       defmodule Features do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `payment_method_allow_redisplay_filters` - A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the customer sheet displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
@@ -126,7 +126,7 @@ defmodule Stripe.Resources.CustomerSession do
     end
 
     defmodule MobilePaymentElement do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Whether the mobile payment element is enabled.
@@ -134,12 +134,12 @@ defmodule Stripe.Resources.CustomerSession do
       """
       @type t :: %__MODULE__{
               enabled: boolean() | nil,
-              features: map() | nil
+              features: __MODULE__.Features.t() | nil
             }
       defstruct [:enabled, :features]
 
       defmodule Features do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `payment_method_allow_redisplay_filters` - A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the mobile payment element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
@@ -180,7 +180,7 @@ defmodule Stripe.Resources.CustomerSession do
     end
 
     defmodule PaymentElement do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Whether the Payment Element is enabled.
@@ -188,12 +188,12 @@ defmodule Stripe.Resources.CustomerSession do
       """
       @type t :: %__MODULE__{
               enabled: boolean() | nil,
-              features: map() | nil
+              features: __MODULE__.Features.t() | nil
             }
       defstruct [:enabled, :features]
 
       defmodule Features do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `payment_method_allow_redisplay_filters` - A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the Payment Element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
@@ -237,7 +237,7 @@ defmodule Stripe.Resources.CustomerSession do
     end
 
     defmodule PricingTable do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Whether the pricing table is enabled.

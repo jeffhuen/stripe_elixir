@@ -29,7 +29,7 @@ defmodule Stripe.Resources.CountrySpec do
           supported_payment_currencies: [String.t()],
           supported_payment_methods: [String.t()],
           supported_transfer_countries: [String.t()],
-          verification_fields: map()
+          verification_fields: __MODULE__.VerificationFields.t()
         }
 
   defstruct [
@@ -49,20 +49,20 @@ defmodule Stripe.Resources.CountrySpec do
   def expandable_fields, do: ["verification_fields"]
 
   defmodule VerificationFields do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `company`
     * `individual`
     """
     @type t :: %__MODULE__{
-            company: map() | nil,
-            individual: map() | nil
+            company: __MODULE__.Company.t() | nil,
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:company, :individual]
 
     defmodule Company do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional` - Additional fields which are only required for some users.
@@ -76,7 +76,7 @@ defmodule Stripe.Resources.CountrySpec do
     end
 
     defmodule Individual do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `additional` - Additional fields which are only required for some users.

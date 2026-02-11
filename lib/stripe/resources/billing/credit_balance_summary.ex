@@ -14,8 +14,8 @@ defmodule Stripe.Resources.Billing.CreditBalanceSummary do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `billing.credit_balance_summary`.
   """
   @type t :: %__MODULE__{
-          balances: [map()],
-          customer: map(),
+          balances: [Stripe.Resources.Billing.CreditBalance.t()],
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           livemode: boolean(),
           object: String.t()

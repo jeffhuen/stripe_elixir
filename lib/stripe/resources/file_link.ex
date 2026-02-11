@@ -23,7 +23,7 @@ defmodule Stripe.Resources.FileLink do
           created: integer(),
           expired: boolean(),
           expires_at: integer(),
-          file: String.t() | map(),
+          file: String.t() | Stripe.Resources.File.t(),
           id: String.t(),
           livemode: boolean(),
           metadata: map(),

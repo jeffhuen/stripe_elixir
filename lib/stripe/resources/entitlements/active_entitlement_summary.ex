@@ -14,7 +14,7 @@ defmodule Stripe.Resources.Entitlements.ActiveEntitlementSummary do
   """
   @type t :: %__MODULE__{
           customer: String.t(),
-          entitlements: map(),
+          entitlements: __MODULE__.Entitlements.t(),
           livemode: boolean(),
           object: String.t()
         }
@@ -27,7 +27,7 @@ defmodule Stripe.Resources.Entitlements.ActiveEntitlementSummary do
   def expandable_fields, do: ["entitlements"]
 
   defmodule Entitlements do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data`
@@ -36,7 +36,7 @@ defmodule Stripe.Resources.Entitlements.ActiveEntitlementSummary do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.Entitlements.ActiveEntitlement.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil

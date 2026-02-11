@@ -501,9 +501,17 @@ defmodule Stripe.Generator.OpenAPI do
         strings = Enum.filter(non_null, &(&1["type"] == "string"))
 
         cond do
-          # Single ref + string = expandable field pattern
-          length(refs) == 1 && strings != [] ->
-            ref_name = ref_to_name(refs |> hd() |> Map.get("$ref"))
+          # Ref(s) + string = expandable field pattern
+          # Common cases: string | Customer, string | Customer | DeletedCustomer
+          # Use the first non-deleted ref as the primary expanded type.
+          refs != [] && strings != [] ->
+            primary_ref =
+              Enum.find(refs, hd(refs), fn r ->
+                name = ref_to_name(r["$ref"])
+                not String.starts_with?(name, "deleted_")
+              end)
+
+            ref_name = ref_to_name(primary_ref["$ref"])
 
             type =
               if has_null,
@@ -512,7 +520,7 @@ defmodule Stripe.Generator.OpenAPI do
 
             {type, %{}}
 
-          # Multiple refs (union of object types) - treat as map
+          # Multiple refs without string (polymorphic union) - treat as map
           length(refs) > 1 ->
             type = if has_null, do: {:nullable, :map}, else: :map
             {type, %{}}

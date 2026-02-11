@@ -20,17 +20,17 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   * `payment_details` - Expandable.
   """
   @type t :: %__MODULE__{
-          client_device_metadata_details: map() | nil,
+          client_device_metadata_details: __MODULE__.ClientDeviceMetadataDetails.t() | nil,
           created_at: integer(),
-          customer_details: map() | nil,
-          events: [map()] | nil,
+          customer_details: __MODULE__.CustomerDetails.t() | nil,
+          events: [__MODULE__.Events.t()] | nil,
           id: String.t(),
-          insights: map(),
+          insights: __MODULE__.Insights.t(),
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          outcome: map() | nil,
-          payment_details: map() | nil
+          outcome: __MODULE__.Outcome.t() | nil,
+          payment_details: __MODULE__.PaymentDetails.t() | nil
         }
 
   defstruct [
@@ -61,7 +61,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     ]
 
   defmodule ClientDeviceMetadataDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `radar_session` - ID for the Radar Session associated with the payment evaluation. A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments. Max length: 5000.
@@ -73,7 +73,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   end
 
   defmodule CustomerDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `customer` - The ID of the customer associated with the payment evaluation. Max length: 5000. Nullable.
@@ -93,7 +93,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   end
 
   defmodule Events do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `dispute_opened`
@@ -105,13 +105,13 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     * `user_intervention_resolved`
     """
     @type t :: %__MODULE__{
-            dispute_opened: map() | nil,
-            early_fraud_warning_received: map() | nil,
+            dispute_opened: __MODULE__.DisputeOpened.t() | nil,
+            early_fraud_warning_received: __MODULE__.EarlyFraudWarningReceived.t() | nil,
             occurred_at: integer() | nil,
-            refunded: map() | nil,
+            refunded: __MODULE__.Refunded.t() | nil,
             type: String.t() | nil,
-            user_intervention_raised: map() | nil,
-            user_intervention_resolved: map() | nil
+            user_intervention_raised: __MODULE__.UserInterventionRaised.t() | nil,
+            user_intervention_resolved: __MODULE__.UserInterventionResolved.t() | nil
           }
     defstruct [
       :dispute_opened,
@@ -124,7 +124,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     ]
 
     defmodule DisputeOpened do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Amount to dispute for this payment. A positive integer representing how much to charge in [the smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (for example, 100 cents to charge 1.00 USD or 100 to charge 100 Yen, a zero-decimal currency).
@@ -140,7 +140,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule EarlyFraudWarningReceived do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fraud_type` - The type of fraud labeled by the issuer. Possible values: `made_with_lost_card`, `made_with_stolen_card`, `other`, `unauthorized_use_of_card`.
@@ -152,7 +152,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule Refunded do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Amount refunded for this payment. A positive integer representing how much to charge in [the smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (for example, 100 cents to charge 1.00 USD or 100 to charge 100 Yen, a zero-decimal currency).
@@ -168,7 +168,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule UserInterventionRaised do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `custom`
@@ -176,14 +176,14 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
       * `type` - Type of user intervention raised. Possible values: `3ds`, `captcha`, `custom`.
       """
       @type t :: %__MODULE__{
-              custom: map() | nil,
+              custom: __MODULE__.Custom.t() | nil,
               key: String.t() | nil,
               type: String.t() | nil
             }
       defstruct [:custom, :key, :type]
 
       defmodule Custom do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `type` - Custom type of user intervention raised. The string must use a snake case description for the type of intervention performed. Max length: 5000.
@@ -202,7 +202,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule UserInterventionResolved do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `key` - Unique ID of this intervention. Use this to provide the result. Max length: 5000.
@@ -227,7 +227,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   end
 
   defmodule Insights do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `card_issuer_decline` - Stripe Radar's evaluation of the likelihood of a card issuer decline on this payment. Nullable.
@@ -235,14 +235,14 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     * `fraudulent_dispute`
     """
     @type t :: %__MODULE__{
-            card_issuer_decline: map() | nil,
+            card_issuer_decline: __MODULE__.CardIssuerDecline.t() | nil,
             evaluated_at: integer() | nil,
-            fraudulent_dispute: map() | nil
+            fraudulent_dispute: __MODULE__.FraudulentDispute.t() | nil
           }
     defstruct [:card_issuer_decline, :evaluated_at, :fraudulent_dispute]
 
     defmodule CardIssuerDecline do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `model_score` - Stripe Radar's evaluation of the likelihood that the payment will be declined by the card issuer. Scores range from 0 to 100, with higher values indicating a higher likelihood of decline.
@@ -256,7 +256,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule FraudulentDispute do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `recommended_action` - Recommended action based on the risk score. Possible values are `block` and `continue`. Possible values: `block`, `continue`.
@@ -278,7 +278,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   end
 
   defmodule Outcome do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `merchant_blocked`
@@ -288,16 +288,16 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     * `type` - Indicates the outcome of the payment evaluation. Possible values: `failed`, `merchant_blocked`, `rejected`, `succeeded`.
     """
     @type t :: %__MODULE__{
-            merchant_blocked: map() | nil,
+            merchant_blocked: __MODULE__.MerchantBlocked.t() | nil,
             payment_intent_id: String.t() | nil,
-            rejected: map() | nil,
-            succeeded: map() | nil,
+            rejected: __MODULE__.Rejected.t() | nil,
+            succeeded: __MODULE__.Succeeded.t() | nil,
             type: String.t() | nil
           }
     defstruct [:merchant_blocked, :payment_intent_id, :rejected, :succeeded, :type]
 
     defmodule MerchantBlocked do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `reason` - The reason the payment was blocked by the merchant. Possible values: `authentication_required`, `blocked_for_fraud`, `invalid_payment`, `other`.
@@ -309,18 +309,18 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule Rejected do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `card`
       """
       @type t :: %__MODULE__{
-              card: map() | nil
+              card: __MODULE__.Card.t() | nil
             }
       defstruct [:card]
 
       defmodule Card do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address_line1_check` - Result of the address line 1 check. Possible values: `fail`, `pass`, `unavailable`, `unchecked`.
@@ -345,18 +345,18 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule Succeeded do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `card`
       """
       @type t :: %__MODULE__{
-              card: map() | nil
+              card: __MODULE__.Card.t() | nil
             }
       defstruct [:card]
 
       defmodule Card do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address_line1_check` - Result of the address line 1 check. Possible values: `fail`, `pass`, `unavailable`, `unchecked`.
@@ -388,7 +388,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
   end
 
   defmodule PaymentDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
@@ -403,9 +403,9 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
             amount: integer() | nil,
             currency: String.t() | nil,
             description: String.t() | nil,
-            money_movement_details: map() | nil,
-            payment_method_details: map() | nil,
-            shipping_details: map() | nil,
+            money_movement_details: __MODULE__.MoneyMovementDetails.t() | nil,
+            payment_method_details: __MODULE__.PaymentMethodDetails.t() | nil,
+            shipping_details: __MODULE__.ShippingDetails.t() | nil,
             statement_descriptor: String.t() | nil
           }
     defstruct [
@@ -419,20 +419,20 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     ]
 
     defmodule MoneyMovementDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `card` - Describes card money movement details for the payment evaluation. Nullable.
       * `money_movement_type` - Describes the type of money movement. Currently only `card` is supported. Possible values: `card`.
       """
       @type t :: %__MODULE__{
-              card: map() | nil,
+              card: __MODULE__.Card.t() | nil,
               money_movement_type: String.t() | nil
             }
       defstruct [:card, :money_movement_type]
 
       defmodule Card do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `customer_presence` - Describes the presence of the customer during the payment. Possible values: `off_session`, `on_session`. Nullable.
@@ -453,20 +453,20 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule PaymentMethodDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `billing_details` - Billing information associated with the payment evaluation. Nullable.
       * `payment_method` - The payment method used in this payment evaluation.
       """
       @type t :: %__MODULE__{
-              billing_details: map() | nil,
-              payment_method: String.t() | map() | nil
+              billing_details: __MODULE__.BillingDetails.t() | nil,
+              payment_method: String.t() | Stripe.Resources.PaymentMethod.t() | nil
             }
       defstruct [:billing_details, :payment_method]
 
       defmodule BillingDetails do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address`
@@ -475,7 +475,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
         * `phone` - Billing phone number (including extension). Max length: 5000. Nullable.
         """
         @type t :: %__MODULE__{
-                address: map() | nil,
+                address: __MODULE__.Address.t() | nil,
                 email: String.t() | nil,
                 name: String.t() | nil,
                 phone: String.t() | nil
@@ -483,7 +483,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
         defstruct [:address, :email, :name, :phone]
 
         defmodule Address do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
@@ -519,7 +519,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
     end
 
     defmodule ShippingDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `address`
@@ -527,14 +527,14 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
       * `phone` - Shipping phone number. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              address: map() | nil,
+              address: __MODULE__.Address.t() | nil,
               name: String.t() | nil,
               phone: String.t() | nil
             }
       defstruct [:address, :name, :phone]
 
       defmodule Address do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.

@@ -8,7 +8,7 @@ defmodule Stripe.Resources.StripeErrorResponse do
   * `error`
   """
   @type t :: %__MODULE__{
-          error: map()
+          error: Stripe.Resources.StripeError.t()
         }
 
   defstruct [:error]

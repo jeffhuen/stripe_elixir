@@ -37,7 +37,7 @@ defmodule Stripe.Resources.TaxRate do
           description: String.t(),
           display_name: String.t(),
           effective_percentage: float(),
-          flat_amount: map(),
+          flat_amount: Stripe.Resources.TaxRateFlatAmount.t(),
           id: String.t(),
           inclusive: boolean(),
           jurisdiction: String.t(),

@@ -13,7 +13,7 @@ defmodule Stripe.Resources.Billing.AlertTriggered do
   * `value` - The value triggering the alert
   """
   @type t :: %__MODULE__{
-          alert: map(),
+          alert: Stripe.Resources.Billing.Alert.t(),
           created: integer(),
           customer: String.t(),
           livemode: boolean(),

@@ -42,10 +42,10 @@ defmodule Stripe.Resources.FinancialConnections.Account do
   * `transaction_refresh` - The state of the most recent attempt to refresh the account transactions. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          account_holder: map(),
-          account_numbers: [map()],
-          balance: map(),
-          balance_refresh: map(),
+          account_holder: __MODULE__.AccountHolder.t(),
+          account_numbers: [__MODULE__.AccountNumbers.t()],
+          balance: __MODULE__.Balance.t(),
+          balance_refresh: __MODULE__.BalanceRefresh.t(),
           category: String.t(),
           created: integer(),
           display_name: String.t(),
@@ -54,14 +54,14 @@ defmodule Stripe.Resources.FinancialConnections.Account do
           last4: String.t(),
           livemode: boolean(),
           object: String.t(),
-          ownership: String.t() | map(),
-          ownership_refresh: map(),
+          ownership: String.t() | Stripe.Resources.FinancialConnections.AccountOwnership.t(),
+          ownership_refresh: __MODULE__.OwnershipRefresh.t(),
           permissions: [String.t()],
           status: String.t(),
           subcategory: String.t(),
           subscriptions: [String.t()],
           supported_payment_method_types: [String.t()],
-          transaction_refresh: map()
+          transaction_refresh: __MODULE__.TransactionRefresh.t()
         }
 
   defstruct [
@@ -102,7 +102,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
     ]
 
   defmodule AccountHolder do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `account` - The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
@@ -111,8 +111,8 @@ defmodule Stripe.Resources.FinancialConnections.Account do
     * `type` - Type of account holder that this account belongs to. Possible values: `account`, `customer`.
     """
     @type t :: %__MODULE__{
-            account: String.t() | map() | nil,
-            customer: String.t() | map() | nil,
+            account: String.t() | Stripe.Resources.Account.t() | nil,
+            customer: String.t() | Stripe.Resources.Customer.t() | nil,
             customer_account: String.t() | nil,
             type: String.t() | nil
           }
@@ -120,7 +120,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
   end
 
   defmodule AccountNumbers do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `expected_expiry_date` - When the account number is expected to expire, if applicable. Format: Unix timestamp. Nullable.
@@ -138,7 +138,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
   end
 
   defmodule Balance do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `as_of` - The time that the external institution calculated this balance. Measured in seconds since the Unix epoch. Format: Unix timestamp.
@@ -153,15 +153,15 @@ defmodule Stripe.Resources.FinancialConnections.Account do
     """
     @type t :: %__MODULE__{
             as_of: integer() | nil,
-            cash: map() | nil,
-            credit: map() | nil,
+            cash: __MODULE__.Cash.t() | nil,
+            credit: __MODULE__.Credit.t() | nil,
             current: map() | nil,
             type: String.t() | nil
           }
     defstruct [:as_of, :cash, :credit, :current, :type]
 
     defmodule Cash do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `available` - The funds available to the account holder. Typically this is the current balance after subtracting any outbound pending transactions and adding any inbound pending transactions.
@@ -177,7 +177,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
     end
 
     defmodule Credit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `used` - The credit that has been used by the account holder.
@@ -201,7 +201,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
   end
 
   defmodule BalanceRefresh do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `last_attempted_at` - The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
@@ -217,7 +217,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
   end
 
   defmodule OwnershipRefresh do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `last_attempted_at` - The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
@@ -233,7 +233,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
   end
 
   defmodule TransactionRefresh do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `id` - Unique identifier for the object. Max length: 5000.

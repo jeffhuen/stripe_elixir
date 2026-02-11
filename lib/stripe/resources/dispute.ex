@@ -32,21 +32,21 @@ defmodule Stripe.Resources.Dispute do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_transactions: [map()],
-          charge: String.t() | map(),
+          balance_transactions: [Stripe.Resources.BalanceTransaction.t()],
+          charge: String.t() | Stripe.Resources.Charge.t(),
           created: integer(),
           currency: String.t(),
           enhanced_eligibility_types: [String.t()],
-          evidence: map(),
-          evidence_details: map(),
+          evidence: __MODULE__.Evidence.t(),
+          evidence_details: __MODULE__.EvidenceDetails.t(),
           id: String.t(),
           is_charge_refundable: boolean(),
           livemode: boolean(),
           metadata: map(),
           network_reason_code: String.t() | nil,
           object: String.t(),
-          payment_intent: String.t() | map(),
-          payment_method_details: map() | nil,
+          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t(),
+          payment_method_details: __MODULE__.PaymentMethodDetails.t() | nil,
           reason: String.t(),
           status: String.t()
         }
@@ -86,7 +86,7 @@ defmodule Stripe.Resources.Dispute do
     ]
 
   defmodule Evidence do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `access_activity_log` - Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity. Max length: 150000. Nullable.
@@ -121,31 +121,31 @@ defmodule Stripe.Resources.Dispute do
     @type t :: %__MODULE__{
             access_activity_log: String.t() | nil,
             billing_address: String.t() | nil,
-            cancellation_policy: String.t() | map() | nil,
+            cancellation_policy: String.t() | Stripe.Resources.File.t() | nil,
             cancellation_policy_disclosure: String.t() | nil,
             cancellation_rebuttal: String.t() | nil,
-            customer_communication: String.t() | map() | nil,
+            customer_communication: String.t() | Stripe.Resources.File.t() | nil,
             customer_email_address: String.t() | nil,
             customer_name: String.t() | nil,
             customer_purchase_ip: String.t() | nil,
-            customer_signature: String.t() | map() | nil,
-            duplicate_charge_documentation: String.t() | map() | nil,
+            customer_signature: String.t() | Stripe.Resources.File.t() | nil,
+            duplicate_charge_documentation: String.t() | Stripe.Resources.File.t() | nil,
             duplicate_charge_explanation: String.t() | nil,
             duplicate_charge_id: String.t() | nil,
-            enhanced_evidence: map() | nil,
+            enhanced_evidence: __MODULE__.EnhancedEvidence.t() | nil,
             product_description: String.t() | nil,
-            receipt: String.t() | map() | nil,
-            refund_policy: String.t() | map() | nil,
+            receipt: String.t() | Stripe.Resources.File.t() | nil,
+            refund_policy: String.t() | Stripe.Resources.File.t() | nil,
             refund_policy_disclosure: String.t() | nil,
             refund_refusal_explanation: String.t() | nil,
             service_date: String.t() | nil,
-            service_documentation: String.t() | map() | nil,
+            service_documentation: String.t() | Stripe.Resources.File.t() | nil,
             shipping_address: String.t() | nil,
             shipping_carrier: String.t() | nil,
             shipping_date: String.t() | nil,
-            shipping_documentation: String.t() | map() | nil,
+            shipping_documentation: String.t() | Stripe.Resources.File.t() | nil,
             shipping_tracking_number: String.t() | nil,
-            uncategorized_file: String.t() | map() | nil,
+            uncategorized_file: String.t() | Stripe.Resources.File.t() | nil,
             uncategorized_text: String.t() | nil
           }
     defstruct [
@@ -180,33 +180,33 @@ defmodule Stripe.Resources.Dispute do
     ]
 
     defmodule EnhancedEvidence do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `visa_compelling_evidence_3`
       * `visa_compliance`
       """
       @type t :: %__MODULE__{
-              visa_compelling_evidence_3: map() | nil,
-              visa_compliance: map() | nil
+              visa_compelling_evidence_3: __MODULE__.VisaCompellingEvidence3.t() | nil,
+              visa_compliance: __MODULE__.VisaCompliance.t() | nil
             }
       defstruct [:visa_compelling_evidence_3, :visa_compliance]
 
       defmodule VisaCompellingEvidence3 do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `disputed_transaction` - Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission. Nullable.
         * `prior_undisputed_transactions` - List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
         """
         @type t :: %__MODULE__{
-                disputed_transaction: map() | nil,
-                prior_undisputed_transactions: [map()] | nil
+                disputed_transaction: __MODULE__.DisputedTransaction.t() | nil,
+                prior_undisputed_transactions: [__MODULE__.PriorUndisputedTransactions.t()] | nil
               }
         defstruct [:disputed_transaction, :prior_undisputed_transactions]
 
         defmodule DisputedTransaction do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `customer_account_id` - User Account ID used to log into business platform. Must be recognizable by the user. Max length: 5000. Nullable.
@@ -226,7 +226,7 @@ defmodule Stripe.Resources.Dispute do
                   customer_purchase_ip: String.t() | nil,
                   merchandise_or_services: String.t() | nil,
                   product_description: String.t() | nil,
-                  shipping_address: map() | nil
+                  shipping_address: __MODULE__.ShippingAddress.t() | nil
                 }
           defstruct [
             :customer_account_id,
@@ -240,7 +240,7 @@ defmodule Stripe.Resources.Dispute do
           ]
 
           defmodule ShippingAddress do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
@@ -269,7 +269,7 @@ defmodule Stripe.Resources.Dispute do
         end
 
         defmodule PriorUndisputedTransactions do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `charge` - Stripe charge ID for the Visa Compelling Evidence 3.0 eligible prior charge. Max length: 5000.
@@ -289,7 +289,7 @@ defmodule Stripe.Resources.Dispute do
                   customer_email_address: String.t() | nil,
                   customer_purchase_ip: String.t() | nil,
                   product_description: String.t() | nil,
-                  shipping_address: map() | nil
+                  shipping_address: __MODULE__.ShippingAddress.t() | nil
                 }
           defstruct [
             :charge,
@@ -303,7 +303,7 @@ defmodule Stripe.Resources.Dispute do
           ]
 
           defmodule ShippingAddress do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
@@ -340,7 +340,7 @@ defmodule Stripe.Resources.Dispute do
       end
 
       defmodule VisaCompliance do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `fee_acknowledged` - A field acknowledging the fee incurred when countering a Visa compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute. Stripe collects a 500 USD (or local equivalent) amount to cover the network costs associated with resolving compliance disputes. Stripe refunds the 500 USD network fee if you win the dispute.
@@ -367,7 +367,7 @@ defmodule Stripe.Resources.Dispute do
   end
 
   defmodule EvidenceDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `due_by` - Date by which evidence must be submitted in order to successfully challenge dispute. Will be 0 if the customer's bank or credit card company doesn't allow a response for this particular dispute. Format: Unix timestamp. Nullable.
@@ -378,7 +378,7 @@ defmodule Stripe.Resources.Dispute do
     """
     @type t :: %__MODULE__{
             due_by: integer() | nil,
-            enhanced_eligibility: map() | nil,
+            enhanced_eligibility: __MODULE__.EnhancedEligibility.t() | nil,
             has_evidence: boolean() | nil,
             past_due: boolean() | nil,
             submission_count: integer() | nil
@@ -386,20 +386,20 @@ defmodule Stripe.Resources.Dispute do
     defstruct [:due_by, :enhanced_eligibility, :has_evidence, :past_due, :submission_count]
 
     defmodule EnhancedEligibility do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `visa_compelling_evidence_3`
       * `visa_compliance`
       """
       @type t :: %__MODULE__{
-              visa_compelling_evidence_3: map() | nil,
-              visa_compliance: map() | nil
+              visa_compelling_evidence_3: __MODULE__.VisaCompellingEvidence3.t() | nil,
+              visa_compliance: __MODULE__.VisaCompliance.t() | nil
             }
       defstruct [:visa_compelling_evidence_3, :visa_compliance]
 
       defmodule VisaCompellingEvidence3 do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `required_actions` - List of actions required to qualify dispute for Visa Compelling Evidence 3.0 evidence submission.
@@ -413,7 +413,7 @@ defmodule Stripe.Resources.Dispute do
       end
 
       defmodule VisaCompliance do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `status` - Visa compliance eligibility status. Possible values: `fee_acknowledged`, `requires_fee_acknowledgement`.
@@ -440,7 +440,7 @@ defmodule Stripe.Resources.Dispute do
   end
 
   defmodule PaymentMethodDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amazon_pay`
@@ -450,16 +450,16 @@ defmodule Stripe.Resources.Dispute do
     * `type` - Payment method type. Possible values: `amazon_pay`, `card`, `klarna`, `paypal`.
     """
     @type t :: %__MODULE__{
-            amazon_pay: map() | nil,
-            card: map() | nil,
-            klarna: map() | nil,
-            paypal: map() | nil,
+            amazon_pay: __MODULE__.AmazonPay.t() | nil,
+            card: __MODULE__.Card.t() | nil,
+            klarna: __MODULE__.Klarna.t() | nil,
+            paypal: __MODULE__.Paypal.t() | nil,
             type: String.t() | nil
           }
     defstruct [:amazon_pay, :card, :klarna, :paypal, :type]
 
     defmodule AmazonPay do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `dispute_type` - The AmazonPay dispute type, chargeback or claim Possible values: `chargeback`, `claim`. Nullable.
@@ -471,7 +471,7 @@ defmodule Stripe.Resources.Dispute do
     end
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `brand` - Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`. Max length: 5000.
@@ -487,7 +487,7 @@ defmodule Stripe.Resources.Dispute do
     end
 
     defmodule Klarna do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `chargeback_loss_reason_code` - Chargeback loss reason mapped by Stripe from Klarna's chargeback loss reason Max length: 5000.
@@ -501,7 +501,7 @@ defmodule Stripe.Resources.Dispute do
     end
 
     defmodule Paypal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `case_id` - The ID of the dispute in PayPal. Max length: 5000. Nullable.

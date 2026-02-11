@@ -42,9 +42,9 @@ defmodule Stripe.Resources.Forwarding.Request do
           object: String.t(),
           payment_method: String.t(),
           replacements: [String.t()],
-          request_context: map(),
-          request_details: map(),
-          response_details: map(),
+          request_context: __MODULE__.RequestContext.t(),
+          request_details: __MODULE__.RequestDetails.t(),
+          response_details: __MODULE__.ResponseDetails.t(),
           url: String.t()
         }
 
@@ -68,7 +68,7 @@ defmodule Stripe.Resources.Forwarding.Request do
   def expandable_fields, do: ["request_context", "request_details", "response_details"]
 
   defmodule RequestContext do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `destination_duration` - The time it took in milliseconds for the destination endpoint to respond.
@@ -82,7 +82,7 @@ defmodule Stripe.Resources.Forwarding.Request do
   end
 
   defmodule RequestDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `body` - The body payload to send to the destination endpoint. Max length: 5000.
@@ -91,13 +91,13 @@ defmodule Stripe.Resources.Forwarding.Request do
     """
     @type t :: %__MODULE__{
             body: String.t() | nil,
-            headers: [map()] | nil,
+            headers: [__MODULE__.Headers.t()] | nil,
             http_method: String.t() | nil
           }
     defstruct [:body, :headers, :http_method]
 
     defmodule Headers do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `name` - The header name. Max length: 5000.
@@ -118,7 +118,7 @@ defmodule Stripe.Resources.Forwarding.Request do
   end
 
   defmodule ResponseDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `body` - The response body from the destination endpoint to Stripe. Max length: 5000.
@@ -127,13 +127,13 @@ defmodule Stripe.Resources.Forwarding.Request do
     """
     @type t :: %__MODULE__{
             body: String.t() | nil,
-            headers: [map()] | nil,
+            headers: [__MODULE__.Headers.t()] | nil,
             status: integer() | nil
           }
     defstruct [:body, :headers, :status]
 
     defmodule Headers do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `name` - The header name. Max length: 5000.

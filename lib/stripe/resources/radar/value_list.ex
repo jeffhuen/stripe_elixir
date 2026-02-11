@@ -26,7 +26,7 @@ defmodule Stripe.Resources.Radar.ValueList do
           created_by: String.t(),
           id: String.t(),
           item_type: String.t(),
-          list_items: map(),
+          list_items: __MODULE__.ListItems.t(),
           livemode: boolean(),
           metadata: map(),
           name: String.t(),
@@ -52,7 +52,7 @@ defmodule Stripe.Resources.Radar.ValueList do
   def expandable_fields, do: ["list_items"]
 
   defmodule ListItems do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -61,7 +61,7 @@ defmodule Stripe.Resources.Radar.ValueList do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.Radar.ValueListItem.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil

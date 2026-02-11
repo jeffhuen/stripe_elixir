@@ -14,7 +14,7 @@ defmodule Stripe.Resources.OutboundAchToggleSettings do
   @type t :: %__MODULE__{
           requested: boolean(),
           status: String.t(),
-          status_details: [map()]
+          status_details: [Stripe.Resources.StatusDetails.t()]
         }
 
   defstruct [:requested, :status, :status_details]

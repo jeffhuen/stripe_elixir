@@ -34,7 +34,7 @@ defmodule Stripe.Resources.Apps.Secret do
           name: String.t(),
           object: String.t(),
           payload: String.t() | nil,
-          scope: map()
+          scope: __MODULE__.Scope.t()
         }
 
   defstruct [:created, :deleted, :expires_at, :id, :livemode, :name, :object, :payload, :scope]
@@ -45,7 +45,7 @@ defmodule Stripe.Resources.Apps.Secret do
   def expandable_fields, do: ["scope"]
 
   defmodule Scope do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `type` - The secret scope type. Possible values: `account`, `user`.

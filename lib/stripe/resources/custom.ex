@@ -11,7 +11,7 @@ defmodule Stripe.Resources.Custom do
   """
   @type t :: %__MODULE__{
           display_name: String.t(),
-          logo: map(),
+          logo: __MODULE__.Logo.t(),
           type: String.t()
         }
 
@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Custom do
   def expandable_fields, do: ["logo"]
 
   defmodule Logo do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `content_type` - Content type of the Dashboard-only CustomPaymentMethodType logo. Max length: 5000. Nullable.

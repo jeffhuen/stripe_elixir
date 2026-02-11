@@ -4,6 +4,19 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.1.3] - 2026-02-10
+
+*Typespecs across all 307 resource modules now reference actual struct types instead of `map()`, improving Dialyzer coverage, IDE autocomplete, and LLM-generated code accuracy.*
+
+### Changed
+
+- Generate precise typespecs for resource structs — inner types now show `Period.t()` instead of `map()`, cross-resource refs resolve to `Stripe.Resources.Invoice.t()` ([9c2c859])
+- Document string-key vs atom-key convention in `usage-rules.md` — request params use string keys, response structs use atom keys ([9c2c859])
+
+### Fixed
+
+- Fix 36 expandable fields typed as `map()` instead of `String.t() | Resource.t()` — unions like `anyOf: [string, customer, deleted_customer]` now resolve correctly ([9c2c859])
+
 ## [0.1.2] - 2026-02-10
 
 ### Added
@@ -43,9 +56,11 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.1.3]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jeffhuen/tiger_stripe/releases/tag/v0.1.0
+[9c2c859]: https://github.com/jeffhuen/tiger_stripe/commit/9c2c859
 [b0b2acf]: https://github.com/jeffhuen/tiger_stripe/commit/b0b2acf
 [a81f7bf]: https://github.com/jeffhuen/tiger_stripe/commit/a81f7bf
 [1d30ea8]: https://github.com/jeffhuen/tiger_stripe/commit/1d30ea8

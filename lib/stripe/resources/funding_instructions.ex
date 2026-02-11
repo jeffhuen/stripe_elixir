@@ -18,7 +18,7 @@ defmodule Stripe.Resources.FundingInstructions do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `funding_instructions`.
   """
   @type t :: %__MODULE__{
-          bank_transfer: map(),
+          bank_transfer: Stripe.Resources.BankTransfer.t(),
           currency: String.t(),
           funding_type: String.t(),
           livemode: boolean(),

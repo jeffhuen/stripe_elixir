@@ -27,20 +27,20 @@ defmodule Stripe.Resources.V2.Core.Account do
   @type t :: %__MODULE__{
           applied_configurations: [String.t()],
           closed: boolean() | nil,
-          configuration: map() | nil,
+          configuration: __MODULE__.Configuration.t() | nil,
           contact_email: String.t() | nil,
           contact_phone: String.t() | nil,
           created: String.t(),
           dashboard: String.t() | nil,
-          defaults: map() | nil,
+          defaults: __MODULE__.Defaults.t() | nil,
           display_name: String.t() | nil,
-          future_requirements: map() | nil,
+          future_requirements: __MODULE__.FutureRequirements.t() | nil,
           id: String.t(),
-          identity: map() | nil,
+          identity: __MODULE__.Identity.t() | nil,
           livemode: boolean(),
           metadata: map() | nil,
           object: String.t(),
-          requirements: map() | nil
+          requirements: __MODULE__.Requirements.t() | nil
         }
 
   defstruct [
@@ -66,7 +66,7 @@ defmodule Stripe.Resources.V2.Core.Account do
   def object_name, do: @object_name
 
   defmodule Configuration do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `customer` - The Customer Configuration allows the Account to be used in inbound payment flows.
@@ -74,14 +74,14 @@ defmodule Stripe.Resources.V2.Core.Account do
     * `recipient` - The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
     """
     @type t :: %__MODULE__{
-            customer: map() | nil,
-            merchant: map() | nil,
-            recipient: map() | nil
+            customer: __MODULE__.Customer.t() | nil,
+            merchant: __MODULE__.Merchant.t() | nil,
+            recipient: __MODULE__.Recipient.t() | nil
           }
     defstruct [:customer, :merchant, :recipient]
 
     defmodule Customer do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `applied` - Indicates whether the customer configuration is active. You can deactivate or reactivate the customer configuration by updating this property. Deactivating the configuration by setting this value to false will unrequest all capabilities within the configuration. It will not delete any of the configuration's other properties.
@@ -93,10 +93,10 @@ defmodule Stripe.Resources.V2.Core.Account do
       """
       @type t :: %__MODULE__{
               applied: boolean() | nil,
-              automatic_indirect_tax: map() | nil,
-              billing: map() | nil,
-              capabilities: map() | nil,
-              shipping: map() | nil,
+              automatic_indirect_tax: __MODULE__.AutomaticIndirectTax.t() | nil,
+              billing: __MODULE__.Billing.t() | nil,
+              capabilities: __MODULE__.Capabilities.t() | nil,
+              shipping: __MODULE__.Shipping.t() | nil,
               test_clock: String.t() | nil
             }
       defstruct [
@@ -109,7 +109,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       ]
 
       defmodule AutomaticIndirectTax do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `exempt` - The customer account's tax exemption status: `none`, `exempt`, or `reverse`. When `reverse`, invoice and receipt PDFs include "Reverse charge". Possible values: `exempt`, `none`, `reverse`.
@@ -120,13 +120,13 @@ defmodule Stripe.Resources.V2.Core.Account do
         @type t :: %__MODULE__{
                 exempt: String.t() | nil,
                 ip_address: String.t() | nil,
-                location: map() | nil,
+                location: __MODULE__.Location.t() | nil,
                 location_source: String.t() | nil
               }
         defstruct [:exempt, :ip_address, :location, :location_source]
 
         defmodule Location do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `country` - The identified tax country of the customer.
@@ -147,7 +147,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Billing do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `default_payment_method` - ID of a PaymentMethod attached to the customer account to use as the default for invoices and subscriptions.
@@ -155,12 +155,12 @@ defmodule Stripe.Resources.V2.Core.Account do
         """
         @type t :: %__MODULE__{
                 default_payment_method: String.t() | nil,
-                invoice: map() | nil
+                invoice: __MODULE__.Invoice.t() | nil
               }
         defstruct [:default_payment_method, :invoice]
 
         defmodule Invoice do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `custom_fields` - The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
@@ -170,16 +170,16 @@ defmodule Stripe.Resources.V2.Core.Account do
           * `rendering` - Default invoice PDF rendering options.
           """
           @type t :: %__MODULE__{
-                  custom_fields: [map()] | nil,
+                  custom_fields: [__MODULE__.CustomFields.t()] | nil,
                   footer: String.t() | nil,
                   next_sequence: integer() | nil,
                   prefix: String.t() | nil,
-                  rendering: map() | nil
+                  rendering: __MODULE__.Rendering.t() | nil
                 }
           defstruct [:custom_fields, :footer, :next_sequence, :prefix, :rendering]
 
           defmodule CustomFields do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `name` - The name of the custom field. This may be up to 40 characters.
@@ -193,7 +193,7 @@ defmodule Stripe.Resources.V2.Core.Account do
           end
 
           defmodule Rendering do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `amount_tax_display` - Indicates whether displayed line item prices and amounts on invoice PDFs include inclusive tax amounts. Must be either `include_inclusive_tax` or `exclude_tax`. Possible values: `exclude_tax`, `include_inclusive_tax`.
@@ -222,18 +222,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Capabilities do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `automatic_indirect_tax` - Generates requirements for enabling automatic indirect tax calculation on this customer's invoices or subscriptions. Recommended to request this capability if planning to enable automatic tax calculation on this customer's invoices or subscriptions.
         """
         @type t :: %__MODULE__{
-                automatic_indirect_tax: map() | nil
+                automatic_indirect_tax: __MODULE__.AutomaticIndirectTax.t() | nil
               }
         defstruct [:automatic_indirect_tax]
 
         defmodule AutomaticIndirectTax do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -241,12 +241,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -274,7 +274,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Shipping do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address` - Customer shipping address.
@@ -282,14 +282,14 @@ defmodule Stripe.Resources.V2.Core.Account do
         * `phone` - Customer phone (including extension).
         """
         @type t :: %__MODULE__{
-                address: map() | nil,
+                address: __MODULE__.Address.t() | nil,
                 name: String.t() | nil,
                 phone: String.t() | nil
               }
         defstruct [:address, :name, :phone]
 
         defmodule Address do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `city` - City, district, suburb, town, or village.
@@ -328,7 +328,7 @@ defmodule Stripe.Resources.V2.Core.Account do
     end
 
     defmodule Merchant do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `applied` - Indicates whether the merchant configuration is active. You can deactivate or reactivate the merchant configuration by updating this property. Deactivating the configuration by setting this value to false doesn't delete the configuration's properties.
@@ -345,16 +345,16 @@ defmodule Stripe.Resources.V2.Core.Account do
       """
       @type t :: %__MODULE__{
               applied: boolean() | nil,
-              bacs_debit_payments: map() | nil,
-              branding: map() | nil,
-              capabilities: map() | nil,
-              card_payments: map() | nil,
-              konbini_payments: map() | nil,
+              bacs_debit_payments: __MODULE__.BacsDebitPayments.t() | nil,
+              branding: __MODULE__.Branding.t() | nil,
+              capabilities: __MODULE__.Capabilities.t() | nil,
+              card_payments: __MODULE__.CardPayments.t() | nil,
+              konbini_payments: __MODULE__.KonbiniPayments.t() | nil,
               mcc: String.t() | nil,
-              script_statement_descriptor: map() | nil,
-              sepa_debit_payments: map() | nil,
-              statement_descriptor: map() | nil,
-              support: map() | nil
+              script_statement_descriptor: __MODULE__.ScriptStatementDescriptor.t() | nil,
+              sepa_debit_payments: __MODULE__.SepaDebitPayments.t() | nil,
+              statement_descriptor: __MODULE__.StatementDescriptor.t() | nil,
+              support: __MODULE__.Support.t() | nil
             }
       defstruct [
         :applied,
@@ -371,7 +371,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       ]
 
       defmodule BacsDebitPayments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `display_name` - Display name for Bacs Direct Debit payments.
@@ -385,7 +385,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Branding do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `icon` - ID of a [file upload](https://docs.stripe.com/api/persons/update#create_file): An icon for the merchant. Must be square and at least 128px x 128px.
@@ -403,7 +403,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Capabilities do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `ach_debit_payments` - Allow the merchant to process ACH debit payments.
@@ -453,51 +453,51 @@ defmodule Stripe.Resources.V2.Core.Account do
         * `zip_payments` - Allow the merchant to process Zip payments.
         """
         @type t :: %__MODULE__{
-                ach_debit_payments: map() | nil,
-                acss_debit_payments: map() | nil,
-                affirm_payments: map() | nil,
-                afterpay_clearpay_payments: map() | nil,
-                alma_payments: map() | nil,
-                amazon_pay_payments: map() | nil,
-                au_becs_debit_payments: map() | nil,
-                bacs_debit_payments: map() | nil,
-                bancontact_payments: map() | nil,
-                blik_payments: map() | nil,
-                boleto_payments: map() | nil,
-                card_payments: map() | nil,
-                cartes_bancaires_payments: map() | nil,
-                cashapp_payments: map() | nil,
-                eps_payments: map() | nil,
-                fpx_payments: map() | nil,
-                gb_bank_transfer_payments: map() | nil,
-                grabpay_payments: map() | nil,
-                ideal_payments: map() | nil,
-                jcb_payments: map() | nil,
-                jp_bank_transfer_payments: map() | nil,
-                kakao_pay_payments: map() | nil,
-                klarna_payments: map() | nil,
-                konbini_payments: map() | nil,
-                kr_card_payments: map() | nil,
-                link_payments: map() | nil,
-                mobilepay_payments: map() | nil,
-                multibanco_payments: map() | nil,
-                mx_bank_transfer_payments: map() | nil,
-                naver_pay_payments: map() | nil,
-                oxxo_payments: map() | nil,
-                p24_payments: map() | nil,
-                pay_by_bank_payments: map() | nil,
-                payco_payments: map() | nil,
-                paynow_payments: map() | nil,
-                promptpay_payments: map() | nil,
-                revolut_pay_payments: map() | nil,
-                samsung_pay_payments: map() | nil,
-                sepa_bank_transfer_payments: map() | nil,
-                sepa_debit_payments: map() | nil,
-                stripe_balance: map() | nil,
-                swish_payments: map() | nil,
-                twint_payments: map() | nil,
-                us_bank_transfer_payments: map() | nil,
-                zip_payments: map() | nil
+                ach_debit_payments: __MODULE__.AchDebitPayments.t() | nil,
+                acss_debit_payments: __MODULE__.AcssDebitPayments.t() | nil,
+                affirm_payments: __MODULE__.AffirmPayments.t() | nil,
+                afterpay_clearpay_payments: __MODULE__.AfterpayClearpayPayments.t() | nil,
+                alma_payments: __MODULE__.AlmaPayments.t() | nil,
+                amazon_pay_payments: __MODULE__.AmazonPayPayments.t() | nil,
+                au_becs_debit_payments: __MODULE__.AuBecsDebitPayments.t() | nil,
+                bacs_debit_payments: __MODULE__.BacsDebitPayments.t() | nil,
+                bancontact_payments: __MODULE__.BancontactPayments.t() | nil,
+                blik_payments: __MODULE__.BlikPayments.t() | nil,
+                boleto_payments: __MODULE__.BoletoPayments.t() | nil,
+                card_payments: __MODULE__.CardPayments.t() | nil,
+                cartes_bancaires_payments: __MODULE__.CartesBancairesPayments.t() | nil,
+                cashapp_payments: __MODULE__.CashappPayments.t() | nil,
+                eps_payments: __MODULE__.EpsPayments.t() | nil,
+                fpx_payments: __MODULE__.FpxPayments.t() | nil,
+                gb_bank_transfer_payments: __MODULE__.GbBankTransferPayments.t() | nil,
+                grabpay_payments: __MODULE__.GrabpayPayments.t() | nil,
+                ideal_payments: __MODULE__.IdealPayments.t() | nil,
+                jcb_payments: __MODULE__.JcbPayments.t() | nil,
+                jp_bank_transfer_payments: __MODULE__.JpBankTransferPayments.t() | nil,
+                kakao_pay_payments: __MODULE__.KakaoPayPayments.t() | nil,
+                klarna_payments: __MODULE__.KlarnaPayments.t() | nil,
+                konbini_payments: __MODULE__.KonbiniPayments.t() | nil,
+                kr_card_payments: __MODULE__.KrCardPayments.t() | nil,
+                link_payments: __MODULE__.LinkPayments.t() | nil,
+                mobilepay_payments: __MODULE__.MobilepayPayments.t() | nil,
+                multibanco_payments: __MODULE__.MultibancoPayments.t() | nil,
+                mx_bank_transfer_payments: __MODULE__.MxBankTransferPayments.t() | nil,
+                naver_pay_payments: __MODULE__.NaverPayPayments.t() | nil,
+                oxxo_payments: __MODULE__.OxxoPayments.t() | nil,
+                p24_payments: __MODULE__.P24Payments.t() | nil,
+                pay_by_bank_payments: __MODULE__.PayByBankPayments.t() | nil,
+                payco_payments: __MODULE__.PaycoPayments.t() | nil,
+                paynow_payments: __MODULE__.PaynowPayments.t() | nil,
+                promptpay_payments: __MODULE__.PromptpayPayments.t() | nil,
+                revolut_pay_payments: __MODULE__.RevolutPayPayments.t() | nil,
+                samsung_pay_payments: __MODULE__.SamsungPayPayments.t() | nil,
+                sepa_bank_transfer_payments: __MODULE__.SepaBankTransferPayments.t() | nil,
+                sepa_debit_payments: __MODULE__.SepaDebitPayments.t() | nil,
+                stripe_balance: __MODULE__.StripeBalance.t() | nil,
+                swish_payments: __MODULE__.SwishPayments.t() | nil,
+                twint_payments: __MODULE__.TwintPayments.t() | nil,
+                us_bank_transfer_payments: __MODULE__.UsBankTransferPayments.t() | nil,
+                zip_payments: __MODULE__.ZipPayments.t() | nil
               }
         defstruct [
           :ach_debit_payments,
@@ -548,7 +548,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         ]
 
         defmodule AchDebitPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -556,12 +556,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -582,7 +582,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule AcssDebitPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -590,12 +590,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -616,7 +616,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule AffirmPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -624,12 +624,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -650,7 +650,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule AfterpayClearpayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -658,12 +658,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -684,7 +684,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule AlmaPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -692,12 +692,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -718,7 +718,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule AmazonPayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -726,12 +726,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -752,7 +752,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule AuBecsDebitPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -760,12 +760,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -786,7 +786,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule BacsDebitPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -794,12 +794,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -820,7 +820,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule BancontactPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -828,12 +828,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -854,7 +854,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule BlikPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -862,12 +862,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -888,7 +888,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule BoletoPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -896,12 +896,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -922,7 +922,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CardPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -930,12 +930,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -956,7 +956,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CartesBancairesPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -964,12 +964,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -990,7 +990,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CashappPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -998,12 +998,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1024,7 +1024,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule EpsPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1032,12 +1032,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1058,7 +1058,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule FpxPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1066,12 +1066,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1092,7 +1092,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule GbBankTransferPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1100,12 +1100,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1126,7 +1126,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule GrabpayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1134,12 +1134,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1160,7 +1160,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule IdealPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1168,12 +1168,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1194,7 +1194,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule JcbPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1202,12 +1202,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1228,7 +1228,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule JpBankTransferPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1236,12 +1236,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1262,7 +1262,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule KakaoPayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1270,12 +1270,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1296,7 +1296,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule KlarnaPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1304,12 +1304,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1330,7 +1330,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule KonbiniPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1338,12 +1338,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1364,7 +1364,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule KrCardPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1372,12 +1372,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1398,7 +1398,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule LinkPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1406,12 +1406,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1432,7 +1432,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule MobilepayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1440,12 +1440,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1466,7 +1466,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule MultibancoPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1474,12 +1474,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1500,7 +1500,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule MxBankTransferPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1508,12 +1508,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1534,7 +1534,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule NaverPayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1542,12 +1542,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1568,7 +1568,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule OxxoPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1576,12 +1576,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1602,7 +1602,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule P24Payments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1610,12 +1610,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1636,7 +1636,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule PayByBankPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1644,12 +1644,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1670,7 +1670,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule PaycoPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1678,12 +1678,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1704,7 +1704,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule PaynowPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1712,12 +1712,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1738,7 +1738,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule PromptpayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1746,12 +1746,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1772,7 +1772,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule RevolutPayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1780,12 +1780,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1806,7 +1806,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule SamsungPayPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1814,12 +1814,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1840,7 +1840,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule SepaBankTransferPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1848,12 +1848,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1874,7 +1874,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule SepaDebitPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1882,12 +1882,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1908,18 +1908,18 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule StripeBalance do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `payouts` - Enables this Account to complete payouts from their Stripe Balance (/v1/balance).
           """
           @type t :: %__MODULE__{
-                  payouts: map() | nil
+                  payouts: __MODULE__.Payouts.t() | nil
                 }
           defstruct [:payouts]
 
           defmodule Payouts do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1927,12 +1927,12 @@ defmodule Stripe.Resources.V2.Core.Account do
             """
             @type t :: %__MODULE__{
                     status: String.t() | nil,
-                    status_details: [map()] | nil
+                    status_details: [__MODULE__.StatusDetails.t()] | nil
                   }
             defstruct [:status, :status_details]
 
             defmodule StatusDetails do
-              @moduledoc false
+              @moduledoc "Nested struct within the parent resource."
 
               @typedoc """
               * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1960,7 +1960,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule SwishPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -1968,12 +1968,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -1994,7 +1994,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule TwintPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -2002,12 +2002,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -2028,7 +2028,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule UsBankTransferPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -2036,12 +2036,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -2062,7 +2062,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule ZipPayments do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -2070,12 +2070,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   status: String.t() | nil,
-                  status_details: [map()] | nil
+                  status_details: [__MODULE__.StatusDetails.t()] | nil
                 }
           defstruct [:status, :status_details]
 
           defmodule StatusDetails do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -2147,18 +2147,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule CardPayments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `decline_on` - Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
         """
         @type t :: %__MODULE__{
-                decline_on: map() | nil
+                decline_on: __MODULE__.DeclineOn.t() | nil
               }
         defstruct [:decline_on]
 
         defmodule DeclineOn do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `avs_failure` - Whether Stripe automatically declines charges with an incorrect ZIP or postal code. This setting only applies when a ZIP or postal code is provided and they fail bank verification.
@@ -2179,18 +2179,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule KonbiniPayments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `support` - Support for Konbini payments.
         """
         @type t :: %__MODULE__{
-                support: map() | nil
+                support: __MODULE__.Support.t() | nil
               }
         defstruct [:support]
 
         defmodule Support do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `email` - Support email address for Konbini payments.
@@ -2199,13 +2199,13 @@ defmodule Stripe.Resources.V2.Core.Account do
           """
           @type t :: %__MODULE__{
                   email: String.t() | nil,
-                  hours: map() | nil,
+                  hours: __MODULE__.Hours.t() | nil,
                   phone: String.t() | nil
                 }
           defstruct [:email, :hours, :phone]
 
           defmodule Hours do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `end_time` - Support hours end time (JST time of day) for in `HH:MM` format.
@@ -2233,20 +2233,20 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule ScriptStatementDescriptor do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `kana` - The Kana variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
         * `kanji` - The Kanji variation of statement_descriptor used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
         """
         @type t :: %__MODULE__{
-                kana: map() | nil,
-                kanji: map() | nil
+                kana: __MODULE__.Kana.t() | nil,
+                kanji: __MODULE__.Kanji.t() | nil
               }
         defstruct [:kana, :kanji]
 
         defmodule Kana do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `descriptor` - The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don’t set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -2260,7 +2260,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule Kanji do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `descriptor` - The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don’t set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -2282,7 +2282,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule SepaDebitPayments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `creditor_id` - Creditor ID for SEPA Direct Debit payments.
@@ -2294,7 +2294,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule StatementDescriptor do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `descriptor` - The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don’t set a statement_descriptor_prefix, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the statement_descriptor text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the Merchant Configuration settings documentation.
@@ -2308,7 +2308,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Support do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `address` - A publicly available mailing address for sending support issues to.
@@ -2317,7 +2317,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         * `url` - A publicly available website for handling support issues.
         """
         @type t :: %__MODULE__{
-                address: map() | nil,
+                address: __MODULE__.Address.t() | nil,
                 email: String.t() | nil,
                 phone: String.t() | nil,
                 url: String.t() | nil
@@ -2325,7 +2325,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         defstruct [:address, :email, :phone, :url]
 
         defmodule Address do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `city` - City, district, suburb, town, or village.
@@ -2371,7 +2371,7 @@ defmodule Stripe.Resources.V2.Core.Account do
     end
 
     defmodule Recipient do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `applied` - Indicates whether the recipient configuration is active. You can deactivate or reactivate the recipient configuration by updating this property. Deactivating the configuration by setting this value to false unrequest all capabilities within the configuration. It will not delete any of the configuration's other properties.
@@ -2379,36 +2379,36 @@ defmodule Stripe.Resources.V2.Core.Account do
       """
       @type t :: %__MODULE__{
               applied: boolean() | nil,
-              capabilities: map() | nil
+              capabilities: __MODULE__.Capabilities.t() | nil
             }
       defstruct [:applied, :capabilities]
 
       defmodule Capabilities do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `stripe_balance` - Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
         """
         @type t :: %__MODULE__{
-                stripe_balance: map() | nil
+                stripe_balance: __MODULE__.StripeBalance.t() | nil
               }
         defstruct [:stripe_balance]
 
         defmodule StripeBalance do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `payouts` - Enables this Account to complete payouts from their Stripe Balance (/v1/balance).
           * `stripe_transfers` - Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
           """
           @type t :: %__MODULE__{
-                  payouts: map() | nil,
-                  stripe_transfers: map() | nil
+                  payouts: __MODULE__.Payouts.t() | nil,
+                  stripe_transfers: __MODULE__.StripeTransfers.t() | nil
                 }
           defstruct [:payouts, :stripe_transfers]
 
           defmodule Payouts do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -2416,12 +2416,12 @@ defmodule Stripe.Resources.V2.Core.Account do
             """
             @type t :: %__MODULE__{
                     status: String.t() | nil,
-                    status_details: [map()] | nil
+                    status_details: [__MODULE__.StatusDetails.t()] | nil
                   }
             defstruct [:status, :status_details]
 
             defmodule StatusDetails do
-              @moduledoc false
+              @moduledoc "Nested struct within the parent resource."
 
               @typedoc """
               * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -2442,7 +2442,7 @@ defmodule Stripe.Resources.V2.Core.Account do
           end
 
           defmodule StripeTransfers do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `status` - The status of the Capability. Possible values: `active`, `pending`, `restricted`, `unsupported`.
@@ -2450,12 +2450,12 @@ defmodule Stripe.Resources.V2.Core.Account do
             """
             @type t :: %__MODULE__{
                     status: String.t() | nil,
-                    status_details: [map()] | nil
+                    status_details: [__MODULE__.StatusDetails.t()] | nil
                   }
             defstruct [:status, :status_details]
 
             defmodule StatusDetails do
-              @moduledoc false
+              @moduledoc "Nested struct within the parent resource."
 
               @typedoc """
               * `code` - Machine-readable code explaining the reason for the Capability to be in its current status. Possible values: `determining_status`, `requirements_past_due`, `requirements_pending_verification`, `restricted_other`, `unsupported_business`, `unsupported_country`, `unsupported_entity_type`.
@@ -2507,7 +2507,7 @@ defmodule Stripe.Resources.V2.Core.Account do
   end
 
   defmodule Defaults do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -2518,13 +2518,13 @@ defmodule Stripe.Resources.V2.Core.Account do
     @type t :: %__MODULE__{
             currency: String.t() | nil,
             locales: [String.t()] | nil,
-            profile: map() | nil,
-            responsibilities: map() | nil
+            profile: __MODULE__.Profile.t() | nil,
+            responsibilities: __MODULE__.Responsibilities.t() | nil
           }
     defstruct [:currency, :locales, :profile, :responsibilities]
 
     defmodule Profile do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `business_url` - The business's publicly-available website.
@@ -2540,7 +2540,7 @@ defmodule Stripe.Resources.V2.Core.Account do
     end
 
     defmodule Responsibilities do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `fees_collector` - Indicates whether the platform or connected account is responsible for paying Stripe fees for pricing-control-eligible products. Possible values: `application`, `application_custom`, `application_express`, `stripe`.
@@ -2564,7 +2564,7 @@ defmodule Stripe.Resources.V2.Core.Account do
   end
 
   defmodule FutureRequirements do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `entries` - A list of requirements for the Account.
@@ -2572,14 +2572,14 @@ defmodule Stripe.Resources.V2.Core.Account do
     * `summary` - An object containing an overview of requirements for the Account.
     """
     @type t :: %__MODULE__{
-            entries: [map()] | nil,
+            entries: [__MODULE__.Entries.t()] | nil,
             minimum_transition_date: String.t() | nil,
-            summary: map() | nil
+            summary: __MODULE__.Summary.t() | nil
           }
     defstruct [:entries, :minimum_transition_date, :summary]
 
     defmodule Entries do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `awaiting_action_from` - Indicates whether the platform or Stripe is currently responsible for taking action on the requirement. Value can be `user` or `stripe`. Possible values: `stripe`, `user`.
@@ -2593,11 +2593,11 @@ defmodule Stripe.Resources.V2.Core.Account do
       @type t :: %__MODULE__{
               awaiting_action_from: String.t() | nil,
               description: String.t() | nil,
-              errors: [map()] | nil,
-              impact: map() | nil,
-              minimum_deadline: map() | nil,
-              reference: map() | nil,
-              requested_reasons: [map()] | nil
+              errors: [__MODULE__.Errors.t()] | nil,
+              impact: __MODULE__.Impact.t() | nil,
+              minimum_deadline: __MODULE__.MinimumDeadline.t() | nil,
+              reference: __MODULE__.Reference.t() | nil,
+              requested_reasons: [__MODULE__.RequestedReasons.t()] | nil
             }
       defstruct [
         :awaiting_action_from,
@@ -2610,7 +2610,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       ]
 
       defmodule Errors do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `code` - Machine-readable code describing the error. Possible values: `invalid_address_city_state_postal_code`, `invalid_address_highway_contract_box`, `invalid_address_private_mailbox`, `invalid_business_profile_name`, `invalid_business_profile_name_denylisted`, `invalid_company_name_denylisted`, `invalid_dob_age_over_maximum`, `invalid_dob_age_under_18`, `invalid_dob_age_under_minimum`, `invalid_product_description_length`, `invalid_product_description_url_match`, `invalid_representative_country`, `invalid_statement_descriptor_business_mismatch`, `invalid_statement_descriptor_denylisted`, `invalid_statement_descriptor_length`, `invalid_statement_descriptor_prefix_denylisted`, `invalid_statement_descriptor_prefix_mismatch`, `invalid_street_address`, `invalid_tax_id`, `invalid_tax_id_format`, `invalid_tos_acceptance`, `invalid_url_denylisted`, `invalid_url_format`, `invalid_url_website_business_information_mismatch`, `invalid_url_website_empty`, `invalid_url_website_inaccessible`, `invalid_url_website_inaccessible_geoblocked`, `invalid_url_website_inaccessible_password_protected`, `invalid_url_website_incomplete`, `invalid_url_website_incomplete_cancellation_policy`, `invalid_url_website_incomplete_customer_service_details`, `invalid_url_website_incomplete_legal_restrictions`, `invalid_url_website_incomplete_refund_policy`, `invalid_url_website_incomplete_return_policy`, `invalid_url_website_incomplete_terms_and_conditions`, `invalid_url_website_incomplete_under_construction`, `invalid_url_website_other`, `invalid_url_web_presence_detected`, `invalid_value_other`, `unresolvable_ip_address`, `unresolvable_postal_code`, `verification_directors_mismatch`, `verification_document_address_mismatch`, `verification_document_address_missing`, `verification_document_corrupt`, `verification_document_country_not_supported`, `verification_document_directors_mismatch`, `verification_document_dob_mismatch`, `verification_document_duplicate_type`, `verification_document_expired`, `verification_document_failed_copy`, `verification_document_failed_greyscale`, `verification_document_failed_other`, `verification_document_failed_test_mode`, `verification_document_fraudulent`, `verification_document_id_number_mismatch`, `verification_document_id_number_missing`, `verification_document_incomplete`, `verification_document_invalid`, `verification_document_issue_or_expiry_date_missing`, `verification_document_manipulated`, `verification_document_missing_back`, `verification_document_missing_front`, `verification_document_name_mismatch`, `verification_document_name_missing`, `verification_document_nationality_mismatch`, `verification_document_not_readable`, `verification_document_not_signed`, `verification_document_not_uploaded`, `verification_document_photo_mismatch`, `verification_document_too_large`, `verification_document_type_not_supported`, `verification_extraneous_directors`, `verification_failed_address_match`, `verification_failed_business_iec_number`, `verification_failed_document_match`, `verification_failed_id_number_match`, `verification_failed_keyed_identity`, `verification_failed_keyed_match`, `verification_failed_name_match`, `verification_failed_other`, `verification_failed_representative_authority`, `verification_failed_residential_address`, `verification_failed_tax_id_match`, `verification_failed_tax_id_not_issued`, `verification_missing_directors`, `verification_missing_executives`, `verification_missing_owners`, `verification_requires_additional_memorandum_of_associations`, `verification_requires_additional_proof_of_registration`, `verification_selfie_document_missing_photo`, `verification_selfie_face_mismatch`, `verification_selfie_manipulated`, `verification_selfie_unverified_other`, `verification_supportability`, `verification_token_stale`.
@@ -2624,18 +2624,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Impact do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `restricts_capabilities` - The Capabilities that will be restricted if the requirement is not collected and satisfactory to Stripe.
         """
         @type t :: %__MODULE__{
-                restricts_capabilities: [map()] | nil
+                restricts_capabilities: [__MODULE__.RestrictsCapabilities.t()] | nil
               }
         defstruct [:restricts_capabilities]
 
         defmodule RestrictsCapabilities do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `capability` - The name of the Capability which will be restricted. Possible values: `ach_debit_payments`, `acss_debit_payments`, `affirm_payments`, `afterpay_clearpay_payments`, `alma_payments`, `amazon_pay_payments`, `automatic_indirect_tax`, `au_becs_debit_payments`, `bacs_debit_payments`, `bancontact_payments`, `bank_accounts.local`, `bank_accounts.wire`, `blik_payments`, `boleto_payments`, `cards`, `card_payments`, `cartes_bancaires_payments`, `cashapp_payments`, `eps_payments`, `fpx_payments`, `gb_bank_transfer_payments`, `grabpay_payments`, `ideal_payments`, `jcb_payments`, `jp_bank_transfer_payments`, `kakao_pay_payments`, `klarna_payments`, `konbini_payments`, `kr_card_payments`, `link_payments`, `mobilepay_payments`, `multibanco_payments`, `mx_bank_transfer_payments`, `naver_pay_payments`, `oxxo_payments`, `p24_payments`, `payco_payments`, `paynow_payments`, `pay_by_bank_payments`, `promptpay_payments`, `revolut_pay_payments`, `samsung_pay_payments`, `sepa_bank_transfer_payments`, `sepa_debit_payments`, `stripe_balance.payouts`, `stripe_balance.stripe_transfers`, `swish_payments`, `twint_payments`, `us_bank_transfer_payments`, `zip_payments`.
@@ -2645,12 +2645,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           @type t :: %__MODULE__{
                   capability: String.t() | nil,
                   configuration: String.t() | nil,
-                  deadline: map() | nil
+                  deadline: __MODULE__.Deadline.t() | nil
                 }
           defstruct [:capability, :configuration, :deadline]
 
           defmodule Deadline do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `status` - The current status of the requirement's impact. Possible values: `currently_due`, `eventually_due`, `past_due`.
@@ -2676,7 +2676,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule MinimumDeadline do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `status` - The current status of the requirement's impact. Possible values: `currently_due`, `eventually_due`, `past_due`.
@@ -2688,7 +2688,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Reference do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `inquiry` - If `inquiry` is the type, the inquiry token.
@@ -2705,7 +2705,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule RequestedReasons do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `code` - Machine-readable description of Stripe's reason for collecting the requirement. Possible values: `routine_onboarding`, `routine_verification`.
@@ -2728,18 +2728,18 @@ defmodule Stripe.Resources.V2.Core.Account do
     end
 
     defmodule Summary do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `minimum_deadline` - The soonest date and time a requirement on the Account will become `past due`. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
       """
       @type t :: %__MODULE__{
-              minimum_deadline: map() | nil
+              minimum_deadline: __MODULE__.MinimumDeadline.t() | nil
             }
       defstruct [:minimum_deadline]
 
       defmodule MinimumDeadline do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `status` - The current strictest status of all requirements on the Account. Possible values: `currently_due`, `eventually_due`, `past_due`.
@@ -2768,7 +2768,7 @@ defmodule Stripe.Resources.V2.Core.Account do
   end
 
   defmodule Identity do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `attestations` - Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
@@ -2778,16 +2778,16 @@ defmodule Stripe.Resources.V2.Core.Account do
     * `individual` - Information about the individual represented by the Account. This property is `null` unless `entity_type` is set to `individual`.
     """
     @type t :: %__MODULE__{
-            attestations: map() | nil,
-            business_details: map() | nil,
+            attestations: __MODULE__.Attestations.t() | nil,
+            business_details: __MODULE__.BusinessDetails.t() | nil,
             country: String.t() | nil,
             entity_type: String.t() | nil,
-            individual: map() | nil
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:attestations, :business_details, :country, :entity_type, :individual]
 
     defmodule Attestations do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `directorship_declaration` - This hash is used to attest that the directors information provided to Stripe is both current and correct.
@@ -2797,11 +2797,11 @@ defmodule Stripe.Resources.V2.Core.Account do
       * `terms_of_service` - Attestations of accepted terms of service agreements.
       """
       @type t :: %__MODULE__{
-              directorship_declaration: map() | nil,
-              ownership_declaration: map() | nil,
-              persons_provided: map() | nil,
-              representative_declaration: map() | nil,
-              terms_of_service: map() | nil
+              directorship_declaration: __MODULE__.DirectorshipDeclaration.t() | nil,
+              ownership_declaration: __MODULE__.OwnershipDeclaration.t() | nil,
+              persons_provided: __MODULE__.PersonsProvided.t() | nil,
+              representative_declaration: __MODULE__.RepresentativeDeclaration.t() | nil,
+              terms_of_service: __MODULE__.TermsOfService.t() | nil
             }
       defstruct [
         :directorship_declaration,
@@ -2812,7 +2812,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       ]
 
       defmodule DirectorshipDeclaration do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `date` - The time marking when the director attestation was made. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
@@ -2828,7 +2828,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule OwnershipDeclaration do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `date` - The time marking when the beneficial owner attestation was made. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
@@ -2844,7 +2844,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule PersonsProvided do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `directors` - Whether the company’s directors have been provided. Set this Boolean to true after creating all the company’s directors with the [Persons API](https://docs.stripe.com/api/v2/core/accounts/createperson).
@@ -2862,7 +2862,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule RepresentativeDeclaration do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `date` - The time marking when the representative attestation was made. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
@@ -2878,18 +2878,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule TermsOfService do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
         """
         @type t :: %__MODULE__{
-                account: map() | nil
+                account: __MODULE__.Account.t() | nil
               }
         defstruct [:account]
 
         defmodule Account do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `date` - The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
@@ -2923,7 +2923,7 @@ defmodule Stripe.Resources.V2.Core.Account do
     end
 
     defmodule BusinessDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `address` - The company’s primary address.
@@ -2940,17 +2940,17 @@ defmodule Stripe.Resources.V2.Core.Account do
       * `structure` - The category identifying the legal structure of the business. Possible values: `cooperative`, `free_zone_establishment`, `free_zone_llc`, `governmental_unit`, `government_instrumentality`, `incorporated_association`, `incorporated_non_profit`, `incorporated_partnership`, `limited_liability_partnership`, `llc`, `multi_member_llc`, `private_company`, `private_corporation`, `private_partnership`, `public_company`, `public_corporation`, `public_listed_corporation`, `public_partnership`, `registered_charity`, `single_member_llc`, `sole_establishment`, `sole_proprietorship`, `tax_exempt_government_instrumentality`, `trust`, `unincorporated_association`, `unincorporated_non_profit`, `unincorporated_partnership`.
       """
       @type t :: %__MODULE__{
-              address: map() | nil,
-              annual_revenue: map() | nil,
-              documents: map() | nil,
+              address: __MODULE__.Address.t() | nil,
+              annual_revenue: __MODULE__.AnnualRevenue.t() | nil,
+              documents: __MODULE__.Documents.t() | nil,
               estimated_worker_count: integer() | nil,
-              id_numbers: [map()] | nil,
-              monthly_estimated_revenue: map() | nil,
+              id_numbers: [__MODULE__.IdNumbers.t()] | nil,
+              monthly_estimated_revenue: __MODULE__.MonthlyEstimatedRevenue.t() | nil,
               phone: String.t() | nil,
               registered_name: String.t() | nil,
-              registration_date: map() | nil,
-              script_addresses: map() | nil,
-              script_names: map() | nil,
+              registration_date: __MODULE__.RegistrationDate.t() | nil,
+              script_addresses: __MODULE__.ScriptAddresses.t() | nil,
+              script_names: __MODULE__.ScriptNames.t() | nil,
               structure: String.t() | nil
             }
       defstruct [
@@ -2969,7 +2969,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       ]
 
       defmodule Address do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `city` - City, district, suburb, town, or village.
@@ -2993,20 +2993,20 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule AnnualRevenue do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount` - Annual revenue amount in minor currency units (for example, '123' for 1.23 USD).
         * `fiscal_year_end` - The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
         """
         @type t :: %__MODULE__{
-                amount: map() | nil,
+                amount: __MODULE__.Amount.t() | nil,
                 fiscal_year_end: String.t() | nil
               }
         defstruct [:amount, :fiscal_year_end]
 
         defmodule Amount do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -3027,7 +3027,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Documents do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bank_account_ownership_verification` - One or more documents that support the Bank account ownership verification requirement. Must be a document associated with the account’s primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
@@ -3042,16 +3042,20 @@ defmodule Stripe.Resources.V2.Core.Account do
         * `proof_of_ultimate_beneficial_ownership` - One or more documents that demonstrate proof of ultimate beneficial ownership.
         """
         @type t :: %__MODULE__{
-                bank_account_ownership_verification: map() | nil,
-                company_license: map() | nil,
-                company_memorandum_of_association: map() | nil,
-                company_ministerial_decree: map() | nil,
-                company_registration_verification: map() | nil,
-                company_tax_id_verification: map() | nil,
-                primary_verification: map() | nil,
-                proof_of_address: map() | nil,
-                proof_of_registration: map() | nil,
-                proof_of_ultimate_beneficial_ownership: map() | nil
+                bank_account_ownership_verification:
+                  __MODULE__.BankAccountOwnershipVerification.t() | nil,
+                company_license: __MODULE__.CompanyLicense.t() | nil,
+                company_memorandum_of_association:
+                  __MODULE__.CompanyMemorandumOfAssociation.t() | nil,
+                company_ministerial_decree: __MODULE__.CompanyMinisterialDecree.t() | nil,
+                company_registration_verification:
+                  __MODULE__.CompanyRegistrationVerification.t() | nil,
+                company_tax_id_verification: __MODULE__.CompanyTaxIdVerification.t() | nil,
+                primary_verification: __MODULE__.PrimaryVerification.t() | nil,
+                proof_of_address: __MODULE__.ProofOfAddress.t() | nil,
+                proof_of_registration: __MODULE__.ProofOfRegistration.t() | nil,
+                proof_of_ultimate_beneficial_ownership:
+                  __MODULE__.ProofOfUltimateBeneficialOwnership.t() | nil
               }
         defstruct [
           :bank_account_ownership_verification,
@@ -3067,7 +3071,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         ]
 
         defmodule BankAccountOwnershipVerification do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3081,7 +3085,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CompanyLicense do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3095,7 +3099,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CompanyMemorandumOfAssociation do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3109,7 +3113,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CompanyMinisterialDecree do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3123,7 +3127,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CompanyRegistrationVerification do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3137,7 +3141,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule CompanyTaxIdVerification do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3151,20 +3155,20 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule PrimaryVerification do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
           * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
           """
           @type t :: %__MODULE__{
-                  front_back: map() | nil,
+                  front_back: __MODULE__.FrontBack.t() | nil,
                   type: String.t() | nil
                 }
           defstruct [:front_back, :type]
 
           defmodule FrontBack do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -3185,7 +3189,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule ProofOfAddress do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3199,7 +3203,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule ProofOfRegistration do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3213,7 +3217,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule ProofOfUltimateBeneficialOwnership do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3244,7 +3248,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule IdNumbers do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `registrar` - The registrar of the ID number (Only valid for DE ID number types).
@@ -3258,18 +3262,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule MonthlyEstimatedRevenue do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount` - Estimated monthly revenue amount in minor currency units (for example, '123' for 1.23 USD).
         """
         @type t :: %__MODULE__{
-                amount: map() | nil
+                amount: __MODULE__.Amount.t() | nil
               }
         defstruct [:amount]
 
         defmodule Amount do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -3290,7 +3294,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule RegistrationDate do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `day` - The day of registration, between 1 and 31.
@@ -3306,20 +3310,20 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule ScriptAddresses do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `kana` - Kana Address.
         * `kanji` - Kanji Address.
         """
         @type t :: %__MODULE__{
-                kana: map() | nil,
-                kanji: map() | nil
+                kana: __MODULE__.Kana.t() | nil,
+                kanji: __MODULE__.Kanji.t() | nil
               }
         defstruct [:kana, :kanji]
 
         defmodule Kana do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `city` - City, district, suburb, town, or village.
@@ -3343,7 +3347,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule Kanji do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `city` - City, district, suburb, town, or village.
@@ -3375,20 +3379,20 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule ScriptNames do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `kana` - Kana name.
         * `kanji` - Kanji name.
         """
         @type t :: %__MODULE__{
-                kana: map() | nil,
-                kanji: map() | nil
+                kana: __MODULE__.Kana.t() | nil,
+                kanji: __MODULE__.Kanji.t() | nil
               }
         defstruct [:kana, :kanji]
 
         defmodule Kana do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `registered_name` - Registered name of the business.
@@ -3400,7 +3404,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule Kanji do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `registered_name` - Registered name of the business.
@@ -3434,7 +3438,7 @@ defmodule Stripe.Resources.V2.Core.Account do
     end
 
     defmodule Individual do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account` - The account ID which the individual belongs to.
@@ -3463,26 +3467,26 @@ defmodule Stripe.Resources.V2.Core.Account do
       """
       @type t :: %__MODULE__{
               account: String.t() | nil,
-              additional_addresses: [map()] | nil,
-              additional_names: [map()] | nil,
-              additional_terms_of_service: map() | nil,
-              address: map() | nil,
+              additional_addresses: [__MODULE__.AdditionalAddresses.t()] | nil,
+              additional_names: [__MODULE__.AdditionalNames.t()] | nil,
+              additional_terms_of_service: __MODULE__.AdditionalTermsOfService.t() | nil,
+              address: __MODULE__.Address.t() | nil,
               created: String.t() | nil,
-              date_of_birth: map() | nil,
-              documents: map() | nil,
+              date_of_birth: __MODULE__.DateOfBirth.t() | nil,
+              documents: __MODULE__.Documents.t() | nil,
               email: String.t() | nil,
               given_name: String.t() | nil,
               id: String.t() | nil,
-              id_numbers: [map()] | nil,
+              id_numbers: [__MODULE__.IdNumbers.t()] | nil,
               legal_gender: String.t() | nil,
               metadata: map() | nil,
               nationalities: [String.t()] | nil,
               object: String.t() | nil,
               phone: String.t() | nil,
               political_exposure: String.t() | nil,
-              relationship: map() | nil,
-              script_addresses: map() | nil,
-              script_names: map() | nil,
+              relationship: __MODULE__.Relationship.t() | nil,
+              script_addresses: __MODULE__.ScriptAddresses.t() | nil,
+              script_names: __MODULE__.ScriptNames.t() | nil,
               surname: String.t() | nil,
               updated: String.t() | nil
             }
@@ -3513,7 +3517,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       ]
 
       defmodule AdditionalAddresses do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `city` - City, district, suburb, town, or village.
@@ -3539,7 +3543,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule AdditionalNames do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `full_name` - The individual's full name.
@@ -3557,18 +3561,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule AdditionalTermsOfService do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - Stripe terms of service agreement.
         """
         @type t :: %__MODULE__{
-                account: map() | nil
+                account: __MODULE__.Account.t() | nil
               }
         defstruct [:account]
 
         defmodule Account do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `date` - The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z. Format: date-time.
@@ -3591,7 +3595,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Address do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `city` - City, district, suburb, town, or village.
@@ -3615,7 +3619,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule DateOfBirth do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `day` - The day of birth, between 1 and 31.
@@ -3631,7 +3635,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Documents do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `company_authorization` - One or more documents that demonstrate proof that this person is authorized to represent the company.
@@ -3641,11 +3645,11 @@ defmodule Stripe.Resources.V2.Core.Account do
         * `visa` - One or more documents showing the person’s visa required for living in the country where they are residing.
         """
         @type t :: %__MODULE__{
-                company_authorization: map() | nil,
-                passport: map() | nil,
-                primary_verification: map() | nil,
-                secondary_verification: map() | nil,
-                visa: map() | nil
+                company_authorization: __MODULE__.CompanyAuthorization.t() | nil,
+                passport: __MODULE__.Passport.t() | nil,
+                primary_verification: __MODULE__.PrimaryVerification.t() | nil,
+                secondary_verification: __MODULE__.SecondaryVerification.t() | nil,
+                visa: __MODULE__.Visa.t() | nil
               }
         defstruct [
           :company_authorization,
@@ -3656,7 +3660,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         ]
 
         defmodule CompanyAuthorization do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3670,7 +3674,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule Passport do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3684,20 +3688,20 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule PrimaryVerification do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
           * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
           """
           @type t :: %__MODULE__{
-                  front_back: map() | nil,
+                  front_back: __MODULE__.FrontBack.t() | nil,
                   type: String.t() | nil
                 }
           defstruct [:front_back, :type]
 
           defmodule FrontBack do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -3718,20 +3722,20 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule SecondaryVerification do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `front_back` - The [file upload](https://docs.stripe.com/api/persons/update#create_file) tokens for the front and back of the verification document.
           * `type` - The format of the verification document. Currently supports `front_back` only. Possible values: `front_back`.
           """
           @type t :: %__MODULE__{
-                  front_back: map() | nil,
+                  front_back: __MODULE__.FrontBack.t() | nil,
                   type: String.t() | nil
                 }
           defstruct [:front_back, :type]
 
           defmodule FrontBack do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `back` - A [file upload](https://docs.stripe.com/api/persons/update#create_file) token representing the back of the verification document. The purpose of the uploaded file should be 'identity_document'. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -3752,7 +3756,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule Visa do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `files` - One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3777,7 +3781,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule IdNumbers do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `type` - The ID number type of an individual. Possible values: `ae_eid`, `ao_nif`, `ar_cuil`, `ar_dni`, `at_stn`, `az_tin`, `bd_brc`, `bd_etin`, `bd_nid`, `be_nrn`, `bg_ucn`, `bn_nric`, `br_cpf`, `ca_sin`, `ch_oasi`, `cl_rut`, `cn_pp`, `co_nuip`, `cr_ci`, `cr_cpf`, `cr_dimex`, `cr_nite`, `cy_tic`, `cz_rc`, `de_stn`, `dk_cpr`, `do_cie`, `do_rcn`, `ec_ci`, `ee_ik`, `es_nif`, `fi_hetu`, `fr_nir`, `gb_nino`, `gr_afm`, `gt_nit`, `hk_id`, `hr_oib`, `hu_ad`, `id_nik`, `ie_ppsn`, `is_kt`, `it_cf`, `jp_inc`, `ke_pin`, `kz_iin`, `li_peid`, `lt_ak`, `lu_nif`, `lv_pk`, `mx_rfc`, `my_nric`, `mz_nuit`, `ng_nin`, `nl_bsn`, `no_nin`, `nz_ird`, `pe_dni`, `pk_cnic`, `pk_snic`, `pl_pesel`, `pt_nif`, `ro_cnp`, `sa_tin`, `se_pin`, `sg_fin`, `sg_nric`, `sk_dic`, `th_lc`, `th_pin`, `tr_tin`, `us_itin`, `us_itin_last_4`, `us_ssn`, `us_ssn_last_4`, `uy_dni`, `za_id`.
@@ -3789,7 +3793,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Relationship do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `authorizer` - Whether the individual is an authorizer of the Account's identity.
@@ -3824,20 +3828,20 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule ScriptAddresses do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `kana` - Kana Address.
         * `kanji` - Kanji Address.
         """
         @type t :: %__MODULE__{
-                kana: map() | nil,
-                kanji: map() | nil
+                kana: __MODULE__.Kana.t() | nil,
+                kanji: __MODULE__.Kanji.t() | nil
               }
         defstruct [:kana, :kanji]
 
         defmodule Kana do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `city` - City, district, suburb, town, or village.
@@ -3861,7 +3865,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule Kanji do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `city` - City, district, suburb, town, or village.
@@ -3893,20 +3897,20 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule ScriptNames do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `kana` - Persons name in kana script.
         * `kanji` - Persons name in kanji script.
         """
         @type t :: %__MODULE__{
-                kana: map() | nil,
-                kanji: map() | nil
+                kana: __MODULE__.Kana.t() | nil,
+                kanji: __MODULE__.Kanji.t() | nil
               }
         defstruct [:kana, :kanji]
 
         defmodule Kana do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `given_name` - The person's first or given name.
@@ -3920,7 +3924,7 @@ defmodule Stripe.Resources.V2.Core.Account do
         end
 
         defmodule Kanji do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `given_name` - The person's first or given name.
@@ -3967,20 +3971,20 @@ defmodule Stripe.Resources.V2.Core.Account do
   end
 
   defmodule Requirements do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `entries` - A list of requirements for the Account.
     * `summary` - An object containing an overview of requirements for the Account.
     """
     @type t :: %__MODULE__{
-            entries: [map()] | nil,
-            summary: map() | nil
+            entries: [__MODULE__.Entries.t()] | nil,
+            summary: __MODULE__.Summary.t() | nil
           }
     defstruct [:entries, :summary]
 
     defmodule Entries do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `awaiting_action_from` - Indicates whether the platform or Stripe is currently responsible for taking action on the requirement. Value can be `user` or `stripe`. Possible values: `stripe`, `user`.
@@ -3994,11 +3998,11 @@ defmodule Stripe.Resources.V2.Core.Account do
       @type t :: %__MODULE__{
               awaiting_action_from: String.t() | nil,
               description: String.t() | nil,
-              errors: [map()] | nil,
-              impact: map() | nil,
-              minimum_deadline: map() | nil,
-              reference: map() | nil,
-              requested_reasons: [map()] | nil
+              errors: [__MODULE__.Errors.t()] | nil,
+              impact: __MODULE__.Impact.t() | nil,
+              minimum_deadline: __MODULE__.MinimumDeadline.t() | nil,
+              reference: __MODULE__.Reference.t() | nil,
+              requested_reasons: [__MODULE__.RequestedReasons.t()] | nil
             }
       defstruct [
         :awaiting_action_from,
@@ -4011,7 +4015,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       ]
 
       defmodule Errors do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `code` - Machine-readable code describing the error. Possible values: `invalid_address_city_state_postal_code`, `invalid_address_highway_contract_box`, `invalid_address_private_mailbox`, `invalid_business_profile_name`, `invalid_business_profile_name_denylisted`, `invalid_company_name_denylisted`, `invalid_dob_age_over_maximum`, `invalid_dob_age_under_18`, `invalid_dob_age_under_minimum`, `invalid_product_description_length`, `invalid_product_description_url_match`, `invalid_representative_country`, `invalid_statement_descriptor_business_mismatch`, `invalid_statement_descriptor_denylisted`, `invalid_statement_descriptor_length`, `invalid_statement_descriptor_prefix_denylisted`, `invalid_statement_descriptor_prefix_mismatch`, `invalid_street_address`, `invalid_tax_id`, `invalid_tax_id_format`, `invalid_tos_acceptance`, `invalid_url_denylisted`, `invalid_url_format`, `invalid_url_website_business_information_mismatch`, `invalid_url_website_empty`, `invalid_url_website_inaccessible`, `invalid_url_website_inaccessible_geoblocked`, `invalid_url_website_inaccessible_password_protected`, `invalid_url_website_incomplete`, `invalid_url_website_incomplete_cancellation_policy`, `invalid_url_website_incomplete_customer_service_details`, `invalid_url_website_incomplete_legal_restrictions`, `invalid_url_website_incomplete_refund_policy`, `invalid_url_website_incomplete_return_policy`, `invalid_url_website_incomplete_terms_and_conditions`, `invalid_url_website_incomplete_under_construction`, `invalid_url_website_other`, `invalid_url_web_presence_detected`, `invalid_value_other`, `unresolvable_ip_address`, `unresolvable_postal_code`, `verification_directors_mismatch`, `verification_document_address_mismatch`, `verification_document_address_missing`, `verification_document_corrupt`, `verification_document_country_not_supported`, `verification_document_directors_mismatch`, `verification_document_dob_mismatch`, `verification_document_duplicate_type`, `verification_document_expired`, `verification_document_failed_copy`, `verification_document_failed_greyscale`, `verification_document_failed_other`, `verification_document_failed_test_mode`, `verification_document_fraudulent`, `verification_document_id_number_mismatch`, `verification_document_id_number_missing`, `verification_document_incomplete`, `verification_document_invalid`, `verification_document_issue_or_expiry_date_missing`, `verification_document_manipulated`, `verification_document_missing_back`, `verification_document_missing_front`, `verification_document_name_mismatch`, `verification_document_name_missing`, `verification_document_nationality_mismatch`, `verification_document_not_readable`, `verification_document_not_signed`, `verification_document_not_uploaded`, `verification_document_photo_mismatch`, `verification_document_too_large`, `verification_document_type_not_supported`, `verification_extraneous_directors`, `verification_failed_address_match`, `verification_failed_business_iec_number`, `verification_failed_document_match`, `verification_failed_id_number_match`, `verification_failed_keyed_identity`, `verification_failed_keyed_match`, `verification_failed_name_match`, `verification_failed_other`, `verification_failed_representative_authority`, `verification_failed_residential_address`, `verification_failed_tax_id_match`, `verification_failed_tax_id_not_issued`, `verification_missing_directors`, `verification_missing_executives`, `verification_missing_owners`, `verification_requires_additional_memorandum_of_associations`, `verification_requires_additional_proof_of_registration`, `verification_selfie_document_missing_photo`, `verification_selfie_face_mismatch`, `verification_selfie_manipulated`, `verification_selfie_unverified_other`, `verification_supportability`, `verification_token_stale`.
@@ -4025,18 +4029,18 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Impact do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `restricts_capabilities` - The Capabilities that will be restricted if the requirement is not collected and satisfactory to Stripe.
         """
         @type t :: %__MODULE__{
-                restricts_capabilities: [map()] | nil
+                restricts_capabilities: [__MODULE__.RestrictsCapabilities.t()] | nil
               }
         defstruct [:restricts_capabilities]
 
         defmodule RestrictsCapabilities do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `capability` - The name of the Capability which will be restricted. Possible values: `ach_debit_payments`, `acss_debit_payments`, `affirm_payments`, `afterpay_clearpay_payments`, `alma_payments`, `amazon_pay_payments`, `automatic_indirect_tax`, `au_becs_debit_payments`, `bacs_debit_payments`, `bancontact_payments`, `bank_accounts.local`, `bank_accounts.wire`, `blik_payments`, `boleto_payments`, `cards`, `card_payments`, `cartes_bancaires_payments`, `cashapp_payments`, `eps_payments`, `fpx_payments`, `gb_bank_transfer_payments`, `grabpay_payments`, `ideal_payments`, `jcb_payments`, `jp_bank_transfer_payments`, `kakao_pay_payments`, `klarna_payments`, `konbini_payments`, `kr_card_payments`, `link_payments`, `mobilepay_payments`, `multibanco_payments`, `mx_bank_transfer_payments`, `naver_pay_payments`, `oxxo_payments`, `p24_payments`, `payco_payments`, `paynow_payments`, `pay_by_bank_payments`, `promptpay_payments`, `revolut_pay_payments`, `samsung_pay_payments`, `sepa_bank_transfer_payments`, `sepa_debit_payments`, `stripe_balance.payouts`, `stripe_balance.stripe_transfers`, `swish_payments`, `twint_payments`, `us_bank_transfer_payments`, `zip_payments`.
@@ -4046,12 +4050,12 @@ defmodule Stripe.Resources.V2.Core.Account do
           @type t :: %__MODULE__{
                   capability: String.t() | nil,
                   configuration: String.t() | nil,
-                  deadline: map() | nil
+                  deadline: __MODULE__.Deadline.t() | nil
                 }
           defstruct [:capability, :configuration, :deadline]
 
           defmodule Deadline do
-            @moduledoc false
+            @moduledoc "Nested struct within the parent resource."
 
             @typedoc """
             * `status` - The current status of the requirement's impact. Possible values: `currently_due`, `eventually_due`, `past_due`.
@@ -4077,7 +4081,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule MinimumDeadline do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `status` - The current status of the requirement's impact. Possible values: `currently_due`, `eventually_due`, `past_due`.
@@ -4089,7 +4093,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule Reference do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `inquiry` - If `inquiry` is the type, the inquiry token.
@@ -4106,7 +4110,7 @@ defmodule Stripe.Resources.V2.Core.Account do
       end
 
       defmodule RequestedReasons do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `code` - Machine-readable description of Stripe's reason for collecting the requirement. Possible values: `routine_onboarding`, `routine_verification`.
@@ -4129,18 +4133,18 @@ defmodule Stripe.Resources.V2.Core.Account do
     end
 
     defmodule Summary do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `minimum_deadline` - The soonest date and time a requirement on the Account will become `past due`. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
       """
       @type t :: %__MODULE__{
-              minimum_deadline: map() | nil
+              minimum_deadline: __MODULE__.MinimumDeadline.t() | nil
             }
       defstruct [:minimum_deadline]
 
       defmodule MinimumDeadline do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `status` - The current strictest status of all requirements on the Account. Possible values: `currently_due`, `eventually_due`, `past_due`.

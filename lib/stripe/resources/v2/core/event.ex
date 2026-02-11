@@ -23,7 +23,7 @@ defmodule Stripe.Resources.V2.Core.Event do
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          reason: map() | nil,
+          reason: __MODULE__.Reason.t() | nil,
           type: String.t()
         }
 
@@ -33,20 +33,20 @@ defmodule Stripe.Resources.V2.Core.Event do
   def object_name, do: @object_name
 
   defmodule Reason do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `request` - Information on the API request that instigated the event.
     * `type` - Event reason type. Possible values: `request`.
     """
     @type t :: %__MODULE__{
-            request: map() | nil,
+            request: __MODULE__.Request.t() | nil,
             type: String.t() | nil
           }
     defstruct [:request, :type]
 
     defmodule Request do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `id` - ID of the API request that caused the event.

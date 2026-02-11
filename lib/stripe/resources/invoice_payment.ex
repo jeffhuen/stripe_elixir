@@ -33,13 +33,13 @@ defmodule Stripe.Resources.InvoicePayment do
           created: integer(),
           currency: String.t(),
           id: String.t(),
-          invoice: map(),
+          invoice: String.t() | Stripe.Resources.Invoice.t(),
           is_default: boolean(),
           livemode: boolean(),
           object: String.t(),
-          payment: map(),
+          payment: __MODULE__.Payment.t(),
           status: String.t(),
-          status_transitions: map()
+          status_transitions: __MODULE__.StatusTransitions.t()
         }
 
   defstruct [
@@ -63,7 +63,7 @@ defmodule Stripe.Resources.InvoicePayment do
   def expandable_fields, do: ["invoice", "payment", "status_transitions"]
 
   defmodule Payment do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `charge` - ID of the successful charge for this payment when `type` is `charge`.Note: charge is only surfaced if the charge object is not associated with a payment intent. If the charge object does have a payment intent, the Invoice Payment surfaces the payment intent instead.
@@ -72,16 +72,16 @@ defmodule Stripe.Resources.InvoicePayment do
     * `type` - Type of payment object associated with this invoice payment. Possible values: `charge`, `payment_intent`, `payment_record`.
     """
     @type t :: %__MODULE__{
-            charge: String.t() | map() | nil,
-            payment_intent: String.t() | map() | nil,
-            payment_record: String.t() | map() | nil,
+            charge: String.t() | Stripe.Resources.Charge.t() | nil,
+            payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
+            payment_record: String.t() | Stripe.Resources.PaymentRecord.t() | nil,
             type: String.t() | nil
           }
     defstruct [:charge, :payment_intent, :payment_record, :type]
   end
 
   defmodule StatusTransitions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `canceled_at` - The time that the payment was canceled. Format: Unix timestamp. Nullable.

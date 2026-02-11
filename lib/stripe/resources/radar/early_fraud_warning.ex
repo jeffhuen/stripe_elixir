@@ -21,13 +21,13 @@ defmodule Stripe.Resources.Radar.EarlyFraudWarning do
   """
   @type t :: %__MODULE__{
           actionable: boolean(),
-          charge: String.t() | map(),
+          charge: String.t() | Stripe.Resources.Charge.t(),
           created: integer(),
           fraud_type: String.t(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          payment_intent: String.t() | map() | nil
+          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil
         }
 
   defstruct [

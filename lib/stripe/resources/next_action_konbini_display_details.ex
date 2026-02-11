@@ -12,7 +12,7 @@ defmodule Stripe.Resources.NextActionKonbiniDisplayDetails do
   @type t :: %__MODULE__{
           expires_at: integer(),
           hosted_voucher_url: String.t(),
-          stores: map()
+          stores: Stripe.Resources.Stores.t()
         }
 
   defstruct [:expires_at, :hosted_voucher_url, :stores]

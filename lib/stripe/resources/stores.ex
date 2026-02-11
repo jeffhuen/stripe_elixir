@@ -11,10 +11,10 @@ defmodule Stripe.Resources.Stores do
   * `seicomart` - Seicomart instruction details. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          familymart: map(),
-          lawson: map(),
-          ministop: map(),
-          seicomart: map()
+          familymart: Stripe.Resources.Familymart.t(),
+          lawson: Stripe.Resources.Lawson.t(),
+          ministop: Stripe.Resources.Ministop.t(),
+          seicomart: Stripe.Resources.Seicomart.t()
         }
 
   defstruct [:familymart, :lawson, :ministop, :seicomart]

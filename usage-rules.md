@@ -105,10 +105,39 @@ end
 The stub callback receives a `%{method, url, headers, body}` map and returns
 `{status, headers, body}`. Stubs are isolated per test process.
 
+## String keys vs atom keys
+
+Request params and response structs use **different key formats**:
+
+- **Request params → string keys.** Pass `%{"amount" => 100}`, not `%{amount: 100}`.
+- **Response structs → atom keys.** The deserializer converts JSON into typed Elixir structs. Access fields with atoms: `charge.amount`, `invoice_line.period.start`.
+
+Nested objects are also deserialized into structs with atom keys:
+
+```elixir
+# WRONG — pattern matching with string keys on a deserialized struct
+case invoice_line.period do
+  %{"start" => start_unix} -> DateTime.from_unix!(start_unix)
+end
+
+# RIGHT — the Period struct has atom keys :start and :end
+case invoice_line.period do
+  %{start: start_unix} -> DateTime.from_unix!(start_unix)
+end
+```
+
+Fields that remain as **string-key maps** (not deserialized into structs):
+- `metadata` — arbitrary user key-value pairs
+- `previous_attributes` on v1 events
+- `related_object` on thin v2 events
+
+When in doubt, check the struct definition in `Stripe.Resources.*` — every `defstruct` field is an atom key.
+
 ## Common mistakes
 
 - **Forgetting the client argument.** Every service call needs a client as the first arg.
-- **Using string keys vs atom keys in params.** Params maps use string keys: `%{"amount" => 100}`, not `%{amount: 100}`.
+- **Using string keys on response structs.** Response data is deserialized into structs with atom keys. Use `charge.amount` or `%{start: unix}`, not `charge["amount"]` or `%{"start" => unix}`. See "String keys vs atom keys" above.
+- **Using atom keys in request params.** Params maps use string keys: `%{"amount" => 100}`, not `%{amount: 100}`.
 - **Placing WebhookPlug after Plug.Parsers.** The plug must come before parsers or signature verification will fail (empty body).
 - **Not pattern matching on {:ok, _} / {:error, _}.** All API calls return tagged tuples.
 

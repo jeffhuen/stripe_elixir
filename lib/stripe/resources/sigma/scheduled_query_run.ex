@@ -25,8 +25,8 @@ defmodule Stripe.Resources.Sigma.ScheduledQueryRun do
   @type t :: %__MODULE__{
           created: integer(),
           data_load_time: integer(),
-          error: map() | nil,
-          file: map(),
+          error: __MODULE__.Error.t() | nil,
+          file: Stripe.Resources.File.t(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
@@ -56,7 +56,7 @@ defmodule Stripe.Resources.Sigma.ScheduledQueryRun do
   def expandable_fields, do: ["error", "file"]
 
   defmodule Error do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `message` - Information about the run failure. Max length: 5000.

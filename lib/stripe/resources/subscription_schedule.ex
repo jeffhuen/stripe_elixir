@@ -31,26 +31,26 @@ defmodule Stripe.Resources.SubscriptionSchedule do
   * `test_clock` - ID of the test clock this subscription schedule belongs to. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          application: map(),
-          billing_mode: map(),
+          application: String.t() | Stripe.Resources.Application.t(),
+          billing_mode: __MODULE__.BillingMode.t(),
           canceled_at: integer(),
           completed_at: integer(),
           created: integer(),
-          current_phase: map(),
-          customer: map(),
+          current_phase: __MODULE__.CurrentPhase.t(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
-          default_settings: map(),
+          default_settings: __MODULE__.DefaultSettings.t(),
           end_behavior: String.t(),
           id: String.t(),
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          phases: [map()],
+          phases: [__MODULE__.Phases.t()],
           released_at: integer(),
           released_subscription: String.t(),
           status: String.t(),
-          subscription: String.t() | map(),
-          test_clock: String.t() | map()
+          subscription: String.t() | Stripe.Resources.Subscription.t(),
+          test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t()
         }
 
   defstruct [
@@ -92,7 +92,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     ]
 
   defmodule BillingMode do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `flexible` - Configure behavior for flexible billing mode Nullable.
@@ -100,14 +100,14 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     * `updated_at` - Details on when the current billing_mode was adopted. Format: Unix timestamp.
     """
     @type t :: %__MODULE__{
-            flexible: map() | nil,
+            flexible: __MODULE__.Flexible.t() | nil,
             type: String.t() | nil,
             updated_at: integer() | nil
           }
     defstruct [:flexible, :type, :updated_at]
 
     defmodule Flexible do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
@@ -126,7 +126,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
   end
 
   defmodule CurrentPhase do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `end_date` - The end of this phase of the subscription schedule. Format: Unix timestamp.
@@ -140,7 +140,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
   end
 
   defmodule DefaultSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `application_fee_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule. Nullable.
@@ -156,15 +156,15 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     """
     @type t :: %__MODULE__{
             application_fee_percent: float() | nil,
-            automatic_tax: map() | nil,
+            automatic_tax: __MODULE__.AutomaticTax.t() | nil,
             billing_cycle_anchor: String.t() | nil,
-            billing_thresholds: map() | nil,
+            billing_thresholds: __MODULE__.BillingThresholds.t() | nil,
             collection_method: String.t() | nil,
-            default_payment_method: String.t() | map() | nil,
+            default_payment_method: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
             description: String.t() | nil,
-            invoice_settings: map() | nil,
-            on_behalf_of: String.t() | map() | nil,
-            transfer_data: map() | nil
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+            on_behalf_of: String.t() | Stripe.Resources.Account.t() | nil,
+            transfer_data: __MODULE__.TransferData.t() | nil
           }
     defstruct [
       :application_fee_percent,
@@ -180,7 +180,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     ]
 
     defmodule AutomaticTax do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `requires_location_inputs`. Nullable.
@@ -190,19 +190,19 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       @type t :: %__MODULE__{
               disabled_reason: String.t() | nil,
               enabled: boolean() | nil,
-              liability: map() | nil
+              liability: __MODULE__.Liability.t() | nil
             }
       defstruct [:disabled_reason, :enabled, :liability]
 
       defmodule Liability do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - The connected account being referenced when `type` is `account`.
         * `type` - Type of the account referenced. Possible values: `account`, `self`.
         """
         @type t :: %__MODULE__{
-                account: String.t() | map() | nil,
+                account: String.t() | Stripe.Resources.Account.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:account, :type]
@@ -216,7 +216,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule BillingThresholds do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_gte` - Monetary threshold that triggers the subscription to create an invoice Nullable.
@@ -230,7 +230,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule InvoiceSettings do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_tax_ids` - The account tax IDs associated with the subscription schedule. Will be set on invoices generated by the subscription schedule. Nullable.
@@ -238,21 +238,21 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       * `issuer`
       """
       @type t :: %__MODULE__{
-              account_tax_ids: [map()] | nil,
+              account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()] | nil,
               days_until_due: integer() | nil,
-              issuer: map() | nil
+              issuer: __MODULE__.Issuer.t() | nil
             }
       defstruct [:account_tax_ids, :days_until_due, :issuer]
 
       defmodule Issuer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - The connected account being referenced when `type` is `account`.
         * `type` - Type of the account referenced. Possible values: `account`, `self`.
         """
         @type t :: %__MODULE__{
-                account: String.t() | map() | nil,
+                account: String.t() | Stripe.Resources.Account.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:account, :type]
@@ -266,7 +266,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule TransferData do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
@@ -274,7 +274,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       """
       @type t :: %__MODULE__{
               amount_percent: float() | nil,
-              destination: String.t() | map() | nil
+              destination: String.t() | Stripe.Resources.Account.t() | nil
             }
       defstruct [:amount_percent, :destination]
     end
@@ -290,7 +290,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
   end
 
   defmodule Phases do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `add_invoice_items` - A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
@@ -315,25 +315,25 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     * `trial_end` - When the trial ends within the phase. Format: Unix timestamp. Nullable.
     """
     @type t :: %__MODULE__{
-            add_invoice_items: [map()] | nil,
+            add_invoice_items: [__MODULE__.AddInvoiceItems.t()] | nil,
             application_fee_percent: float() | nil,
-            automatic_tax: map() | nil,
+            automatic_tax: __MODULE__.AutomaticTax.t() | nil,
             billing_cycle_anchor: String.t() | nil,
-            billing_thresholds: map() | nil,
+            billing_thresholds: __MODULE__.BillingThresholds.t() | nil,
             collection_method: String.t() | nil,
             currency: String.t() | nil,
-            default_payment_method: String.t() | map() | nil,
-            default_tax_rates: [map()] | nil,
+            default_payment_method: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
+            default_tax_rates: [Stripe.Resources.TaxRate.t()] | nil,
             description: String.t() | nil,
-            discounts: [map()] | nil,
+            discounts: [__MODULE__.Discounts.t()] | nil,
             end_date: integer() | nil,
-            invoice_settings: map() | nil,
-            items: [map()] | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+            items: [__MODULE__.Items.t()] | nil,
             metadata: map() | nil,
-            on_behalf_of: String.t() | map() | nil,
+            on_behalf_of: String.t() | Stripe.Resources.Account.t() | nil,
             proration_behavior: String.t() | nil,
             start_date: integer() | nil,
-            transfer_data: map() | nil,
+            transfer_data: __MODULE__.TransferData.t() | nil,
             trial_end: integer() | nil
           }
     defstruct [
@@ -360,7 +360,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     ]
 
     defmodule AddInvoiceItems do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `discounts` - The stackable discounts that will be applied to the item.
@@ -371,17 +371,17 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       * `tax_rates` - The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item. Nullable.
       """
       @type t :: %__MODULE__{
-              discounts: [map()] | nil,
+              discounts: [__MODULE__.Discounts.t()] | nil,
               metadata: map() | nil,
-              period: map() | nil,
-              price: map() | nil,
+              period: __MODULE__.Period.t() | nil,
+              price: String.t() | Stripe.Resources.Price.t() | nil,
               quantity: integer() | nil,
-              tax_rates: [map()] | nil
+              tax_rates: [Stripe.Resources.TaxRate.t()] | nil
             }
       defstruct [:discounts, :metadata, :period, :price, :quantity, :tax_rates]
 
       defmodule Discounts do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `coupon` - ID of the coupon to create a new discount for. Nullable.
@@ -389,28 +389,28 @@ defmodule Stripe.Resources.SubscriptionSchedule do
         * `promotion_code` - ID of the promotion code to create a new discount for. Nullable.
         """
         @type t :: %__MODULE__{
-                coupon: String.t() | map() | nil,
-                discount: String.t() | map() | nil,
-                promotion_code: String.t() | map() | nil
+                coupon: String.t() | Stripe.Resources.Coupon.t() | nil,
+                discount: String.t() | Stripe.Resources.Discount.t() | nil,
+                promotion_code: String.t() | Stripe.Resources.PromotionCode.t() | nil
               }
         defstruct [:coupon, :discount, :promotion_code]
       end
 
       defmodule Period do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `end`
         * `start`
         """
         @type t :: %__MODULE__{
-                end: map() | nil,
-                start: map() | nil
+                end: __MODULE__.End.t() | nil,
+                start: __MODULE__.Start.t() | nil
               }
         defstruct [:end, :start]
 
         defmodule End do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `timestamp` - A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`. Format: Unix timestamp.
@@ -424,7 +424,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
         end
 
         defmodule Start do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `timestamp` - A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`. Format: Unix timestamp.
@@ -454,7 +454,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule AutomaticTax do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `requires_location_inputs`. Nullable.
@@ -464,19 +464,19 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       @type t :: %__MODULE__{
               disabled_reason: String.t() | nil,
               enabled: boolean() | nil,
-              liability: map() | nil
+              liability: __MODULE__.Liability.t() | nil
             }
       defstruct [:disabled_reason, :enabled, :liability]
 
       defmodule Liability do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - The connected account being referenced when `type` is `account`.
         * `type` - Type of the account referenced. Possible values: `account`, `self`.
         """
         @type t :: %__MODULE__{
-                account: String.t() | map() | nil,
+                account: String.t() | Stripe.Resources.Account.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:account, :type]
@@ -490,7 +490,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule BillingThresholds do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_gte` - Monetary threshold that triggers the subscription to create an invoice Nullable.
@@ -504,7 +504,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule Discounts do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `coupon` - ID of the coupon to create a new discount for. Nullable.
@@ -512,15 +512,15 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       * `promotion_code` - ID of the promotion code to create a new discount for. Nullable.
       """
       @type t :: %__MODULE__{
-              coupon: String.t() | map() | nil,
-              discount: String.t() | map() | nil,
-              promotion_code: String.t() | map() | nil
+              coupon: String.t() | Stripe.Resources.Coupon.t() | nil,
+              discount: String.t() | Stripe.Resources.Discount.t() | nil,
+              promotion_code: String.t() | Stripe.Resources.PromotionCode.t() | nil
             }
       defstruct [:coupon, :discount, :promotion_code]
     end
 
     defmodule InvoiceSettings do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_tax_ids` - The account tax IDs associated with this phase of the subscription schedule. Will be set on invoices generated by this phase of the subscription schedule. Nullable.
@@ -528,21 +528,21 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account. Nullable.
       """
       @type t :: %__MODULE__{
-              account_tax_ids: [map()] | nil,
+              account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()] | nil,
               days_until_due: integer() | nil,
-              issuer: map() | nil
+              issuer: __MODULE__.Issuer.t() | nil
             }
       defstruct [:account_tax_ids, :days_until_due, :issuer]
 
       defmodule Issuer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - The connected account being referenced when `type` is `account`.
         * `type` - Type of the account referenced. Possible values: `account`, `self`.
         """
         @type t :: %__MODULE__{
-                account: String.t() | map() | nil,
+                account: String.t() | Stripe.Resources.Account.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:account, :type]
@@ -556,7 +556,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule Items do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period Nullable.
@@ -568,18 +568,18 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       * `tax_rates` - The tax rates which apply to this `phase_item`. When set, the `default_tax_rates` on the phase do not apply to this `phase_item`. Nullable.
       """
       @type t :: %__MODULE__{
-              billing_thresholds: map() | nil,
-              discounts: [map()] | nil,
+              billing_thresholds: __MODULE__.BillingThresholds.t() | nil,
+              discounts: [__MODULE__.Discounts.t()] | nil,
               metadata: map() | nil,
-              plan: map() | nil,
-              price: map() | nil,
+              plan: String.t() | Stripe.Resources.Plan.t() | nil,
+              price: String.t() | Stripe.Resources.Price.t() | nil,
               quantity: integer() | nil,
-              tax_rates: [map()] | nil
+              tax_rates: [Stripe.Resources.TaxRate.t()] | nil
             }
       defstruct [:billing_thresholds, :discounts, :metadata, :plan, :price, :quantity, :tax_rates]
 
       defmodule BillingThresholds do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `usage_gte` - Usage threshold that triggers the subscription to create an invoice Nullable.
@@ -591,7 +591,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       end
 
       defmodule Discounts do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `coupon` - ID of the coupon to create a new discount for. Nullable.
@@ -599,9 +599,9 @@ defmodule Stripe.Resources.SubscriptionSchedule do
         * `promotion_code` - ID of the promotion code to create a new discount for. Nullable.
         """
         @type t :: %__MODULE__{
-                coupon: String.t() | map() | nil,
-                discount: String.t() | map() | nil,
-                promotion_code: String.t() | map() | nil
+                coupon: String.t() | Stripe.Resources.Coupon.t() | nil,
+                discount: String.t() | Stripe.Resources.Discount.t() | nil,
+                promotion_code: String.t() | Stripe.Resources.PromotionCode.t() | nil
               }
         defstruct [:coupon, :discount, :promotion_code]
       end
@@ -615,7 +615,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
     end
 
     defmodule TransferData do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
@@ -623,7 +623,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       """
       @type t :: %__MODULE__{
               amount_percent: float() | nil,
-              destination: String.t() | map() | nil
+              destination: String.t() | Stripe.Resources.Account.t() | nil
             }
       defstruct [:amount_percent, :destination]
     end

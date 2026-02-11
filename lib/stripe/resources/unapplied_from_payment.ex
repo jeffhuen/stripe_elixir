@@ -8,7 +8,7 @@ defmodule Stripe.Resources.UnappliedFromPayment do
   * `payment_intent` - The [Payment Intent](https://docs.stripe.com/api/payment_intents/object) that funds were unapplied from. Expandable.
   """
   @type t :: %__MODULE__{
-          payment_intent: String.t() | map()
+          payment_intent: String.t() | Stripe.Resources.PaymentIntent.t()
         }
 
   defstruct [:payment_intent]

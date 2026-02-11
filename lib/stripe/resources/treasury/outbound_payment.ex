@@ -42,8 +42,8 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
           customer: String.t(),
           description: String.t(),
           destination_payment_method: String.t(),
-          destination_payment_method_details: map(),
-          end_user_details: map(),
+          destination_payment_method_details: __MODULE__.DestinationPaymentMethodDetails.t(),
+          end_user_details: __MODULE__.EndUserDetails.t(),
           expected_arrival_date: integer(),
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
@@ -51,12 +51,12 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          returned_details: map(),
+          returned_details: __MODULE__.ReturnedDetails.t(),
           statement_descriptor: String.t(),
           status: String.t(),
-          status_transitions: map(),
-          tracking_details: map(),
-          transaction: String.t() | map()
+          status_transitions: Stripe.Resources.StatusTransitions.t(),
+          tracking_details: __MODULE__.TrackingDetails.t(),
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
   defstruct [
@@ -98,7 +98,7 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
     ]
 
   defmodule DestinationPaymentMethodDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `billing_details`
@@ -107,16 +107,16 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
     * `us_bank_account`
     """
     @type t :: %__MODULE__{
-            billing_details: map() | nil,
-            financial_account: map() | nil,
+            billing_details: Stripe.Resources.BillingDetails.t() | nil,
+            financial_account: Stripe.Resources.FinancialAccount.t() | nil,
             type: String.t() | nil,
-            us_bank_account: map() | nil
+            us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
           }
     defstruct [:billing_details, :financial_account, :type, :us_bank_account]
   end
 
   defmodule EndUserDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `ip_address` - IP address of the user initiating the OutboundPayment. Set if `present` is set to `true`. IP address collection is required for risk and compliance reasons. This will be used to help determine if the OutboundPayment is authorized or should be blocked. Max length: 5000. Nullable.
@@ -130,7 +130,7 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
   end
 
   defmodule ReturnedDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `code` - Reason for the return. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `declined`, `incorrect_account_holder_name`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
@@ -138,13 +138,13 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
     """
     @type t :: %__MODULE__{
             code: String.t() | nil,
-            transaction: String.t() | map() | nil
+            transaction: String.t() | Stripe.Resources.Treasury.Transaction.t() | nil
           }
     defstruct [:code, :transaction]
   end
 
   defmodule TrackingDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `ach`
@@ -152,14 +152,14 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
     * `us_domestic_wire`
     """
     @type t :: %__MODULE__{
-            ach: map() | nil,
+            ach: __MODULE__.Ach.t() | nil,
             type: String.t() | nil,
-            us_domestic_wire: map() | nil
+            us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :type, :us_domestic_wire]
 
     defmodule Ach do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `trace_id` - ACH trace ID of the OutboundPayment for payments sent over the `ach` network. Max length: 5000.
@@ -171,7 +171,7 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
     end
 
     defmodule UsDomesticWire do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `chips` - CHIPS System Sequence Number (SSN) of the OutboundPayment for payments sent over the `us_domestic_wire` network. Max length: 5000. Nullable.

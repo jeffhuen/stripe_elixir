@@ -36,25 +36,25 @@ defmodule Stripe.Resources.Issuing.Transaction do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          amount_details: map(),
-          authorization: String.t() | map(),
-          balance_transaction: String.t() | map(),
-          card: String.t() | map(),
-          cardholder: String.t() | map(),
+          amount_details: __MODULE__.AmountDetails.t(),
+          authorization: String.t() | Stripe.Resources.Issuing.Authorization.t(),
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
+          card: String.t() | Stripe.Resources.Issuing.Card.t(),
+          cardholder: String.t() | Stripe.Resources.Issuing.Cardholder.t(),
           created: integer(),
           currency: String.t(),
-          dispute: String.t() | map(),
+          dispute: String.t() | Stripe.Resources.Issuing.Dispute.t(),
           id: String.t(),
           livemode: boolean(),
           merchant_amount: integer(),
           merchant_currency: String.t(),
-          merchant_data: map(),
+          merchant_data: __MODULE__.MerchantData.t(),
           metadata: map(),
-          network_data: map(),
+          network_data: __MODULE__.NetworkData.t(),
           object: String.t(),
-          purchase_details: map() | nil,
-          token: String.t() | map() | nil,
-          treasury: map() | nil,
+          purchase_details: __MODULE__.PurchaseDetails.t() | nil,
+          token: String.t() | Stripe.Resources.Issuing.Token.t() | nil,
+          treasury: __MODULE__.Treasury.t() | nil,
           type: String.t(),
           wallet: String.t()
         }
@@ -103,7 +103,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
     ]
 
   defmodule AmountDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `atm_fee` - The fee charged by the ATM for the cash withdrawal. Nullable.
@@ -117,7 +117,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
   end
 
   defmodule MerchantData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `category` - A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values. Max length: 5000.
@@ -161,7 +161,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
   end
 
   defmodule NetworkData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `authorization_code` - A code created by Stripe which is shared with the merchant to validate the authorization. This field will be populated if the authorization message was approved. The code typically starts with the letter "S", followed by a six-digit number. For example, "S498162". Please note that the code is not guaranteed to be unique across authorizations. Max length: 5000. Nullable.
@@ -177,7 +177,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
   end
 
   defmodule PurchaseDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `fleet` - Fleet-specific information for transactions using Fleet cards. Nullable.
@@ -188,17 +188,17 @@ defmodule Stripe.Resources.Issuing.Transaction do
     * `reference` - A merchant-specific order number. Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            fleet: map() | nil,
-            flight: map() | nil,
-            fuel: map() | nil,
-            lodging: map() | nil,
-            receipt: [map()] | nil,
+            fleet: __MODULE__.Fleet.t() | nil,
+            flight: __MODULE__.Flight.t() | nil,
+            fuel: __MODULE__.Fuel.t() | nil,
+            lodging: __MODULE__.Lodging.t() | nil,
+            receipt: [__MODULE__.Receipt.t()] | nil,
             reference: String.t() | nil
           }
     defstruct [:fleet, :flight, :fuel, :lodging, :receipt, :reference]
 
     defmodule Fleet do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `cardholder_prompt_data` - Answers to prompts presented to cardholder at point of sale. Nullable.
@@ -207,15 +207,15 @@ defmodule Stripe.Resources.Issuing.Transaction do
       * `service_type` - The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              cardholder_prompt_data: map() | nil,
+              cardholder_prompt_data: __MODULE__.CardholderPromptData.t() | nil,
               purchase_type: String.t() | nil,
-              reported_breakdown: map() | nil,
+              reported_breakdown: __MODULE__.ReportedBreakdown.t() | nil,
               service_type: String.t() | nil
             }
       defstruct [:cardholder_prompt_data, :purchase_type, :reported_breakdown, :service_type]
 
       defmodule CardholderPromptData do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `driver_id` - Driver ID. Max length: 5000. Nullable.
@@ -235,7 +235,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
       end
 
       defmodule ReportedBreakdown do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `fuel` - Breakdown of fuel portion of the purchase. Nullable.
@@ -243,14 +243,14 @@ defmodule Stripe.Resources.Issuing.Transaction do
         * `tax` - Information about tax included in this transaction. Nullable.
         """
         @type t :: %__MODULE__{
-                fuel: map() | nil,
-                non_fuel: map() | nil,
-                tax: map() | nil
+                fuel: __MODULE__.Fuel.t() | nil,
+                non_fuel: __MODULE__.NonFuel.t() | nil,
+                tax: __MODULE__.Tax.t() | nil
               }
         defstruct [:fuel, :non_fuel, :tax]
 
         defmodule Fuel do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `gross_amount_decimal` - Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes. Format: decimal string. Nullable.
@@ -262,7 +262,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
         end
 
         defmodule NonFuel do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `gross_amount_decimal` - Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes. Format: decimal string. Nullable.
@@ -274,7 +274,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
         end
 
         defmodule Tax do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `local_amount_decimal` - Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax. Format: decimal string. Nullable.
@@ -305,7 +305,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
     end
 
     defmodule Flight do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `departure_at` - The time that the flight departed. Nullable.
@@ -318,13 +318,13 @@ defmodule Stripe.Resources.Issuing.Transaction do
               departure_at: integer() | nil,
               passenger_name: String.t() | nil,
               refundable: boolean() | nil,
-              segments: [map()] | nil,
+              segments: [__MODULE__.Segments.t()] | nil,
               travel_agency: String.t() | nil
             }
       defstruct [:departure_at, :passenger_name, :refundable, :segments, :travel_agency]
 
       defmodule Segments do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `arrival_airport_code` - The three-letter IATA airport code of the flight's destination. Max length: 5000. Nullable.
@@ -360,7 +360,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
     end
 
     defmodule Fuel do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `industry_product_code` - [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased. Max length: 5000. Nullable.
@@ -380,7 +380,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
     end
 
     defmodule Lodging do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `check_in_at` - The time of checking into the lodging. Nullable.
@@ -394,7 +394,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
     end
 
     defmodule Receipt do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `description` - The description of the item. The maximum length of this field is 26 characters. Max length: 5000. Nullable.
@@ -423,7 +423,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
   end
 
   defmodule Treasury do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `received_credit` - The Treasury [ReceivedCredit](https://docs.stripe.com/api/treasury/received_credits) representing this Issuing transaction if it is a refund Max length: 5000. Nullable.

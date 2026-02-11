@@ -22,8 +22,8 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
   * `status` - Whether this personalization design can be used to create cards. Possible values: `active`, `inactive`, `rejected`, `review`.
   """
   @type t :: %__MODULE__{
-          card_logo: String.t() | map(),
-          carrier_text: map(),
+          card_logo: String.t() | Stripe.Resources.File.t(),
+          carrier_text: __MODULE__.CarrierText.t(),
           created: integer(),
           id: String.t(),
           livemode: boolean(),
@@ -31,9 +31,9 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
           metadata: map(),
           name: String.t(),
           object: String.t(),
-          physical_bundle: String.t() | map(),
-          preferences: map(),
-          rejection_reasons: map(),
+          physical_bundle: String.t() | Stripe.Resources.Issuing.PhysicalBundle.t(),
+          preferences: __MODULE__.Preferences.t(),
+          rejection_reasons: __MODULE__.RejectionReasons.t(),
           status: String.t()
         }
 
@@ -60,7 +60,7 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
     do: ["card_logo", "carrier_text", "physical_bundle", "preferences", "rejection_reasons"]
 
   defmodule CarrierText do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `footer_body` - The footer body text of the carrier letter. Max length: 5000. Nullable.
@@ -78,7 +78,7 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
   end
 
   defmodule Preferences do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
@@ -92,7 +92,7 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
   end
 
   defmodule RejectionReasons do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `card_logo` - The reason(s) the card logo was rejected. Nullable.

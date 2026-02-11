@@ -9,8 +9,8 @@ defmodule Stripe.Resources.CardPresent do
   * `offline` - Details about payments collected offline. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          generated_card: String.t() | map(),
-          offline: map()
+          generated_card: String.t() | Stripe.Resources.PaymentMethod.t(),
+          offline: Stripe.Resources.Offline.t()
         }
 
   defstruct [:generated_card, :offline]

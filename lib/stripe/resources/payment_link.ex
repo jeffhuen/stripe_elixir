@@ -49,39 +49,39 @@ defmodule Stripe.Resources.PaymentLink do
   """
   @type t :: %__MODULE__{
           active: boolean(),
-          after_completion: map(),
+          after_completion: __MODULE__.AfterCompletion.t(),
           allow_promotion_codes: boolean(),
-          application: map(),
+          application: String.t() | Stripe.Resources.Application.t(),
           application_fee_amount: integer(),
           application_fee_percent: float(),
-          automatic_tax: map(),
+          automatic_tax: __MODULE__.AutomaticTax.t(),
           billing_address_collection: String.t(),
-          consent_collection: map(),
+          consent_collection: __MODULE__.ConsentCollection.t(),
           currency: String.t(),
-          custom_fields: [map()],
-          custom_text: map(),
+          custom_fields: [__MODULE__.CustomFields.t()],
+          custom_text: __MODULE__.CustomText.t(),
           customer_creation: String.t(),
           id: String.t(),
           inactive_message: String.t(),
-          invoice_creation: map(),
-          line_items: map() | nil,
+          invoice_creation: __MODULE__.InvoiceCreation.t(),
+          line_items: __MODULE__.LineItems.t() | nil,
           livemode: boolean(),
           metadata: map(),
-          name_collection: map() | nil,
+          name_collection: __MODULE__.NameCollection.t() | nil,
           object: String.t(),
-          on_behalf_of: String.t() | map(),
-          optional_items: [map()] | nil,
-          payment_intent_data: map(),
+          on_behalf_of: String.t() | Stripe.Resources.Account.t(),
+          optional_items: [__MODULE__.OptionalItems.t()] | nil,
+          payment_intent_data: __MODULE__.PaymentIntentData.t(),
           payment_method_collection: String.t(),
           payment_method_types: [String.t()],
-          phone_number_collection: map(),
-          restrictions: map(),
-          shipping_address_collection: map(),
-          shipping_options: [map()],
+          phone_number_collection: __MODULE__.PhoneNumberCollection.t(),
+          restrictions: __MODULE__.Restrictions.t(),
+          shipping_address_collection: __MODULE__.ShippingAddressCollection.t(),
+          shipping_options: [__MODULE__.ShippingOptions.t()],
           submit_type: String.t(),
-          subscription_data: map(),
-          tax_id_collection: map(),
-          transfer_data: map(),
+          subscription_data: __MODULE__.SubscriptionData.t(),
+          tax_id_collection: __MODULE__.TaxIdCollection.t(),
+          transfer_data: __MODULE__.TransferData.t(),
           url: String.t()
         }
 
@@ -150,7 +150,7 @@ defmodule Stripe.Resources.PaymentLink do
     ]
 
   defmodule AfterCompletion do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `hosted_confirmation`
@@ -158,14 +158,14 @@ defmodule Stripe.Resources.PaymentLink do
     * `type` - The specified behavior after the purchase is complete. Possible values: `hosted_confirmation`, `redirect`.
     """
     @type t :: %__MODULE__{
-            hosted_confirmation: map() | nil,
-            redirect: map() | nil,
+            hosted_confirmation: __MODULE__.HostedConfirmation.t() | nil,
+            redirect: __MODULE__.Redirect.t() | nil,
             type: String.t() | nil
           }
     defstruct [:hosted_confirmation, :redirect, :type]
 
     defmodule HostedConfirmation do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `custom_message` - The custom message that is displayed to the customer after the purchase is complete. Max length: 5000. Nullable.
@@ -177,7 +177,7 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule Redirect do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `url` - The URL the customer will be redirected to after the purchase is complete. Max length: 5000.
@@ -197,7 +197,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule AutomaticTax do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - If `true`, tax will be calculated automatically using the customer's location.
@@ -205,19 +205,19 @@ defmodule Stripe.Resources.PaymentLink do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
 
     defmodule Liability do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account` - The connected account being referenced when `type` is `account`.
       * `type` - Type of the account referenced. Possible values: `account`, `self`.
       """
       @type t :: %__MODULE__{
-              account: String.t() | map() | nil,
+              account: String.t() | Stripe.Resources.Account.t() | nil,
               type: String.t() | nil
             }
       defstruct [:account, :type]
@@ -231,7 +231,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule ConsentCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `payment_method_reuse_agreement` - Settings related to the payment method reuse text shown in the Checkout UI. Nullable.
@@ -239,14 +239,14 @@ defmodule Stripe.Resources.PaymentLink do
     * `terms_of_service` - If set to `required`, it requires cutomers to accept the terms of service before being able to pay. If set to `none`, customers won't be shown a checkbox to accept the terms of service. Possible values: `none`, `required`. Nullable.
     """
     @type t :: %__MODULE__{
-            payment_method_reuse_agreement: map() | nil,
+            payment_method_reuse_agreement: __MODULE__.PaymentMethodReuseAgreement.t() | nil,
             promotions: String.t() | nil,
             terms_of_service: String.t() | nil
           }
     defstruct [:payment_method_reuse_agreement, :promotions, :terms_of_service]
 
     defmodule PaymentMethodReuseAgreement do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `position` - Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's defaults will be used.
@@ -267,7 +267,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule CustomFields do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `dropdown`
@@ -279,18 +279,18 @@ defmodule Stripe.Resources.PaymentLink do
     * `type` - The type of the field. Possible values: `dropdown`, `numeric`, `text`.
     """
     @type t :: %__MODULE__{
-            dropdown: map() | nil,
+            dropdown: __MODULE__.Dropdown.t() | nil,
             key: String.t() | nil,
-            label: map() | nil,
-            numeric: map() | nil,
+            label: __MODULE__.Label.t() | nil,
+            numeric: __MODULE__.Numeric.t() | nil,
             optional: boolean() | nil,
-            text: map() | nil,
+            text: __MODULE__.Text.t() | nil,
             type: String.t() | nil
           }
     defstruct [:dropdown, :key, :label, :numeric, :optional, :text, :type]
 
     defmodule Dropdown do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `default_value` - The value that will pre-fill on the payment page. Max length: 5000. Nullable.
@@ -298,13 +298,13 @@ defmodule Stripe.Resources.PaymentLink do
       """
       @type t :: %__MODULE__{
               default_value: String.t() | nil,
-              options: [map()] | nil
+              options: [Stripe.Resources.CustomFieldDropdownOption.t()] | nil
             }
       defstruct [:default_value, :options]
     end
 
     defmodule Label do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `custom` - Custom text for the label, displayed to the customer. Up to 50 characters. Max length: 5000. Nullable.
@@ -318,7 +318,7 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule Numeric do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `default_value` - The value that will pre-fill the field on the payment page. Max length: 5000. Nullable.
@@ -334,7 +334,7 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule Text do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `default_value` - The value that will pre-fill the field on the payment page. Max length: 5000. Nullable.
@@ -360,7 +360,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule CustomText do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `after_submit` - Custom text that should be displayed after the payment confirmation button. Nullable.
@@ -369,15 +369,15 @@ defmodule Stripe.Resources.PaymentLink do
     * `terms_of_service_acceptance` - Custom text that should be displayed in place of the default terms of service agreement text. Nullable.
     """
     @type t :: %__MODULE__{
-            after_submit: map() | nil,
-            shipping_address: map() | nil,
-            submit: map() | nil,
-            terms_of_service_acceptance: map() | nil
+            after_submit: __MODULE__.AfterSubmit.t() | nil,
+            shipping_address: __MODULE__.ShippingAddress.t() | nil,
+            submit: __MODULE__.Submit.t() | nil,
+            terms_of_service_acceptance: __MODULE__.TermsOfServiceAcceptance.t() | nil
           }
     defstruct [:after_submit, :shipping_address, :submit, :terms_of_service_acceptance]
 
     defmodule AfterSubmit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -389,7 +389,7 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule ShippingAddress do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -401,7 +401,7 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule Submit do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -413,7 +413,7 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule TermsOfServiceAcceptance do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `message` - Text may be up to 1200 characters in length. Max length: 500.
@@ -435,7 +435,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule InvoiceCreation do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - Enable creating an invoice on successful payment.
@@ -443,12 +443,12 @@ defmodule Stripe.Resources.PaymentLink do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            invoice_data: map() | nil
+            invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
 
     defmodule InvoiceData do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_tax_ids` - The account tax IDs associated with the invoice. Nullable.
@@ -460,13 +460,13 @@ defmodule Stripe.Resources.PaymentLink do
       * `rendering_options` - Options for invoice PDF rendering. Nullable.
       """
       @type t :: %__MODULE__{
-              account_tax_ids: [map()] | nil,
-              custom_fields: [map()] | nil,
+              account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()] | nil,
+              custom_fields: [__MODULE__.CustomFields.t()] | nil,
               description: String.t() | nil,
               footer: String.t() | nil,
-              issuer: map() | nil,
+              issuer: __MODULE__.Issuer.t() | nil,
               metadata: map() | nil,
-              rendering_options: map() | nil
+              rendering_options: __MODULE__.RenderingOptions.t() | nil
             }
       defstruct [
         :account_tax_ids,
@@ -479,7 +479,7 @@ defmodule Stripe.Resources.PaymentLink do
       ]
 
       defmodule CustomFields do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `name` - The name of the custom field. Max length: 5000.
@@ -493,21 +493,21 @@ defmodule Stripe.Resources.PaymentLink do
       end
 
       defmodule Issuer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - The connected account being referenced when `type` is `account`.
         * `type` - Type of the account referenced. Possible values: `account`, `self`.
         """
         @type t :: %__MODULE__{
-                account: String.t() | map() | nil,
+                account: String.t() | Stripe.Resources.Account.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:account, :type]
       end
 
       defmodule RenderingOptions do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
@@ -537,7 +537,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule LineItems do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -546,7 +546,7 @@ defmodule Stripe.Resources.PaymentLink do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.LineItem.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -555,20 +555,20 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule NameCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `business`
     * `individual`
     """
     @type t :: %__MODULE__{
-            business: map() | nil,
-            individual: map() | nil
+            business: __MODULE__.Business.t() | nil,
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:business, :individual]
 
     defmodule Business do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Indicates whether business name collection is enabled for the payment link.
@@ -582,7 +582,7 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule Individual do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Indicates whether individual name collection is enabled for the payment link.
@@ -604,7 +604,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule OptionalItems do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `adjustable_quantity` - Nullable.
@@ -612,14 +612,14 @@ defmodule Stripe.Resources.PaymentLink do
     * `quantity`
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             price: String.t() | nil,
             quantity: integer() | nil
           }
     defstruct [:adjustable_quantity, :price, :quantity]
 
     defmodule AdjustableQuantity do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Set to true if the quantity can be adjusted to any non-negative integer.
@@ -642,7 +642,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule PaymentIntentData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `capture_method` - Indicates when the funds will be captured from the customer's account. Possible values: `automatic`, `automatic_async`, `manual`. Nullable.
@@ -674,7 +674,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule PhoneNumberCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - If `true`, a phone number will be collected during checkout.
@@ -686,18 +686,18 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule Restrictions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `completed_sessions`
     """
     @type t :: %__MODULE__{
-            completed_sessions: map() | nil
+            completed_sessions: __MODULE__.CompletedSessions.t() | nil
           }
     defstruct [:completed_sessions]
 
     defmodule CompletedSessions do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `count` - The current number of checkout sessions that have been completed on the payment link which count towards the `completed_sessions` restriction to be met.
@@ -718,7 +718,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule ShippingAddressCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `allowed_countries` - An array of two-letter ISO country codes representing which countries Checkout should provide as options for shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM, IR, KP, MH, FM, NF, MP, PW, SD, SY, UM, VI`.
@@ -730,7 +730,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule ShippingOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `shipping_amount` - A non-negative integer in cents representing how much to charge.
@@ -738,13 +738,13 @@ defmodule Stripe.Resources.PaymentLink do
     """
     @type t :: %__MODULE__{
             shipping_amount: integer() | nil,
-            shipping_rate: String.t() | map() | nil
+            shipping_rate: String.t() | Stripe.Resources.ShippingRate.t() | nil
           }
     defstruct [:shipping_amount, :shipping_rate]
   end
 
   defmodule SubscriptionData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `description` - The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs. Max length: 5000. Nullable.
@@ -755,33 +755,33 @@ defmodule Stripe.Resources.PaymentLink do
     """
     @type t :: %__MODULE__{
             description: String.t() | nil,
-            invoice_settings: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
             metadata: map() | nil,
             trial_period_days: integer() | nil,
-            trial_settings: map() | nil
+            trial_settings: __MODULE__.TrialSettings.t() | nil
           }
     defstruct [:description, :invoice_settings, :metadata, :trial_period_days, :trial_settings]
 
     defmodule InvoiceSettings do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `issuer`
       """
       @type t :: %__MODULE__{
-              issuer: map() | nil
+              issuer: __MODULE__.Issuer.t() | nil
             }
       defstruct [:issuer]
 
       defmodule Issuer do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `account` - The connected account being referenced when `type` is `account`.
         * `type` - Type of the account referenced. Possible values: `account`, `self`.
         """
         @type t :: %__MODULE__{
-                account: String.t() | map() | nil,
+                account: String.t() | Stripe.Resources.Account.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:account, :type]
@@ -795,18 +795,18 @@ defmodule Stripe.Resources.PaymentLink do
     end
 
     defmodule TrialSettings do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `end_behavior`
       """
       @type t :: %__MODULE__{
-              end_behavior: map() | nil
+              end_behavior: __MODULE__.EndBehavior.t() | nil
             }
       defstruct [:end_behavior]
 
       defmodule EndBehavior do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `missing_payment_method` - Indicates how the subscription should change when the trial ends if the user did not provide a payment method. Possible values: `cancel`, `create_invoice`, `pause`.
@@ -833,7 +833,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule TaxIdCollection do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - Indicates whether tax ID collection is enabled for the session.
@@ -847,7 +847,7 @@ defmodule Stripe.Resources.PaymentLink do
   end
 
   defmodule TransferData do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount in cents (or local equivalent) that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
@@ -855,7 +855,7 @@ defmodule Stripe.Resources.PaymentLink do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            destination: String.t() | map() | nil
+            destination: String.t() | Stripe.Resources.Account.t() | nil
           }
     defstruct [:amount, :destination]
   end

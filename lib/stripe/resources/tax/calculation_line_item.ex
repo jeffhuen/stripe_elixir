@@ -29,7 +29,7 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
           quantity: integer(),
           reference: String.t(),
           tax_behavior: String.t(),
-          tax_breakdown: [map()] | nil,
+          tax_breakdown: [__MODULE__.TaxBreakdown.t()] | nil,
           tax_code: String.t()
         }
 
@@ -54,7 +54,7 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
   def expandable_fields, do: ["tax_breakdown"]
 
   defmodule TaxBreakdown do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -66,9 +66,9 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            jurisdiction: map() | nil,
+            jurisdiction: __MODULE__.Jurisdiction.t() | nil,
             sourcing: String.t() | nil,
-            tax_rate_details: map() | nil,
+            tax_rate_details: __MODULE__.TaxRateDetails.t() | nil,
             taxability_reason: String.t() | nil,
             taxable_amount: integer() | nil
           }
@@ -82,7 +82,7 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
     ]
 
     defmodule Jurisdiction do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
@@ -100,7 +100,7 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
     end
 
     defmodule TaxRateDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `display_name` - A localized display name for tax type, intended to be human-readable. For example, "Local Sales and Use Tax", "Value-added tax (VAT)", or "Umsatzsteuer (USt.)". Max length: 5000.

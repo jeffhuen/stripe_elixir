@@ -22,14 +22,14 @@ defmodule Stripe.Resources.Balance do
   * `refund_and_dispute_prefunding` - Expandable.
   """
   @type t :: %__MODULE__{
-          available: [map()],
-          connect_reserved: [map()] | nil,
-          instant_available: [map()] | nil,
-          issuing: map() | nil,
+          available: [__MODULE__.Available.t()],
+          connect_reserved: [__MODULE__.ConnectReserved.t()] | nil,
+          instant_available: [__MODULE__.InstantAvailable.t()] | nil,
+          issuing: __MODULE__.Issuing.t() | nil,
           livemode: boolean(),
           object: String.t(),
-          pending: [map()],
-          refund_and_dispute_prefunding: map() | nil
+          pending: [__MODULE__.Pending.t()],
+          refund_and_dispute_prefunding: __MODULE__.RefundAndDisputePrefunding.t() | nil
         }
 
   defstruct [
@@ -57,7 +57,7 @@ defmodule Stripe.Resources.Balance do
     ]
 
   defmodule Available do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - Balance amount.
@@ -67,12 +67,12 @@ defmodule Stripe.Resources.Balance do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             currency: String.t() | nil,
-            source_types: map() | nil
+            source_types: __MODULE__.SourceTypes.t() | nil
           }
     defstruct [:amount, :currency, :source_types]
 
     defmodule SourceTypes do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
@@ -95,7 +95,7 @@ defmodule Stripe.Resources.Balance do
   end
 
   defmodule ConnectReserved do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - Balance amount.
@@ -105,12 +105,12 @@ defmodule Stripe.Resources.Balance do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             currency: String.t() | nil,
-            source_types: map() | nil
+            source_types: __MODULE__.SourceTypes.t() | nil
           }
     defstruct [:amount, :currency, :source_types]
 
     defmodule SourceTypes do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
@@ -133,7 +133,7 @@ defmodule Stripe.Resources.Balance do
   end
 
   defmodule InstantAvailable do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - Balance amount.
@@ -144,13 +144,13 @@ defmodule Stripe.Resources.Balance do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             currency: String.t() | nil,
-            net_available: [map()] | nil,
-            source_types: map() | nil
+            net_available: [__MODULE__.NetAvailable.t()] | nil,
+            source_types: __MODULE__.SourceTypes.t() | nil
           }
     defstruct [:amount, :currency, :net_available, :source_types]
 
     defmodule NetAvailable do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Net balance amount, subtracting fees from platform-set pricing.
@@ -160,12 +160,12 @@ defmodule Stripe.Resources.Balance do
       @type t :: %__MODULE__{
               amount: integer() | nil,
               destination: String.t() | nil,
-              source_types: map() | nil
+              source_types: __MODULE__.SourceTypes.t() | nil
             }
       defstruct [:amount, :destination, :source_types]
 
       defmodule SourceTypes do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
@@ -188,7 +188,7 @@ defmodule Stripe.Resources.Balance do
     end
 
     defmodule SourceTypes do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
@@ -212,18 +212,18 @@ defmodule Stripe.Resources.Balance do
   end
 
   defmodule Issuing do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Funds that are available for use.
     """
     @type t :: %__MODULE__{
-            available: [map()] | nil
+            available: [__MODULE__.Available.t()] | nil
           }
     defstruct [:available]
 
     defmodule Available do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Balance amount.
@@ -233,12 +233,12 @@ defmodule Stripe.Resources.Balance do
       @type t :: %__MODULE__{
               amount: integer() | nil,
               currency: String.t() | nil,
-              source_types: map() | nil
+              source_types: __MODULE__.SourceTypes.t() | nil
             }
       defstruct [:amount, :currency, :source_types]
 
       defmodule SourceTypes do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
@@ -268,7 +268,7 @@ defmodule Stripe.Resources.Balance do
   end
 
   defmodule Pending do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - Balance amount.
@@ -278,12 +278,12 @@ defmodule Stripe.Resources.Balance do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             currency: String.t() | nil,
-            source_types: map() | nil
+            source_types: __MODULE__.SourceTypes.t() | nil
           }
     defstruct [:amount, :currency, :source_types]
 
     defmodule SourceTypes do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
@@ -306,20 +306,20 @@ defmodule Stripe.Resources.Balance do
   end
 
   defmodule RefundAndDisputePrefunding do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Funds that are available for use.
     * `pending` - Funds that are pending
     """
     @type t :: %__MODULE__{
-            available: [map()] | nil,
-            pending: [map()] | nil
+            available: [__MODULE__.Available.t()] | nil,
+            pending: [__MODULE__.Pending.t()] | nil
           }
     defstruct [:available, :pending]
 
     defmodule Available do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Balance amount.
@@ -329,12 +329,12 @@ defmodule Stripe.Resources.Balance do
       @type t :: %__MODULE__{
               amount: integer() | nil,
               currency: String.t() | nil,
-              source_types: map() | nil
+              source_types: __MODULE__.SourceTypes.t() | nil
             }
       defstruct [:amount, :currency, :source_types]
 
       defmodule SourceTypes do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
@@ -357,7 +357,7 @@ defmodule Stripe.Resources.Balance do
     end
 
     defmodule Pending do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - Balance amount.
@@ -367,12 +367,12 @@ defmodule Stripe.Resources.Balance do
       @type t :: %__MODULE__{
               amount: integer() | nil,
               currency: String.t() | nil,
-              source_types: map() | nil
+              source_types: __MODULE__.SourceTypes.t() | nil
             }
       defstruct [:amount, :currency, :source_types]
 
       defmodule SourceTypes do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).

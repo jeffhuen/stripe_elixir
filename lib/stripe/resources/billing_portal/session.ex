@@ -34,11 +34,11 @@ defmodule Stripe.Resources.BillingPortal.Session do
   * `url` - The short-lived URL of the session that gives customers access to the customer portal. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          configuration: String.t() | map(),
+          configuration: String.t() | Stripe.Resources.BillingPortal.Configuration.t(),
           created: integer(),
           customer: String.t(),
           customer_account: String.t(),
-          flow: map(),
+          flow: __MODULE__.Flow.t(),
           id: String.t(),
           livemode: boolean(),
           locale: String.t(),
@@ -69,7 +69,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
   def expandable_fields, do: ["configuration", "flow"]
 
   defmodule Flow do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `after_completion`
@@ -79,10 +79,10 @@ defmodule Stripe.Resources.BillingPortal.Session do
     * `type` - Type of flow that the customer will go through. Possible values: `payment_method_update`, `subscription_cancel`, `subscription_update`, `subscription_update_confirm`.
     """
     @type t :: %__MODULE__{
-            after_completion: map() | nil,
-            subscription_cancel: map() | nil,
-            subscription_update: map() | nil,
-            subscription_update_confirm: map() | nil,
+            after_completion: __MODULE__.AfterCompletion.t() | nil,
+            subscription_cancel: __MODULE__.SubscriptionCancel.t() | nil,
+            subscription_update: __MODULE__.SubscriptionUpdate.t() | nil,
+            subscription_update_confirm: __MODULE__.SubscriptionUpdateConfirm.t() | nil,
             type: String.t() | nil
           }
     defstruct [
@@ -94,7 +94,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
     ]
 
     defmodule AfterCompletion do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `hosted_confirmation` - Configuration when `after_completion.type=hosted_confirmation`. Nullable.
@@ -102,14 +102,14 @@ defmodule Stripe.Resources.BillingPortal.Session do
       * `type` - The specified type of behavior after the flow is completed. Possible values: `hosted_confirmation`, `portal_homepage`, `redirect`.
       """
       @type t :: %__MODULE__{
-              hosted_confirmation: map() | nil,
-              redirect: map() | nil,
+              hosted_confirmation: __MODULE__.HostedConfirmation.t() | nil,
+              redirect: __MODULE__.Redirect.t() | nil,
               type: String.t() | nil
             }
       defstruct [:hosted_confirmation, :redirect, :type]
 
       defmodule HostedConfirmation do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `custom_message` - A custom message to display to the customer after the flow is completed. Max length: 5000. Nullable.
@@ -121,7 +121,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
       end
 
       defmodule Redirect do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `return_url` - The URL the customer will be redirected to after the flow is completed. Max length: 5000.
@@ -141,33 +141,33 @@ defmodule Stripe.Resources.BillingPortal.Session do
     end
 
     defmodule SubscriptionCancel do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `retention` - Specify a retention strategy to be used in the cancellation flow. Nullable.
       * `subscription` - The ID of the subscription to be canceled. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              retention: map() | nil,
+              retention: __MODULE__.Retention.t() | nil,
               subscription: String.t() | nil
             }
       defstruct [:retention, :subscription]
 
       defmodule Retention do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `coupon_offer` - Configuration when `retention.type=coupon_offer`. Nullable.
         * `type` - Type of retention strategy that will be used. Possible values: `coupon_offer`.
         """
         @type t :: %__MODULE__{
-                coupon_offer: map() | nil,
+                coupon_offer: __MODULE__.CouponOffer.t() | nil,
                 type: String.t() | nil
               }
         defstruct [:coupon_offer, :type]
 
         defmodule CouponOffer do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `coupon` - The ID of the coupon to be offered. Max length: 5000.
@@ -193,7 +193,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
     end
 
     defmodule SubscriptionUpdate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `subscription` - The ID of the subscription to be updated. Max length: 5000.
@@ -205,7 +205,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
     end
 
     defmodule SubscriptionUpdateConfirm do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `discounts` - The coupon or promotion code to apply to this subscription update. Nullable.
@@ -213,14 +213,14 @@ defmodule Stripe.Resources.BillingPortal.Session do
       * `subscription` - The ID of the subscription to be updated. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              discounts: [map()] | nil,
-              items: [map()] | nil,
+              discounts: [__MODULE__.Discounts.t()] | nil,
+              items: [__MODULE__.Items.t()] | nil,
               subscription: String.t() | nil
             }
       defstruct [:discounts, :items, :subscription]
 
       defmodule Discounts do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `coupon` - The ID of the coupon to apply to this subscription update. Max length: 5000. Nullable.
@@ -234,7 +234,7 @@ defmodule Stripe.Resources.BillingPortal.Session do
       end
 
       defmodule Items do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `id` - The ID of the [subscription item](https://docs.stripe.com/api/subscriptions/object#subscription_object-items-data-id) to be updated. Max length: 5000. Nullable.

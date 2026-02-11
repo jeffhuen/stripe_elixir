@@ -43,28 +43,28 @@ defmodule Stripe.Resources.Account do
   * `type` - The Stripe account type. Can be `standard`, `express`, `custom`, or `none`. Possible values: `custom`, `express`, `none`, `standard`.
   """
   @type t :: %__MODULE__{
-          business_profile: map() | nil,
+          business_profile: __MODULE__.BusinessProfile.t() | nil,
           business_type: String.t() | nil,
-          capabilities: map() | nil,
+          capabilities: __MODULE__.Capabilities.t() | nil,
           charges_enabled: boolean() | nil,
-          company: map() | nil,
-          controller: map() | nil,
+          company: __MODULE__.Company.t() | nil,
+          controller: __MODULE__.Controller.t() | nil,
           country: String.t() | nil,
           created: integer() | nil,
           default_currency: String.t() | nil,
           details_submitted: boolean() | nil,
           email: String.t() | nil,
-          external_accounts: map() | nil,
-          future_requirements: map() | nil,
-          groups: map() | nil,
+          external_accounts: __MODULE__.ExternalAccounts.t() | nil,
+          future_requirements: __MODULE__.FutureRequirements.t() | nil,
+          groups: __MODULE__.Groups.t() | nil,
           id: String.t(),
-          individual: map() | nil,
+          individual: Stripe.Resources.Person.t() | nil,
           metadata: map() | nil,
           object: String.t(),
           payouts_enabled: boolean() | nil,
-          requirements: map() | nil,
-          settings: map() | nil,
-          tos_acceptance: map() | nil,
+          requirements: __MODULE__.Requirements.t() | nil,
+          settings: __MODULE__.Settings.t() | nil,
+          tos_acceptance: __MODULE__.TosAcceptance.t() | nil,
           type: String.t() | nil
         }
 
@@ -113,7 +113,7 @@ defmodule Stripe.Resources.Account do
     ]
 
   defmodule BusinessProfile do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `annual_revenue` - The applicant's gross annual revenue for its preceding fiscal year. Nullable.
@@ -130,14 +130,14 @@ defmodule Stripe.Resources.Account do
     * `url` - The business's publicly available website. Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            annual_revenue: map() | nil,
+            annual_revenue: __MODULE__.AnnualRevenue.t() | nil,
             estimated_worker_count: integer() | nil,
             mcc: String.t() | nil,
             minority_owned_business_designation: [String.t()] | nil,
-            monthly_estimated_revenue: map() | nil,
+            monthly_estimated_revenue: __MODULE__.MonthlyEstimatedRevenue.t() | nil,
             name: String.t() | nil,
             product_description: String.t() | nil,
-            support_address: map() | nil,
+            support_address: Stripe.Resources.Address.t() | nil,
             support_email: String.t() | nil,
             support_phone: String.t() | nil,
             support_url: String.t() | nil,
@@ -159,7 +159,7 @@ defmodule Stripe.Resources.Account do
     ]
 
     defmodule AnnualRevenue do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal). Nullable.
@@ -175,7 +175,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule MonthlyEstimatedRevenue do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount` - A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
@@ -197,7 +197,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule Capabilities do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `acss_debit_payments` - The status of the Canadian pre-authorized debits payments capability of the account, or whether the account can directly process Canadian pre-authorized debits charges. Possible values: `active`, `inactive`, `pending`.
@@ -391,7 +391,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule Company do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `address`
@@ -418,11 +418,11 @@ defmodule Stripe.Resources.Account do
     * `verification` - Information on the verification state of the company. Nullable.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            address_kana: map() | nil,
-            address_kanji: map() | nil,
+            address: Stripe.Resources.Address.t() | nil,
+            address_kana: __MODULE__.AddressKana.t() | nil,
+            address_kanji: __MODULE__.AddressKanji.t() | nil,
             directors_provided: boolean() | nil,
-            directorship_declaration: map() | nil,
+            directorship_declaration: __MODULE__.DirectorshipDeclaration.t() | nil,
             executives_provided: boolean() | nil,
             export_license_id: String.t() | nil,
             export_purpose_code: String.t() | nil,
@@ -430,16 +430,16 @@ defmodule Stripe.Resources.Account do
             name_kana: String.t() | nil,
             name_kanji: String.t() | nil,
             owners_provided: boolean() | nil,
-            ownership_declaration: map() | nil,
+            ownership_declaration: __MODULE__.OwnershipDeclaration.t() | nil,
             ownership_exemption_reason: String.t() | nil,
             phone: String.t() | nil,
-            registration_date: map() | nil,
-            representative_declaration: map() | nil,
+            registration_date: __MODULE__.RegistrationDate.t() | nil,
+            representative_declaration: __MODULE__.RepresentativeDeclaration.t() | nil,
             structure: String.t() | nil,
             tax_id_provided: boolean() | nil,
             tax_id_registrar: String.t() | nil,
             vat_id_provided: boolean() | nil,
-            verification: map() | nil
+            verification: __MODULE__.Verification.t() | nil
           }
     defstruct [
       :address,
@@ -467,7 +467,7 @@ defmodule Stripe.Resources.Account do
     ]
 
     defmodule AddressKana do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - City/Ward. Max length: 5000. Nullable.
@@ -491,7 +491,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule AddressKanji do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `city` - City/Ward. Max length: 5000. Nullable.
@@ -515,7 +515,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule DirectorshipDeclaration do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `date` - The Unix timestamp marking when the directorship declaration attestation was made. Format: Unix timestamp. Nullable.
@@ -531,7 +531,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule OwnershipDeclaration do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `date` - The Unix timestamp marking when the beneficial owner attestation was made. Format: Unix timestamp. Nullable.
@@ -547,7 +547,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule RegistrationDate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `day` - The day of registration, between 1 and 31. Nullable.
@@ -563,7 +563,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule RepresentativeDeclaration do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `date` - The Unix timestamp marking when the representative declaration attestation was made. Format: Unix timestamp. Nullable.
@@ -579,18 +579,18 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Verification do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `document`
       """
       @type t :: %__MODULE__{
-              document: map() | nil
+              document: __MODULE__.Document.t() | nil
             }
       defstruct [:document]
 
       defmodule Document do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `back` - The back of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://stripe.com/file-upload#uploading-a-file). Nullable.
@@ -599,10 +599,10 @@ defmodule Stripe.Resources.Account do
         * `front` - The front of a document returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `additional_verification`. Note that `additional_verification` files are [not downloadable](https://stripe.com/file-upload#uploading-a-file). Nullable.
         """
         @type t :: %__MODULE__{
-                back: String.t() | map() | nil,
+                back: String.t() | Stripe.Resources.File.t() | nil,
                 details: String.t() | nil,
                 details_code: String.t() | nil,
-                front: String.t() | map() | nil
+                front: String.t() | Stripe.Resources.File.t() | nil
               }
         defstruct [:back, :details, :details_code, :front]
       end
@@ -628,7 +628,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule Controller do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `fees`
@@ -639,17 +639,17 @@ defmodule Stripe.Resources.Account do
     * `type` - The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself. Possible values: `account`, `application`.
     """
     @type t :: %__MODULE__{
-            fees: map() | nil,
+            fees: __MODULE__.Fees.t() | nil,
             is_controller: boolean() | nil,
-            losses: map() | nil,
+            losses: __MODULE__.Losses.t() | nil,
             requirement_collection: String.t() | nil,
-            stripe_dashboard: map() | nil,
+            stripe_dashboard: __MODULE__.StripeDashboard.t() | nil,
             type: String.t() | nil
           }
     defstruct [:fees, :is_controller, :losses, :requirement_collection, :stripe_dashboard, :type]
 
     defmodule Fees do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `payer` - A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this account. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior). Possible values: `account`, `application`, `application_custom`, `application_express`.
@@ -661,7 +661,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Losses do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `payments` - A value indicating who is liable when this account can't pay back negative balances from payments. Possible values: `application`, `stripe`.
@@ -673,7 +673,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule StripeDashboard do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - A value indicating the Stripe dashboard this account has access to independent of the Connect application. Possible values: `express`, `full`, `none`.
@@ -694,7 +694,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule ExternalAccounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - The list contains all external accounts that have been attached to the Stripe account. These may be bank accounts or cards.
@@ -703,7 +703,7 @@ defmodule Stripe.Resources.Account do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.ExternalAccount.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -712,7 +712,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule FutureRequirements do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `alternatives` - Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again. Nullable.
@@ -725,11 +725,11 @@ defmodule Stripe.Resources.Account do
     * `pending_verification` - Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending. Nullable.
     """
     @type t :: %__MODULE__{
-            alternatives: [map()] | nil,
+            alternatives: [__MODULE__.Alternatives.t()] | nil,
             current_deadline: integer() | nil,
             currently_due: [String.t()] | nil,
             disabled_reason: String.t() | nil,
-            errors: [map()] | nil,
+            errors: [__MODULE__.Errors.t()] | nil,
             eventually_due: [String.t()] | nil,
             past_due: [String.t()] | nil,
             pending_verification: [String.t()] | nil
@@ -746,7 +746,7 @@ defmodule Stripe.Resources.Account do
     ]
 
     defmodule Alternatives do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `alternative_fields_due` - Fields that can be provided to resolve all fields in `original_fields_due`.
@@ -760,7 +760,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Errors do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - The code for the type of error. Possible values: `external_request`, `information_missing`, `invalid_address_city_state_postal_code`, `invalid_address_highway_contract_box`, `invalid_address_private_mailbox`, `invalid_business_profile_name`, `invalid_business_profile_name_denylisted`, `invalid_company_name_denylisted`, `invalid_dob_age_over_maximum`, `invalid_dob_age_under_18`, `invalid_dob_age_under_minimum`, `invalid_product_description_length`, `invalid_product_description_url_match`, `invalid_representative_country`, `invalid_signator`, `invalid_statement_descriptor_business_mismatch`, `invalid_statement_descriptor_denylisted`, `invalid_statement_descriptor_length`, `invalid_statement_descriptor_prefix_denylisted`, `invalid_statement_descriptor_prefix_mismatch`, `invalid_street_address`, `invalid_tax_id`, `invalid_tax_id_format`, `invalid_tos_acceptance`, `invalid_url_denylisted`, `invalid_url_format`, `invalid_url_length`, `invalid_url_web_presence_detected`, `invalid_url_website_business_information_mismatch`, `invalid_url_website_empty`, `invalid_url_website_inaccessible`, `invalid_url_website_inaccessible_geoblocked`, `invalid_url_website_inaccessible_password_protected`, `invalid_url_website_incomplete`, `invalid_url_website_incomplete_cancellation_policy`, `invalid_url_website_incomplete_customer_service_details`, `invalid_url_website_incomplete_legal_restrictions`, `invalid_url_website_incomplete_refund_policy`, `invalid_url_website_incomplete_return_policy`, `invalid_url_website_incomplete_terms_and_conditions`, `invalid_url_website_incomplete_under_construction`, `invalid_url_website_other`, `invalid_value_other`, `unsupported_business_type`, `verification_directors_mismatch`, `verification_document_address_mismatch`, `verification_document_address_missing`, `verification_document_corrupt`, `verification_document_country_not_supported`, `verification_document_directors_mismatch`, `verification_document_dob_mismatch`, `verification_document_duplicate_type`, `verification_document_expired`, `verification_document_failed_copy`, `verification_document_failed_greyscale`, `verification_document_failed_other`, `verification_document_failed_test_mode`, `verification_document_fraudulent`, `verification_document_id_number_mismatch`, `verification_document_id_number_missing`, `verification_document_incomplete`, `verification_document_invalid`, `verification_document_issue_or_expiry_date_missing`, `verification_document_manipulated`, `verification_document_missing_back`, `verification_document_missing_front`, `verification_document_name_mismatch`, `verification_document_name_missing`, `verification_document_nationality_mismatch`, `verification_document_not_readable`, `verification_document_not_signed`, `verification_document_not_uploaded`, `verification_document_photo_mismatch`, `verification_document_too_large`, `verification_document_type_not_supported`, `verification_extraneous_directors`, `verification_failed_address_match`, `verification_failed_authorizer_authority`, `verification_failed_business_iec_number`, `verification_failed_document_match`, `verification_failed_id_number_match`, `verification_failed_keyed_identity`, `verification_failed_keyed_match`, `verification_failed_name_match`, `verification_failed_other`, `verification_failed_representative_authority`, `verification_failed_residential_address`, `verification_failed_tax_id_match`, `verification_failed_tax_id_not_issued`, `verification_legal_entity_structure_mismatch`, `verification_missing_directors`, `verification_missing_executives`, `verification_missing_owners`, `verification_rejected_ownership_exemption_reason`, `verification_requires_additional_memorandum_of_associations`, `verification_requires_additional_proof_of_registration`, `verification_supportability`.
@@ -784,7 +784,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule Groups do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `payments_pricing` - The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://docs.stripe.com/connect/platform-pricing-tools) for details. Max length: 5000. Nullable.
@@ -796,7 +796,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule Requirements do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `alternatives` - Fields that are due and can be resolved by providing the corresponding alternative fields instead. Many alternatives can list the same `original_fields_due`, and any of these alternatives can serve as a pathway for attempting to resolve the fields again. Re-providing `original_fields_due` also serves as a pathway for attempting to resolve the fields again. Nullable.
@@ -809,11 +809,11 @@ defmodule Stripe.Resources.Account do
     * `pending_verification` - Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending. Nullable.
     """
     @type t :: %__MODULE__{
-            alternatives: [map()] | nil,
+            alternatives: [__MODULE__.Alternatives.t()] | nil,
             current_deadline: integer() | nil,
             currently_due: [String.t()] | nil,
             disabled_reason: String.t() | nil,
-            errors: [map()] | nil,
+            errors: [__MODULE__.Errors.t()] | nil,
             eventually_due: [String.t()] | nil,
             past_due: [String.t()] | nil,
             pending_verification: [String.t()] | nil
@@ -830,7 +830,7 @@ defmodule Stripe.Resources.Account do
     ]
 
     defmodule Alternatives do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `alternative_fields_due` - Fields that can be provided to resolve all fields in `original_fields_due`.
@@ -844,7 +844,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Errors do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `code` - The code for the type of error. Possible values: `external_request`, `information_missing`, `invalid_address_city_state_postal_code`, `invalid_address_highway_contract_box`, `invalid_address_private_mailbox`, `invalid_business_profile_name`, `invalid_business_profile_name_denylisted`, `invalid_company_name_denylisted`, `invalid_dob_age_over_maximum`, `invalid_dob_age_under_18`, `invalid_dob_age_under_minimum`, `invalid_product_description_length`, `invalid_product_description_url_match`, `invalid_representative_country`, `invalid_signator`, `invalid_statement_descriptor_business_mismatch`, `invalid_statement_descriptor_denylisted`, `invalid_statement_descriptor_length`, `invalid_statement_descriptor_prefix_denylisted`, `invalid_statement_descriptor_prefix_mismatch`, `invalid_street_address`, `invalid_tax_id`, `invalid_tax_id_format`, `invalid_tos_acceptance`, `invalid_url_denylisted`, `invalid_url_format`, `invalid_url_length`, `invalid_url_web_presence_detected`, `invalid_url_website_business_information_mismatch`, `invalid_url_website_empty`, `invalid_url_website_inaccessible`, `invalid_url_website_inaccessible_geoblocked`, `invalid_url_website_inaccessible_password_protected`, `invalid_url_website_incomplete`, `invalid_url_website_incomplete_cancellation_policy`, `invalid_url_website_incomplete_customer_service_details`, `invalid_url_website_incomplete_legal_restrictions`, `invalid_url_website_incomplete_refund_policy`, `invalid_url_website_incomplete_return_policy`, `invalid_url_website_incomplete_terms_and_conditions`, `invalid_url_website_incomplete_under_construction`, `invalid_url_website_other`, `invalid_value_other`, `unsupported_business_type`, `verification_directors_mismatch`, `verification_document_address_mismatch`, `verification_document_address_missing`, `verification_document_corrupt`, `verification_document_country_not_supported`, `verification_document_directors_mismatch`, `verification_document_dob_mismatch`, `verification_document_duplicate_type`, `verification_document_expired`, `verification_document_failed_copy`, `verification_document_failed_greyscale`, `verification_document_failed_other`, `verification_document_failed_test_mode`, `verification_document_fraudulent`, `verification_document_id_number_mismatch`, `verification_document_id_number_missing`, `verification_document_incomplete`, `verification_document_invalid`, `verification_document_issue_or_expiry_date_missing`, `verification_document_manipulated`, `verification_document_missing_back`, `verification_document_missing_front`, `verification_document_name_mismatch`, `verification_document_name_missing`, `verification_document_nationality_mismatch`, `verification_document_not_readable`, `verification_document_not_signed`, `verification_document_not_uploaded`, `verification_document_photo_mismatch`, `verification_document_too_large`, `verification_document_type_not_supported`, `verification_extraneous_directors`, `verification_failed_address_match`, `verification_failed_authorizer_authority`, `verification_failed_business_iec_number`, `verification_failed_document_match`, `verification_failed_id_number_match`, `verification_failed_keyed_identity`, `verification_failed_keyed_match`, `verification_failed_name_match`, `verification_failed_other`, `verification_failed_representative_authority`, `verification_failed_residential_address`, `verification_failed_tax_id_match`, `verification_failed_tax_id_not_issued`, `verification_legal_entity_structure_mismatch`, `verification_missing_directors`, `verification_missing_executives`, `verification_missing_owners`, `verification_rejected_ownership_exemption_reason`, `verification_requires_additional_memorandum_of_associations`, `verification_requires_additional_proof_of_registration`, `verification_supportability`.
@@ -868,7 +868,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule Settings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `bacs_debit_payments`
@@ -883,16 +883,16 @@ defmodule Stripe.Resources.Account do
     * `treasury`
     """
     @type t :: %__MODULE__{
-            bacs_debit_payments: map() | nil,
-            branding: map() | nil,
-            card_issuing: map() | nil,
-            card_payments: map() | nil,
-            dashboard: map() | nil,
-            invoices: map() | nil,
-            payments: map() | nil,
-            payouts: map() | nil,
-            sepa_debit_payments: map() | nil,
-            treasury: map() | nil
+            bacs_debit_payments: __MODULE__.BacsDebitPayments.t() | nil,
+            branding: __MODULE__.Branding.t() | nil,
+            card_issuing: __MODULE__.CardIssuing.t() | nil,
+            card_payments: __MODULE__.CardPayments.t() | nil,
+            dashboard: __MODULE__.Dashboard.t() | nil,
+            invoices: __MODULE__.Invoices.t() | nil,
+            payments: __MODULE__.Payments.t() | nil,
+            payouts: __MODULE__.Payouts.t() | nil,
+            sepa_debit_payments: __MODULE__.SepaDebitPayments.t() | nil,
+            treasury: __MODULE__.Treasury.t() | nil
           }
     defstruct [
       :bacs_debit_payments,
@@ -908,7 +908,7 @@ defmodule Stripe.Resources.Account do
     ]
 
     defmodule BacsDebitPayments do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `display_name` - The Bacs Direct Debit display name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. The fee appears 5 business days after requesting Bacs. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free. Max length: 5000. Nullable.
@@ -922,7 +922,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Branding do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `icon` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px. Nullable.
@@ -931,8 +931,8 @@ defmodule Stripe.Resources.Account do
       * `secondary_color` - A CSS hex color value representing the secondary branding color for this account Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              icon: String.t() | map() | nil,
-              logo: String.t() | map() | nil,
+              icon: String.t() | Stripe.Resources.File.t() | nil,
+              logo: String.t() | Stripe.Resources.File.t() | nil,
               primary_color: String.t() | nil,
               secondary_color: String.t() | nil
             }
@@ -940,18 +940,18 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule CardIssuing do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `tos_acceptance`
       """
       @type t :: %__MODULE__{
-              tos_acceptance: map() | nil
+              tos_acceptance: __MODULE__.TosAcceptance.t() | nil
             }
       defstruct [:tos_acceptance]
 
       defmodule TosAcceptance do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `date` - The Unix timestamp marking when the account representative accepted the service agreement. Nullable.
@@ -974,7 +974,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule CardPayments do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `decline_on`
@@ -983,7 +983,7 @@ defmodule Stripe.Resources.Account do
       * `statement_descriptor_prefix_kanji` - The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion. Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              decline_on: map() | nil,
+              decline_on: __MODULE__.DeclineOn.t() | nil,
               statement_descriptor_prefix: String.t() | nil,
               statement_descriptor_prefix_kana: String.t() | nil,
               statement_descriptor_prefix_kanji: String.t() | nil
@@ -996,7 +996,7 @@ defmodule Stripe.Resources.Account do
       ]
 
       defmodule DeclineOn do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `avs_failure` - Whether Stripe automatically declines charges with an incorrect ZIP or postal code. This setting only applies when a ZIP or postal code is provided and they fail bank verification.
@@ -1017,7 +1017,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Dashboard do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `display_name` - The display name for this account. This is used on the Stripe Dashboard to differentiate between accounts. Max length: 5000. Nullable.
@@ -1031,21 +1031,21 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Invoices do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `default_account_tax_ids` - The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized. Nullable.
       * `hosted_payment_method_save` - Whether to save the payment method after a payment is completed for a one-time invoice or a subscription invoice when the customer already has a default payment method on the hosted invoice page. Possible values: `always`, `never`, `offer`. Nullable.
       """
       @type t :: %__MODULE__{
-              default_account_tax_ids: [String.t() | map()] | nil,
+              default_account_tax_ids: [String.t() | Stripe.Resources.TaxId.t()] | nil,
               hosted_payment_method_save: String.t() | nil
             }
       defstruct [:default_account_tax_ids, :hosted_payment_method_save]
     end
 
     defmodule Payments do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `statement_descriptor` - The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge. Max length: 5000. Nullable.
@@ -1071,7 +1071,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Payouts do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `debit_negative_balances` - A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
@@ -1080,13 +1080,13 @@ defmodule Stripe.Resources.Account do
       """
       @type t :: %__MODULE__{
               debit_negative_balances: boolean() | nil,
-              schedule: map() | nil,
+              schedule: __MODULE__.Schedule.t() | nil,
               statement_descriptor: String.t() | nil
             }
       defstruct [:debit_negative_balances, :schedule, :statement_descriptor]
 
       defmodule Schedule do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `delay_days` - The number of days charges for the account will be held before being paid out.
@@ -1122,7 +1122,7 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule SepaDebitPayments do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `creditor_id` - SEPA creditor identifier that identifies the company making the payment. Max length: 5000.
@@ -1134,18 +1134,18 @@ defmodule Stripe.Resources.Account do
     end
 
     defmodule Treasury do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `tos_acceptance`
       """
       @type t :: %__MODULE__{
-              tos_acceptance: map() | nil
+              tos_acceptance: __MODULE__.TosAcceptance.t() | nil
             }
       defstruct [:tos_acceptance]
 
       defmodule TosAcceptance do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `date` - The Unix timestamp marking when the account representative accepted the service agreement. Nullable.
@@ -1184,7 +1184,7 @@ defmodule Stripe.Resources.Account do
   end
 
   defmodule TosAcceptance do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `date` - The Unix timestamp marking when the account representative accepted their service agreement Format: Unix timestamp. Nullable.

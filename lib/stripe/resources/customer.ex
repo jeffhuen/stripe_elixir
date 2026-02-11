@@ -47,23 +47,23 @@ defmodule Stripe.Resources.Customer do
   * `test_clock` - ID of the test clock that this customer belongs to. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          address: map() | nil,
+          address: Stripe.Resources.Address.t() | nil,
           balance: integer() | nil,
           business_name: String.t() | nil,
-          cash_balance: map() | nil,
+          cash_balance: Stripe.Resources.CashBalance.t() | nil,
           created: integer(),
           currency: String.t() | nil,
           customer_account: String.t() | nil,
-          default_source: String.t() | map(),
+          default_source: String.t() | Stripe.Resources.PaymentSource.t(),
           delinquent: boolean() | nil,
           description: String.t(),
-          discount: map() | nil,
+          discount: Stripe.Resources.Discount.t() | nil,
           email: String.t(),
           id: String.t(),
           individual_name: String.t() | nil,
           invoice_credit_balance: map() | nil,
           invoice_prefix: String.t() | nil,
-          invoice_settings: map() | nil,
+          invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
           livemode: boolean(),
           metadata: map() | nil,
           name: String.t() | nil,
@@ -71,13 +71,13 @@ defmodule Stripe.Resources.Customer do
           object: String.t(),
           phone: String.t() | nil,
           preferred_locales: [String.t()] | nil,
-          shipping: map(),
-          sources: map() | nil,
-          subscriptions: map() | nil,
-          tax: map() | nil,
+          shipping: Stripe.Resources.ShippingDetails.t(),
+          sources: __MODULE__.Sources.t() | nil,
+          subscriptions: __MODULE__.Subscriptions.t() | nil,
+          tax: __MODULE__.Tax.t() | nil,
           tax_exempt: String.t() | nil,
-          tax_ids: map() | nil,
-          test_clock: String.t() | map() | nil
+          tax_ids: __MODULE__.TaxIds.t() | nil,
+          test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t() | nil
         }
 
   defstruct [
@@ -133,7 +133,7 @@ defmodule Stripe.Resources.Customer do
     ]
 
   defmodule InvoiceSettings do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `custom_fields` - Default custom fields to be displayed on invoices for this customer. Nullable.
@@ -142,15 +142,15 @@ defmodule Stripe.Resources.Customer do
     * `rendering_options` - Default options for invoice PDF rendering for this customer. Nullable.
     """
     @type t :: %__MODULE__{
-            custom_fields: [map()] | nil,
-            default_payment_method: String.t() | map() | nil,
+            custom_fields: [__MODULE__.CustomFields.t()] | nil,
+            default_payment_method: String.t() | Stripe.Resources.PaymentMethod.t() | nil,
             footer: String.t() | nil,
-            rendering_options: map() | nil
+            rendering_options: __MODULE__.RenderingOptions.t() | nil
           }
     defstruct [:custom_fields, :default_payment_method, :footer, :rendering_options]
 
     defmodule CustomFields do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `name` - The name of the custom field. Max length: 5000.
@@ -164,7 +164,7 @@ defmodule Stripe.Resources.Customer do
     end
 
     defmodule RenderingOptions do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
@@ -186,7 +186,7 @@ defmodule Stripe.Resources.Customer do
   end
 
   defmodule Sources do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -195,7 +195,7 @@ defmodule Stripe.Resources.Customer do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.PaymentSource.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -204,7 +204,7 @@ defmodule Stripe.Resources.Customer do
   end
 
   defmodule Subscriptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -213,7 +213,7 @@ defmodule Stripe.Resources.Customer do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.Subscription.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil
@@ -222,7 +222,7 @@ defmodule Stripe.Resources.Customer do
   end
 
   defmodule Tax do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `automatic_tax` - Surfaces if automatic tax computation is possible given the current customer location information. Possible values: `failed`, `not_collecting`, `supported`, `unrecognized_location`.
@@ -233,13 +233,13 @@ defmodule Stripe.Resources.Customer do
     @type t :: %__MODULE__{
             automatic_tax: String.t() | nil,
             ip_address: String.t() | nil,
-            location: map() | nil,
+            location: __MODULE__.Location.t() | nil,
             provider: String.t() | nil
           }
     defstruct [:automatic_tax, :ip_address, :location, :provider]
 
     defmodule Location do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `country` - The identified tax country of the customer. Max length: 5000.
@@ -262,7 +262,7 @@ defmodule Stripe.Resources.Customer do
   end
 
   defmodule TaxIds do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -271,7 +271,7 @@ defmodule Stripe.Resources.Customer do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.TaxId.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil

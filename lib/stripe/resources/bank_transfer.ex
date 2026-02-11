@@ -11,7 +11,7 @@ defmodule Stripe.Resources.BankTransfer do
   """
   @type t :: %__MODULE__{
           country: String.t(),
-          financial_addresses: [map()],
+          financial_addresses: [__MODULE__.FinancialAddresses.t()],
           type: String.t()
         }
 
@@ -23,7 +23,7 @@ defmodule Stripe.Resources.BankTransfer do
   def expandable_fields, do: ["financial_addresses"]
 
   defmodule FinancialAddresses do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `aba`
@@ -36,19 +36,19 @@ defmodule Stripe.Resources.BankTransfer do
     * `zengin`
     """
     @type t :: %__MODULE__{
-            aba: map() | nil,
-            iban: map() | nil,
-            sort_code: map() | nil,
-            spei: map() | nil,
+            aba: Stripe.Resources.Aba.t() | nil,
+            iban: __MODULE__.Iban.t() | nil,
+            sort_code: Stripe.Resources.SortCodeRecords.t() | nil,
+            spei: __MODULE__.Spei.t() | nil,
             supported_networks: [String.t()] | nil,
-            swift: map() | nil,
+            swift: __MODULE__.Swift.t() | nil,
             type: String.t() | nil,
-            zengin: map() | nil
+            zengin: __MODULE__.Zengin.t() | nil
           }
     defstruct [:aba, :iban, :sort_code, :spei, :supported_networks, :swift, :type, :zengin]
 
     defmodule Iban do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_address`
@@ -59,9 +59,9 @@ defmodule Stripe.Resources.BankTransfer do
       * `iban` - The IBAN of the account. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              account_holder_address: map() | nil,
+              account_holder_address: Stripe.Resources.Address.t() | nil,
               account_holder_name: String.t() | nil,
-              bank_address: map() | nil,
+              bank_address: Stripe.Resources.Address.t() | nil,
               bic: String.t() | nil,
               country: String.t() | nil,
               iban: String.t() | nil
@@ -77,7 +77,7 @@ defmodule Stripe.Resources.BankTransfer do
     end
 
     defmodule Spei do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_address`
@@ -88,9 +88,9 @@ defmodule Stripe.Resources.BankTransfer do
       * `clabe` - The CLABE number Max length: 5000.
       """
       @type t :: %__MODULE__{
-              account_holder_address: map() | nil,
+              account_holder_address: Stripe.Resources.Address.t() | nil,
               account_holder_name: String.t() | nil,
-              bank_address: map() | nil,
+              bank_address: Stripe.Resources.Address.t() | nil,
               bank_code: String.t() | nil,
               bank_name: String.t() | nil,
               clabe: String.t() | nil
@@ -106,7 +106,7 @@ defmodule Stripe.Resources.BankTransfer do
     end
 
     defmodule Swift do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_address`
@@ -118,11 +118,11 @@ defmodule Stripe.Resources.BankTransfer do
       * `swift_code` - The SWIFT code Max length: 5000.
       """
       @type t :: %__MODULE__{
-              account_holder_address: map() | nil,
+              account_holder_address: Stripe.Resources.Address.t() | nil,
               account_holder_name: String.t() | nil,
               account_number: String.t() | nil,
               account_type: String.t() | nil,
-              bank_address: map() | nil,
+              bank_address: Stripe.Resources.Address.t() | nil,
               bank_name: String.t() | nil,
               swift_code: String.t() | nil
             }
@@ -138,7 +138,7 @@ defmodule Stripe.Resources.BankTransfer do
     end
 
     defmodule Zengin do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `account_holder_address`
@@ -152,11 +152,11 @@ defmodule Stripe.Resources.BankTransfer do
       * `branch_name` - The branch name of the account Max length: 5000. Nullable.
       """
       @type t :: %__MODULE__{
-              account_holder_address: map() | nil,
+              account_holder_address: Stripe.Resources.Address.t() | nil,
               account_holder_name: String.t() | nil,
               account_number: String.t() | nil,
               account_type: String.t() | nil,
-              bank_address: map() | nil,
+              bank_address: Stripe.Resources.Address.t() | nil,
               bank_code: String.t() | nil,
               bank_name: String.t() | nil,
               branch_code: String.t() | nil,

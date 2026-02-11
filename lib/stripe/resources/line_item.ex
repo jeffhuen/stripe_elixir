@@ -23,20 +23,20 @@ defmodule Stripe.Resources.LineItem do
   * `taxes` - The taxes applied to the line item. Expandable.
   """
   @type t :: %__MODULE__{
-          adjustable_quantity: map(),
+          adjustable_quantity: __MODULE__.AdjustableQuantity.t(),
           amount_discount: integer(),
           amount_subtotal: integer(),
           amount_tax: integer(),
           amount_total: integer(),
           currency: String.t(),
           description: String.t(),
-          discounts: [map()] | nil,
+          discounts: [__MODULE__.Discounts.t()] | nil,
           id: String.t(),
           metadata: map(),
           object: String.t(),
-          price: map(),
+          price: Stripe.Resources.Price.t(),
           quantity: integer(),
-          taxes: [map()] | nil
+          taxes: [__MODULE__.Taxes.t()] | nil
         }
 
   defstruct [
@@ -62,7 +62,7 @@ defmodule Stripe.Resources.LineItem do
   def expandable_fields, do: ["adjustable_quantity", "discounts", "price", "taxes"]
 
   defmodule AdjustableQuantity do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled`
@@ -78,7 +78,7 @@ defmodule Stripe.Resources.LineItem do
   end
 
   defmodule Discounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount discounted.
@@ -86,13 +86,13 @@ defmodule Stripe.Resources.LineItem do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            discount: map() | nil
+            discount: Stripe.Resources.Discount.t() | nil
           }
     defstruct [:amount, :discount]
   end
 
   defmodule Taxes do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - Amount of tax applied for this rate.
@@ -102,7 +102,7 @@ defmodule Stripe.Resources.LineItem do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            rate: map() | nil,
+            rate: Stripe.Resources.TaxRate.t() | nil,
             taxability_reason: String.t() | nil,
             taxable_amount: integer() | nil
           }

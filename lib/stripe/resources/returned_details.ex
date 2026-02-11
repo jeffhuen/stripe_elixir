@@ -10,7 +10,7 @@ defmodule Stripe.Resources.ReturnedDetails do
   """
   @type t :: %__MODULE__{
           code: String.t(),
-          transaction: String.t() | map()
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
   defstruct [:code, :transaction]

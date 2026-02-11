@@ -37,19 +37,19 @@ defmodule Stripe.Resources.Transfer do
   @type t :: %__MODULE__{
           amount: integer(),
           amount_reversed: integer(),
-          balance_transaction: String.t() | map(),
+          balance_transaction: String.t() | Stripe.Resources.BalanceTransaction.t(),
           created: integer(),
           currency: String.t(),
           description: String.t(),
-          destination: String.t() | map(),
-          destination_payment: String.t() | map() | nil,
+          destination: String.t() | Stripe.Resources.Account.t(),
+          destination_payment: String.t() | Stripe.Resources.Charge.t() | nil,
           id: String.t(),
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          reversals: map(),
+          reversals: __MODULE__.Reversals.t(),
           reversed: boolean(),
-          source_transaction: String.t() | map(),
+          source_transaction: String.t() | Stripe.Resources.Charge.t(),
           source_type: String.t() | nil,
           transfer_group: String.t()
         }
@@ -87,7 +87,7 @@ defmodule Stripe.Resources.Transfer do
     ]
 
   defmodule Reversals do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `data` - Details about each object.
@@ -96,7 +96,7 @@ defmodule Stripe.Resources.Transfer do
     * `url` - The URL where this list can be accessed. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            data: [map()] | nil,
+            data: [Stripe.Resources.TransferReversal.t()] | nil,
             has_more: boolean() | nil,
             object: String.t() | nil,
             url: String.t() | nil

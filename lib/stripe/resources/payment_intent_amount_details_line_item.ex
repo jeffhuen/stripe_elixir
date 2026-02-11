@@ -24,11 +24,11 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
           discount_amount: integer(),
           id: String.t(),
           object: String.t(),
-          payment_method_options: map(),
+          payment_method_options: __MODULE__.PaymentMethodOptions.t(),
           product_code: String.t(),
           product_name: String.t(),
           quantity: integer(),
-          tax: map(),
+          tax: __MODULE__.Tax.t(),
           unit_cost: integer(),
           unit_of_measure: String.t()
         }
@@ -52,7 +52,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
   def expandable_fields, do: ["payment_method_options", "tax"]
 
   defmodule PaymentMethodOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `card`
@@ -61,15 +61,15 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
     * `paypal`
     """
     @type t :: %__MODULE__{
-            card: map() | nil,
-            card_present: map() | nil,
-            klarna: map() | nil,
-            paypal: map() | nil
+            card: __MODULE__.Card.t() | nil,
+            card_present: __MODULE__.CardPresent.t() | nil,
+            klarna: __MODULE__.Klarna.t() | nil,
+            paypal: __MODULE__.Paypal.t() | nil
           }
     defstruct [:card, :card_present, :klarna, :paypal]
 
     defmodule Card do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `commodity_code` - Max length: 5000. Nullable.
@@ -81,7 +81,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
     end
 
     defmodule CardPresent do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `commodity_code` - Max length: 5000. Nullable.
@@ -93,7 +93,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
     end
 
     defmodule Klarna do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `image_url` - Max length: 2048. Nullable.
@@ -111,7 +111,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
     end
 
     defmodule Paypal do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `category` - Type of the line item. Possible values: `digital_goods`, `donation`, `physical_goods`.
@@ -137,7 +137,7 @@ defmodule Stripe.Resources.PaymentIntentAmountDetailsLineItem do
   end
 
   defmodule Tax do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `total_tax_amount` - The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.

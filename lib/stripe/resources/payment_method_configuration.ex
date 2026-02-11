@@ -84,68 +84,68 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   * `zip` - Expandable.
   """
   @type t :: %__MODULE__{
-          acss_debit: map() | nil,
+          acss_debit: __MODULE__.AcssDebit.t() | nil,
           active: boolean(),
-          affirm: map() | nil,
-          afterpay_clearpay: map() | nil,
-          alipay: map() | nil,
-          alma: map() | nil,
-          amazon_pay: map() | nil,
-          apple_pay: map() | nil,
+          affirm: __MODULE__.Affirm.t() | nil,
+          afterpay_clearpay: __MODULE__.AfterpayClearpay.t() | nil,
+          alipay: __MODULE__.Alipay.t() | nil,
+          alma: __MODULE__.Alma.t() | nil,
+          amazon_pay: __MODULE__.AmazonPay.t() | nil,
+          apple_pay: __MODULE__.ApplePay.t() | nil,
           application: String.t(),
-          au_becs_debit: map() | nil,
-          bacs_debit: map() | nil,
-          bancontact: map() | nil,
-          billie: map() | nil,
-          blik: map() | nil,
-          boleto: map() | nil,
-          card: map() | nil,
-          cartes_bancaires: map() | nil,
-          cashapp: map() | nil,
-          crypto: map() | nil,
-          customer_balance: map() | nil,
-          eps: map() | nil,
-          fpx: map() | nil,
-          giropay: map() | nil,
-          google_pay: map() | nil,
-          grabpay: map() | nil,
+          au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
+          bacs_debit: __MODULE__.BacsDebit.t() | nil,
+          bancontact: __MODULE__.Bancontact.t() | nil,
+          billie: __MODULE__.Billie.t() | nil,
+          blik: __MODULE__.Blik.t() | nil,
+          boleto: __MODULE__.Boleto.t() | nil,
+          card: __MODULE__.Card.t() | nil,
+          cartes_bancaires: __MODULE__.CartesBancaires.t() | nil,
+          cashapp: __MODULE__.Cashapp.t() | nil,
+          crypto: __MODULE__.Crypto.t() | nil,
+          customer_balance: __MODULE__.CustomerBalance.t() | nil,
+          eps: __MODULE__.Eps.t() | nil,
+          fpx: __MODULE__.Fpx.t() | nil,
+          giropay: __MODULE__.Giropay.t() | nil,
+          google_pay: __MODULE__.GooglePay.t() | nil,
+          grabpay: __MODULE__.Grabpay.t() | nil,
           id: String.t(),
-          ideal: map() | nil,
+          ideal: __MODULE__.Ideal.t() | nil,
           is_default: boolean(),
-          jcb: map() | nil,
-          kakao_pay: map() | nil,
-          klarna: map() | nil,
-          konbini: map() | nil,
-          kr_card: map() | nil,
-          link: map() | nil,
+          jcb: __MODULE__.Jcb.t() | nil,
+          kakao_pay: __MODULE__.KakaoPay.t() | nil,
+          klarna: __MODULE__.Klarna.t() | nil,
+          konbini: __MODULE__.Konbini.t() | nil,
+          kr_card: __MODULE__.KrCard.t() | nil,
+          link: __MODULE__.Link.t() | nil,
           livemode: boolean(),
-          mb_way: map() | nil,
-          mobilepay: map() | nil,
-          multibanco: map() | nil,
+          mb_way: __MODULE__.MbWay.t() | nil,
+          mobilepay: __MODULE__.Mobilepay.t() | nil,
+          multibanco: __MODULE__.Multibanco.t() | nil,
           name: String.t(),
-          naver_pay: map() | nil,
-          nz_bank_account: map() | nil,
+          naver_pay: __MODULE__.NaverPay.t() | nil,
+          nz_bank_account: __MODULE__.NzBankAccount.t() | nil,
           object: String.t(),
-          oxxo: map() | nil,
-          p24: map() | nil,
+          oxxo: __MODULE__.Oxxo.t() | nil,
+          p24: __MODULE__.P24.t() | nil,
           parent: String.t(),
-          pay_by_bank: map() | nil,
-          payco: map() | nil,
-          paynow: map() | nil,
-          paypal: map() | nil,
-          payto: map() | nil,
-          pix: map() | nil,
-          promptpay: map() | nil,
-          revolut_pay: map() | nil,
-          samsung_pay: map() | nil,
-          satispay: map() | nil,
-          sepa_debit: map() | nil,
-          sofort: map() | nil,
-          swish: map() | nil,
-          twint: map() | nil,
-          us_bank_account: map() | nil,
-          wechat_pay: map() | nil,
-          zip: map() | nil
+          pay_by_bank: __MODULE__.PayByBank.t() | nil,
+          payco: __MODULE__.Payco.t() | nil,
+          paynow: __MODULE__.Paynow.t() | nil,
+          paypal: __MODULE__.Paypal.t() | nil,
+          payto: __MODULE__.Payto.t() | nil,
+          pix: __MODULE__.Pix.t() | nil,
+          promptpay: __MODULE__.Promptpay.t() | nil,
+          revolut_pay: __MODULE__.RevolutPay.t() | nil,
+          samsung_pay: __MODULE__.SamsungPay.t() | nil,
+          satispay: __MODULE__.Satispay.t() | nil,
+          sepa_debit: __MODULE__.SepaDebit.t() | nil,
+          sofort: __MODULE__.Sofort.t() | nil,
+          swish: __MODULE__.Swish.t() | nil,
+          twint: __MODULE__.Twint.t() | nil,
+          us_bank_account: __MODULE__.UsBankAccount.t() | nil,
+          wechat_pay: __MODULE__.WechatPay.t() | nil,
+          zip: __MODULE__.Zip.t() | nil
         }
 
   defstruct [
@@ -275,7 +275,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     ]
 
   defmodule AcssDebit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -283,12 +283,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -311,7 +311,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Affirm do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -319,12 +319,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -347,7 +347,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule AfterpayClearpay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -355,12 +355,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -383,7 +383,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Alipay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -391,12 +391,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -419,7 +419,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Alma do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -427,12 +427,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -455,7 +455,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule AmazonPay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -463,12 +463,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -491,7 +491,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule ApplePay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -499,12 +499,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -527,7 +527,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule AuBecsDebit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -535,12 +535,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -563,7 +563,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule BacsDebit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -571,12 +571,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -599,7 +599,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Bancontact do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -607,12 +607,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -635,7 +635,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Billie do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -643,12 +643,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -671,7 +671,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Blik do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -679,12 +679,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -707,7 +707,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Boleto do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -715,12 +715,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -743,7 +743,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Card do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -751,12 +751,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -779,7 +779,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule CartesBancaires do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -787,12 +787,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -815,7 +815,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Cashapp do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -823,12 +823,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -851,7 +851,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Crypto do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -859,12 +859,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -887,7 +887,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule CustomerBalance do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -895,12 +895,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -923,7 +923,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Eps do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -931,12 +931,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -959,7 +959,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Fpx do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -967,12 +967,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -995,7 +995,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Giropay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1003,12 +1003,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1031,7 +1031,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule GooglePay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1039,12 +1039,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1067,7 +1067,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Grabpay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1075,12 +1075,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1103,7 +1103,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Ideal do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1111,12 +1111,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1139,7 +1139,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Jcb do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1147,12 +1147,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1175,7 +1175,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule KakaoPay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1183,12 +1183,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1211,7 +1211,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Klarna do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1219,12 +1219,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1247,7 +1247,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Konbini do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1255,12 +1255,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1283,7 +1283,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule KrCard do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1291,12 +1291,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1319,7 +1319,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Link do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1327,12 +1327,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1355,7 +1355,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule MbWay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1363,12 +1363,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1391,7 +1391,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Mobilepay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1399,12 +1399,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1427,7 +1427,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Multibanco do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1435,12 +1435,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1463,7 +1463,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule NaverPay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1471,12 +1471,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1499,7 +1499,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule NzBankAccount do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1507,12 +1507,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1535,7 +1535,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Oxxo do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1543,12 +1543,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1571,7 +1571,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule P24 do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1579,12 +1579,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1607,7 +1607,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule PayByBank do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1615,12 +1615,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1643,7 +1643,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Payco do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1651,12 +1651,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1679,7 +1679,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Paynow do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1687,12 +1687,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1715,7 +1715,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Paypal do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1723,12 +1723,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1751,7 +1751,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Payto do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1759,12 +1759,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1787,7 +1787,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Pix do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1795,12 +1795,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1823,7 +1823,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Promptpay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1831,12 +1831,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1859,7 +1859,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule RevolutPay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1867,12 +1867,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1895,7 +1895,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule SamsungPay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1903,12 +1903,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1931,7 +1931,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Satispay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1939,12 +1939,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -1967,7 +1967,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule SepaDebit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -1975,12 +1975,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -2003,7 +2003,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Sofort do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -2011,12 +2011,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -2039,7 +2039,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Swish do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -2047,12 +2047,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -2075,7 +2075,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Twint do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -2083,12 +2083,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -2111,7 +2111,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule UsBankAccount do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -2119,12 +2119,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -2147,7 +2147,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule WechatPay do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -2155,12 +2155,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
@@ -2183,7 +2183,7 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
   end
 
   defmodule Zip do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
@@ -2191,12 +2191,12 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
     """
     @type t :: %__MODULE__{
             available: boolean() | nil,
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:available, :display_preference]
 
     defmodule DisplayPreference do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.

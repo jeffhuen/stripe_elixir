@@ -50,10 +50,10 @@ defmodule Stripe.Resources.Plan do
           meter: String.t(),
           nickname: String.t(),
           object: String.t(),
-          product: map(),
-          tiers: [map()] | nil,
+          product: String.t() | Stripe.Resources.Product.t(),
+          tiers: [__MODULE__.Tiers.t()] | nil,
           tiers_mode: String.t(),
-          transform_usage: map(),
+          transform_usage: __MODULE__.TransformUsage.t(),
           trial_period_days: integer(),
           usage_type: String.t()
         }
@@ -87,7 +87,7 @@ defmodule Stripe.Resources.Plan do
   def expandable_fields, do: ["product", "tiers", "transform_usage"]
 
   defmodule Tiers do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `flat_amount` - Price for the entire tier. Nullable.
@@ -107,7 +107,7 @@ defmodule Stripe.Resources.Plan do
   end
 
   defmodule TransformUsage do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `divide_by` - Divide usage by this number.

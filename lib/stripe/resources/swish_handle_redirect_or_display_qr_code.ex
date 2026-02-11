@@ -12,7 +12,7 @@ defmodule Stripe.Resources.SwishHandleRedirectOrDisplayQrCode do
   @type t :: %__MODULE__{
           hosted_instructions_url: String.t(),
           mobile_auth_url: String.t(),
-          qr_code: map()
+          qr_code: Stripe.Resources.SwishQrCode.t()
         }
 
   defstruct [:hosted_instructions_url, :mobile_auth_url, :qr_code]

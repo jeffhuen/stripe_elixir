@@ -37,8 +37,8 @@ defmodule Stripe.Resources.Token do
   * `used` - Determines if you have already used this token (you can only use tokens once).
   """
   @type t :: %__MODULE__{
-          bank_account: map() | nil,
-          card: map() | nil,
+          bank_account: Stripe.Resources.BankAccount.t() | nil,
+          card: Stripe.Resources.Card.t() | nil,
           client_ip: String.t(),
           created: integer(),
           id: String.t(),

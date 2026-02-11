@@ -24,7 +24,7 @@ defmodule Stripe.Resources.Tax.Registration do
   @type t :: %__MODULE__{
           active_from: integer(),
           country: String.t(),
-          country_options: map(),
+          country_options: __MODULE__.CountryOptions.t(),
           created: integer(),
           expires_at: integer(),
           id: String.t(),
@@ -51,7 +51,7 @@ defmodule Stripe.Resources.Tax.Registration do
   def expandable_fields, do: ["country_options"]
 
   defmodule CountryOptions do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `ae`
@@ -156,106 +156,106 @@ defmodule Stripe.Resources.Tax.Registration do
     * `zw`
     """
     @type t :: %__MODULE__{
-            ae: map() | nil,
-            al: map() | nil,
-            am: map() | nil,
-            ao: map() | nil,
-            at: map() | nil,
-            au: map() | nil,
-            aw: map() | nil,
-            az: map() | nil,
-            ba: map() | nil,
-            bb: map() | nil,
-            bd: map() | nil,
-            be: map() | nil,
-            bf: map() | nil,
-            bg: map() | nil,
-            bh: map() | nil,
-            bj: map() | nil,
-            bs: map() | nil,
-            by: map() | nil,
-            ca: map() | nil,
-            cd: map() | nil,
-            ch: map() | nil,
-            cl: map() | nil,
-            cm: map() | nil,
-            co: map() | nil,
-            cr: map() | nil,
-            cv: map() | nil,
-            cy: map() | nil,
-            cz: map() | nil,
-            de: map() | nil,
-            dk: map() | nil,
-            ec: map() | nil,
-            ee: map() | nil,
-            eg: map() | nil,
-            es: map() | nil,
-            et: map() | nil,
-            fi: map() | nil,
-            fr: map() | nil,
-            gb: map() | nil,
-            ge: map() | nil,
-            gn: map() | nil,
-            gr: map() | nil,
-            hr: map() | nil,
-            hu: map() | nil,
-            id: map() | nil,
-            ie: map() | nil,
-            in: map() | nil,
-            is: map() | nil,
-            it: map() | nil,
-            jp: map() | nil,
-            ke: map() | nil,
-            kg: map() | nil,
-            kh: map() | nil,
-            kr: map() | nil,
-            kz: map() | nil,
-            la: map() | nil,
-            lt: map() | nil,
-            lu: map() | nil,
-            lv: map() | nil,
-            ma: map() | nil,
-            md: map() | nil,
-            me: map() | nil,
-            mk: map() | nil,
-            mr: map() | nil,
-            mt: map() | nil,
-            mx: map() | nil,
-            my: map() | nil,
-            ng: map() | nil,
-            nl: map() | nil,
-            no: map() | nil,
-            np: map() | nil,
-            nz: map() | nil,
-            om: map() | nil,
-            pe: map() | nil,
-            ph: map() | nil,
-            pl: map() | nil,
-            pt: map() | nil,
-            ro: map() | nil,
-            rs: map() | nil,
-            ru: map() | nil,
-            sa: map() | nil,
-            se: map() | nil,
-            sg: map() | nil,
-            si: map() | nil,
-            sk: map() | nil,
-            sn: map() | nil,
-            sr: map() | nil,
-            th: map() | nil,
-            tj: map() | nil,
-            tr: map() | nil,
-            tw: map() | nil,
-            tz: map() | nil,
-            ua: map() | nil,
-            ug: map() | nil,
-            us: map() | nil,
-            uy: map() | nil,
-            uz: map() | nil,
-            vn: map() | nil,
-            za: map() | nil,
-            zm: map() | nil,
-            zw: map() | nil
+            ae: __MODULE__.Ae.t() | nil,
+            al: __MODULE__.Al.t() | nil,
+            am: __MODULE__.Am.t() | nil,
+            ao: __MODULE__.Ao.t() | nil,
+            at: __MODULE__.At.t() | nil,
+            au: __MODULE__.Au.t() | nil,
+            aw: __MODULE__.Aw.t() | nil,
+            az: __MODULE__.Az.t() | nil,
+            ba: __MODULE__.Ba.t() | nil,
+            bb: __MODULE__.Bb.t() | nil,
+            bd: __MODULE__.Bd.t() | nil,
+            be: __MODULE__.Be.t() | nil,
+            bf: __MODULE__.Bf.t() | nil,
+            bg: __MODULE__.Bg.t() | nil,
+            bh: __MODULE__.Bh.t() | nil,
+            bj: __MODULE__.Bj.t() | nil,
+            bs: __MODULE__.Bs.t() | nil,
+            by: __MODULE__.By.t() | nil,
+            ca: __MODULE__.Ca.t() | nil,
+            cd: __MODULE__.Cd.t() | nil,
+            ch: __MODULE__.Ch.t() | nil,
+            cl: __MODULE__.Cl.t() | nil,
+            cm: __MODULE__.Cm.t() | nil,
+            co: __MODULE__.Co.t() | nil,
+            cr: __MODULE__.Cr.t() | nil,
+            cv: __MODULE__.Cv.t() | nil,
+            cy: __MODULE__.Cy.t() | nil,
+            cz: __MODULE__.Cz.t() | nil,
+            de: __MODULE__.De.t() | nil,
+            dk: __MODULE__.Dk.t() | nil,
+            ec: __MODULE__.Ec.t() | nil,
+            ee: __MODULE__.Ee.t() | nil,
+            eg: __MODULE__.Eg.t() | nil,
+            es: __MODULE__.Es.t() | nil,
+            et: __MODULE__.Et.t() | nil,
+            fi: __MODULE__.Fi.t() | nil,
+            fr: __MODULE__.Fr.t() | nil,
+            gb: __MODULE__.Gb.t() | nil,
+            ge: __MODULE__.Ge.t() | nil,
+            gn: __MODULE__.Gn.t() | nil,
+            gr: __MODULE__.Gr.t() | nil,
+            hr: __MODULE__.Hr.t() | nil,
+            hu: __MODULE__.Hu.t() | nil,
+            id: __MODULE__.Id.t() | nil,
+            ie: __MODULE__.Ie.t() | nil,
+            in: __MODULE__.In.t() | nil,
+            is: __MODULE__.Is.t() | nil,
+            it: __MODULE__.It.t() | nil,
+            jp: __MODULE__.Jp.t() | nil,
+            ke: __MODULE__.Ke.t() | nil,
+            kg: __MODULE__.Kg.t() | nil,
+            kh: __MODULE__.Kh.t() | nil,
+            kr: __MODULE__.Kr.t() | nil,
+            kz: __MODULE__.Kz.t() | nil,
+            la: __MODULE__.La.t() | nil,
+            lt: __MODULE__.Lt.t() | nil,
+            lu: __MODULE__.Lu.t() | nil,
+            lv: __MODULE__.Lv.t() | nil,
+            ma: __MODULE__.Ma.t() | nil,
+            md: __MODULE__.Md.t() | nil,
+            me: __MODULE__.Me.t() | nil,
+            mk: __MODULE__.Mk.t() | nil,
+            mr: __MODULE__.Mr.t() | nil,
+            mt: __MODULE__.Mt.t() | nil,
+            mx: __MODULE__.Mx.t() | nil,
+            my: __MODULE__.My.t() | nil,
+            ng: __MODULE__.Ng.t() | nil,
+            nl: __MODULE__.Nl.t() | nil,
+            no: __MODULE__.No.t() | nil,
+            np: __MODULE__.Np.t() | nil,
+            nz: __MODULE__.Nz.t() | nil,
+            om: __MODULE__.Om.t() | nil,
+            pe: __MODULE__.Pe.t() | nil,
+            ph: __MODULE__.Ph.t() | nil,
+            pl: __MODULE__.Pl.t() | nil,
+            pt: __MODULE__.Pt.t() | nil,
+            ro: __MODULE__.Ro.t() | nil,
+            rs: __MODULE__.Rs.t() | nil,
+            ru: __MODULE__.Ru.t() | nil,
+            sa: __MODULE__.Sa.t() | nil,
+            se: __MODULE__.Se.t() | nil,
+            sg: __MODULE__.Sg.t() | nil,
+            si: __MODULE__.Si.t() | nil,
+            sk: __MODULE__.Sk.t() | nil,
+            sn: __MODULE__.Sn.t() | nil,
+            sr: __MODULE__.Sr.t() | nil,
+            th: __MODULE__.Th.t() | nil,
+            tj: __MODULE__.Tj.t() | nil,
+            tr: __MODULE__.Tr.t() | nil,
+            tw: __MODULE__.Tw.t() | nil,
+            tz: __MODULE__.Tz.t() | nil,
+            ua: __MODULE__.Ua.t() | nil,
+            ug: __MODULE__.Ug.t() | nil,
+            us: __MODULE__.Us.t() | nil,
+            uy: __MODULE__.Uy.t() | nil,
+            uz: __MODULE__.Uz.t() | nil,
+            vn: __MODULE__.Vn.t() | nil,
+            za: __MODULE__.Za.t() | nil,
+            zm: __MODULE__.Zm.t() | nil,
+            zw: __MODULE__.Zw.t() | nil
           }
     defstruct [
       :ae,
@@ -361,20 +361,20 @@ defmodule Stripe.Resources.Tax.Registration do
     ]
 
     defmodule Ae do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -393,7 +393,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Al do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -405,7 +405,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Am do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -417,7 +417,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ao do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -429,20 +429,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule At do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -461,20 +461,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Au do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -493,7 +493,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Aw do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -505,7 +505,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Az do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -517,7 +517,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ba do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -529,7 +529,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Bb do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -541,7 +541,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Bd do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -553,20 +553,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Be do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -585,7 +585,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Bf do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -597,20 +597,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Bg do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -629,7 +629,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Bh do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -641,7 +641,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Bj do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -653,7 +653,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Bs do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -665,7 +665,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule By do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -677,20 +677,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ca do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `province_standard`
       * `type` - Type of registration in Canada. Possible values: `province_standard`, `simplified`, `standard`.
       """
       @type t :: %__MODULE__{
-              province_standard: map() | nil,
+              province_standard: __MODULE__.ProvinceStandard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:province_standard, :type]
 
       defmodule ProvinceStandard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `province` - Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000.
@@ -709,7 +709,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Cd do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -721,20 +721,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ch do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -753,7 +753,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Cl do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -765,7 +765,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Cm do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -777,7 +777,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Co do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -789,7 +789,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Cr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -801,7 +801,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Cv do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -813,20 +813,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Cy do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -845,20 +845,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Cz do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -877,20 +877,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule De do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -909,20 +909,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Dk do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -941,7 +941,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ec do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -953,20 +953,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ee do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -985,7 +985,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Eg do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -997,20 +997,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Es do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1029,7 +1029,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Et do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1041,20 +1041,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Fi do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1073,20 +1073,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Fr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1105,20 +1105,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Gb do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -1137,7 +1137,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ge do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1149,7 +1149,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Gn do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1161,20 +1161,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Gr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1193,20 +1193,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Hr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1225,20 +1225,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Hu do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1257,7 +1257,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Id do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1269,20 +1269,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ie do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1301,7 +1301,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule In do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1313,7 +1313,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Is do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1325,20 +1325,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule It do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1357,20 +1357,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Jp do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -1389,7 +1389,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ke do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1401,7 +1401,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Kg do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1413,7 +1413,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Kh do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1425,7 +1425,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Kr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1437,7 +1437,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Kz do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1449,7 +1449,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule La do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1461,20 +1461,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Lt do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1493,20 +1493,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Lu do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1525,20 +1525,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Lv do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1557,7 +1557,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ma do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1569,7 +1569,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Md do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1581,7 +1581,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Me do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1593,7 +1593,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Mk do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1605,7 +1605,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Mr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1617,20 +1617,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Mt do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1649,7 +1649,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Mx do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1661,7 +1661,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule My do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1673,7 +1673,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ng do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1685,20 +1685,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Nl do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1717,20 +1717,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule No do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -1749,7 +1749,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Np do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1761,20 +1761,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Nz do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -1793,7 +1793,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Om do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1805,7 +1805,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Pe do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1817,7 +1817,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ph do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1829,20 +1829,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Pl do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1861,20 +1861,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Pt do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1893,20 +1893,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ro do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1925,7 +1925,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Rs do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -1937,7 +1937,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ru do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1949,7 +1949,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Sa do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -1961,20 +1961,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Se do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -1993,20 +1993,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Sg do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in `country`. Possible values: `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an Default standard registration. Possible values: `inbound_goods`, `standard`.
@@ -2025,20 +2025,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Si do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -2057,20 +2057,20 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Sk do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `standard`
       * `type` - Type of registration in an EU country. Possible values: `ioss`, `oss_non_union`, `oss_union`, `standard`.
       """
       @type t :: %__MODULE__{
-              standard: map() | nil,
+              standard: __MODULE__.Standard.t() | nil,
               type: String.t() | nil
             }
       defstruct [:standard, :type]
 
       defmodule Standard do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `place_of_supply_scheme` - Place of supply scheme used in an EU standard registration. Possible values: `inbound_goods`, `small_seller`, `standard`.
@@ -2089,7 +2089,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Sn do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2101,7 +2101,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Sr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -2113,7 +2113,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Th do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2125,7 +2125,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Tj do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2137,7 +2137,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Tr do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2149,7 +2149,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Tw do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2161,7 +2161,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Tz do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2173,7 +2173,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ua do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2185,7 +2185,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Ug do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2197,7 +2197,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Us do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `local_amusement_tax`
@@ -2207,16 +2207,16 @@ defmodule Stripe.Resources.Tax.Registration do
       * `type` - Type of registration in the US. Possible values: `local_amusement_tax`, `local_lease_tax`, `state_communications_tax`, `state_retail_delivery_fee`, `state_sales_tax`.
       """
       @type t :: %__MODULE__{
-              local_amusement_tax: map() | nil,
-              local_lease_tax: map() | nil,
+              local_amusement_tax: __MODULE__.LocalAmusementTax.t() | nil,
+              local_lease_tax: __MODULE__.LocalLeaseTax.t() | nil,
               state: String.t() | nil,
-              state_sales_tax: map() | nil,
+              state_sales_tax: __MODULE__.StateSalesTax.t() | nil,
               type: String.t() | nil
             }
       defstruct [:local_amusement_tax, :local_lease_tax, :state, :state_sales_tax, :type]
 
       defmodule LocalAmusementTax do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Max length: 5000.
@@ -2228,7 +2228,7 @@ defmodule Stripe.Resources.Tax.Registration do
       end
 
       defmodule LocalLeaseTax do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Max length: 5000.
@@ -2240,18 +2240,18 @@ defmodule Stripe.Resources.Tax.Registration do
       end
 
       defmodule StateSalesTax do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `elections` - Elections for the state sales tax registration.
         """
         @type t :: %__MODULE__{
-                elections: [map()] | nil
+                elections: [__MODULE__.Elections.t()] | nil
               }
         defstruct [:elections]
 
         defmodule Elections do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `jurisdiction` - A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Max length: 5000.
@@ -2281,7 +2281,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Uy do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -2293,7 +2293,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Uz do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2305,7 +2305,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Vn do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2317,7 +2317,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Za do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.
@@ -2329,7 +2329,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Zm do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `simplified`.
@@ -2341,7 +2341,7 @@ defmodule Stripe.Resources.Tax.Registration do
     end
 
     defmodule Zw do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `type` - Type of registration in `country`. Possible values: `standard`.

@@ -26,15 +26,15 @@ defmodule Stripe.Resources.Discount do
   """
   @type t :: %__MODULE__{
           checkout_session: String.t(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           end: integer(),
           id: String.t(),
           invoice: String.t(),
           invoice_item: String.t(),
           object: String.t(),
-          promotion_code: String.t() | map(),
-          source: map(),
+          promotion_code: String.t() | Stripe.Resources.PromotionCode.t(),
+          source: __MODULE__.Source.t(),
           start: integer(),
           subscription: String.t(),
           subscription_item: String.t()
@@ -62,14 +62,14 @@ defmodule Stripe.Resources.Discount do
   def expandable_fields, do: ["customer", "promotion_code", "source"]
 
   defmodule Source do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `coupon` - The coupon that was redeemed to create this discount. Nullable.
     * `type` - The source type of the discount. Possible values: `coupon`.
     """
     @type t :: %__MODULE__{
-            coupon: String.t() | map() | nil,
+            coupon: String.t() | Stripe.Resources.Coupon.t() | nil,
             type: String.t() | nil
           }
     defstruct [:coupon, :type]

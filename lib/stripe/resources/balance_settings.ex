@@ -12,7 +12,7 @@ defmodule Stripe.Resources.BalanceSettings do
   """
   @type t :: %__MODULE__{
           object: String.t(),
-          payments: map()
+          payments: __MODULE__.Payments.t()
         }
 
   defstruct [:object, :payments]
@@ -23,7 +23,7 @@ defmodule Stripe.Resources.BalanceSettings do
   def expandable_fields, do: ["payments"]
 
   defmodule Payments do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `debit_negative_balances` - A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`. Nullable.
@@ -32,13 +32,13 @@ defmodule Stripe.Resources.BalanceSettings do
     """
     @type t :: %__MODULE__{
             debit_negative_balances: boolean() | nil,
-            payouts: map() | nil,
-            settlement_timing: map() | nil
+            payouts: __MODULE__.Payouts.t() | nil,
+            settlement_timing: __MODULE__.SettlementTiming.t() | nil
           }
     defstruct [:debit_negative_balances, :payouts, :settlement_timing]
 
     defmodule Payouts do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `minimum_balance_by_currency` - The minimum balance amount to retain per currency after automatic payouts. Only funds that exceed these amounts are paid out. Learn more about the [minimum balances for automatic payouts](https://stripe.com/payouts/minimum-balances-for-automatic-payouts). Nullable.
@@ -48,14 +48,14 @@ defmodule Stripe.Resources.BalanceSettings do
       """
       @type t :: %__MODULE__{
               minimum_balance_by_currency: map() | nil,
-              schedule: map() | nil,
+              schedule: __MODULE__.Schedule.t() | nil,
               statement_descriptor: String.t() | nil,
               status: String.t() | nil
             }
       defstruct [:minimum_balance_by_currency, :schedule, :statement_descriptor, :status]
 
       defmodule Schedule do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `interval` - How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`. Possible values: `daily`, `manual`, `monthly`, `weekly`. Nullable.
@@ -78,7 +78,7 @@ defmodule Stripe.Resources.BalanceSettings do
     end
 
     defmodule SettlementTiming do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `delay_days` - The number of days charge funds are held before becoming available.

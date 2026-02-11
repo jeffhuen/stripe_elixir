@@ -27,15 +27,15 @@ defmodule Stripe.Resources.CreditNoteLineItem do
           amount: integer(),
           description: String.t(),
           discount_amount: integer(),
-          discount_amounts: [map()],
+          discount_amounts: [__MODULE__.DiscountAmounts.t()],
           id: String.t(),
           invoice_line_item: String.t() | nil,
           livemode: boolean(),
           object: String.t(),
-          pretax_credit_amounts: [map()],
+          pretax_credit_amounts: [__MODULE__.PretaxCreditAmounts.t()],
           quantity: integer(),
-          tax_rates: [map()],
-          taxes: [map()],
+          tax_rates: [Stripe.Resources.TaxRate.t()],
+          taxes: [__MODULE__.Taxes.t()],
           type: String.t(),
           unit_amount: integer(),
           unit_amount_decimal: String.t()
@@ -65,7 +65,7 @@ defmodule Stripe.Resources.CreditNoteLineItem do
   def expandable_fields, do: ["discount_amounts", "pretax_credit_amounts", "tax_rates", "taxes"]
 
   defmodule DiscountAmounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount, in cents (or local equivalent), of the discount.
@@ -73,13 +73,13 @@ defmodule Stripe.Resources.CreditNoteLineItem do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            discount: map() | nil
+            discount: String.t() | Stripe.Resources.Discount.t() | nil
           }
     defstruct [:amount, :discount]
   end
 
   defmodule PretaxCreditAmounts do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount, in cents (or local equivalent), of the pretax credit amount.
@@ -89,15 +89,16 @@ defmodule Stripe.Resources.CreditNoteLineItem do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            credit_balance_transaction: String.t() | map() | nil,
-            discount: map() | nil,
+            credit_balance_transaction:
+              String.t() | Stripe.Resources.Billing.CreditBalanceTransaction.t() | nil,
+            discount: String.t() | Stripe.Resources.Discount.t() | nil,
             type: String.t() | nil
           }
     defstruct [:amount, :credit_balance_transaction, :discount, :type]
   end
 
   defmodule Taxes do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - The amount of the tax, in cents (or local equivalent).
@@ -110,7 +111,7 @@ defmodule Stripe.Resources.CreditNoteLineItem do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             tax_behavior: String.t() | nil,
-            tax_rate_details: map() | nil,
+            tax_rate_details: __MODULE__.TaxRateDetails.t() | nil,
             taxability_reason: String.t() | nil,
             taxable_amount: integer() | nil,
             type: String.t() | nil
@@ -125,7 +126,7 @@ defmodule Stripe.Resources.CreditNoteLineItem do
     ]
 
     defmodule TaxRateDetails do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `tax_rate` - ID of the tax rate Max length: 5000.

@@ -15,7 +15,7 @@ defmodule Stripe.Resources.ConnectCollectionTransfer do
   @type t :: %__MODULE__{
           amount: integer(),
           currency: String.t(),
-          destination: String.t() | map(),
+          destination: String.t() | Stripe.Resources.Account.t(),
           id: String.t(),
           livemode: boolean(),
           object: String.t()

@@ -23,9 +23,9 @@ defmodule Stripe.Resources.Terminal.Location do
   * `phone` - The phone number of the location. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          address: map(),
-          address_kana: map() | nil,
-          address_kanji: map() | nil,
+          address: Stripe.Resources.Address.t(),
+          address_kana: __MODULE__.AddressKana.t() | nil,
+          address_kanji: __MODULE__.AddressKanji.t() | nil,
           configuration_overrides: String.t() | nil,
           display_name: String.t(),
           display_name_kana: String.t() | nil,
@@ -58,7 +58,7 @@ defmodule Stripe.Resources.Terminal.Location do
   def expandable_fields, do: ["address", "address_kana", "address_kanji"]
 
   defmodule AddressKana do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `city` - City/Ward. Max length: 5000. Nullable.
@@ -82,7 +82,7 @@ defmodule Stripe.Resources.Terminal.Location do
   end
 
   defmodule AddressKanji do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `city` - City/Ward. Max length: 5000. Nullable.

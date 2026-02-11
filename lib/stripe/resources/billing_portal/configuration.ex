@@ -24,15 +24,15 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
   """
   @type t :: %__MODULE__{
           active: boolean(),
-          application: map(),
-          business_profile: map(),
+          application: String.t() | Stripe.Resources.Application.t(),
+          business_profile: __MODULE__.BusinessProfile.t(),
           created: integer(),
           default_return_url: String.t(),
-          features: map(),
+          features: __MODULE__.Features.t(),
           id: String.t(),
           is_default: boolean(),
           livemode: boolean(),
-          login_page: map(),
+          login_page: __MODULE__.LoginPage.t(),
           metadata: map(),
           name: String.t(),
           object: String.t(),
@@ -62,7 +62,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
   def expandable_fields, do: ["application", "business_profile", "features", "login_page"]
 
   defmodule BusinessProfile do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `headline` - The messaging shown to customers in the portal. Max length: 5000. Nullable.
@@ -78,7 +78,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
   end
 
   defmodule Features do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `customer_update`
@@ -88,11 +88,11 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
     * `subscription_update`
     """
     @type t :: %__MODULE__{
-            customer_update: map() | nil,
-            invoice_history: map() | nil,
-            payment_method_update: map() | nil,
-            subscription_cancel: map() | nil,
-            subscription_update: map() | nil
+            customer_update: __MODULE__.CustomerUpdate.t() | nil,
+            invoice_history: __MODULE__.InvoiceHistory.t() | nil,
+            payment_method_update: __MODULE__.PaymentMethodUpdate.t() | nil,
+            subscription_cancel: __MODULE__.SubscriptionCancel.t() | nil,
+            subscription_update: __MODULE__.SubscriptionUpdate.t() | nil
           }
     defstruct [
       :customer_update,
@@ -103,7 +103,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
     ]
 
     defmodule CustomerUpdate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `allowed_updates` - The types of customer updates that are supported. When empty, customers are not updateable.
@@ -117,7 +117,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
     end
 
     defmodule InvoiceHistory do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Whether the feature is enabled.
@@ -129,7 +129,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
     end
 
     defmodule PaymentMethodUpdate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `enabled` - Whether the feature is enabled.
@@ -143,7 +143,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
     end
 
     defmodule SubscriptionCancel do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `cancellation_reason`
@@ -152,7 +152,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
       * `proration_behavior` - Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`. Possible values: `always_invoice`, `create_prorations`, `none`.
       """
       @type t :: %__MODULE__{
-              cancellation_reason: map() | nil,
+              cancellation_reason: __MODULE__.CancellationReason.t() | nil,
               enabled: boolean() | nil,
               mode: String.t() | nil,
               proration_behavior: String.t() | nil
@@ -160,7 +160,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
       defstruct [:cancellation_reason, :enabled, :mode, :proration_behavior]
 
       defmodule CancellationReason do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `enabled` - Whether the feature is enabled.
@@ -181,7 +181,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
     end
 
     defmodule SubscriptionUpdate do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `billing_cycle_anchor` - Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `now`, `unchanged`. Nullable.
@@ -196,9 +196,9 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
               billing_cycle_anchor: String.t() | nil,
               default_allowed_updates: [String.t()] | nil,
               enabled: boolean() | nil,
-              products: [map()] | nil,
+              products: [__MODULE__.Products.t()] | nil,
               proration_behavior: String.t() | nil,
-              schedule_at_period_end: map() | nil,
+              schedule_at_period_end: __MODULE__.ScheduleAtPeriodEnd.t() | nil,
               trial_update_behavior: String.t() | nil
             }
       defstruct [
@@ -212,7 +212,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
       ]
 
       defmodule Products do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `adjustable_quantity`
@@ -220,14 +220,14 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
         * `product` - The product ID. Max length: 5000.
         """
         @type t :: %__MODULE__{
-                adjustable_quantity: map() | nil,
+                adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
                 prices: [String.t()] | nil,
                 product: String.t() | nil
               }
         defstruct [:adjustable_quantity, :prices, :product]
 
         defmodule AdjustableQuantity do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `enabled` - If true, the quantity can be adjusted to any non-negative integer.
@@ -250,18 +250,18 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
       end
 
       defmodule ScheduleAtPeriodEnd do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `conditions` - List of conditions. When any condition is true, an update will be scheduled at the end of the current period.
         """
         @type t :: %__MODULE__{
-                conditions: [map()] | nil
+                conditions: [__MODULE__.Conditions.t()] | nil
               }
         defstruct [:conditions]
 
         defmodule Conditions do
-          @moduledoc false
+          @moduledoc "Nested struct within the parent resource."
 
           @typedoc """
           * `type` - The type of condition. Possible values: `decreasing_item_amount`, `shortening_interval`.
@@ -299,7 +299,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
   end
 
   defmodule LoginPage do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `enabled` - If `true`, a shareable `url` will be generated that will take your customers to a hosted login page for the customer portal.

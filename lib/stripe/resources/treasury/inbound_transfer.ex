@@ -36,21 +36,21 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
           created: integer(),
           currency: String.t(),
           description: String.t(),
-          failure_details: map(),
+          failure_details: __MODULE__.FailureDetails.t(),
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
           id: String.t(),
-          linked_flows: map(),
+          linked_flows: __MODULE__.LinkedFlows.t(),
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
           origin_payment_method: String.t(),
-          origin_payment_method_details: map(),
+          origin_payment_method_details: __MODULE__.OriginPaymentMethodDetails.t(),
           returned: boolean(),
           statement_descriptor: String.t(),
           status: String.t(),
-          status_transitions: map(),
-          transaction: String.t() | map()
+          status_transitions: Stripe.Resources.StatusTransitions.t(),
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t()
         }
 
   defstruct [
@@ -89,7 +89,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
     ]
 
   defmodule FailureDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `code` - Reason for the failure. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `debit_not_authorized`, `incorrect_account_holder_address`, `incorrect_account_holder_name`, `incorrect_account_holder_tax_id`, `insufficient_funds`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
@@ -101,7 +101,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
   end
 
   defmodule LinkedFlows do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `received_debit` - If funds for this flow were returned after the flow went to the `succeeded` state, this field contains a reference to the ReceivedDebit return. Max length: 5000. Nullable.
@@ -113,7 +113,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
   end
 
   defmodule OriginPaymentMethodDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `billing_details`
@@ -121,9 +121,9 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
     * `us_bank_account`
     """
     @type t :: %__MODULE__{
-            billing_details: map() | nil,
+            billing_details: Stripe.Resources.BillingDetails.t() | nil,
             type: String.t() | nil,
-            us_bank_account: map() | nil
+            us_bank_account: Stripe.Resources.UsBankAccount.t() | nil
           }
     defstruct [:billing_details, :type, :us_bank_account]
   end

@@ -22,7 +22,7 @@ defmodule Stripe.Resources.Billing.Alert do
           object: String.t(),
           status: String.t(),
           title: String.t(),
-          usage_threshold: map()
+          usage_threshold: __MODULE__.UsageThreshold.t()
         }
 
   defstruct [:alert_type, :id, :livemode, :object, :status, :title, :usage_threshold]
@@ -33,7 +33,7 @@ defmodule Stripe.Resources.Billing.Alert do
   def expandable_fields, do: ["usage_threshold"]
 
   defmodule UsageThreshold do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `filters` - The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time. Nullable.
@@ -42,22 +42,22 @@ defmodule Stripe.Resources.Billing.Alert do
     * `recurrence` - Defines how the alert will behave. Possible values: `one_time`.
     """
     @type t :: %__MODULE__{
-            filters: [map()] | nil,
+            filters: [__MODULE__.Filters.t()] | nil,
             gte: integer() | nil,
-            meter: String.t() | map() | nil,
+            meter: String.t() | Stripe.Resources.Billing.Meter.t() | nil,
             recurrence: String.t() | nil
           }
     defstruct [:filters, :gte, :meter, :recurrence]
 
     defmodule Filters do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `customer` - Limit the scope of the alert to this customer ID Nullable.
       * `type` - Possible values: `customer`.
       """
       @type t :: %__MODULE__{
-              customer: String.t() | map() | nil,
+              customer: String.t() | Stripe.Resources.Customer.t() | nil,
               type: String.t() | nil
             }
       defstruct [:customer, :type]

@@ -19,7 +19,7 @@ defmodule Stripe.Resources.Climate.Supplier do
           id: String.t(),
           info_url: String.t(),
           livemode: boolean(),
-          locations: [map()],
+          locations: [__MODULE__.Locations.t()],
           name: String.t(),
           object: String.t(),
           removal_pathway: String.t()
@@ -33,7 +33,7 @@ defmodule Stripe.Resources.Climate.Supplier do
   def expandable_fields, do: ["locations"]
 
   defmodule Locations do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `city` - The city where the supplier is located. Max length: 5000. Nullable.

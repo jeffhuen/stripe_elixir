@@ -20,14 +20,14 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
   """
   @type t :: %__MODULE__{
           created: integer(),
-          credit: map(),
-          credit_grant: String.t() | map(),
-          debit: map(),
+          credit: __MODULE__.Credit.t(),
+          credit_grant: String.t() | Stripe.Resources.Billing.CreditGrant.t(),
+          debit: __MODULE__.Debit.t(),
           effective_at: integer(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          test_clock: String.t() | map(),
+          test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t(),
           type: String.t()
         }
 
@@ -50,7 +50,7 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
   def expandable_fields, do: ["credit", "credit_grant", "debit", "test_clock"]
 
   defmodule Credit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount`
@@ -58,27 +58,28 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
     * `type` - The type of credit transaction. Possible values: `credits_application_invoice_voided`, `credits_granted`.
     """
     @type t :: %__MODULE__{
-            amount: map() | nil,
-            credits_application_invoice_voided: map() | nil,
+            amount: __MODULE__.Amount.t() | nil,
+            credits_application_invoice_voided:
+              __MODULE__.CreditsApplicationInvoiceVoided.t() | nil,
             type: String.t() | nil
           }
     defstruct [:amount, :credits_application_invoice_voided, :type]
 
     defmodule Amount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `monetary` - The monetary amount. Nullable.
       * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
       """
       @type t :: %__MODULE__{
-              monetary: map() | nil,
+              monetary: __MODULE__.Monetary.t() | nil,
               type: String.t() | nil
             }
       defstruct [:monetary, :type]
 
       defmodule Monetary do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
@@ -99,14 +100,14 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
     end
 
     defmodule CreditsApplicationInvoiceVoided do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `invoice` - The invoice to which the reinstated billing credits were originally applied.
       * `invoice_line_item` - The invoice line item to which the reinstated billing credits were originally applied. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              invoice: String.t() | map() | nil,
+              invoice: String.t() | Stripe.Resources.Invoice.t() | nil,
               invoice_line_item: String.t() | nil
             }
       defstruct [:invoice, :invoice_line_item]
@@ -121,7 +122,7 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
   end
 
   defmodule Debit do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount`
@@ -129,27 +130,27 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
     * `type` - The type of debit transaction. Possible values: `credits_applied`, `credits_expired`, `credits_voided`.
     """
     @type t :: %__MODULE__{
-            amount: map() | nil,
-            credits_applied: map() | nil,
+            amount: __MODULE__.Amount.t() | nil,
+            credits_applied: __MODULE__.CreditsApplied.t() | nil,
             type: String.t() | nil
           }
     defstruct [:amount, :credits_applied, :type]
 
     defmodule Amount do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `monetary` - The monetary amount. Nullable.
       * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
       """
       @type t :: %__MODULE__{
-              monetary: map() | nil,
+              monetary: __MODULE__.Monetary.t() | nil,
               type: String.t() | nil
             }
       defstruct [:monetary, :type]
 
       defmodule Monetary do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
@@ -170,14 +171,14 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
     end
 
     defmodule CreditsApplied do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `invoice` - The invoice to which the billing credits were applied.
       * `invoice_line_item` - The invoice line item to which the billing credits were applied. Max length: 5000.
       """
       @type t :: %__MODULE__{
-              invoice: String.t() | map() | nil,
+              invoice: String.t() | Stripe.Resources.Invoice.t() | nil,
               invoice_line_item: String.t() | nil
             }
       defstruct [:invoice, :invoice_line_item]

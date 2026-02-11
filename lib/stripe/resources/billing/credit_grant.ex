@@ -28,11 +28,11 @@ defmodule Stripe.Resources.Billing.CreditGrant do
   * `voided_at` - The time when this credit grant was voided. If not present, the credit grant hasn't been voided. Format: Unix timestamp. Nullable.
   """
   @type t :: %__MODULE__{
-          amount: map(),
-          applicability_config: map(),
+          amount: __MODULE__.Amount.t(),
+          applicability_config: __MODULE__.ApplicabilityConfig.t(),
           category: String.t(),
           created: integer(),
-          customer: map(),
+          customer: String.t() | Stripe.Resources.Customer.t(),
           customer_account: String.t(),
           effective_at: integer(),
           expires_at: integer(),
@@ -42,7 +42,7 @@ defmodule Stripe.Resources.Billing.CreditGrant do
           name: String.t(),
           object: String.t(),
           priority: integer() | nil,
-          test_clock: String.t() | map(),
+          test_clock: String.t() | Stripe.Resources.TestHelpers.TestClock.t(),
           updated: integer(),
           voided_at: integer()
         }
@@ -73,20 +73,20 @@ defmodule Stripe.Resources.Billing.CreditGrant do
   def expandable_fields, do: ["amount", "applicability_config", "customer", "test_clock"]
 
   defmodule Amount do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `monetary` - The monetary amount. Nullable.
     * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
     """
     @type t :: %__MODULE__{
-            monetary: map() | nil,
+            monetary: __MODULE__.Monetary.t() | nil,
             type: String.t() | nil
           }
     defstruct [:monetary, :type]
 
     defmodule Monetary do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
@@ -107,18 +107,18 @@ defmodule Stripe.Resources.Billing.CreditGrant do
   end
 
   defmodule ApplicabilityConfig do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `scope`
     """
     @type t :: %__MODULE__{
-            scope: map() | nil
+            scope: __MODULE__.Scope.t() | nil
           }
     defstruct [:scope]
 
     defmodule Scope do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `price_type` - The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`. Possible values: `metered`.
@@ -126,12 +126,12 @@ defmodule Stripe.Resources.Billing.CreditGrant do
       """
       @type t :: %__MODULE__{
               price_type: String.t() | nil,
-              prices: [map()] | nil
+              prices: [__MODULE__.Prices.t()] | nil
             }
       defstruct [:price_type, :prices]
 
       defmodule Prices do
-        @moduledoc false
+        @moduledoc "Nested struct within the parent resource."
 
         @typedoc """
         * `id` - Unique identifier for the object. Max length: 5000. Nullable.

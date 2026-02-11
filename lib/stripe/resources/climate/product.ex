@@ -29,7 +29,7 @@ defmodule Stripe.Resources.Climate.Product do
           metric_tons_available: String.t(),
           name: String.t(),
           object: String.t(),
-          suppliers: [map()]
+          suppliers: [Stripe.Resources.Climate.Supplier.t()]
         }
 
   defstruct [

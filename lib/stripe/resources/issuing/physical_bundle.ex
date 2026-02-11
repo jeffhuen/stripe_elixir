@@ -16,7 +16,7 @@ defmodule Stripe.Resources.Issuing.PhysicalBundle do
   * `type` - Whether this physical bundle is a standard Stripe offering or custom-made for you. Possible values: `custom`, `standard`.
   """
   @type t :: %__MODULE__{
-          features: map(),
+          features: __MODULE__.Features.t(),
           id: String.t(),
           livemode: boolean(),
           name: String.t(),
@@ -33,7 +33,7 @@ defmodule Stripe.Resources.Issuing.PhysicalBundle do
   def expandable_fields, do: ["features"]
 
   defmodule Features do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `card_logo` - The policy for how to use card logo images in a card design with this physical bundle. Possible values: `optional`, `required`, `unsupported`.

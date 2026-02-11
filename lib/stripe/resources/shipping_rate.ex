@@ -24,15 +24,15 @@ defmodule Stripe.Resources.ShippingRate do
   @type t :: %__MODULE__{
           active: boolean(),
           created: integer(),
-          delivery_estimate: map(),
+          delivery_estimate: __MODULE__.DeliveryEstimate.t(),
           display_name: String.t(),
-          fixed_amount: map() | nil,
+          fixed_amount: __MODULE__.FixedAmount.t() | nil,
           id: String.t(),
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
           tax_behavior: String.t(),
-          tax_code: String.t() | map(),
+          tax_code: String.t() | Stripe.Resources.TaxCode.t(),
           type: String.t()
         }
 
@@ -57,20 +57,20 @@ defmodule Stripe.Resources.ShippingRate do
   def expandable_fields, do: ["delivery_estimate", "fixed_amount", "tax_code"]
 
   defmodule DeliveryEstimate do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `maximum` - The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite. Nullable.
     * `minimum` - The lower bound of the estimated range. If empty, represents no lower bound. Nullable.
     """
     @type t :: %__MODULE__{
-            maximum: map() | nil,
-            minimum: map() | nil
+            maximum: __MODULE__.Maximum.t() | nil,
+            minimum: __MODULE__.Minimum.t() | nil
           }
     defstruct [:maximum, :minimum]
 
     defmodule Maximum do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
@@ -84,7 +84,7 @@ defmodule Stripe.Resources.ShippingRate do
     end
 
     defmodule Minimum do
-      @moduledoc false
+      @moduledoc "Nested struct within the parent resource."
 
       @typedoc """
       * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
@@ -106,7 +106,7 @@ defmodule Stripe.Resources.ShippingRate do
   end
 
   defmodule FixedAmount do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `amount` - A non-negative integer in cents representing how much to charge.

@@ -22,18 +22,18 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
   * `type` - The specific money movement that generated the TransactionEntry. Possible values: `credit_reversal`, `credit_reversal_posting`, `debit_reversal`, `inbound_transfer`, `inbound_transfer_return`, `issuing_authorization_hold`, `issuing_authorization_release`, `other`, `outbound_payment`, `outbound_payment_cancellation`, `outbound_payment_failure`, `outbound_payment_posting`, `outbound_payment_return`, `outbound_transfer`, `outbound_transfer_cancellation`, `outbound_transfer_failure`, `outbound_transfer_posting`, `outbound_transfer_return`, `received_credit`, `received_debit`.
   """
   @type t :: %__MODULE__{
-          balance_impact: map(),
+          balance_impact: __MODULE__.BalanceImpact.t(),
           created: integer(),
           currency: String.t(),
           effective_at: integer(),
           financial_account: String.t(),
           flow: String.t(),
-          flow_details: map() | nil,
+          flow_details: __MODULE__.FlowDetails.t() | nil,
           flow_type: String.t(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
-          transaction: String.t() | map(),
+          transaction: String.t() | Stripe.Resources.Treasury.Transaction.t(),
           type: String.t()
         }
 
@@ -59,7 +59,7 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
   def expandable_fields, do: ["balance_impact", "flow_details", "transaction"]
 
   defmodule BalanceImpact do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `cash` - The change made to funds the user can spend right now.
@@ -75,7 +75,7 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
   end
 
   defmodule FlowDetails do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `credit_reversal`
@@ -89,14 +89,14 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
     * `type` - Type of the flow that created the Transaction. Set to the same value as `flow_type`. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
     """
     @type t :: %__MODULE__{
-            credit_reversal: map() | nil,
-            debit_reversal: map() | nil,
-            inbound_transfer: map() | nil,
-            issuing_authorization: map() | nil,
-            outbound_payment: map() | nil,
-            outbound_transfer: map() | nil,
-            received_credit: map() | nil,
-            received_debit: map() | nil,
+            credit_reversal: Stripe.Resources.Treasury.CreditReversal.t() | nil,
+            debit_reversal: Stripe.Resources.Treasury.DebitReversal.t() | nil,
+            inbound_transfer: Stripe.Resources.Treasury.InboundTransfer.t() | nil,
+            issuing_authorization: Stripe.Resources.Issuing.Authorization.t() | nil,
+            outbound_payment: Stripe.Resources.Treasury.OutboundPayment.t() | nil,
+            outbound_transfer: Stripe.Resources.Treasury.OutboundTransfer.t() | nil,
+            received_credit: Stripe.Resources.Treasury.ReceivedCredit.t() | nil,
+            received_debit: Stripe.Resources.Treasury.ReceivedDebit.t() | nil,
             type: String.t() | nil
           }
     defstruct [

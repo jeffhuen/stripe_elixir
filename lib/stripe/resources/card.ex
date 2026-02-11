@@ -49,7 +49,7 @@ defmodule Stripe.Resources.Card do
   * `tokenization_method` - If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null. Max length: 5000. Nullable.
   """
   @type t :: %__MODULE__{
-          account: String.t() | map() | nil,
+          account: String.t() | Stripe.Resources.Account.t() | nil,
           address_city: String.t(),
           address_country: String.t(),
           address_line1: String.t(),
@@ -63,7 +63,7 @@ defmodule Stripe.Resources.Card do
           brand: String.t(),
           country: String.t(),
           currency: String.t() | nil,
-          customer: map() | nil,
+          customer: String.t() | Stripe.Resources.Customer.t() | nil,
           cvc_check: String.t(),
           default_for_currency: boolean() | nil,
           description: String.t() | nil,
@@ -78,7 +78,7 @@ defmodule Stripe.Resources.Card do
           last4: String.t(),
           metadata: map(),
           name: String.t(),
-          networks: map() | nil,
+          networks: __MODULE__.Networks.t() | nil,
           object: String.t(),
           regulated_status: String.t(),
           status: String.t() | nil,
@@ -128,7 +128,7 @@ defmodule Stripe.Resources.Card do
   def expandable_fields, do: ["account", "customer", "networks"]
 
   defmodule Networks do
-    @moduledoc false
+    @moduledoc "Nested struct within the parent resource."
 
     @typedoc """
     * `preferred` - The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card. Max length: 5000. Nullable.
