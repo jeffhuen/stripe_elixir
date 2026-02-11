@@ -134,6 +134,20 @@ defmodule Stripe.Resources.CreditNote do
       "total_taxes"
     ]
 
+  defmodule DiscountAmounts do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount, in cents (or local equivalent), of the discount.
+    * `discount` - The discount that was applied to get this discount amount.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            discount: map() | nil
+          }
+    defstruct [:amount, :discount]
+  end
+
   defmodule Lines do
     @moduledoc false
 
@@ -152,9 +166,161 @@ defmodule Stripe.Resources.CreditNote do
     defstruct [:data, :has_more, :object, :url]
   end
 
+  defmodule PretaxCreditAmounts do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount, in cents (or local equivalent), of the pretax credit amount.
+    * `credit_balance_transaction` - The credit balance transaction that was applied to get this pretax credit amount.
+    * `discount` - The discount that was applied to get this pretax credit amount.
+    * `type` - Type of the pretax credit amount referenced. Possible values: `credit_balance_transaction`, `discount`.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            credit_balance_transaction: String.t() | map() | nil,
+            discount: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:amount, :credit_balance_transaction, :discount, :type]
+  end
+
+  defmodule Refunds do
+    @moduledoc false
+
+    @typedoc """
+    * `amount_refunded` - Amount of the refund that applies to this credit note, in cents (or local equivalent).
+    * `payment_record_refund` - The PaymentRecord refund details associated with this credit note refund. Nullable.
+    * `refund` - ID of the refund.
+    * `type` - Type of the refund, one of `refund` or `payment_record_refund`. Possible values: `payment_record_refund`, `refund`. Nullable.
+    """
+    @type t :: %__MODULE__{
+            amount_refunded: integer() | nil,
+            payment_record_refund: map() | nil,
+            refund: String.t() | map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:amount_refunded, :payment_record_refund, :refund, :type]
+
+    defmodule PaymentRecordRefund do
+      @moduledoc false
+
+      @typedoc """
+      * `payment_record` - ID of the payment record. Max length: 5000.
+      * `refund_group` - ID of the refund group. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              payment_record: String.t() | nil,
+              refund_group: String.t() | nil
+            }
+      defstruct [:payment_record, :refund_group]
+    end
+
+    def __inner_types__ do
+      %{
+        "payment_record_refund" => __MODULE__.PaymentRecordRefund
+      }
+    end
+  end
+
+  defmodule ShippingCost do
+    @moduledoc false
+
+    @typedoc """
+    * `amount_subtotal` - Total shipping cost before any taxes are applied.
+    * `amount_tax` - Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.
+    * `amount_total` - Total shipping cost after taxes are applied.
+    * `shipping_rate` - The ID of the ShippingRate for this invoice. Nullable.
+    * `taxes` - The taxes applied to the shipping rate.
+    """
+    @type t :: %__MODULE__{
+            amount_subtotal: integer() | nil,
+            amount_tax: integer() | nil,
+            amount_total: integer() | nil,
+            shipping_rate: String.t() | map() | nil,
+            taxes: [map()] | nil
+          }
+    defstruct [:amount_subtotal, :amount_tax, :amount_total, :shipping_rate, :taxes]
+
+    defmodule Taxes do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - Amount of tax applied for this rate.
+      * `rate`
+      * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`. Nullable.
+      * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              rate: map() | nil,
+              taxability_reason: String.t() | nil,
+              taxable_amount: integer() | nil
+            }
+      defstruct [:amount, :rate, :taxability_reason, :taxable_amount]
+    end
+
+    def __inner_types__ do
+      %{
+        "taxes" => __MODULE__.Taxes
+      }
+    end
+  end
+
+  defmodule TotalTaxes do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount of the tax, in cents (or local equivalent).
+    * `tax_behavior` - Whether this tax is inclusive or exclusive. Possible values: `exclusive`, `inclusive`.
+    * `tax_rate_details` - Additional details about the tax rate. Only present when `type` is `tax_rate_details`. Nullable.
+    * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_available`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`.
+    * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
+    * `type` - The type of tax information. Possible values: `tax_rate_details`.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            tax_behavior: String.t() | nil,
+            tax_rate_details: map() | nil,
+            taxability_reason: String.t() | nil,
+            taxable_amount: integer() | nil,
+            type: String.t() | nil
+          }
+    defstruct [
+      :amount,
+      :tax_behavior,
+      :tax_rate_details,
+      :taxability_reason,
+      :taxable_amount,
+      :type
+    ]
+
+    defmodule TaxRateDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `tax_rate` - ID of the tax rate Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              tax_rate: String.t() | nil
+            }
+      defstruct [:tax_rate]
+    end
+
+    def __inner_types__ do
+      %{
+        "tax_rate_details" => __MODULE__.TaxRateDetails
+      }
+    end
+  end
+
   def __inner_types__ do
     %{
-      "lines" => __MODULE__.Lines
+      "discount_amounts" => __MODULE__.DiscountAmounts,
+      "lines" => __MODULE__.Lines,
+      "pretax_credit_amounts" => __MODULE__.PretaxCreditAmounts,
+      "refunds" => __MODULE__.Refunds,
+      "shipping_cost" => __MODULE__.ShippingCost,
+      "total_taxes" => __MODULE__.TotalTaxes
     }
   end
 end

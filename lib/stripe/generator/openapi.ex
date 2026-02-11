@@ -80,6 +80,30 @@ defmodule Stripe.Generator.OpenAPI do
     {properties, inner_types} =
       extract_properties(schema, schema_index)
 
+    # Merge field overrides (add/replace properties)
+    override_fields = Map.get(Overrides.field_overrides(), schema_id, %{})
+    properties = merge_field_overrides(properties, override_fields)
+
+    # Identify direct {:ref, name} properties pointing to resource schemas.
+    # These need __inner_types__ entries pointing to the standalone resource module.
+    resource_inner_refs =
+      for p <- properties,
+          ref_name = extract_direct_ref_name(p.type),
+          ref_name != nil,
+          ref_schema = Map.get(schema_index, ref_name, %{}),
+          Map.has_key?(ref_schema, "x-stripeResource"),
+          into: %{} do
+        meta = ref_schema["x-stripeResource"]
+
+        pkg =
+          case meta["in_package"] do
+            nil -> ""
+            raw -> raw |> String.split(".") |> Enum.map_join(".", &Macro.camelize/1)
+          end
+
+        {p.name, %{class_name: meta["class_name"], package: pkg}}
+      end
+
     required = schema["required"] || []
 
     operations =
@@ -105,6 +129,7 @@ defmodule Stripe.Generator.OpenAPI do
       has_search_result: resource_meta["has_search_result_class"] == true,
       operations: operations,
       inner_types: inner_types,
+      resource_inner_refs: resource_inner_refs,
       has_object_prop: has_object_prop,
       is_primary: false
     }
@@ -398,9 +423,31 @@ defmodule Stripe.Generator.OpenAPI do
     do_resolve_type(field_name, schema, schema_index)
   end
 
-  defp do_resolve_type(_field_name, %{"$ref" => ref}, _schema_index) do
+  defp do_resolve_type(field_name, %{"$ref" => ref}, schema_index) do
     ref_name = ref_to_name(ref)
-    {{:ref, ref_name}, %{}}
+    schema = Map.get(schema_index, ref_name, %{})
+
+    cond do
+      Map.has_key?(schema, "x-stripeResource") ->
+        {{:ref, ref_name}, %{}}
+
+      is_map(schema["properties"]) and map_size(schema["properties"]) > 0 ->
+        inner_name = Macro.camelize(field_name)
+
+        {inner_props, nested_inners} =
+          extract_inner_type_props(schema["properties"], schema_index)
+
+        inner_type = %{
+          class_name: inner_name,
+          properties: inner_props,
+          inner_types: nested_inners
+        }
+
+        {{:inner, inner_name}, %{field_name => inner_type}}
+
+      true ->
+        {{:ref, ref_name}, %{}}
+    end
   end
 
   defp do_resolve_type(field_name, %{"anyOf" => variants} = schema, schema_index) do
@@ -459,7 +506,9 @@ defmodule Stripe.Generator.OpenAPI do
             ref_name = ref_to_name(refs |> hd() |> Map.get("$ref"))
 
             type =
-              if has_null, do: {:nullable, {:ref, ref_name}}, else: {:ref, ref_name}
+              if has_null,
+                do: {:nullable, {:expandable_ref, ref_name}},
+                else: {:expandable_ref, ref_name}
 
             {type, %{}}
 
@@ -604,4 +653,44 @@ defmodule Stripe.Generator.OpenAPI do
   end
 
   defp resolve_ref_or_inline(schema, _schema_index), do: schema
+
+  # Extract the ref name from a type tag (for resource_inner_refs computation)
+  defp extract_direct_ref_name({:ref, name}), do: name
+  defp extract_direct_ref_name({:nullable, inner}), do: extract_direct_ref_name(inner)
+  defp extract_direct_ref_name(_), do: nil
+
+  # Merge field overrides into the properties list
+  defp merge_field_overrides(properties, overrides) when map_size(overrides) == 0, do: properties
+
+  defp merge_field_overrides(properties, overrides) do
+    existing_names = MapSet.new(properties, & &1.name)
+
+    # Update existing properties
+    updated =
+      Enum.map(properties, fn prop ->
+        case Map.get(overrides, prop.name) do
+          nil -> prop
+          override -> Map.merge(prop, Map.take(override, [:type, :description, :nullable]))
+        end
+      end)
+
+    # Add new properties from overrides
+    new_props =
+      overrides
+      |> Enum.reject(fn {name, _} -> MapSet.member?(existing_names, name) end)
+      |> Enum.map(fn {name, override} ->
+        %{
+          name: name,
+          type: override.type,
+          description: override[:description],
+          enum: nil,
+          format: nil,
+          nullable: override[:nullable] == true,
+          max_length: nil,
+          deprecated: false
+        }
+      end)
+
+    updated ++ new_props
+  end
 end

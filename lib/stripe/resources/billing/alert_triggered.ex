@@ -13,7 +13,7 @@ defmodule Stripe.Resources.Billing.AlertTriggered do
   * `value` - The value triggering the alert
   """
   @type t :: %__MODULE__{
-          alert: String.t() | map(),
+          alert: map(),
           created: integer(),
           customer: String.t(),
           livemode: boolean(),
@@ -27,4 +27,10 @@ defmodule Stripe.Resources.Billing.AlertTriggered do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["alert"]
+
+  def __inner_types__ do
+    %{
+      "alert" => Stripe.Resources.Billing.Alert
+    }
+  end
 end

@@ -55,4 +55,361 @@ defmodule Stripe.Resources.Balance do
       "pending",
       "refund_and_dispute_prefunding"
     ]
+
+  defmodule Available do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - Balance amount.
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `source_types`
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            currency: String.t() | nil,
+            source_types: map() | nil
+          }
+    defstruct [:amount, :currency, :source_types]
+
+    defmodule SourceTypes do
+      @moduledoc false
+
+      @typedoc """
+      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+      """
+      @type t :: %__MODULE__{
+              bank_account: integer() | nil,
+              card: integer() | nil,
+              fpx: integer() | nil
+            }
+      defstruct [:bank_account, :card, :fpx]
+    end
+
+    def __inner_types__ do
+      %{
+        "source_types" => __MODULE__.SourceTypes
+      }
+    end
+  end
+
+  defmodule ConnectReserved do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - Balance amount.
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `source_types`
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            currency: String.t() | nil,
+            source_types: map() | nil
+          }
+    defstruct [:amount, :currency, :source_types]
+
+    defmodule SourceTypes do
+      @moduledoc false
+
+      @typedoc """
+      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+      """
+      @type t :: %__MODULE__{
+              bank_account: integer() | nil,
+              card: integer() | nil,
+              fpx: integer() | nil
+            }
+      defstruct [:bank_account, :card, :fpx]
+    end
+
+    def __inner_types__ do
+      %{
+        "source_types" => __MODULE__.SourceTypes
+      }
+    end
+  end
+
+  defmodule InstantAvailable do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - Balance amount.
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `net_available` - Breakdown of balance by destination.
+    * `source_types`
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            currency: String.t() | nil,
+            net_available: [map()] | nil,
+            source_types: map() | nil
+          }
+    defstruct [:amount, :currency, :net_available, :source_types]
+
+    defmodule NetAvailable do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - Net balance amount, subtracting fees from platform-set pricing.
+      * `destination` - ID of the external account for this net balance (not expandable). Max length: 5000.
+      * `source_types`
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              destination: String.t() | nil,
+              source_types: map() | nil
+            }
+      defstruct [:amount, :destination, :source_types]
+
+      defmodule SourceTypes do
+        @moduledoc false
+
+        @typedoc """
+        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+        """
+        @type t :: %__MODULE__{
+                bank_account: integer() | nil,
+                card: integer() | nil,
+                fpx: integer() | nil
+              }
+        defstruct [:bank_account, :card, :fpx]
+      end
+
+      def __inner_types__ do
+        %{
+          "source_types" => __MODULE__.SourceTypes
+        }
+      end
+    end
+
+    defmodule SourceTypes do
+      @moduledoc false
+
+      @typedoc """
+      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+      """
+      @type t :: %__MODULE__{
+              bank_account: integer() | nil,
+              card: integer() | nil,
+              fpx: integer() | nil
+            }
+      defstruct [:bank_account, :card, :fpx]
+    end
+
+    def __inner_types__ do
+      %{
+        "net_available" => __MODULE__.NetAvailable,
+        "source_types" => __MODULE__.SourceTypes
+      }
+    end
+  end
+
+  defmodule Issuing do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Funds that are available for use.
+    """
+    @type t :: %__MODULE__{
+            available: [map()] | nil
+          }
+    defstruct [:available]
+
+    defmodule Available do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - Balance amount.
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `source_types`
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              currency: String.t() | nil,
+              source_types: map() | nil
+            }
+      defstruct [:amount, :currency, :source_types]
+
+      defmodule SourceTypes do
+        @moduledoc false
+
+        @typedoc """
+        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+        """
+        @type t :: %__MODULE__{
+                bank_account: integer() | nil,
+                card: integer() | nil,
+                fpx: integer() | nil
+              }
+        defstruct [:bank_account, :card, :fpx]
+      end
+
+      def __inner_types__ do
+        %{
+          "source_types" => __MODULE__.SourceTypes
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "available" => __MODULE__.Available
+      }
+    end
+  end
+
+  defmodule Pending do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - Balance amount.
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `source_types`
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            currency: String.t() | nil,
+            source_types: map() | nil
+          }
+    defstruct [:amount, :currency, :source_types]
+
+    defmodule SourceTypes do
+      @moduledoc false
+
+      @typedoc """
+      * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+      * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+      * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+      """
+      @type t :: %__MODULE__{
+              bank_account: integer() | nil,
+              card: integer() | nil,
+              fpx: integer() | nil
+            }
+      defstruct [:bank_account, :card, :fpx]
+    end
+
+    def __inner_types__ do
+      %{
+        "source_types" => __MODULE__.SourceTypes
+      }
+    end
+  end
+
+  defmodule RefundAndDisputePrefunding do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Funds that are available for use.
+    * `pending` - Funds that are pending
+    """
+    @type t :: %__MODULE__{
+            available: [map()] | nil,
+            pending: [map()] | nil
+          }
+    defstruct [:available, :pending]
+
+    defmodule Available do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - Balance amount.
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `source_types`
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              currency: String.t() | nil,
+              source_types: map() | nil
+            }
+      defstruct [:amount, :currency, :source_types]
+
+      defmodule SourceTypes do
+        @moduledoc false
+
+        @typedoc """
+        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+        """
+        @type t :: %__MODULE__{
+                bank_account: integer() | nil,
+                card: integer() | nil,
+                fpx: integer() | nil
+              }
+        defstruct [:bank_account, :card, :fpx]
+      end
+
+      def __inner_types__ do
+        %{
+          "source_types" => __MODULE__.SourceTypes
+        }
+      end
+    end
+
+    defmodule Pending do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - Balance amount.
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+      * `source_types`
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              currency: String.t() | nil,
+              source_types: map() | nil
+            }
+      defstruct [:amount, :currency, :source_types]
+
+      defmodule SourceTypes do
+        @moduledoc false
+
+        @typedoc """
+        * `bank_account` - Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+        * `card` - Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+        * `fpx` - Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+        """
+        @type t :: %__MODULE__{
+                bank_account: integer() | nil,
+                card: integer() | nil,
+                fpx: integer() | nil
+              }
+        defstruct [:bank_account, :card, :fpx]
+      end
+
+      def __inner_types__ do
+        %{
+          "source_types" => __MODULE__.SourceTypes
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "available" => __MODULE__.Available,
+        "pending" => __MODULE__.Pending
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "available" => __MODULE__.Available,
+      "connect_reserved" => __MODULE__.ConnectReserved,
+      "instant_available" => __MODULE__.InstantAvailable,
+      "issuing" => __MODULE__.Issuing,
+      "pending" => __MODULE__.Pending,
+      "refund_and_dispute_prefunding" => __MODULE__.RefundAndDisputePrefunding
+    }
+  end
 end

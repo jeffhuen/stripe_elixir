@@ -31,11 +31,11 @@ defmodule Stripe.Resources.SubscriptionItem do
           id: String.t(),
           metadata: map(),
           object: String.t(),
-          plan: String.t() | map(),
-          price: String.t() | map(),
+          plan: map(),
+          price: map(),
           quantity: integer() | nil,
           subscription: String.t(),
-          tax_rates: [String.t() | map()]
+          tax_rates: [map()]
         }
 
   defstruct [
@@ -58,4 +58,24 @@ defmodule Stripe.Resources.SubscriptionItem do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["billing_thresholds", "discounts", "plan", "price", "tax_rates"]
+
+  defmodule BillingThresholds do
+    @moduledoc false
+
+    @typedoc """
+    * `usage_gte` - Usage threshold that triggers the subscription to create an invoice Nullable.
+    """
+    @type t :: %__MODULE__{
+            usage_gte: integer() | nil
+          }
+    defstruct [:usage_gte]
+  end
+
+  def __inner_types__ do
+    %{
+      "billing_thresholds" => __MODULE__.BillingThresholds,
+      "plan" => Stripe.Resources.Plan,
+      "price" => Stripe.Resources.Price
+    }
+  end
 end

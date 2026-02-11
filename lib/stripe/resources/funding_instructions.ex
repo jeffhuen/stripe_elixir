@@ -18,7 +18,7 @@ defmodule Stripe.Resources.FundingInstructions do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `funding_instructions`.
   """
   @type t :: %__MODULE__{
-          bank_transfer: String.t() | map(),
+          bank_transfer: map(),
           currency: String.t(),
           funding_type: String.t(),
           livemode: boolean(),
@@ -31,4 +31,10 @@ defmodule Stripe.Resources.FundingInstructions do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["bank_transfer"]
+
+  def __inner_types__ do
+    %{
+      "bank_transfer" => Stripe.Resources.BankTransfer
+    }
+  end
 end

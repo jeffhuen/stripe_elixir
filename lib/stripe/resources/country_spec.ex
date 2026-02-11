@@ -47,4 +47,59 @@ defmodule Stripe.Resources.CountrySpec do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["verification_fields"]
+
+  defmodule VerificationFields do
+    @moduledoc false
+
+    @typedoc """
+    * `company`
+    * `individual`
+    """
+    @type t :: %__MODULE__{
+            company: map() | nil,
+            individual: map() | nil
+          }
+    defstruct [:company, :individual]
+
+    defmodule Company do
+      @moduledoc false
+
+      @typedoc """
+      * `additional` - Additional fields which are only required for some users.
+      * `minimum` - Fields which every account must eventually provide.
+      """
+      @type t :: %__MODULE__{
+              additional: [String.t()] | nil,
+              minimum: [String.t()] | nil
+            }
+      defstruct [:additional, :minimum]
+    end
+
+    defmodule Individual do
+      @moduledoc false
+
+      @typedoc """
+      * `additional` - Additional fields which are only required for some users.
+      * `minimum` - Fields which every account must eventually provide.
+      """
+      @type t :: %__MODULE__{
+              additional: [String.t()] | nil,
+              minimum: [String.t()] | nil
+            }
+      defstruct [:additional, :minimum]
+    end
+
+    def __inner_types__ do
+      %{
+        "company" => __MODULE__.Company,
+        "individual" => __MODULE__.Individual
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "verification_fields" => __MODULE__.VerificationFields
+    }
+  end
 end

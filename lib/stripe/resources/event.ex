@@ -41,7 +41,7 @@ defmodule Stripe.Resources.Event do
           api_version: String.t(),
           context: String.t() | nil,
           created: integer(),
-          data: String.t() | map(),
+          data: map(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
@@ -69,9 +69,24 @@ defmodule Stripe.Resources.Event do
 
   def expandable_fields, do: ["data", "request"]
 
+  defmodule Request do
+    @moduledoc false
+
+    @typedoc """
+    * `id` - ID of the API request that caused the event. If null, the event was automatic (e.g., Stripe's automatic subscription handling). Request logs are available in the [dashboard](https://dashboard.stripe.com/logs), but currently not in the API. Max length: 5000. Nullable.
+    * `idempotency_key` - The idempotency key transmitted during the request, if any. *Note: This property is populated only for events on or after May 23, 2017*. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            id: String.t() | nil,
+            idempotency_key: String.t() | nil
+          }
+    defstruct [:id, :idempotency_key]
+  end
+
   def __inner_types__ do
     %{
-      "data" => Stripe.Resources.EventData
+      "data" => Stripe.Resources.EventData,
+      "request" => __MODULE__.Request
     }
   end
 end

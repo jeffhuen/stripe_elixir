@@ -114,6 +114,50 @@ defmodule Stripe.OverridesValidationTest do
              "Params overrides missing :ruby reference:\n" <>
                Enum.map_join(missing, "\n", fn {m, p} -> "  #{m} #{p}" end)
     end
+
+    test "all field_overrides keys reference live schema IDs", %{spec_endpoints: _} do
+      {:ok, json} = File.read("priv/openapi/spec3.sdk.json")
+      {:ok, spec} = JSON.decode(json)
+      schema_ids = spec["components"]["schemas"] |> Map.keys() |> MapSet.new()
+
+      stale =
+        Overrides.field_overrides()
+        |> Map.keys()
+        |> Enum.reject(&MapSet.member?(schema_ids, &1))
+        |> Enum.sort()
+
+      assert stale == [],
+             "Stale field override keys (schema removed from spec):\n" <>
+               Enum.map_join(stale, "\n", &"  #{&1}")
+    end
+
+    test "every field override has a :reason" do
+      missing =
+        for {schema, fields} <- Overrides.field_overrides(),
+            {field, value} <- fields,
+            not (is_binary(value[:reason]) and value[:reason] != "") do
+          {schema, field}
+        end
+        |> Enum.sort()
+
+      assert missing == [],
+             "Field overrides missing :reason:\n" <>
+               Enum.map_join(missing, "\n", fn {s, f} -> "  #{s}.#{f}" end)
+    end
+
+    test "every field override has a :ruby reference" do
+      missing =
+        for {schema, fields} <- Overrides.field_overrides(),
+            {field, value} <- fields,
+            not (is_binary(value[:ruby]) and value[:ruby] != "") do
+          {schema, field}
+        end
+        |> Enum.sort()
+
+      assert missing == [],
+             "Field overrides missing :ruby reference:\n" <>
+               Enum.map_join(missing, "\n", fn {s, f} -> "  #{s}.#{f}" end)
+    end
   end
 
   describe "generated file integrity (tuple-level, pre-write)" do

@@ -71,4 +71,22 @@ defmodule Stripe.Resources.Coupon do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["applies_to", "currency_options"]
+
+  defmodule AppliesTo do
+    @moduledoc false
+
+    @typedoc """
+    * `products` - A list of product IDs this coupon applies to
+    """
+    @type t :: %__MODULE__{
+            products: [String.t()] | nil
+          }
+    defstruct [:products]
+  end
+
+  def __inner_types__ do
+    %{
+      "applies_to" => __MODULE__.AppliesTo
+    }
+  end
 end

@@ -90,4 +90,563 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       "subscription",
       "test_clock"
     ]
+
+  defmodule BillingMode do
+    @moduledoc false
+
+    @typedoc """
+    * `flexible` - Configure behavior for flexible billing mode Nullable.
+    * `type` - Controls how prorations and invoices for subscriptions are calculated and orchestrated. Possible values: `classic`, `flexible`.
+    * `updated_at` - Details on when the current billing_mode was adopted. Format: Unix timestamp.
+    """
+    @type t :: %__MODULE__{
+            flexible: map() | nil,
+            type: String.t() | nil,
+            updated_at: integer() | nil
+          }
+    defstruct [:flexible, :type, :updated_at]
+
+    defmodule Flexible do
+      @moduledoc false
+
+      @typedoc """
+      * `proration_discounts` - Controls how invoices and invoice items display proration amounts and discount amounts. Possible values: `included`, `itemized`.
+      """
+      @type t :: %__MODULE__{
+              proration_discounts: String.t() | nil
+            }
+      defstruct [:proration_discounts]
+    end
+
+    def __inner_types__ do
+      %{
+        "flexible" => __MODULE__.Flexible
+      }
+    end
+  end
+
+  defmodule CurrentPhase do
+    @moduledoc false
+
+    @typedoc """
+    * `end_date` - The end of this phase of the subscription schedule. Format: Unix timestamp.
+    * `start_date` - The start of this phase of the subscription schedule. Format: Unix timestamp.
+    """
+    @type t :: %__MODULE__{
+            end_date: integer() | nil,
+            start_date: integer() | nil
+          }
+    defstruct [:end_date, :start_date]
+  end
+
+  defmodule DefaultSettings do
+    @moduledoc false
+
+    @typedoc """
+    * `application_fee_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule. Nullable.
+    * `automatic_tax`
+    * `billing_cycle_anchor` - Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `automatic`, `phase_start`.
+    * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period Nullable.
+    * `collection_method` - Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Possible values: `charge_automatically`, `send_invoice`. Nullable.
+    * `default_payment_method` - ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings. Nullable.
+    * `description` - Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs. Max length: 5000. Nullable.
+    * `invoice_settings`
+    * `on_behalf_of` - The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details. Nullable.
+    * `transfer_data` - The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices. Nullable.
+    """
+    @type t :: %__MODULE__{
+            application_fee_percent: float() | nil,
+            automatic_tax: map() | nil,
+            billing_cycle_anchor: String.t() | nil,
+            billing_thresholds: map() | nil,
+            collection_method: String.t() | nil,
+            default_payment_method: String.t() | map() | nil,
+            description: String.t() | nil,
+            invoice_settings: map() | nil,
+            on_behalf_of: String.t() | map() | nil,
+            transfer_data: map() | nil
+          }
+    defstruct [
+      :application_fee_percent,
+      :automatic_tax,
+      :billing_cycle_anchor,
+      :billing_thresholds,
+      :collection_method,
+      :default_payment_method,
+      :description,
+      :invoice_settings,
+      :on_behalf_of,
+      :transfer_data
+    ]
+
+    defmodule AutomaticTax do
+      @moduledoc false
+
+      @typedoc """
+      * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `requires_location_inputs`. Nullable.
+      * `enabled` - Whether Stripe automatically computes tax on invoices created during this phase.
+      * `liability` - The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account. Nullable.
+      """
+      @type t :: %__MODULE__{
+              disabled_reason: String.t() | nil,
+              enabled: boolean() | nil,
+              liability: map() | nil
+            }
+      defstruct [:disabled_reason, :enabled, :liability]
+
+      defmodule Liability do
+        @moduledoc false
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | map() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+
+      def __inner_types__ do
+        %{
+          "liability" => __MODULE__.Liability
+        }
+      end
+    end
+
+    defmodule BillingThresholds do
+      @moduledoc false
+
+      @typedoc """
+      * `amount_gte` - Monetary threshold that triggers the subscription to create an invoice Nullable.
+      * `reset_billing_cycle_anchor` - Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              amount_gte: integer() | nil,
+              reset_billing_cycle_anchor: boolean() | nil
+            }
+      defstruct [:amount_gte, :reset_billing_cycle_anchor]
+    end
+
+    defmodule InvoiceSettings do
+      @moduledoc false
+
+      @typedoc """
+      * `account_tax_ids` - The account tax IDs associated with the subscription schedule. Will be set on invoices generated by the subscription schedule. Nullable.
+      * `days_until_due` - Number of days within which a customer must pay invoices generated by this subscription schedule. This value will be `null` for subscription schedules where `billing=charge_automatically`. Nullable.
+      * `issuer`
+      """
+      @type t :: %__MODULE__{
+              account_tax_ids: [map()] | nil,
+              days_until_due: integer() | nil,
+              issuer: map() | nil
+            }
+      defstruct [:account_tax_ids, :days_until_due, :issuer]
+
+      defmodule Issuer do
+        @moduledoc false
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | map() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+
+      def __inner_types__ do
+        %{
+          "issuer" => __MODULE__.Issuer
+        }
+      end
+    end
+
+    defmodule TransferData do
+      @moduledoc false
+
+      @typedoc """
+      * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
+      * `destination` - The account where funds from the payment will be transferred to upon payment success.
+      """
+      @type t :: %__MODULE__{
+              amount_percent: float() | nil,
+              destination: String.t() | map() | nil
+            }
+      defstruct [:amount_percent, :destination]
+    end
+
+    def __inner_types__ do
+      %{
+        "automatic_tax" => __MODULE__.AutomaticTax,
+        "billing_thresholds" => __MODULE__.BillingThresholds,
+        "invoice_settings" => __MODULE__.InvoiceSettings,
+        "transfer_data" => __MODULE__.TransferData
+      }
+    end
+  end
+
+  defmodule Phases do
+    @moduledoc false
+
+    @typedoc """
+    * `add_invoice_items` - A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
+    * `application_fee_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule. Nullable.
+    * `automatic_tax`
+    * `billing_cycle_anchor` - Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `automatic`, `phase_start`. Nullable.
+    * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period Nullable.
+    * `collection_method` - Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Possible values: `charge_automatically`, `send_invoice`. Nullable.
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `default_payment_method` - ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings. Nullable.
+    * `default_tax_rates` - The default tax rates to apply to the subscription during this phase of the subscription schedule. Nullable.
+    * `description` - Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs. Max length: 5000. Nullable.
+    * `discounts` - The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
+    * `end_date` - The end of this phase of the subscription schedule. Format: Unix timestamp.
+    * `invoice_settings` - The invoice settings applicable during this phase. Nullable.
+    * `items` - Subscription items to configure the subscription to during this phase of the subscription schedule.
+    * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered. Updating the underlying subscription's `metadata` directly will not affect the current phase's `metadata`. Nullable.
+    * `on_behalf_of` - The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details. Nullable.
+    * `proration_behavior` - When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`. Possible values: `always_invoice`, `create_prorations`, `none`.
+    * `start_date` - The start of this phase of the subscription schedule. Format: Unix timestamp.
+    * `transfer_data` - The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices. Nullable.
+    * `trial_end` - When the trial ends within the phase. Format: Unix timestamp. Nullable.
+    """
+    @type t :: %__MODULE__{
+            add_invoice_items: [map()] | nil,
+            application_fee_percent: float() | nil,
+            automatic_tax: map() | nil,
+            billing_cycle_anchor: String.t() | nil,
+            billing_thresholds: map() | nil,
+            collection_method: String.t() | nil,
+            currency: String.t() | nil,
+            default_payment_method: String.t() | map() | nil,
+            default_tax_rates: [map()] | nil,
+            description: String.t() | nil,
+            discounts: [map()] | nil,
+            end_date: integer() | nil,
+            invoice_settings: map() | nil,
+            items: [map()] | nil,
+            metadata: map() | nil,
+            on_behalf_of: String.t() | map() | nil,
+            proration_behavior: String.t() | nil,
+            start_date: integer() | nil,
+            transfer_data: map() | nil,
+            trial_end: integer() | nil
+          }
+    defstruct [
+      :add_invoice_items,
+      :application_fee_percent,
+      :automatic_tax,
+      :billing_cycle_anchor,
+      :billing_thresholds,
+      :collection_method,
+      :currency,
+      :default_payment_method,
+      :default_tax_rates,
+      :description,
+      :discounts,
+      :end_date,
+      :invoice_settings,
+      :items,
+      :metadata,
+      :on_behalf_of,
+      :proration_behavior,
+      :start_date,
+      :transfer_data,
+      :trial_end
+    ]
+
+    defmodule AddInvoiceItems do
+      @moduledoc false
+
+      @typedoc """
+      * `discounts` - The stackable discounts that will be applied to the item.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Nullable.
+      * `period`
+      * `price` - ID of the price used to generate the invoice item.
+      * `quantity` - The quantity of the invoice item. Nullable.
+      * `tax_rates` - The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item. Nullable.
+      """
+      @type t :: %__MODULE__{
+              discounts: [map()] | nil,
+              metadata: map() | nil,
+              period: map() | nil,
+              price: map() | nil,
+              quantity: integer() | nil,
+              tax_rates: [map()] | nil
+            }
+      defstruct [:discounts, :metadata, :period, :price, :quantity, :tax_rates]
+
+      defmodule Discounts do
+        @moduledoc false
+
+        @typedoc """
+        * `coupon` - ID of the coupon to create a new discount for. Nullable.
+        * `discount` - ID of an existing discount on the object (or one of its ancestors) to reuse. Nullable.
+        * `promotion_code` - ID of the promotion code to create a new discount for. Nullable.
+        """
+        @type t :: %__MODULE__{
+                coupon: String.t() | map() | nil,
+                discount: String.t() | map() | nil,
+                promotion_code: String.t() | map() | nil
+              }
+        defstruct [:coupon, :discount, :promotion_code]
+      end
+
+      defmodule Period do
+        @moduledoc false
+
+        @typedoc """
+        * `end`
+        * `start`
+        """
+        @type t :: %__MODULE__{
+                end: map() | nil,
+                start: map() | nil
+              }
+        defstruct [:end, :start]
+
+        defmodule End do
+          @moduledoc false
+
+          @typedoc """
+          * `timestamp` - A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`. Format: Unix timestamp.
+          * `type` - Select how to calculate the end of the invoice item period. Possible values: `min_item_period_end`, `phase_end`, `timestamp`.
+          """
+          @type t :: %__MODULE__{
+                  timestamp: integer() | nil,
+                  type: String.t() | nil
+                }
+          defstruct [:timestamp, :type]
+        end
+
+        defmodule Start do
+          @moduledoc false
+
+          @typedoc """
+          * `timestamp` - A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`. Format: Unix timestamp.
+          * `type` - Select how to calculate the start of the invoice item period. Possible values: `max_item_period_start`, `phase_start`, `timestamp`.
+          """
+          @type t :: %__MODULE__{
+                  timestamp: integer() | nil,
+                  type: String.t() | nil
+                }
+          defstruct [:timestamp, :type]
+        end
+
+        def __inner_types__ do
+          %{
+            "end" => __MODULE__.End,
+            "start" => __MODULE__.Start
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "discounts" => __MODULE__.Discounts,
+          "period" => __MODULE__.Period
+        }
+      end
+    end
+
+    defmodule AutomaticTax do
+      @moduledoc false
+
+      @typedoc """
+      * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `requires_location_inputs`. Nullable.
+      * `enabled` - Whether Stripe automatically computes tax on invoices created during this phase.
+      * `liability` - The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account. Nullable.
+      """
+      @type t :: %__MODULE__{
+              disabled_reason: String.t() | nil,
+              enabled: boolean() | nil,
+              liability: map() | nil
+            }
+      defstruct [:disabled_reason, :enabled, :liability]
+
+      defmodule Liability do
+        @moduledoc false
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | map() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+
+      def __inner_types__ do
+        %{
+          "liability" => __MODULE__.Liability
+        }
+      end
+    end
+
+    defmodule BillingThresholds do
+      @moduledoc false
+
+      @typedoc """
+      * `amount_gte` - Monetary threshold that triggers the subscription to create an invoice Nullable.
+      * `reset_billing_cycle_anchor` - Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              amount_gte: integer() | nil,
+              reset_billing_cycle_anchor: boolean() | nil
+            }
+      defstruct [:amount_gte, :reset_billing_cycle_anchor]
+    end
+
+    defmodule Discounts do
+      @moduledoc false
+
+      @typedoc """
+      * `coupon` - ID of the coupon to create a new discount for. Nullable.
+      * `discount` - ID of an existing discount on the object (or one of its ancestors) to reuse. Nullable.
+      * `promotion_code` - ID of the promotion code to create a new discount for. Nullable.
+      """
+      @type t :: %__MODULE__{
+              coupon: String.t() | map() | nil,
+              discount: String.t() | map() | nil,
+              promotion_code: String.t() | map() | nil
+            }
+      defstruct [:coupon, :discount, :promotion_code]
+    end
+
+    defmodule InvoiceSettings do
+      @moduledoc false
+
+      @typedoc """
+      * `account_tax_ids` - The account tax IDs associated with this phase of the subscription schedule. Will be set on invoices generated by this phase of the subscription schedule. Nullable.
+      * `days_until_due` - Number of days within which a customer must pay invoices generated by this subscription schedule. This value will be `null` for subscription schedules where `billing=charge_automatically`. Nullable.
+      * `issuer` - The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account. Nullable.
+      """
+      @type t :: %__MODULE__{
+              account_tax_ids: [map()] | nil,
+              days_until_due: integer() | nil,
+              issuer: map() | nil
+            }
+      defstruct [:account_tax_ids, :days_until_due, :issuer]
+
+      defmodule Issuer do
+        @moduledoc false
+
+        @typedoc """
+        * `account` - The connected account being referenced when `type` is `account`.
+        * `type` - Type of the account referenced. Possible values: `account`, `self`.
+        """
+        @type t :: %__MODULE__{
+                account: String.t() | map() | nil,
+                type: String.t() | nil
+              }
+        defstruct [:account, :type]
+      end
+
+      def __inner_types__ do
+        %{
+          "issuer" => __MODULE__.Issuer
+        }
+      end
+    end
+
+    defmodule Items do
+      @moduledoc false
+
+      @typedoc """
+      * `billing_thresholds` - Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period Nullable.
+      * `discounts` - The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered. Nullable.
+      * `plan` - ID of the plan to which the customer should be subscribed.
+      * `price` - ID of the price to which the customer should be subscribed.
+      * `quantity` - Quantity of the plan to which the customer should be subscribed.
+      * `tax_rates` - The tax rates which apply to this `phase_item`. When set, the `default_tax_rates` on the phase do not apply to this `phase_item`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              billing_thresholds: map() | nil,
+              discounts: [map()] | nil,
+              metadata: map() | nil,
+              plan: map() | nil,
+              price: map() | nil,
+              quantity: integer() | nil,
+              tax_rates: [map()] | nil
+            }
+      defstruct [:billing_thresholds, :discounts, :metadata, :plan, :price, :quantity, :tax_rates]
+
+      defmodule BillingThresholds do
+        @moduledoc false
+
+        @typedoc """
+        * `usage_gte` - Usage threshold that triggers the subscription to create an invoice Nullable.
+        """
+        @type t :: %__MODULE__{
+                usage_gte: integer() | nil
+              }
+        defstruct [:usage_gte]
+      end
+
+      defmodule Discounts do
+        @moduledoc false
+
+        @typedoc """
+        * `coupon` - ID of the coupon to create a new discount for. Nullable.
+        * `discount` - ID of an existing discount on the object (or one of its ancestors) to reuse. Nullable.
+        * `promotion_code` - ID of the promotion code to create a new discount for. Nullable.
+        """
+        @type t :: %__MODULE__{
+                coupon: String.t() | map() | nil,
+                discount: String.t() | map() | nil,
+                promotion_code: String.t() | map() | nil
+              }
+        defstruct [:coupon, :discount, :promotion_code]
+      end
+
+      def __inner_types__ do
+        %{
+          "billing_thresholds" => __MODULE__.BillingThresholds,
+          "discounts" => __MODULE__.Discounts
+        }
+      end
+    end
+
+    defmodule TransferData do
+      @moduledoc false
+
+      @typedoc """
+      * `amount_percent` - A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. Nullable.
+      * `destination` - The account where funds from the payment will be transferred to upon payment success.
+      """
+      @type t :: %__MODULE__{
+              amount_percent: float() | nil,
+              destination: String.t() | map() | nil
+            }
+      defstruct [:amount_percent, :destination]
+    end
+
+    def __inner_types__ do
+      %{
+        "add_invoice_items" => __MODULE__.AddInvoiceItems,
+        "automatic_tax" => __MODULE__.AutomaticTax,
+        "billing_thresholds" => __MODULE__.BillingThresholds,
+        "discounts" => __MODULE__.Discounts,
+        "invoice_settings" => __MODULE__.InvoiceSettings,
+        "items" => __MODULE__.Items,
+        "transfer_data" => __MODULE__.TransferData
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "billing_mode" => __MODULE__.BillingMode,
+      "current_phase" => __MODULE__.CurrentPhase,
+      "default_settings" => __MODULE__.DefaultSettings,
+      "phases" => __MODULE__.Phases
+    }
+  end
 end

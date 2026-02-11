@@ -68,4 +68,611 @@ defmodule Stripe.Resources.Terminal.Configuration do
       "verifone_p400",
       "wifi"
     ]
+
+  defmodule BbposWisepad3 do
+    @moduledoc false
+
+    @typedoc """
+    * `splashscreen` - A File ID representing an image to display on the reader
+    """
+    @type t :: %__MODULE__{
+            splashscreen: String.t() | map() | nil
+          }
+    defstruct [:splashscreen]
+  end
+
+  defmodule BbposWiseposE do
+    @moduledoc false
+
+    @typedoc """
+    * `splashscreen` - A File ID representing an image to display on the reader
+    """
+    @type t :: %__MODULE__{
+            splashscreen: String.t() | map() | nil
+          }
+    defstruct [:splashscreen]
+  end
+
+  defmodule Offline do
+    @moduledoc false
+
+    @typedoc """
+    * `enabled` - Determines whether to allow transactions to be collected while reader is offline. Defaults to false. Nullable.
+    """
+    @type t :: %__MODULE__{
+            enabled: boolean() | nil
+          }
+    defstruct [:enabled]
+  end
+
+  defmodule RebootWindow do
+    @moduledoc false
+
+    @typedoc """
+    * `end_hour` - Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
+    * `start_hour` - Integer between 0 to 23 that represents the start hour of the reboot time window.
+    """
+    @type t :: %__MODULE__{
+            end_hour: integer() | nil,
+            start_hour: integer() | nil
+          }
+    defstruct [:end_hour, :start_hour]
+  end
+
+  defmodule StripeS700 do
+    @moduledoc false
+
+    @typedoc """
+    * `splashscreen` - A File ID representing an image to display on the reader
+    """
+    @type t :: %__MODULE__{
+            splashscreen: String.t() | map() | nil
+          }
+    defstruct [:splashscreen]
+  end
+
+  defmodule Tipping do
+    @moduledoc false
+
+    @typedoc """
+    * `aed`
+    * `aud`
+    * `cad`
+    * `chf`
+    * `czk`
+    * `dkk`
+    * `eur`
+    * `gbp`
+    * `gip`
+    * `hkd`
+    * `huf`
+    * `jpy`
+    * `mxn`
+    * `myr`
+    * `nok`
+    * `nzd`
+    * `pln`
+    * `ron`
+    * `sek`
+    * `sgd`
+    * `usd`
+    """
+    @type t :: %__MODULE__{
+            aed: map() | nil,
+            aud: map() | nil,
+            cad: map() | nil,
+            chf: map() | nil,
+            czk: map() | nil,
+            dkk: map() | nil,
+            eur: map() | nil,
+            gbp: map() | nil,
+            gip: map() | nil,
+            hkd: map() | nil,
+            huf: map() | nil,
+            jpy: map() | nil,
+            mxn: map() | nil,
+            myr: map() | nil,
+            nok: map() | nil,
+            nzd: map() | nil,
+            pln: map() | nil,
+            ron: map() | nil,
+            sek: map() | nil,
+            sgd: map() | nil,
+            usd: map() | nil
+          }
+    defstruct [
+      :aed,
+      :aud,
+      :cad,
+      :chf,
+      :czk,
+      :dkk,
+      :eur,
+      :gbp,
+      :gip,
+      :hkd,
+      :huf,
+      :jpy,
+      :mxn,
+      :myr,
+      :nok,
+      :nzd,
+      :pln,
+      :ron,
+      :sek,
+      :sgd,
+      :usd
+    ]
+
+    defmodule Aed do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Aud do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Cad do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Chf do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Czk do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Dkk do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Eur do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Gbp do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Gip do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Hkd do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Huf do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Jpy do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Mxn do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Myr do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Nok do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Nzd do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Pln do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Ron do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Sek do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Sgd do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    defmodule Usd do
+      @moduledoc false
+
+      @typedoc """
+      * `fixed_amounts` - Fixed amounts displayed when collecting a tip Nullable.
+      * `percentages` - Percentages displayed when collecting a tip Nullable.
+      * `smart_tip_threshold` - Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+      """
+      @type t :: %__MODULE__{
+              fixed_amounts: [integer()] | nil,
+              percentages: [integer()] | nil,
+              smart_tip_threshold: integer() | nil
+            }
+      defstruct [:fixed_amounts, :percentages, :smart_tip_threshold]
+    end
+
+    def __inner_types__ do
+      %{
+        "aed" => __MODULE__.Aed,
+        "aud" => __MODULE__.Aud,
+        "cad" => __MODULE__.Cad,
+        "chf" => __MODULE__.Chf,
+        "czk" => __MODULE__.Czk,
+        "dkk" => __MODULE__.Dkk,
+        "eur" => __MODULE__.Eur,
+        "gbp" => __MODULE__.Gbp,
+        "gip" => __MODULE__.Gip,
+        "hkd" => __MODULE__.Hkd,
+        "huf" => __MODULE__.Huf,
+        "jpy" => __MODULE__.Jpy,
+        "mxn" => __MODULE__.Mxn,
+        "myr" => __MODULE__.Myr,
+        "nok" => __MODULE__.Nok,
+        "nzd" => __MODULE__.Nzd,
+        "pln" => __MODULE__.Pln,
+        "ron" => __MODULE__.Ron,
+        "sek" => __MODULE__.Sek,
+        "sgd" => __MODULE__.Sgd,
+        "usd" => __MODULE__.Usd
+      }
+    end
+  end
+
+  defmodule VerifoneP400 do
+    @moduledoc false
+
+    @typedoc """
+    * `splashscreen` - A File ID representing an image to display on the reader
+    """
+    @type t :: %__MODULE__{
+            splashscreen: String.t() | map() | nil
+          }
+    defstruct [:splashscreen]
+  end
+
+  defmodule Wifi do
+    @moduledoc false
+
+    @typedoc """
+    * `enterprise_eap_peap`
+    * `enterprise_eap_tls`
+    * `personal_psk`
+    * `type` - Security type of the WiFi network. The hash with the corresponding name contains the credentials for this security type. Possible values: `enterprise_eap_peap`, `enterprise_eap_tls`, `personal_psk`.
+    """
+    @type t :: %__MODULE__{
+            enterprise_eap_peap: map() | nil,
+            enterprise_eap_tls: map() | nil,
+            personal_psk: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:enterprise_eap_peap, :enterprise_eap_tls, :personal_psk, :type]
+
+    defmodule EnterpriseEapPeap do
+      @moduledoc false
+
+      @typedoc """
+      * `ca_certificate_file` - A File ID representing a PEM file containing the server certificate Max length: 5000.
+      * `password` - Password for connecting to the WiFi network Max length: 5000.
+      * `ssid` - Name of the WiFi network Max length: 5000.
+      * `username` - Username for connecting to the WiFi network Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              ca_certificate_file: String.t() | nil,
+              password: String.t() | nil,
+              ssid: String.t() | nil,
+              username: String.t() | nil
+            }
+      defstruct [:ca_certificate_file, :password, :ssid, :username]
+    end
+
+    defmodule EnterpriseEapTls do
+      @moduledoc false
+
+      @typedoc """
+      * `ca_certificate_file` - A File ID representing a PEM file containing the server certificate Max length: 5000.
+      * `client_certificate_file` - A File ID representing a PEM file containing the client certificate Max length: 5000.
+      * `private_key_file` - A File ID representing a PEM file containing the client RSA private key Max length: 5000.
+      * `private_key_file_password` - Password for the private key file Max length: 5000.
+      * `ssid` - Name of the WiFi network Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              ca_certificate_file: String.t() | nil,
+              client_certificate_file: String.t() | nil,
+              private_key_file: String.t() | nil,
+              private_key_file_password: String.t() | nil,
+              ssid: String.t() | nil
+            }
+      defstruct [
+        :ca_certificate_file,
+        :client_certificate_file,
+        :private_key_file,
+        :private_key_file_password,
+        :ssid
+      ]
+    end
+
+    defmodule PersonalPsk do
+      @moduledoc false
+
+      @typedoc """
+      * `password` - Password for connecting to the WiFi network Max length: 5000.
+      * `ssid` - Name of the WiFi network Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              password: String.t() | nil,
+              ssid: String.t() | nil
+            }
+      defstruct [:password, :ssid]
+    end
+
+    def __inner_types__ do
+      %{
+        "enterprise_eap_peap" => __MODULE__.EnterpriseEapPeap,
+        "enterprise_eap_tls" => __MODULE__.EnterpriseEapTls,
+        "personal_psk" => __MODULE__.PersonalPsk
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "bbpos_wisepad3" => __MODULE__.BbposWisepad3,
+      "bbpos_wisepos_e" => __MODULE__.BbposWiseposE,
+      "offline" => __MODULE__.Offline,
+      "reboot_window" => __MODULE__.RebootWindow,
+      "stripe_s700" => __MODULE__.StripeS700,
+      "tipping" => __MODULE__.Tipping,
+      "verifone_p400" => __MODULE__.VerifoneP400,
+      "wifi" => __MODULE__.Wifi
+    }
+  end
 end

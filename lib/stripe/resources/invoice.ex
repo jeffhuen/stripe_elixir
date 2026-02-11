@@ -148,16 +148,16 @@ defmodule Stripe.Resources.Invoice do
           custom_fields: [map()],
           customer: map(),
           customer_account: String.t(),
-          customer_address: String.t() | map(),
+          customer_address: map(),
           customer_email: String.t(),
           customer_name: String.t(),
           customer_phone: String.t(),
-          customer_shipping: String.t() | map(),
+          customer_shipping: map(),
           customer_tax_exempt: String.t(),
           customer_tax_ids: [map()] | nil,
           default_payment_method: String.t() | map(),
           default_source: String.t() | map(),
-          default_tax_rates: [String.t() | map()],
+          default_tax_rates: [map()],
           description: String.t(),
           discounts: [map()],
           due_date: integer(),
@@ -169,7 +169,7 @@ defmodule Stripe.Resources.Invoice do
           id: String.t() | nil,
           invoice_pdf: String.t() | nil,
           issuer: map(),
-          last_finalization_error: String.t() | map(),
+          last_finalization_error: map(),
           latest_revision: String.t() | map(),
           lines: map(),
           livemode: boolean(),
@@ -188,7 +188,7 @@ defmodule Stripe.Resources.Invoice do
           receipt_number: String.t(),
           rendering: map(),
           shipping_cost: map(),
-          shipping_details: String.t() | map(),
+          shipping_details: map(),
           starting_balance: integer(),
           statement_descriptor: String.t(),
           status: String.t(),
@@ -326,6 +326,116 @@ defmodule Stripe.Resources.Invoice do
       "total_taxes"
     ]
 
+  defmodule AutomaticTax do
+    @moduledoc false
+
+    @typedoc """
+    * `disabled_reason` - If Stripe disabled automatic tax, this enum describes why. Possible values: `finalization_requires_location_inputs`, `finalization_system_error`. Nullable.
+    * `enabled` - Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://docs.stripe.com/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
+    * `liability` - The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account. Nullable.
+    * `provider` - The tax provider powering automatic tax. Max length: 5000. Nullable.
+    * `status` - The status of the most recent automated tax calculation for this invoice. Possible values: `complete`, `failed`, `requires_location_inputs`. Nullable.
+    """
+    @type t :: %__MODULE__{
+            disabled_reason: String.t() | nil,
+            enabled: boolean() | nil,
+            liability: map() | nil,
+            provider: String.t() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:disabled_reason, :enabled, :liability, :provider, :status]
+
+    defmodule Liability do
+      @moduledoc false
+
+      @typedoc """
+      * `account` - The connected account being referenced when `type` is `account`.
+      * `type` - Type of the account referenced. Possible values: `account`, `self`.
+      """
+      @type t :: %__MODULE__{
+              account: String.t() | map() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:account, :type]
+    end
+
+    def __inner_types__ do
+      %{
+        "liability" => __MODULE__.Liability
+      }
+    end
+  end
+
+  defmodule ConfirmationSecret do
+    @moduledoc false
+
+    @typedoc """
+    * `client_secret` - The client_secret of the payment that Stripe creates for the invoice after finalization. Max length: 5000.
+    * `type` - The type of client_secret. Currently this is always payment_intent, referencing the default payment_intent that Stripe creates during invoice finalization Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            client_secret: String.t() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:client_secret, :type]
+  end
+
+  defmodule CustomFields do
+    @moduledoc false
+
+    @typedoc """
+    * `name` - The name of the custom field. Max length: 5000.
+    * `value` - The value of the custom field. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            name: String.t() | nil,
+            value: String.t() | nil
+          }
+    defstruct [:name, :value]
+  end
+
+  defmodule CustomerTaxIds do
+    @moduledoc false
+
+    @typedoc """
+    * `type` - The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `unknown`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`.
+    * `value` - The value of the tax ID. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            type: String.t() | nil,
+            value: String.t() | nil
+          }
+    defstruct [:type, :value]
+  end
+
+  defmodule FromInvoice do
+    @moduledoc false
+
+    @typedoc """
+    * `action` - The relation between this invoice and the cloned invoice Max length: 5000.
+    * `invoice` - The invoice that was cloned.
+    """
+    @type t :: %__MODULE__{
+            action: String.t() | nil,
+            invoice: String.t() | map() | nil
+          }
+    defstruct [:action, :invoice]
+  end
+
+  defmodule Issuer do
+    @moduledoc false
+
+    @typedoc """
+    * `account` - The connected account being referenced when `type` is `account`.
+    * `type` - Type of the account referenced. Possible values: `account`, `self`.
+    """
+    @type t :: %__MODULE__{
+            account: String.t() | map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:account, :type]
+  end
+
   defmodule Lines do
     @moduledoc false
 
@@ -342,6 +452,342 @@ defmodule Stripe.Resources.Invoice do
             url: String.t() | nil
           }
     defstruct [:data, :has_more, :object, :url]
+  end
+
+  defmodule Parent do
+    @moduledoc false
+
+    @typedoc """
+    * `quote_details` - Details about the quote that generated this invoice Nullable.
+    * `subscription_details` - Details about the subscription that generated this invoice Nullable.
+    * `type` - The type of parent that generated this invoice Possible values: `quote_details`, `subscription_details`.
+    """
+    @type t :: %__MODULE__{
+            quote_details: map() | nil,
+            subscription_details: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:quote_details, :subscription_details, :type]
+
+    defmodule QuoteDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `quote` - The quote that generated this invoice Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              quote: String.t() | nil
+            }
+      defstruct [:quote]
+    end
+
+    defmodule SubscriptionDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `metadata` - Set of [key-value pairs](https://docs.stripe.com/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
+      *Note: This attribute is populated only for invoices created on or after June 29, 2023.* Nullable.
+      * `subscription` - The subscription that generated this invoice
+      * `subscription_proration_date` - Only set for upcoming invoices that preview prorations. The time used to calculate prorations. Format: Unix timestamp.
+      """
+      @type t :: %__MODULE__{
+              metadata: map() | nil,
+              subscription: String.t() | map() | nil,
+              subscription_proration_date: integer() | nil
+            }
+      defstruct [:metadata, :subscription, :subscription_proration_date]
+    end
+
+    def __inner_types__ do
+      %{
+        "quote_details" => __MODULE__.QuoteDetails,
+        "subscription_details" => __MODULE__.SubscriptionDetails
+      }
+    end
+  end
+
+  defmodule PaymentSettings do
+    @moduledoc false
+
+    @typedoc """
+    * `default_mandate` - ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set. Max length: 5000. Nullable.
+    * `payment_method_options` - Payment-method-specific configuration to provide to the invoice’s PaymentIntent. Nullable.
+    * `payment_method_types` - The list of payment method types (e.g. card) to provide to the invoice’s PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice’s default payment method, the subscription’s default payment method, the customer’s default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Nullable.
+    """
+    @type t :: %__MODULE__{
+            default_mandate: String.t() | nil,
+            payment_method_options: map() | nil,
+            payment_method_types: [String.t()] | nil
+          }
+    defstruct [:default_mandate, :payment_method_options, :payment_method_types]
+
+    defmodule PaymentMethodOptions do
+      @moduledoc false
+
+      @typedoc """
+      * `acss_debit` - If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      * `bancontact` - If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      * `card` - If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      * `customer_balance` - If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      * `konbini` - If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      * `payto` - If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      * `sepa_debit` - If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      * `us_bank_account` - If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice’s PaymentIntent. Nullable.
+      """
+      @type t :: %__MODULE__{
+              acss_debit: map() | nil,
+              bancontact: map() | nil,
+              card: map() | nil,
+              customer_balance: map() | nil,
+              konbini: map() | nil,
+              payto: map() | nil,
+              sepa_debit: map() | nil,
+              us_bank_account: map() | nil
+            }
+      defstruct [
+        :acss_debit,
+        :bancontact,
+        :card,
+        :customer_balance,
+        :konbini,
+        :payto,
+        :sepa_debit,
+        :us_bank_account
+      ]
+
+      defmodule AcssDebit do
+        @moduledoc false
+
+        @typedoc """
+        * `mandate_options`
+        * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+        """
+        @type t :: %__MODULE__{
+                mandate_options: map() | nil,
+                verification_method: String.t() | nil
+              }
+        defstruct [:mandate_options, :verification_method]
+
+        defmodule MandateOptions do
+          @moduledoc false
+
+          @typedoc """
+          * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`. Nullable.
+          """
+          @type t :: %__MODULE__{
+                  transaction_type: String.t() | nil
+                }
+          defstruct [:transaction_type]
+        end
+
+        def __inner_types__ do
+          %{
+            "mandate_options" => __MODULE__.MandateOptions
+          }
+        end
+      end
+
+      defmodule Bancontact do
+        @moduledoc false
+
+        @typedoc """
+        * `preferred_language` - Preferred language of the Bancontact authorization page that the customer is redirected to. Possible values: `de`, `en`, `fr`, `nl`.
+        """
+        @type t :: %__MODULE__{
+                preferred_language: String.t() | nil
+              }
+        defstruct [:preferred_language]
+      end
+
+      defmodule Card do
+        @moduledoc false
+
+        @typedoc """
+        * `installments`
+        * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`. Nullable.
+        """
+        @type t :: %__MODULE__{
+                installments: map() | nil,
+                request_three_d_secure: String.t() | nil
+              }
+        defstruct [:installments, :request_three_d_secure]
+
+        defmodule Installments do
+          @moduledoc false
+
+          @typedoc """
+          * `enabled` - Whether Installments are enabled for this Invoice. Nullable.
+          """
+          @type t :: %__MODULE__{
+                  enabled: boolean() | nil
+                }
+          defstruct [:enabled]
+        end
+
+        def __inner_types__ do
+          %{
+            "installments" => __MODULE__.Installments
+          }
+        end
+      end
+
+      defmodule CustomerBalance do
+        @moduledoc false
+
+        @typedoc """
+        * `bank_transfer`
+        * `funding_type` - The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`. Possible values: `bank_transfer`. Nullable.
+        """
+        @type t :: %__MODULE__{
+                bank_transfer: map() | nil,
+                funding_type: String.t() | nil
+              }
+        defstruct [:bank_transfer, :funding_type]
+
+        defmodule BankTransfer do
+          @moduledoc false
+
+          @typedoc """
+          * `eu_bank_transfer`
+          * `type` - The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Nullable.
+          """
+          @type t :: %__MODULE__{
+                  eu_bank_transfer: map() | nil,
+                  type: String.t() | nil
+                }
+          defstruct [:eu_bank_transfer, :type]
+
+          defmodule EuBankTransfer do
+            @moduledoc false
+
+            @typedoc """
+            * `country` - The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`. Possible values: `BE`, `DE`, `ES`, `FR`, `IE`, `NL`.
+            """
+            @type t :: %__MODULE__{
+                    country: String.t() | nil
+                  }
+            defstruct [:country]
+          end
+
+          def __inner_types__ do
+            %{
+              "eu_bank_transfer" => __MODULE__.EuBankTransfer
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "bank_transfer" => __MODULE__.BankTransfer
+          }
+        end
+      end
+
+      defmodule Payto do
+        @moduledoc false
+
+        @typedoc """
+        * `mandate_options`
+        """
+        @type t :: %__MODULE__{
+                mandate_options: map() | nil
+              }
+        defstruct [:mandate_options]
+
+        defmodule MandateOptions do
+          @moduledoc false
+
+          @typedoc """
+          * `amount` - The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit. Nullable.
+          * `amount_type` - Only `maximum` is supported. Possible values: `fixed`, `maximum`. Nullable.
+          * `purpose` - The purpose for which payments are made. Has a default value based on your merchant category code. Possible values: `dependant_support`, `government`, `loan`, `mortgage`, `other`, `pension`, `personal`, `retail`, `salary`, `tax`, `utility`. Nullable.
+          """
+          @type t :: %__MODULE__{
+                  amount: integer() | nil,
+                  amount_type: String.t() | nil,
+                  purpose: String.t() | nil
+                }
+          defstruct [:amount, :amount_type, :purpose]
+        end
+
+        def __inner_types__ do
+          %{
+            "mandate_options" => __MODULE__.MandateOptions
+          }
+        end
+      end
+
+      defmodule UsBankAccount do
+        @moduledoc false
+
+        @typedoc """
+        * `financial_connections`
+        * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+        """
+        @type t :: %__MODULE__{
+                financial_connections: map() | nil,
+                verification_method: String.t() | nil
+              }
+        defstruct [:financial_connections, :verification_method]
+
+        defmodule FinancialConnections do
+          @moduledoc false
+
+          @typedoc """
+          * `filters`
+          * `permissions` - The list of permissions to request. The `payment_method` permission must be included.
+          * `prefetch` - Data features requested to be retrieved upon account creation. Nullable.
+          """
+          @type t :: %__MODULE__{
+                  filters: map() | nil,
+                  permissions: [String.t()] | nil,
+                  prefetch: [String.t()] | nil
+                }
+          defstruct [:filters, :permissions, :prefetch]
+
+          defmodule Filters do
+            @moduledoc false
+
+            @typedoc """
+            * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+            """
+            @type t :: %__MODULE__{
+                    account_subcategories: [String.t()] | nil
+                  }
+            defstruct [:account_subcategories]
+          end
+
+          def __inner_types__ do
+            %{
+              "filters" => __MODULE__.Filters
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "financial_connections" => __MODULE__.FinancialConnections
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "acss_debit" => __MODULE__.AcssDebit,
+          "bancontact" => __MODULE__.Bancontact,
+          "card" => __MODULE__.Card,
+          "customer_balance" => __MODULE__.CustomerBalance,
+          "payto" => __MODULE__.Payto,
+          "us_bank_account" => __MODULE__.UsBankAccount
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "payment_method_options" => __MODULE__.PaymentMethodOptions
+      }
+    end
   end
 
   defmodule Payments do
@@ -362,10 +808,240 @@ defmodule Stripe.Resources.Invoice do
     defstruct [:data, :has_more, :object, :url]
   end
 
+  defmodule Rendering do
+    @moduledoc false
+
+    @typedoc """
+    * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
+    * `pdf` - Invoice pdf rendering options Nullable.
+    * `template` - ID of the rendering template that the invoice is formatted by. Max length: 5000. Nullable.
+    * `template_version` - Version of the rendering template that the invoice is using. Nullable.
+    """
+    @type t :: %__MODULE__{
+            amount_tax_display: String.t() | nil,
+            pdf: map() | nil,
+            template: String.t() | nil,
+            template_version: integer() | nil
+          }
+    defstruct [:amount_tax_display, :pdf, :template, :template_version]
+
+    defmodule Pdf do
+      @moduledoc false
+
+      @typedoc """
+      * `page_size` - Page size of invoice pdf. Options include a4, letter, and auto. If set to auto, page size will be switched to a4 or letter based on customer locale. Possible values: `a4`, `auto`, `letter`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              page_size: String.t() | nil
+            }
+      defstruct [:page_size]
+    end
+
+    def __inner_types__ do
+      %{
+        "pdf" => __MODULE__.Pdf
+      }
+    end
+  end
+
+  defmodule ShippingCost do
+    @moduledoc false
+
+    @typedoc """
+    * `amount_subtotal` - Total shipping cost before any taxes are applied.
+    * `amount_tax` - Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.
+    * `amount_total` - Total shipping cost after taxes are applied.
+    * `shipping_rate` - The ID of the ShippingRate for this invoice. Nullable.
+    * `taxes` - The taxes applied to the shipping rate.
+    """
+    @type t :: %__MODULE__{
+            amount_subtotal: integer() | nil,
+            amount_tax: integer() | nil,
+            amount_total: integer() | nil,
+            shipping_rate: String.t() | map() | nil,
+            taxes: [map()] | nil
+          }
+    defstruct [:amount_subtotal, :amount_tax, :amount_total, :shipping_rate, :taxes]
+
+    defmodule Taxes do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - Amount of tax applied for this rate.
+      * `rate`
+      * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`. Nullable.
+      * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              rate: map() | nil,
+              taxability_reason: String.t() | nil,
+              taxable_amount: integer() | nil
+            }
+      defstruct [:amount, :rate, :taxability_reason, :taxable_amount]
+    end
+
+    def __inner_types__ do
+      %{
+        "taxes" => __MODULE__.Taxes
+      }
+    end
+  end
+
+  defmodule StatusTransitions do
+    @moduledoc false
+
+    @typedoc """
+    * `finalized_at` - The time that the invoice draft was finalized. Format: Unix timestamp. Nullable.
+    * `marked_uncollectible_at` - The time that the invoice was marked uncollectible. Format: Unix timestamp. Nullable.
+    * `paid_at` - The time that the invoice was paid. Format: Unix timestamp. Nullable.
+    * `voided_at` - The time that the invoice was voided. Format: Unix timestamp. Nullable.
+    """
+    @type t :: %__MODULE__{
+            finalized_at: integer() | nil,
+            marked_uncollectible_at: integer() | nil,
+            paid_at: integer() | nil,
+            voided_at: integer() | nil
+          }
+    defstruct [:finalized_at, :marked_uncollectible_at, :paid_at, :voided_at]
+  end
+
+  defmodule ThresholdReason do
+    @moduledoc false
+
+    @typedoc """
+    * `amount_gte` - The total invoice amount threshold boundary if it triggered the threshold invoice. Nullable.
+    * `item_reasons` - Indicates which line items triggered a threshold invoice.
+    """
+    @type t :: %__MODULE__{
+            amount_gte: integer() | nil,
+            item_reasons: [map()] | nil
+          }
+    defstruct [:amount_gte, :item_reasons]
+
+    defmodule ItemReasons do
+      @moduledoc false
+
+      @typedoc """
+      * `line_item_ids` - The IDs of the line items that triggered the threshold invoice.
+      * `usage_gte` - The quantity threshold boundary that applied to the given line item.
+      """
+      @type t :: %__MODULE__{
+              line_item_ids: [String.t()] | nil,
+              usage_gte: integer() | nil
+            }
+      defstruct [:line_item_ids, :usage_gte]
+    end
+
+    def __inner_types__ do
+      %{
+        "item_reasons" => __MODULE__.ItemReasons
+      }
+    end
+  end
+
+  defmodule TotalDiscountAmounts do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount, in cents (or local equivalent), of the discount.
+    * `discount` - The discount that was applied to get this discount amount.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            discount: map() | nil
+          }
+    defstruct [:amount, :discount]
+  end
+
+  defmodule TotalPretaxCreditAmounts do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount, in cents (or local equivalent), of the pretax credit amount.
+    * `credit_balance_transaction` - The credit balance transaction that was applied to get this pretax credit amount. Nullable.
+    * `discount` - The discount that was applied to get this pretax credit amount.
+    * `type` - Type of the pretax credit amount referenced. Possible values: `credit_balance_transaction`, `discount`.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            credit_balance_transaction: String.t() | map() | nil,
+            discount: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:amount, :credit_balance_transaction, :discount, :type]
+  end
+
+  defmodule TotalTaxes do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount of the tax, in cents (or local equivalent).
+    * `tax_behavior` - Whether this tax is inclusive or exclusive. Possible values: `exclusive`, `inclusive`.
+    * `tax_rate_details` - Additional details about the tax rate. Only present when `type` is `tax_rate_details`. Nullable.
+    * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_available`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`.
+    * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
+    * `type` - The type of tax information. Possible values: `tax_rate_details`.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            tax_behavior: String.t() | nil,
+            tax_rate_details: map() | nil,
+            taxability_reason: String.t() | nil,
+            taxable_amount: integer() | nil,
+            type: String.t() | nil
+          }
+    defstruct [
+      :amount,
+      :tax_behavior,
+      :tax_rate_details,
+      :taxability_reason,
+      :taxable_amount,
+      :type
+    ]
+
+    defmodule TaxRateDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `tax_rate` - ID of the tax rate Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              tax_rate: String.t() | nil
+            }
+      defstruct [:tax_rate]
+    end
+
+    def __inner_types__ do
+      %{
+        "tax_rate_details" => __MODULE__.TaxRateDetails
+      }
+    end
+  end
+
   def __inner_types__ do
     %{
+      "automatic_tax" => __MODULE__.AutomaticTax,
+      "confirmation_secret" => __MODULE__.ConfirmationSecret,
+      "custom_fields" => __MODULE__.CustomFields,
+      "customer_address" => Stripe.Resources.Address,
+      "customer_shipping" => Stripe.Resources.ShippingDetails,
+      "customer_tax_ids" => __MODULE__.CustomerTaxIds,
+      "from_invoice" => __MODULE__.FromInvoice,
+      "issuer" => __MODULE__.Issuer,
+      "last_finalization_error" => Stripe.Resources.StripeError,
       "lines" => __MODULE__.Lines,
-      "payments" => __MODULE__.Payments
+      "parent" => __MODULE__.Parent,
+      "payment_settings" => __MODULE__.PaymentSettings,
+      "payments" => __MODULE__.Payments,
+      "rendering" => __MODULE__.Rendering,
+      "shipping_cost" => __MODULE__.ShippingCost,
+      "shipping_details" => Stripe.Resources.ShippingDetails,
+      "status_transitions" => __MODULE__.StatusTransitions,
+      "threshold_reason" => __MODULE__.ThresholdReason,
+      "total_discount_amounts" => __MODULE__.TotalDiscountAmounts,
+      "total_pretax_credit_amounts" => __MODULE__.TotalPretaxCreditAmounts,
+      "total_taxes" => __MODULE__.TotalTaxes
     }
   end
 end

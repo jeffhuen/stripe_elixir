@@ -64,4 +64,48 @@ defmodule Stripe.Resources.PromotionCode do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["customer", "promotion", "restrictions"]
+
+  defmodule Promotion do
+    @moduledoc false
+
+    @typedoc """
+    * `coupon` - If promotion `type` is `coupon`, the coupon for this promotion. Nullable.
+    * `type` - The type of promotion. Possible values: `coupon`.
+    """
+    @type t :: %__MODULE__{
+            coupon: String.t() | map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:coupon, :type]
+  end
+
+  defmodule Restrictions do
+    @moduledoc false
+
+    @typedoc """
+    * `currency_options` - Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+    * `first_time_transaction` - A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
+    * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work). Nullable.
+    * `minimum_amount_currency` - Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            currency_options: map() | nil,
+            first_time_transaction: boolean() | nil,
+            minimum_amount: integer() | nil,
+            minimum_amount_currency: String.t() | nil
+          }
+    defstruct [
+      :currency_options,
+      :first_time_transaction,
+      :minimum_amount,
+      :minimum_amount_currency
+    ]
+  end
+
+  def __inner_types__ do
+    %{
+      "promotion" => __MODULE__.Promotion,
+      "restrictions" => __MODULE__.Restrictions
+    }
+  end
 end

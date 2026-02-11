@@ -106,6 +106,12 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
             }
       defstruct [:reason]
     end
+
+    def __inner_types__ do
+      %{
+        "disabled" => __MODULE__.Disabled
+      }
+    end
   end
 
   defmodule WebhookEndpoint do

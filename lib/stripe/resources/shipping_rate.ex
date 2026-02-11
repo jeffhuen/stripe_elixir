@@ -55,4 +55,76 @@ defmodule Stripe.Resources.ShippingRate do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["delivery_estimate", "fixed_amount", "tax_code"]
+
+  defmodule DeliveryEstimate do
+    @moduledoc false
+
+    @typedoc """
+    * `maximum` - The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite. Nullable.
+    * `minimum` - The lower bound of the estimated range. If empty, represents no lower bound. Nullable.
+    """
+    @type t :: %__MODULE__{
+            maximum: map() | nil,
+            minimum: map() | nil
+          }
+    defstruct [:maximum, :minimum]
+
+    defmodule Maximum do
+      @moduledoc false
+
+      @typedoc """
+      * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+      * `value` - Must be greater than 0.
+      """
+      @type t :: %__MODULE__{
+              unit: String.t() | nil,
+              value: integer() | nil
+            }
+      defstruct [:unit, :value]
+    end
+
+    defmodule Minimum do
+      @moduledoc false
+
+      @typedoc """
+      * `unit` - A unit of time. Possible values: `business_day`, `day`, `hour`, `month`, `week`.
+      * `value` - Must be greater than 0.
+      """
+      @type t :: %__MODULE__{
+              unit: String.t() | nil,
+              value: integer() | nil
+            }
+      defstruct [:unit, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "maximum" => __MODULE__.Maximum,
+        "minimum" => __MODULE__.Minimum
+      }
+    end
+  end
+
+  defmodule FixedAmount do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - A non-negative integer in cents representing how much to charge.
+    * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Format: ISO 4217 currency code.
+    * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            currency: String.t() | nil,
+            currency_options: map() | nil
+          }
+    defstruct [:amount, :currency, :currency_options]
+  end
+
+  def __inner_types__ do
+    %{
+      "delivery_estimate" => __MODULE__.DeliveryEstimate,
+      "fixed_amount" => __MODULE__.FixedAmount
+    }
+  end
 end

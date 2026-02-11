@@ -99,4 +99,433 @@ defmodule Stripe.Resources.Refund do
       "source_transfer_reversal",
       "transfer_reversal"
     ]
+
+  defmodule DestinationDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `affirm`
+    * `afterpay_clearpay`
+    * `alipay`
+    * `alma`
+    * `amazon_pay`
+    * `au_bank_transfer`
+    * `blik`
+    * `br_bank_transfer`
+    * `card`
+    * `cashapp`
+    * `crypto`
+    * `customer_cash_balance`
+    * `eps`
+    * `eu_bank_transfer`
+    * `gb_bank_transfer`
+    * `giropay`
+    * `grabpay`
+    * `jp_bank_transfer`
+    * `klarna`
+    * `mb_way`
+    * `multibanco`
+    * `mx_bank_transfer`
+    * `nz_bank_transfer`
+    * `p24`
+    * `paynow`
+    * `paypal`
+    * `pix`
+    * `revolut`
+    * `sofort`
+    * `swish`
+    * `th_bank_transfer`
+    * `twint`
+    * `type` - The type of transaction-specific details of the payment method used in the refund (e.g., `card`). An additional hash is included on `destination_details` with a name matching this value. It contains information specific to the refund transaction. Max length: 5000.
+    * `us_bank_transfer`
+    * `wechat_pay`
+    * `zip`
+    """
+    @type t :: %__MODULE__{
+            affirm: map() | nil,
+            afterpay_clearpay: map() | nil,
+            alipay: map() | nil,
+            alma: map() | nil,
+            amazon_pay: map() | nil,
+            au_bank_transfer: map() | nil,
+            blik: map() | nil,
+            br_bank_transfer: map() | nil,
+            card: map() | nil,
+            cashapp: map() | nil,
+            crypto: map() | nil,
+            customer_cash_balance: map() | nil,
+            eps: map() | nil,
+            eu_bank_transfer: map() | nil,
+            gb_bank_transfer: map() | nil,
+            giropay: map() | nil,
+            grabpay: map() | nil,
+            jp_bank_transfer: map() | nil,
+            klarna: map() | nil,
+            mb_way: map() | nil,
+            multibanco: map() | nil,
+            mx_bank_transfer: map() | nil,
+            nz_bank_transfer: map() | nil,
+            p24: map() | nil,
+            paynow: map() | nil,
+            paypal: map() | nil,
+            pix: map() | nil,
+            revolut: map() | nil,
+            sofort: map() | nil,
+            swish: map() | nil,
+            th_bank_transfer: map() | nil,
+            twint: map() | nil,
+            type: String.t() | nil,
+            us_bank_transfer: map() | nil,
+            wechat_pay: map() | nil,
+            zip: map() | nil
+          }
+    defstruct [
+      :affirm,
+      :afterpay_clearpay,
+      :alipay,
+      :alma,
+      :amazon_pay,
+      :au_bank_transfer,
+      :blik,
+      :br_bank_transfer,
+      :card,
+      :cashapp,
+      :crypto,
+      :customer_cash_balance,
+      :eps,
+      :eu_bank_transfer,
+      :gb_bank_transfer,
+      :giropay,
+      :grabpay,
+      :jp_bank_transfer,
+      :klarna,
+      :mb_way,
+      :multibanco,
+      :mx_bank_transfer,
+      :nz_bank_transfer,
+      :p24,
+      :paynow,
+      :paypal,
+      :pix,
+      :revolut,
+      :sofort,
+      :swish,
+      :th_bank_transfer,
+      :twint,
+      :type,
+      :us_bank_transfer,
+      :wechat_pay,
+      :zip
+    ]
+
+    defmodule Blik do
+      @moduledoc false
+
+      @typedoc """
+      * `network_decline_code` - For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed. Max length: 5000. Nullable.
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              network_decline_code: String.t() | nil,
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:network_decline_code, :reference, :reference_status]
+    end
+
+    defmodule BrBankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule Card do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - Value of the reference number assigned to the refund. Max length: 5000.
+      * `reference_status` - Status of the reference number on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000.
+      * `reference_type` - Type of the reference number assigned to the refund. Max length: 5000.
+      * `type` - The type of refund. This can be `refund`, `reversal`, or `pending`. Possible values: `pending`, `refund`, `reversal`.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil,
+              reference_type: String.t() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:reference, :reference_status, :reference_type, :type]
+    end
+
+    defmodule Crypto do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The transaction hash of the refund. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil
+            }
+      defstruct [:reference]
+    end
+
+    defmodule EuBankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule GbBankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule JpBankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule MbWay do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule Multibanco do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule MxBankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule P24 do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule Paypal do
+      @moduledoc false
+
+      @typedoc """
+      * `network_decline_code` - For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              network_decline_code: String.t() | nil
+            }
+      defstruct [:network_decline_code]
+    end
+
+    defmodule Swish do
+      @moduledoc false
+
+      @typedoc """
+      * `network_decline_code` - For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed. Max length: 5000. Nullable.
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              network_decline_code: String.t() | nil,
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:network_decline_code, :reference, :reference_status]
+    end
+
+    defmodule ThBankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    defmodule UsBankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `reference` - The reference assigned to the refund. Max length: 5000. Nullable.
+      * `reference_status` - Status of the reference on the refund. This can be `pending`, `available` or `unavailable`. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              reference: String.t() | nil,
+              reference_status: String.t() | nil
+            }
+      defstruct [:reference, :reference_status]
+    end
+
+    def __inner_types__ do
+      %{
+        "blik" => __MODULE__.Blik,
+        "br_bank_transfer" => __MODULE__.BrBankTransfer,
+        "card" => __MODULE__.Card,
+        "crypto" => __MODULE__.Crypto,
+        "eu_bank_transfer" => __MODULE__.EuBankTransfer,
+        "gb_bank_transfer" => __MODULE__.GbBankTransfer,
+        "jp_bank_transfer" => __MODULE__.JpBankTransfer,
+        "mb_way" => __MODULE__.MbWay,
+        "multibanco" => __MODULE__.Multibanco,
+        "mx_bank_transfer" => __MODULE__.MxBankTransfer,
+        "p24" => __MODULE__.P24,
+        "paypal" => __MODULE__.Paypal,
+        "swish" => __MODULE__.Swish,
+        "th_bank_transfer" => __MODULE__.ThBankTransfer,
+        "us_bank_transfer" => __MODULE__.UsBankTransfer
+      }
+    end
+  end
+
+  defmodule NextAction do
+    @moduledoc false
+
+    @typedoc """
+    * `display_details`
+    * `type` - Type of the next action to perform. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            display_details: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:display_details, :type]
+
+    defmodule DisplayDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `email_sent`
+      * `expires_at` - The expiry timestamp. Format: Unix timestamp.
+      """
+      @type t :: %__MODULE__{
+              email_sent: map() | nil,
+              expires_at: integer() | nil
+            }
+      defstruct [:email_sent, :expires_at]
+
+      defmodule EmailSent do
+        @moduledoc false
+
+        @typedoc """
+        * `email_sent_at` - The timestamp when the email was sent. Format: Unix timestamp.
+        * `email_sent_to` - The recipient's email address. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                email_sent_at: integer() | nil,
+                email_sent_to: String.t() | nil
+              }
+        defstruct [:email_sent_at, :email_sent_to]
+      end
+
+      def __inner_types__ do
+        %{
+          "email_sent" => __MODULE__.EmailSent
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "display_details" => __MODULE__.DisplayDetails
+      }
+    end
+  end
+
+  defmodule PresentmentDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `presentment_amount` - Amount intended to be collected by this payment, denominated in `presentment_currency`.
+    * `presentment_currency` - Currency presented to the customer during payment. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            presentment_amount: integer() | nil,
+            presentment_currency: String.t() | nil
+          }
+    defstruct [:presentment_amount, :presentment_currency]
+  end
+
+  def __inner_types__ do
+    %{
+      "destination_details" => __MODULE__.DestinationDetails,
+      "next_action" => __MODULE__.NextAction,
+      "presentment_details" => __MODULE__.PresentmentDetails
+    }
+  end
 end

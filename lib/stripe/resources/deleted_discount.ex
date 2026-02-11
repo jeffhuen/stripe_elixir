@@ -55,4 +55,24 @@ defmodule Stripe.Resources.DeletedDiscount do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["customer", "promotion_code", "source"]
+
+  defmodule Source do
+    @moduledoc false
+
+    @typedoc """
+    * `coupon` - The coupon that was redeemed to create this discount. Nullable.
+    * `type` - The source type of the discount. Possible values: `coupon`.
+    """
+    @type t :: %__MODULE__{
+            coupon: String.t() | map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:coupon, :type]
+  end
+
+  def __inner_types__ do
+    %{
+      "source" => __MODULE__.Source
+    }
+  end
 end

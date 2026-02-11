@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Terminal.Location do
   * `phone` - The phone number of the location. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          address: String.t() | map(),
+          address: map(),
           address_kana: map() | nil,
           address_kanji: map() | nil,
           configuration_overrides: String.t() | nil,
@@ -56,4 +56,60 @@ defmodule Stripe.Resources.Terminal.Location do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["address", "address_kana", "address_kanji"]
+
+  defmodule AddressKana do
+    @moduledoc false
+
+    @typedoc """
+    * `city` - City/Ward. Max length: 5000. Nullable.
+    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
+    * `line1` - Block/Building number. Max length: 5000. Nullable.
+    * `line2` - Building details. Max length: 5000. Nullable.
+    * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
+    * `state` - Prefecture. Max length: 5000. Nullable.
+    * `town` - Town/cho-me. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            city: String.t() | nil,
+            country: String.t() | nil,
+            line1: String.t() | nil,
+            line2: String.t() | nil,
+            postal_code: String.t() | nil,
+            state: String.t() | nil,
+            town: String.t() | nil
+          }
+    defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+  end
+
+  defmodule AddressKanji do
+    @moduledoc false
+
+    @typedoc """
+    * `city` - City/Ward. Max length: 5000. Nullable.
+    * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
+    * `line1` - Block/Building number. Max length: 5000. Nullable.
+    * `line2` - Building details. Max length: 5000. Nullable.
+    * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
+    * `state` - Prefecture. Max length: 5000. Nullable.
+    * `town` - Town/cho-me. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            city: String.t() | nil,
+            country: String.t() | nil,
+            line1: String.t() | nil,
+            line2: String.t() | nil,
+            postal_code: String.t() | nil,
+            state: String.t() | nil,
+            town: String.t() | nil
+          }
+    defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
+  end
+
+  def __inner_types__ do
+    %{
+      "address" => Stripe.Resources.Address,
+      "address_kana" => __MODULE__.AddressKana,
+      "address_kanji" => __MODULE__.AddressKanji
+    }
+  end
 end

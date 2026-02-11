@@ -61,4 +61,43 @@ defmodule Stripe.Resources.InvoicePayment do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["invoice", "payment", "status_transitions"]
+
+  defmodule Payment do
+    @moduledoc false
+
+    @typedoc """
+    * `charge` - ID of the successful charge for this payment when `type` is `charge`.Note: charge is only surfaced if the charge object is not associated with a payment intent. If the charge object does have a payment intent, the Invoice Payment surfaces the payment intent instead.
+    * `payment_intent` - ID of the PaymentIntent associated with this payment when `type` is `payment_intent`. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
+    * `payment_record` - ID of the PaymentRecord associated with this payment when `type` is `payment_record`.
+    * `type` - Type of payment object associated with this invoice payment. Possible values: `charge`, `payment_intent`, `payment_record`.
+    """
+    @type t :: %__MODULE__{
+            charge: String.t() | map() | nil,
+            payment_intent: String.t() | map() | nil,
+            payment_record: String.t() | map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:charge, :payment_intent, :payment_record, :type]
+  end
+
+  defmodule StatusTransitions do
+    @moduledoc false
+
+    @typedoc """
+    * `canceled_at` - The time that the payment was canceled. Format: Unix timestamp. Nullable.
+    * `paid_at` - The time that the payment succeeded. Format: Unix timestamp. Nullable.
+    """
+    @type t :: %__MODULE__{
+            canceled_at: integer() | nil,
+            paid_at: integer() | nil
+          }
+    defstruct [:canceled_at, :paid_at]
+  end
+
+  def __inner_types__ do
+    %{
+      "payment" => __MODULE__.Payment,
+      "status_transitions" => __MODULE__.StatusTransitions
+    }
+  end
 end

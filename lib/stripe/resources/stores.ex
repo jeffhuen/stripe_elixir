@@ -11,10 +11,10 @@ defmodule Stripe.Resources.Stores do
   * `seicomart` - Seicomart instruction details. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          familymart: String.t() | map(),
-          lawson: String.t() | map(),
-          ministop: String.t() | map(),
-          seicomart: String.t() | map()
+          familymart: map(),
+          lawson: map(),
+          ministop: map(),
+          seicomart: map()
         }
 
   defstruct [:familymart, :lawson, :ministop, :seicomart]
@@ -23,4 +23,13 @@ defmodule Stripe.Resources.Stores do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["familymart", "lawson", "ministop", "seicomart"]
+
+  def __inner_types__ do
+    %{
+      "familymart" => Stripe.Resources.Familymart,
+      "lawson" => Stripe.Resources.Lawson,
+      "ministop" => Stripe.Resources.Ministop,
+      "seicomart" => Stripe.Resources.Seicomart
+    }
+  end
 end

@@ -14,7 +14,7 @@ defmodule Stripe.Resources.AbaToggleSettings do
   @type t :: %__MODULE__{
           requested: boolean(),
           status: String.t(),
-          status_details: [String.t() | map()]
+          status_details: [map()]
         }
 
   defstruct [:requested, :status, :status_details]

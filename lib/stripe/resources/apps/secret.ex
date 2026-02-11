@@ -43,4 +43,24 @@ defmodule Stripe.Resources.Apps.Secret do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["scope"]
+
+  defmodule Scope do
+    @moduledoc false
+
+    @typedoc """
+    * `type` - The secret scope type. Possible values: `account`, `user`.
+    * `user` - The user ID, if type is set to "user" Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            type: String.t() | nil,
+            user: String.t() | nil
+          }
+    defstruct [:type, :user]
+  end
+
+  def __inner_types__ do
+    %{
+      "scope" => __MODULE__.Scope
+    }
+  end
 end

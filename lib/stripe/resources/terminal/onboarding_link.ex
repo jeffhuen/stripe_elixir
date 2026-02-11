@@ -27,4 +27,42 @@ defmodule Stripe.Resources.Terminal.OnboardingLink do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["link_options"]
+
+  defmodule LinkOptions do
+    @moduledoc false
+
+    @typedoc """
+    * `apple_terms_and_conditions` - The options associated with the Apple Terms and Conditions link type. Nullable.
+    """
+    @type t :: %__MODULE__{
+            apple_terms_and_conditions: map() | nil
+          }
+    defstruct [:apple_terms_and_conditions]
+
+    defmodule AppleTermsAndConditions do
+      @moduledoc false
+
+      @typedoc """
+      * `allow_relinking` - Whether the link should also support users relinking their Apple account. Nullable.
+      * `merchant_display_name` - The business name of the merchant accepting Apple's Terms and Conditions. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              allow_relinking: boolean() | nil,
+              merchant_display_name: String.t() | nil
+            }
+      defstruct [:allow_relinking, :merchant_display_name]
+    end
+
+    def __inner_types__ do
+      %{
+        "apple_terms_and_conditions" => __MODULE__.AppleTermsAndConditions
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "link_options" => __MODULE__.LinkOptions
+    }
+  end
 end

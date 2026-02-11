@@ -32,12 +32,12 @@ defmodule Stripe.Resources.StripeError do
           network_advice_code: String.t() | nil,
           network_decline_code: String.t() | nil,
           param: String.t() | nil,
-          payment_intent: String.t() | map() | nil,
-          payment_method: String.t() | map() | nil,
+          payment_intent: map() | nil,
+          payment_method: map() | nil,
           payment_method_type: String.t() | nil,
           request_log_url: String.t() | nil,
-          setup_intent: String.t() | map() | nil,
-          source: String.t() | map() | nil,
+          setup_intent: map() | nil,
+          source: map() | nil,
           type: String.t()
         }
 
@@ -64,4 +64,13 @@ defmodule Stripe.Resources.StripeError do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["payment_intent", "payment_method", "setup_intent", "source"]
+
+  def __inner_types__ do
+    %{
+      "payment_intent" => Stripe.Resources.PaymentIntent,
+      "payment_method" => Stripe.Resources.PaymentMethod,
+      "setup_intent" => Stripe.Resources.SetupIntent,
+      "source" => Stripe.Resources.PaymentSource
+    }
+  end
 end

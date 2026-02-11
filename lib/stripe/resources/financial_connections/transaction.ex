@@ -54,4 +54,24 @@ defmodule Stripe.Resources.FinancialConnections.Transaction do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["status_transitions"]
+
+  defmodule StatusTransitions do
+    @moduledoc false
+
+    @typedoc """
+    * `posted_at` - Time at which this transaction posted. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
+    * `void_at` - Time at which this transaction was voided. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
+    """
+    @type t :: %__MODULE__{
+            posted_at: integer() | nil,
+            void_at: integer() | nil
+          }
+    defstruct [:posted_at, :void_at]
+  end
+
+  def __inner_types__ do
+    %{
+      "status_transitions" => __MODULE__.StatusTransitions
+    }
+  end
 end

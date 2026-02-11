@@ -54,4 +54,47 @@ defmodule Stripe.Resources.TaxId do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["customer", "owner", "verification"]
+
+  defmodule Owner do
+    @moduledoc false
+
+    @typedoc """
+    * `account` - The account being referenced when `type` is `account`.
+    * `application` - The Connect Application being referenced when `type` is `application`.
+    * `customer` - The customer being referenced when `type` is `customer`.
+    * `customer_account` - The Account representing the customer being referenced when `type` is `customer`. Max length: 5000. Nullable.
+    * `type` - Type of owner referenced. Possible values: `account`, `application`, `customer`, `self`.
+    """
+    @type t :: %__MODULE__{
+            account: String.t() | map() | nil,
+            application: String.t() | map() | nil,
+            customer: String.t() | map() | nil,
+            customer_account: String.t() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:account, :application, :customer, :customer_account, :type]
+  end
+
+  defmodule Verification do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - Verification status, one of `pending`, `verified`, `unverified`, or `unavailable`. Possible values: `pending`, `unavailable`, `unverified`, `verified`.
+    * `verified_address` - Verified address. Max length: 5000. Nullable.
+    * `verified_name` - Verified name. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil,
+            verified_address: String.t() | nil,
+            verified_name: String.t() | nil
+          }
+    defstruct [:status, :verified_address, :verified_name]
+  end
+
+  def __inner_types__ do
+    %{
+      "owner" => __MODULE__.Owner,
+      "verification" => __MODULE__.Verification
+    }
+  end
 end

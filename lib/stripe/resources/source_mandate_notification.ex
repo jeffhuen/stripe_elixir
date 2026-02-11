@@ -32,7 +32,7 @@ defmodule Stripe.Resources.SourceMandateNotification do
           object: String.t(),
           reason: String.t(),
           sepa_debit: map() | nil,
-          source: String.t() | map(),
+          source: map(),
           status: String.t(),
           type: String.t()
         }
@@ -56,4 +56,53 @@ defmodule Stripe.Resources.SourceMandateNotification do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["acss_debit", "bacs_debit", "sepa_debit", "source"]
+
+  defmodule AcssDebit do
+    @moduledoc false
+
+    @typedoc """
+    * `statement_descriptor` - The statement descriptor associate with the debit. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            statement_descriptor: String.t() | nil
+          }
+    defstruct [:statement_descriptor]
+  end
+
+  defmodule BacsDebit do
+    @moduledoc false
+
+    @typedoc """
+    * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            last4: String.t() | nil
+          }
+    defstruct [:last4]
+  end
+
+  defmodule SepaDebit do
+    @moduledoc false
+
+    @typedoc """
+    * `creditor_identifier` - SEPA creditor ID. Max length: 5000.
+    * `last4` - Last 4 digits of the account number associated with the debit. Max length: 5000.
+    * `mandate_reference` - Mandate reference associated with the debit. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            creditor_identifier: String.t() | nil,
+            last4: String.t() | nil,
+            mandate_reference: String.t() | nil
+          }
+    defstruct [:creditor_identifier, :last4, :mandate_reference]
+  end
+
+  def __inner_types__ do
+    %{
+      "acss_debit" => __MODULE__.AcssDebit,
+      "bacs_debit" => __MODULE__.BacsDebit,
+      "sepa_debit" => __MODULE__.SepaDebit,
+      "source" => Stripe.Resources.Source
+    }
+  end
 end

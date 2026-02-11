@@ -39,7 +39,7 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
           currency: String.t(),
           description: String.t(),
           destination_payment_method: String.t(),
-          destination_payment_method_details: String.t() | map(),
+          destination_payment_method_details: map(),
           expected_arrival_date: integer(),
           financial_account: String.t(),
           hosted_regulatory_receipt_url: String.t(),
@@ -47,10 +47,10 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          returned_details: String.t() | map(),
+          returned_details: map(),
           statement_descriptor: String.t(),
           status: String.t(),
-          status_transitions: String.t() | map(),
+          status_transitions: map(),
           tracking_details: map(),
           transaction: String.t() | map()
         }
@@ -89,4 +89,64 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
       "tracking_details",
       "transaction"
     ]
+
+  defmodule TrackingDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `ach`
+    * `type` - The US bank account network used to send funds. Possible values: `ach`, `us_domestic_wire`.
+    * `us_domestic_wire`
+    """
+    @type t :: %__MODULE__{
+            ach: map() | nil,
+            type: String.t() | nil,
+            us_domestic_wire: map() | nil
+          }
+    defstruct [:ach, :type, :us_domestic_wire]
+
+    defmodule Ach do
+      @moduledoc false
+
+      @typedoc """
+      * `trace_id` - ACH trace ID of the OutboundTransfer for transfers sent over the `ach` network. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              trace_id: String.t() | nil
+            }
+      defstruct [:trace_id]
+    end
+
+    defmodule UsDomesticWire do
+      @moduledoc false
+
+      @typedoc """
+      * `chips` - CHIPS System Sequence Number (SSN) of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+      * `imad` - IMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+      * `omad` - OMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              chips: String.t() | nil,
+              imad: String.t() | nil,
+              omad: String.t() | nil
+            }
+      defstruct [:chips, :imad, :omad]
+    end
+
+    def __inner_types__ do
+      %{
+        "ach" => __MODULE__.Ach,
+        "us_domestic_wire" => __MODULE__.UsDomesticWire
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "destination_payment_method_details" => Stripe.Resources.DestinationPaymentMethodDetails,
+      "returned_details" => Stripe.Resources.ReturnedDetails,
+      "status_transitions" => Stripe.Resources.StatusTransitions,
+      "tracking_details" => __MODULE__.TrackingDetails
+    }
+  end
 end

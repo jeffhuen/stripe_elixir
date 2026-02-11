@@ -18,14 +18,14 @@ defmodule Stripe.Resources.Treasury.FinancialAccountFeatures do
   * `outbound_transfers` - Expandable.
   """
   @type t :: %__MODULE__{
-          card_issuing: String.t() | map() | nil,
-          deposit_insurance: String.t() | map() | nil,
-          financial_addresses: String.t() | map() | nil,
-          inbound_transfers: String.t() | map() | nil,
-          intra_stripe_flows: String.t() | map() | nil,
+          card_issuing: map() | nil,
+          deposit_insurance: map() | nil,
+          financial_addresses: map() | nil,
+          inbound_transfers: map() | nil,
+          intra_stripe_flows: map() | nil,
           object: String.t(),
-          outbound_payments: String.t() | map() | nil,
-          outbound_transfers: String.t() | map() | nil
+          outbound_payments: map() | nil,
+          outbound_transfers: map() | nil
         }
 
   defstruct [
@@ -52,4 +52,16 @@ defmodule Stripe.Resources.Treasury.FinancialAccountFeatures do
       "outbound_payments",
       "outbound_transfers"
     ]
+
+  def __inner_types__ do
+    %{
+      "card_issuing" => Stripe.Resources.ToggleSettings,
+      "deposit_insurance" => Stripe.Resources.ToggleSettings,
+      "financial_addresses" => Stripe.Resources.FinancialAddresses,
+      "inbound_transfers" => Stripe.Resources.InboundTransfers,
+      "intra_stripe_flows" => Stripe.Resources.ToggleSettings,
+      "outbound_payments" => Stripe.Resources.OutboundPayments,
+      "outbound_transfers" => Stripe.Resources.OutboundTransfers
+    }
+  end
 end

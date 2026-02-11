@@ -21,4 +21,24 @@ defmodule Stripe.Resources.Custom do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["logo"]
+
+  defmodule Logo do
+    @moduledoc false
+
+    @typedoc """
+    * `content_type` - Content type of the Dashboard-only CustomPaymentMethodType logo. Max length: 5000. Nullable.
+    * `url` - URL of the Dashboard-only CustomPaymentMethodType logo. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            content_type: String.t() | nil,
+            url: String.t() | nil
+          }
+    defstruct [:content_type, :url]
+  end
+
+  def __inner_types__ do
+    %{
+      "logo" => __MODULE__.Logo
+    }
+  end
 end

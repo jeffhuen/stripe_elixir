@@ -94,4 +94,83 @@ defmodule Stripe.Resources.Price do
       "tiers",
       "transform_quantity"
     ]
+
+  defmodule CustomUnitAmount do
+    @moduledoc false
+
+    @typedoc """
+    * `maximum` - The maximum unit amount the customer can specify for this item. Nullable.
+    * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount. Nullable.
+    * `preset` - The starting unit amount which can be updated by the customer. Nullable.
+    """
+    @type t :: %__MODULE__{
+            maximum: integer() | nil,
+            minimum: integer() | nil,
+            preset: integer() | nil
+          }
+    defstruct [:maximum, :minimum, :preset]
+  end
+
+  defmodule Recurring do
+    @moduledoc false
+
+    @typedoc """
+    * `interval` - The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`. Possible values: `day`, `month`, `week`, `year`.
+    * `interval_count` - The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.
+    * `meter` - The meter tracking the usage of a metered price Max length: 5000. Nullable.
+    * `trial_period_days` - Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan). Nullable.
+    * `usage_type` - Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`. Possible values: `licensed`, `metered`.
+    """
+    @type t :: %__MODULE__{
+            interval: String.t() | nil,
+            interval_count: integer() | nil,
+            meter: String.t() | nil,
+            trial_period_days: integer() | nil,
+            usage_type: String.t() | nil
+          }
+    defstruct [:interval, :interval_count, :meter, :trial_period_days, :usage_type]
+  end
+
+  defmodule Tiers do
+    @moduledoc false
+
+    @typedoc """
+    * `flat_amount` - Price for the entire tier. Nullable.
+    * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+    * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
+    * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+    * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
+    """
+    @type t :: %__MODULE__{
+            flat_amount: integer() | nil,
+            flat_amount_decimal: String.t() | nil,
+            unit_amount: integer() | nil,
+            unit_amount_decimal: String.t() | nil,
+            up_to: integer() | nil
+          }
+    defstruct [:flat_amount, :flat_amount_decimal, :unit_amount, :unit_amount_decimal, :up_to]
+  end
+
+  defmodule TransformQuantity do
+    @moduledoc false
+
+    @typedoc """
+    * `divide_by` - Divide usage by this number.
+    * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
+    """
+    @type t :: %__MODULE__{
+            divide_by: integer() | nil,
+            round: String.t() | nil
+          }
+    defstruct [:divide_by, :round]
+  end
+
+  def __inner_types__ do
+    %{
+      "custom_unit_amount" => __MODULE__.CustomUnitAmount,
+      "recurring" => __MODULE__.Recurring,
+      "tiers" => __MODULE__.Tiers,
+      "transform_quantity" => __MODULE__.TransformQuantity
+    }
+  end
 end

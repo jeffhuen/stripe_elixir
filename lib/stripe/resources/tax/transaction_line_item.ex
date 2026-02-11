@@ -55,4 +55,22 @@ defmodule Stripe.Resources.Tax.TransactionLineItem do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["reversal"]
+
+  defmodule Reversal do
+    @moduledoc false
+
+    @typedoc """
+    * `original_line_item` - The `id` of the line item to reverse in the original transaction. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            original_line_item: String.t() | nil
+          }
+    defstruct [:original_line_item]
+  end
+
+  def __inner_types__ do
+    %{
+      "reversal" => __MODULE__.Reversal
+    }
+  end
 end

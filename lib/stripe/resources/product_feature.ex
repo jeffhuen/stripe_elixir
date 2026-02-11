@@ -14,7 +14,7 @@ defmodule Stripe.Resources.ProductFeature do
   * `object` - String representing the object's type. Objects of the same type share the same value. Possible values: `product_feature`.
   """
   @type t :: %__MODULE__{
-          entitlement_feature: String.t() | map(),
+          entitlement_feature: map(),
           id: String.t(),
           livemode: boolean(),
           object: String.t()
@@ -26,4 +26,10 @@ defmodule Stripe.Resources.ProductFeature do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["entitlement_feature"]
+
+  def __inner_types__ do
+    %{
+      "entitlement_feature" => Stripe.Resources.Entitlements.Feature
+    }
+  end
 end

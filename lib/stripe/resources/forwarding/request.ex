@@ -66,4 +66,98 @@ defmodule Stripe.Resources.Forwarding.Request do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["request_context", "request_details", "response_details"]
+
+  defmodule RequestContext do
+    @moduledoc false
+
+    @typedoc """
+    * `destination_duration` - The time it took in milliseconds for the destination endpoint to respond.
+    * `destination_ip_address` - The IP address of the destination. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            destination_duration: integer() | nil,
+            destination_ip_address: String.t() | nil
+          }
+    defstruct [:destination_duration, :destination_ip_address]
+  end
+
+  defmodule RequestDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `body` - The body payload to send to the destination endpoint. Max length: 5000.
+    * `headers` - The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
+    * `http_method` - The HTTP method used to call the destination endpoint. Possible values: `POST`.
+    """
+    @type t :: %__MODULE__{
+            body: String.t() | nil,
+            headers: [map()] | nil,
+            http_method: String.t() | nil
+          }
+    defstruct [:body, :headers, :http_method]
+
+    defmodule Headers do
+      @moduledoc false
+
+      @typedoc """
+      * `name` - The header name. Max length: 5000.
+      * `value` - The header value. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              name: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:name, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "headers" => __MODULE__.Headers
+      }
+    end
+  end
+
+  defmodule ResponseDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `body` - The response body from the destination endpoint to Stripe. Max length: 5000.
+    * `headers` - HTTP headers that the destination endpoint returned.
+    * `status` - The HTTP status code that the destination endpoint returned.
+    """
+    @type t :: %__MODULE__{
+            body: String.t() | nil,
+            headers: [map()] | nil,
+            status: integer() | nil
+          }
+    defstruct [:body, :headers, :status]
+
+    defmodule Headers do
+      @moduledoc false
+
+      @typedoc """
+      * `name` - The header name. Max length: 5000.
+      * `value` - The header value. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              name: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:name, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "headers" => __MODULE__.Headers
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "request_context" => __MODULE__.RequestContext,
+      "request_details" => __MODULE__.RequestDetails,
+      "response_details" => __MODULE__.ResponseDetails
+    }
+  end
 end

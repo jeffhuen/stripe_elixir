@@ -49,6 +49,24 @@ defmodule Stripe.Resources.FinancialConnections.Session do
 
   def expandable_fields, do: ["account_holder", "accounts", "filters"]
 
+  defmodule AccountHolder do
+    @moduledoc false
+
+    @typedoc """
+    * `account` - The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
+    * `customer` - The ID for an Account representing a customer that this account belongs to. Only available when `account_holder.type` is `customer`.
+    * `customer_account` - Max length: 5000.
+    * `type` - Type of account holder that this account belongs to. Possible values: `account`, `customer`.
+    """
+    @type t :: %__MODULE__{
+            account: String.t() | map() | nil,
+            customer: String.t() | map() | nil,
+            customer_account: String.t() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:account, :customer, :customer_account, :type]
+  end
+
   defmodule Accounts do
     @moduledoc false
 
@@ -67,9 +85,25 @@ defmodule Stripe.Resources.FinancialConnections.Session do
     defstruct [:data, :has_more, :object, :url]
   end
 
+  defmodule Filters do
+    @moduledoc false
+
+    @typedoc """
+    * `account_subcategories` - Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`. Nullable.
+    * `countries` - List of countries from which to filter accounts. Nullable.
+    """
+    @type t :: %__MODULE__{
+            account_subcategories: [String.t()] | nil,
+            countries: [String.t()] | nil
+          }
+    defstruct [:account_subcategories, :countries]
+  end
+
   def __inner_types__ do
     %{
-      "accounts" => __MODULE__.Accounts
+      "account_holder" => __MODULE__.AccountHolder,
+      "accounts" => __MODULE__.Accounts,
+      "filters" => __MODULE__.Filters
     }
   end
 end

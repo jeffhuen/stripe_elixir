@@ -25,7 +25,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          balance_transactions: [String.t() | map()] | nil,
+          balance_transactions: [map()] | nil,
           created: integer(),
           currency: String.t(),
           evidence: map(),
@@ -59,4 +59,273 @@ defmodule Stripe.Resources.Issuing.Dispute do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["balance_transactions", "evidence", "transaction", "treasury"]
+
+  defmodule Evidence do
+    @moduledoc false
+
+    @typedoc """
+    * `canceled`
+    * `duplicate`
+    * `fraudulent`
+    * `merchandise_not_as_described`
+    * `no_valid_authorization`
+    * `not_received`
+    * `other`
+    * `reason` - The reason for filing the dispute. Its value will match the field containing the evidence. Possible values: `canceled`, `duplicate`, `fraudulent`, `merchandise_not_as_described`, `no_valid_authorization`, `not_received`, `other`, `service_not_as_described`.
+    * `service_not_as_described`
+    """
+    @type t :: %__MODULE__{
+            canceled: map() | nil,
+            duplicate: map() | nil,
+            fraudulent: map() | nil,
+            merchandise_not_as_described: map() | nil,
+            no_valid_authorization: map() | nil,
+            not_received: map() | nil,
+            other: map() | nil,
+            reason: String.t() | nil,
+            service_not_as_described: map() | nil
+          }
+    defstruct [
+      :canceled,
+      :duplicate,
+      :fraudulent,
+      :merchandise_not_as_described,
+      :no_valid_authorization,
+      :not_received,
+      :other,
+      :reason,
+      :service_not_as_described
+    ]
+
+    defmodule Canceled do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `canceled_at` - Date when order was canceled. Format: Unix timestamp. Nullable.
+      * `cancellation_policy_provided` - Whether the cardholder was provided with a cancellation policy. Nullable.
+      * `cancellation_reason` - Reason for canceling the order. Max length: 5000. Nullable.
+      * `expected_at` - Date when the cardholder expected to receive the product. Format: Unix timestamp. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      * `product_description` - Description of the merchandise or service that was purchased. Max length: 5000. Nullable.
+      * `product_type` - Whether the product was a merchandise or service. Possible values: `merchandise`, `service`. Nullable.
+      * `return_status` - Result of cardholder's attempt to return the product. Possible values: `merchant_rejected`, `successful`. Nullable.
+      * `returned_at` - Date when the product was returned or attempted to be returned. Format: Unix timestamp. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              canceled_at: integer() | nil,
+              cancellation_policy_provided: boolean() | nil,
+              cancellation_reason: String.t() | nil,
+              expected_at: integer() | nil,
+              explanation: String.t() | nil,
+              product_description: String.t() | nil,
+              product_type: String.t() | nil,
+              return_status: String.t() | nil,
+              returned_at: integer() | nil
+            }
+      defstruct [
+        :additional_documentation,
+        :canceled_at,
+        :cancellation_policy_provided,
+        :cancellation_reason,
+        :expected_at,
+        :explanation,
+        :product_description,
+        :product_type,
+        :return_status,
+        :returned_at
+      ]
+    end
+
+    defmodule Duplicate do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `card_statement` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for. Nullable.
+      * `cash_receipt` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash. Nullable.
+      * `check_image` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      * `original_transaction` - Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              card_statement: String.t() | map() | nil,
+              cash_receipt: String.t() | map() | nil,
+              check_image: String.t() | map() | nil,
+              explanation: String.t() | nil,
+              original_transaction: String.t() | nil
+            }
+      defstruct [
+        :additional_documentation,
+        :card_statement,
+        :cash_receipt,
+        :check_image,
+        :explanation,
+        :original_transaction
+      ]
+    end
+
+    defmodule Fraudulent do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              explanation: String.t() | nil
+            }
+      defstruct [:additional_documentation, :explanation]
+    end
+
+    defmodule MerchandiseNotAsDescribed do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      * `received_at` - Date when the product was received. Format: Unix timestamp. Nullable.
+      * `return_description` - Description of the cardholder's attempt to return the product. Max length: 5000. Nullable.
+      * `return_status` - Result of cardholder's attempt to return the product. Possible values: `merchant_rejected`, `successful`. Nullable.
+      * `returned_at` - Date when the product was returned or attempted to be returned. Format: Unix timestamp. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              explanation: String.t() | nil,
+              received_at: integer() | nil,
+              return_description: String.t() | nil,
+              return_status: String.t() | nil,
+              returned_at: integer() | nil
+            }
+      defstruct [
+        :additional_documentation,
+        :explanation,
+        :received_at,
+        :return_description,
+        :return_status,
+        :returned_at
+      ]
+    end
+
+    defmodule NoValidAuthorization do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              explanation: String.t() | nil
+            }
+      defstruct [:additional_documentation, :explanation]
+    end
+
+    defmodule NotReceived do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `expected_at` - Date when the cardholder expected to receive the product. Format: Unix timestamp. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      * `product_description` - Description of the merchandise or service that was purchased. Max length: 5000. Nullable.
+      * `product_type` - Whether the product was a merchandise or service. Possible values: `merchandise`, `service`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              expected_at: integer() | nil,
+              explanation: String.t() | nil,
+              product_description: String.t() | nil,
+              product_type: String.t() | nil
+            }
+      defstruct [
+        :additional_documentation,
+        :expected_at,
+        :explanation,
+        :product_description,
+        :product_type
+      ]
+    end
+
+    defmodule Other do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      * `product_description` - Description of the merchandise or service that was purchased. Max length: 5000. Nullable.
+      * `product_type` - Whether the product was a merchandise or service. Possible values: `merchandise`, `service`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              explanation: String.t() | nil,
+              product_description: String.t() | nil,
+              product_type: String.t() | nil
+            }
+      defstruct [:additional_documentation, :explanation, :product_description, :product_type]
+    end
+
+    defmodule ServiceNotAsDescribed do
+      @moduledoc false
+
+      @typedoc """
+      * `additional_documentation` - (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute. Nullable.
+      * `canceled_at` - Date when order was canceled. Format: Unix timestamp. Nullable.
+      * `cancellation_reason` - Reason for canceling the order. Max length: 5000. Nullable.
+      * `explanation` - Explanation of why the cardholder is disputing this transaction. Max length: 5000. Nullable.
+      * `received_at` - Date when the product was received. Format: Unix timestamp. Nullable.
+      """
+      @type t :: %__MODULE__{
+              additional_documentation: String.t() | map() | nil,
+              canceled_at: integer() | nil,
+              cancellation_reason: String.t() | nil,
+              explanation: String.t() | nil,
+              received_at: integer() | nil
+            }
+      defstruct [
+        :additional_documentation,
+        :canceled_at,
+        :cancellation_reason,
+        :explanation,
+        :received_at
+      ]
+    end
+
+    def __inner_types__ do
+      %{
+        "canceled" => __MODULE__.Canceled,
+        "duplicate" => __MODULE__.Duplicate,
+        "fraudulent" => __MODULE__.Fraudulent,
+        "merchandise_not_as_described" => __MODULE__.MerchandiseNotAsDescribed,
+        "no_valid_authorization" => __MODULE__.NoValidAuthorization,
+        "not_received" => __MODULE__.NotReceived,
+        "other" => __MODULE__.Other,
+        "service_not_as_described" => __MODULE__.ServiceNotAsDescribed
+      }
+    end
+  end
+
+  defmodule Treasury do
+    @moduledoc false
+
+    @typedoc """
+    * `debit_reversal` - The Treasury [DebitReversal](https://docs.stripe.com/api/treasury/debit_reversals) representing this Issuing dispute Max length: 5000. Nullable.
+    * `received_debit` - The Treasury [ReceivedDebit](https://docs.stripe.com/api/treasury/received_debits) that is being disputed. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            debit_reversal: String.t() | nil,
+            received_debit: String.t() | nil
+          }
+    defstruct [:debit_reversal, :received_debit]
+  end
+
+  def __inner_types__ do
+    %{
+      "evidence" => __MODULE__.Evidence,
+      "treasury" => __MODULE__.Treasury
+    }
+  end
 end

@@ -80,7 +80,7 @@ defmodule Stripe.Resources.SetupIntent do
           excluded_payment_method_types: [String.t()],
           flow_directions: [String.t()] | nil,
           id: String.t(),
-          last_setup_error: String.t() | map(),
+          last_setup_error: map(),
           latest_attempt: String.t() | map(),
           livemode: boolean(),
           mandate: String.t() | map(),
@@ -145,4 +145,397 @@ defmodule Stripe.Resources.SetupIntent do
       "payment_method_options",
       "single_use_mandate"
     ]
+
+  defmodule AutomaticPaymentMethods do
+    @moduledoc false
+
+    @typedoc """
+    * `allow_redirects` - Controls whether this SetupIntent will accept redirect-based payment methods.
+
+    Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/setup_intents/confirm) this SetupIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the setup. Possible values: `always`, `never`.
+    * `enabled` - Automatically calculates compatible payment methods Nullable.
+    """
+    @type t :: %__MODULE__{
+            allow_redirects: String.t() | nil,
+            enabled: boolean() | nil
+          }
+    defstruct [:allow_redirects, :enabled]
+  end
+
+  defmodule NextAction do
+    @moduledoc false
+
+    @typedoc """
+    * `cashapp_handle_redirect_or_display_qr_code`
+    * `redirect_to_url`
+    * `type` - Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`. Max length: 5000.
+    * `use_stripe_sdk` - When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
+    * `verify_with_microdeposits`
+    """
+    @type t :: %__MODULE__{
+            cashapp_handle_redirect_or_display_qr_code: map() | nil,
+            redirect_to_url: map() | nil,
+            type: String.t() | nil,
+            use_stripe_sdk: map() | nil,
+            verify_with_microdeposits: map() | nil
+          }
+    defstruct [
+      :cashapp_handle_redirect_or_display_qr_code,
+      :redirect_to_url,
+      :type,
+      :use_stripe_sdk,
+      :verify_with_microdeposits
+    ]
+
+    defmodule VerifyWithMicrodeposits do
+      @moduledoc false
+
+      @typedoc """
+      * `arrival_date` - The timestamp when the microdeposits are expected to land. Format: Unix timestamp.
+      * `hosted_verification_url` - The URL for the hosted verification page, which allows customers to verify their bank account. Max length: 5000.
+      * `microdeposit_type` - The type of the microdeposit sent to the customer. Used to distinguish between different verification methods. Possible values: `amounts`, `descriptor_code`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              arrival_date: integer() | nil,
+              hosted_verification_url: String.t() | nil,
+              microdeposit_type: String.t() | nil
+            }
+      defstruct [:arrival_date, :hosted_verification_url, :microdeposit_type]
+    end
+
+    def __inner_types__ do
+      %{
+        "verify_with_microdeposits" => __MODULE__.VerifyWithMicrodeposits
+      }
+    end
+  end
+
+  defmodule PaymentMethodConfigurationDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `id` - ID of the payment method configuration used. Max length: 5000.
+    * `parent` - ID of the parent payment method configuration used. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            id: String.t() | nil,
+            parent: String.t() | nil
+          }
+    defstruct [:id, :parent]
+  end
+
+  defmodule PaymentMethodOptions do
+    @moduledoc false
+
+    @typedoc """
+    * `acss_debit`
+    * `amazon_pay`
+    * `bacs_debit`
+    * `card`
+    * `card_present`
+    * `klarna`
+    * `link`
+    * `paypal`
+    * `payto`
+    * `sepa_debit`
+    * `us_bank_account`
+    """
+    @type t :: %__MODULE__{
+            acss_debit: map() | nil,
+            amazon_pay: map() | nil,
+            bacs_debit: map() | nil,
+            card: map() | nil,
+            card_present: map() | nil,
+            klarna: map() | nil,
+            link: map() | nil,
+            paypal: map() | nil,
+            payto: map() | nil,
+            sepa_debit: map() | nil,
+            us_bank_account: map() | nil
+          }
+    defstruct [
+      :acss_debit,
+      :amazon_pay,
+      :bacs_debit,
+      :card,
+      :card_present,
+      :klarna,
+      :link,
+      :paypal,
+      :payto,
+      :sepa_debit,
+      :us_bank_account
+    ]
+
+    defmodule AcssDebit do
+      @moduledoc false
+
+      @typedoc """
+      * `currency` - Currency supported by the bank account Possible values: `cad`, `usd`. Nullable.
+      * `mandate_options`
+      * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              mandate_options: map() | nil,
+              verification_method: String.t() | nil
+            }
+      defstruct [:currency, :mandate_options, :verification_method]
+
+      defmodule MandateOptions do
+        @moduledoc false
+
+        @typedoc """
+        * `custom_mandate_url` - A URL for custom mandate text Max length: 5000.
+        * `default_for` - List of Stripe products where this mandate can be selected automatically.
+        * `interval_description` - Description of the interval. Only required if the 'payment_schedule' parameter is 'interval' or 'combined'. Max length: 5000. Nullable.
+        * `payment_schedule` - Payment schedule for the mandate. Possible values: `combined`, `interval`, `sporadic`. Nullable.
+        * `transaction_type` - Transaction type of the mandate. Possible values: `business`, `personal`. Nullable.
+        """
+        @type t :: %__MODULE__{
+                custom_mandate_url: String.t() | nil,
+                default_for: [String.t()] | nil,
+                interval_description: String.t() | nil,
+                payment_schedule: String.t() | nil,
+                transaction_type: String.t() | nil
+              }
+        defstruct [
+          :custom_mandate_url,
+          :default_for,
+          :interval_description,
+          :payment_schedule,
+          :transaction_type
+        ]
+      end
+
+      def __inner_types__ do
+        %{
+          "mandate_options" => __MODULE__.MandateOptions
+        }
+      end
+    end
+
+    defmodule BacsDebit do
+      @moduledoc false
+
+      @typedoc """
+      * `mandate_options`
+      """
+      @type t :: %__MODULE__{
+              mandate_options: map() | nil
+            }
+      defstruct [:mandate_options]
+    end
+
+    defmodule Card do
+      @moduledoc false
+
+      @typedoc """
+      * `mandate_options` - Configuration options for setting up an eMandate for cards issued in India. Nullable.
+      * `network` - Selected network to process this SetupIntent on. Depends on the available networks of the card attached to the setup intent. Can be only set confirm-time. Possible values: `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `girocard`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `unknown`, `visa`. Nullable.
+      * `request_three_d_secure` - We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine. Possible values: `any`, `automatic`, `challenge`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              mandate_options: map() | nil,
+              network: String.t() | nil,
+              request_three_d_secure: String.t() | nil
+            }
+      defstruct [:mandate_options, :network, :request_three_d_secure]
+    end
+
+    defmodule Klarna do
+      @moduledoc false
+
+      @typedoc """
+      * `currency` - The currency of the setup intent. Three letter ISO currency code. Format: ISO 4217 currency code. Nullable.
+      * `preferred_locale` - Preferred locale of the Klarna checkout page that the customer is redirected to. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              preferred_locale: String.t() | nil
+            }
+      defstruct [:currency, :preferred_locale]
+    end
+
+    defmodule Link do
+      @moduledoc false
+
+      @typedoc """
+      * `persistent_token` - [Deprecated] This is a legacy parameter that no longer has any function. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              persistent_token: String.t() | nil
+            }
+      defstruct [:persistent_token]
+    end
+
+    defmodule Paypal do
+      @moduledoc false
+
+      @typedoc """
+      * `billing_agreement_id` - The PayPal Billing Agreement ID (BAID). This is an ID generated by PayPal which represents the mandate between the merchant and the customer. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              billing_agreement_id: String.t() | nil
+            }
+      defstruct [:billing_agreement_id]
+    end
+
+    defmodule Payto do
+      @moduledoc false
+
+      @typedoc """
+      * `mandate_options`
+      """
+      @type t :: %__MODULE__{
+              mandate_options: map() | nil
+            }
+      defstruct [:mandate_options]
+
+      defmodule MandateOptions do
+        @moduledoc false
+
+        @typedoc """
+        * `amount` - Amount that will be collected. It is required when `amount_type` is `fixed`. Nullable.
+        * `amount_type` - The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`. Possible values: `fixed`, `maximum`. Nullable.
+        * `end_date` - Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date. Max length: 5000. Nullable.
+        * `payment_schedule` - The periodicity at which payments will be collected. Defaults to `adhoc`. Possible values: `adhoc`, `annual`, `daily`, `fortnightly`, `monthly`, `quarterly`, `semi_annual`, `weekly`. Nullable.
+        * `payments_per_period` - The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit. Nullable.
+        * `purpose` - The purpose for which payments are made. Has a default value based on your merchant category code. Possible values: `dependant_support`, `government`, `loan`, `mortgage`, `other`, `pension`, `personal`, `retail`, `salary`, `tax`, `utility`. Nullable.
+        * `start_date` - Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time. Max length: 5000. Nullable.
+        """
+        @type t :: %__MODULE__{
+                amount: integer() | nil,
+                amount_type: String.t() | nil,
+                end_date: String.t() | nil,
+                payment_schedule: String.t() | nil,
+                payments_per_period: integer() | nil,
+                purpose: String.t() | nil,
+                start_date: String.t() | nil
+              }
+        defstruct [
+          :amount,
+          :amount_type,
+          :end_date,
+          :payment_schedule,
+          :payments_per_period,
+          :purpose,
+          :start_date
+        ]
+      end
+
+      def __inner_types__ do
+        %{
+          "mandate_options" => __MODULE__.MandateOptions
+        }
+      end
+    end
+
+    defmodule SepaDebit do
+      @moduledoc false
+
+      @typedoc """
+      * `mandate_options`
+      """
+      @type t :: %__MODULE__{
+              mandate_options: map() | nil
+            }
+      defstruct [:mandate_options]
+    end
+
+    defmodule UsBankAccount do
+      @moduledoc false
+
+      @typedoc """
+      * `financial_connections`
+      * `mandate_options`
+      * `verification_method` - Bank account verification method. Possible values: `automatic`, `instant`, `microdeposits`.
+      """
+      @type t :: %__MODULE__{
+              financial_connections: map() | nil,
+              mandate_options: map() | nil,
+              verification_method: String.t() | nil
+            }
+      defstruct [:financial_connections, :mandate_options, :verification_method]
+
+      defmodule FinancialConnections do
+        @moduledoc false
+
+        @typedoc """
+        * `filters`
+        * `permissions` - The list of permissions to request. The `payment_method` permission must be included.
+        * `prefetch` - Data features requested to be retrieved upon account creation. Nullable.
+        * `return_url` - For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                filters: map() | nil,
+                permissions: [String.t()] | nil,
+                prefetch: [String.t()] | nil,
+                return_url: String.t() | nil
+              }
+        defstruct [:filters, :permissions, :prefetch, :return_url]
+
+        defmodule Filters do
+          @moduledoc false
+
+          @typedoc """
+          * `account_subcategories` - The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+          """
+          @type t :: %__MODULE__{
+                  account_subcategories: [String.t()] | nil
+                }
+          defstruct [:account_subcategories]
+        end
+
+        def __inner_types__ do
+          %{
+            "filters" => __MODULE__.Filters
+          }
+        end
+      end
+
+      defmodule MandateOptions do
+        @moduledoc false
+
+        @typedoc """
+        * `collection_method` - Mandate collection method Possible values: `paper`.
+        """
+        @type t :: %__MODULE__{
+                collection_method: String.t() | nil
+              }
+        defstruct [:collection_method]
+      end
+
+      def __inner_types__ do
+        %{
+          "financial_connections" => __MODULE__.FinancialConnections,
+          "mandate_options" => __MODULE__.MandateOptions
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "acss_debit" => __MODULE__.AcssDebit,
+        "bacs_debit" => __MODULE__.BacsDebit,
+        "card" => __MODULE__.Card,
+        "klarna" => __MODULE__.Klarna,
+        "link" => __MODULE__.Link,
+        "paypal" => __MODULE__.Paypal,
+        "payto" => __MODULE__.Payto,
+        "sepa_debit" => __MODULE__.SepaDebit,
+        "us_bank_account" => __MODULE__.UsBankAccount
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "automatic_payment_methods" => __MODULE__.AutomaticPaymentMethods,
+      "last_setup_error" => Stripe.Resources.StripeError,
+      "next_action" => __MODULE__.NextAction,
+      "payment_method_configuration_details" => __MODULE__.PaymentMethodConfigurationDetails,
+      "payment_method_options" => __MODULE__.PaymentMethodOptions
+    }
+  end
 end

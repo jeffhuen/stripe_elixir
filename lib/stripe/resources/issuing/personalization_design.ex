@@ -58,4 +58,58 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
 
   def expandable_fields,
     do: ["card_logo", "carrier_text", "physical_bundle", "preferences", "rejection_reasons"]
+
+  defmodule CarrierText do
+    @moduledoc false
+
+    @typedoc """
+    * `footer_body` - The footer body text of the carrier letter. Max length: 5000. Nullable.
+    * `footer_title` - The footer title text of the carrier letter. Max length: 5000. Nullable.
+    * `header_body` - The header body text of the carrier letter. Max length: 5000. Nullable.
+    * `header_title` - The header title text of the carrier letter. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            footer_body: String.t() | nil,
+            footer_title: String.t() | nil,
+            header_body: String.t() | nil,
+            header_title: String.t() | nil
+          }
+    defstruct [:footer_body, :footer_title, :header_body, :header_title]
+  end
+
+  defmodule Preferences do
+    @moduledoc false
+
+    @typedoc """
+    * `is_default` - Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+    * `is_platform_default` - Whether this personalization design is used to create cards when one is not specified and a default for this connected account does not exist. Nullable.
+    """
+    @type t :: %__MODULE__{
+            is_default: boolean() | nil,
+            is_platform_default: boolean() | nil
+          }
+    defstruct [:is_default, :is_platform_default]
+  end
+
+  defmodule RejectionReasons do
+    @moduledoc false
+
+    @typedoc """
+    * `card_logo` - The reason(s) the card logo was rejected. Nullable.
+    * `carrier_text` - The reason(s) the carrier text was rejected. Nullable.
+    """
+    @type t :: %__MODULE__{
+            card_logo: [String.t()] | nil,
+            carrier_text: [String.t()] | nil
+          }
+    defstruct [:card_logo, :carrier_text]
+  end
+
+  def __inner_types__ do
+    %{
+      "carrier_text" => __MODULE__.CarrierText,
+      "preferences" => __MODULE__.Preferences,
+      "rejection_reasons" => __MODULE__.RejectionReasons
+    }
+  end
 end

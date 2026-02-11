@@ -37,7 +37,7 @@ defmodule Stripe.Resources.TaxRate do
           description: String.t(),
           display_name: String.t(),
           effective_percentage: float(),
-          flat_amount: String.t() | map(),
+          flat_amount: map(),
           id: String.t(),
           inclusive: boolean(),
           jurisdiction: String.t(),
@@ -76,4 +76,10 @@ defmodule Stripe.Resources.TaxRate do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["flat_amount"]
+
+  def __inner_types__ do
+    %{
+      "flat_amount" => Stripe.Resources.TaxRateFlatAmount
+    }
+  end
 end

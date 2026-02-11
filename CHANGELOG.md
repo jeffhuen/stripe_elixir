@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.1.2
+
+### Enhancements
+
+- Non-resource `$ref` schemas now generate typed inner modules instead of
+  `map()`. 500 inner type modules (e.g. `Charge.BillingDetails`,
+  `Price.Recurring`, `InvoiceLineItem.Period`) with full struct definitions and
+  recursive `__inner_types__` for deep nesting.
+- Resource `$ref` properties now include `__inner_types__` entries pointing to
+  their standalone resource module (e.g. `Event` maps `"data"` to `EventData`).
+  141 resource inner refs total.
+- `{:expandable_ref, name}` type tag distinguishes expandable fields (string ID
+  or object) from direct object refs in generated typespecs.
+- Field overrides mechanism for fields the API returns but the spec omits
+  (Charge.invoice).
+- `Stripe.Deserializer.from_json/1` convenience for JSON string to typed struct.
+- Integration test suite against stripe-mock validates no dropped fields across
+  12+ key endpoints.
+
+### Bug Fixes
+
+- Fix `Charge.invoice` missing field — API returns it but the spec omits it.
+  Added via field override with `{:expandable_ref, "invoice"}` type.
+
 ## v0.1.1
 
 ### Bug Fixes

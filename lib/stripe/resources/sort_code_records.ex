@@ -14,10 +14,10 @@ defmodule Stripe.Resources.SortCodeRecords do
   * `sort_code` - The six-digit sort code Max length: 5000.
   """
   @type t :: %__MODULE__{
-          account_holder_address: String.t() | map(),
+          account_holder_address: map(),
           account_holder_name: String.t(),
           account_number: String.t(),
-          bank_address: String.t() | map(),
+          bank_address: map(),
           sort_code: String.t()
         }
 
@@ -33,4 +33,11 @@ defmodule Stripe.Resources.SortCodeRecords do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["account_holder_address", "bank_address"]
+
+  def __inner_types__ do
+    %{
+      "account_holder_address" => Stripe.Resources.Address,
+      "bank_address" => Stripe.Resources.Address
+    }
+  end
 end

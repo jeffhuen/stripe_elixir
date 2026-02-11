@@ -10,7 +10,7 @@ defmodule Stripe.Resources.DisputesListConfig do
   """
   @type t :: %__MODULE__{
           enabled: boolean(),
-          features: String.t() | map()
+          features: map()
         }
 
   defstruct [:enabled, :features]
@@ -19,4 +19,10 @@ defmodule Stripe.Resources.DisputesListConfig do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["features"]
+
+  def __inner_types__ do
+    %{
+      "features" => Stripe.Resources.DisputesListFeatures
+    }
+  end
 end

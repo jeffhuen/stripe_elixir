@@ -48,4 +48,153 @@ defmodule Stripe.Resources.Billing.CreditBalanceTransaction do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["credit", "credit_grant", "debit", "test_clock"]
+
+  defmodule Credit do
+    @moduledoc false
+
+    @typedoc """
+    * `amount`
+    * `credits_application_invoice_voided` - Details of the invoice to which the reinstated credits were originally applied. Only present if `type` is `credits_application_invoice_voided`. Nullable.
+    * `type` - The type of credit transaction. Possible values: `credits_application_invoice_voided`, `credits_granted`.
+    """
+    @type t :: %__MODULE__{
+            amount: map() | nil,
+            credits_application_invoice_voided: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:amount, :credits_application_invoice_voided, :type]
+
+    defmodule Amount do
+      @moduledoc false
+
+      @typedoc """
+      * `monetary` - The monetary amount. Nullable.
+      * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
+      """
+      @type t :: %__MODULE__{
+              monetary: map() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:monetary, :type]
+
+      defmodule Monetary do
+        @moduledoc false
+
+        @typedoc """
+        * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
+        * `value` - A positive integer representing the amount.
+        """
+        @type t :: %__MODULE__{
+                currency: String.t() | nil,
+                value: integer() | nil
+              }
+        defstruct [:currency, :value]
+      end
+
+      def __inner_types__ do
+        %{
+          "monetary" => __MODULE__.Monetary
+        }
+      end
+    end
+
+    defmodule CreditsApplicationInvoiceVoided do
+      @moduledoc false
+
+      @typedoc """
+      * `invoice` - The invoice to which the reinstated billing credits were originally applied.
+      * `invoice_line_item` - The invoice line item to which the reinstated billing credits were originally applied. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              invoice: String.t() | map() | nil,
+              invoice_line_item: String.t() | nil
+            }
+      defstruct [:invoice, :invoice_line_item]
+    end
+
+    def __inner_types__ do
+      %{
+        "amount" => __MODULE__.Amount,
+        "credits_application_invoice_voided" => __MODULE__.CreditsApplicationInvoiceVoided
+      }
+    end
+  end
+
+  defmodule Debit do
+    @moduledoc false
+
+    @typedoc """
+    * `amount`
+    * `credits_applied` - Details of how the billing credits were applied to an invoice. Only present if `type` is `credits_applied`. Nullable.
+    * `type` - The type of debit transaction. Possible values: `credits_applied`, `credits_expired`, `credits_voided`.
+    """
+    @type t :: %__MODULE__{
+            amount: map() | nil,
+            credits_applied: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:amount, :credits_applied, :type]
+
+    defmodule Amount do
+      @moduledoc false
+
+      @typedoc """
+      * `monetary` - The monetary amount. Nullable.
+      * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
+      """
+      @type t :: %__MODULE__{
+              monetary: map() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:monetary, :type]
+
+      defmodule Monetary do
+        @moduledoc false
+
+        @typedoc """
+        * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
+        * `value` - A positive integer representing the amount.
+        """
+        @type t :: %__MODULE__{
+                currency: String.t() | nil,
+                value: integer() | nil
+              }
+        defstruct [:currency, :value]
+      end
+
+      def __inner_types__ do
+        %{
+          "monetary" => __MODULE__.Monetary
+        }
+      end
+    end
+
+    defmodule CreditsApplied do
+      @moduledoc false
+
+      @typedoc """
+      * `invoice` - The invoice to which the billing credits were applied.
+      * `invoice_line_item` - The invoice line item to which the billing credits were applied. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              invoice: String.t() | map() | nil,
+              invoice_line_item: String.t() | nil
+            }
+      defstruct [:invoice, :invoice_line_item]
+    end
+
+    def __inner_types__ do
+      %{
+        "amount" => __MODULE__.Amount,
+        "credits_applied" => __MODULE__.CreditsApplied
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "credit" => __MODULE__.Credit,
+      "debit" => __MODULE__.Debit
+    }
+  end
 end

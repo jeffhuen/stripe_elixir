@@ -8,7 +8,7 @@ defmodule Stripe.Resources.StatusDetails do
   * `closed` - Details related to the closure of this FinancialAccount Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          closed: String.t() | map()
+          closed: map()
         }
 
   defstruct [:closed]
@@ -17,4 +17,10 @@ defmodule Stripe.Resources.StatusDetails do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["closed"]
+
+  def __inner_types__ do
+    %{
+      "closed" => Stripe.Resources.Closed
+    }
+  end
 end

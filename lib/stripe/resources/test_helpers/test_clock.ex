@@ -47,4 +47,40 @@ defmodule Stripe.Resources.TestHelpers.TestClock do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["status_details"]
+
+  defmodule StatusDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `advancing`
+    """
+    @type t :: %__MODULE__{
+            advancing: map() | nil
+          }
+    defstruct [:advancing]
+
+    defmodule Advancing do
+      @moduledoc false
+
+      @typedoc """
+      * `target_frozen_time` - The `frozen_time` that the Test Clock is advancing towards. Format: Unix timestamp.
+      """
+      @type t :: %__MODULE__{
+              target_frozen_time: integer() | nil
+            }
+      defstruct [:target_frozen_time]
+    end
+
+    def __inner_types__ do
+      %{
+        "advancing" => __MODULE__.Advancing
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "status_details" => __MODULE__.StatusDetails
+    }
+  end
 end

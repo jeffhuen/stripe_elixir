@@ -11,8 +11,8 @@ defmodule Stripe.Resources.OutboundPayments do
   * `us_domestic_wire` - Expandable.
   """
   @type t :: %__MODULE__{
-          ach: String.t() | map() | nil,
-          us_domestic_wire: String.t() | map() | nil
+          ach: map() | nil,
+          us_domestic_wire: map() | nil
         }
 
   defstruct [:ach, :us_domestic_wire]
@@ -21,4 +21,11 @@ defmodule Stripe.Resources.OutboundPayments do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["ach", "us_domestic_wire"]
+
+  def __inner_types__ do
+    %{
+      "ach" => Stripe.Resources.OutboundAchToggleSettings,
+      "us_domestic_wire" => Stripe.Resources.ToggleSettings
+    }
+  end
 end

@@ -54,7 +54,7 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
           returned_details: map(),
           statement_descriptor: String.t(),
           status: String.t(),
-          status_transitions: String.t() | map(),
+          status_transitions: map(),
           tracking_details: map(),
           transaction: String.t() | map()
         }
@@ -96,4 +96,111 @@ defmodule Stripe.Resources.Treasury.OutboundPayment do
       "tracking_details",
       "transaction"
     ]
+
+  defmodule DestinationPaymentMethodDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `billing_details`
+    * `financial_account`
+    * `type` - The type of the payment method used in the OutboundPayment. Possible values: `financial_account`, `us_bank_account`.
+    * `us_bank_account`
+    """
+    @type t :: %__MODULE__{
+            billing_details: map() | nil,
+            financial_account: map() | nil,
+            type: String.t() | nil,
+            us_bank_account: map() | nil
+          }
+    defstruct [:billing_details, :financial_account, :type, :us_bank_account]
+  end
+
+  defmodule EndUserDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `ip_address` - IP address of the user initiating the OutboundPayment. Set if `present` is set to `true`. IP address collection is required for risk and compliance reasons. This will be used to help determine if the OutboundPayment is authorized or should be blocked. Max length: 5000. Nullable.
+    * `present` - `true` if the OutboundPayment creation request is being made on behalf of an end user by a platform. Otherwise, `false`.
+    """
+    @type t :: %__MODULE__{
+            ip_address: String.t() | nil,
+            present: boolean() | nil
+          }
+    defstruct [:ip_address, :present]
+  end
+
+  defmodule ReturnedDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `code` - Reason for the return. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `declined`, `incorrect_account_holder_name`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
+    * `transaction` - The Transaction associated with this object.
+    """
+    @type t :: %__MODULE__{
+            code: String.t() | nil,
+            transaction: String.t() | map() | nil
+          }
+    defstruct [:code, :transaction]
+  end
+
+  defmodule TrackingDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `ach`
+    * `type` - The US bank account network used to send funds. Possible values: `ach`, `us_domestic_wire`.
+    * `us_domestic_wire`
+    """
+    @type t :: %__MODULE__{
+            ach: map() | nil,
+            type: String.t() | nil,
+            us_domestic_wire: map() | nil
+          }
+    defstruct [:ach, :type, :us_domestic_wire]
+
+    defmodule Ach do
+      @moduledoc false
+
+      @typedoc """
+      * `trace_id` - ACH trace ID of the OutboundPayment for payments sent over the `ach` network. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              trace_id: String.t() | nil
+            }
+      defstruct [:trace_id]
+    end
+
+    defmodule UsDomesticWire do
+      @moduledoc false
+
+      @typedoc """
+      * `chips` - CHIPS System Sequence Number (SSN) of the OutboundPayment for payments sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+      * `imad` - IMAD of the OutboundPayment for payments sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+      * `omad` - OMAD of the OutboundPayment for payments sent over the `us_domestic_wire` network. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              chips: String.t() | nil,
+              imad: String.t() | nil,
+              omad: String.t() | nil
+            }
+      defstruct [:chips, :imad, :omad]
+    end
+
+    def __inner_types__ do
+      %{
+        "ach" => __MODULE__.Ach,
+        "us_domestic_wire" => __MODULE__.UsDomesticWire
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "destination_payment_method_details" => __MODULE__.DestinationPaymentMethodDetails,
+      "end_user_details" => __MODULE__.EndUserDetails,
+      "returned_details" => __MODULE__.ReturnedDetails,
+      "status_transitions" => Stripe.Resources.StatusTransitions,
+      "tracking_details" => __MODULE__.TrackingDetails
+    }
+  end
 end

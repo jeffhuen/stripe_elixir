@@ -87,4 +87,281 @@ defmodule Stripe.Resources.InvoiceLineItem do
       "subscription",
       "taxes"
     ]
+
+  defmodule DiscountAmounts do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount, in cents (or local equivalent), of the discount.
+    * `discount` - The discount that was applied to get this discount amount.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            discount: map() | nil
+          }
+    defstruct [:amount, :discount]
+  end
+
+  defmodule Parent do
+    @moduledoc false
+
+    @typedoc """
+    * `invoice_item_details` - Details about the invoice item that generated this line item Nullable.
+    * `subscription_item_details` - Details about the subscription item that generated this line item Nullable.
+    * `type` - The type of parent that generated this line item Possible values: `invoice_item_details`, `subscription_item_details`.
+    """
+    @type t :: %__MODULE__{
+            invoice_item_details: map() | nil,
+            subscription_item_details: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:invoice_item_details, :subscription_item_details, :type]
+
+    defmodule InvoiceItemDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `invoice_item` - The invoice item that generated this line item Max length: 5000.
+      * `proration` - Whether this is a proration
+      * `proration_details` - Additional details for proration line items Nullable.
+      * `subscription` - The subscription that the invoice item belongs to Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              invoice_item: String.t() | nil,
+              proration: boolean() | nil,
+              proration_details: map() | nil,
+              subscription: String.t() | nil
+            }
+      defstruct [:invoice_item, :proration, :proration_details, :subscription]
+
+      defmodule ProrationDetails do
+        @moduledoc false
+
+        @typedoc """
+        * `credited_items` - For a credit proration `line_item`, the original debit line_items to which the credit proration applies. Nullable.
+        """
+        @type t :: %__MODULE__{
+                credited_items: map() | nil
+              }
+        defstruct [:credited_items]
+
+        defmodule CreditedItems do
+          @moduledoc false
+
+          @typedoc """
+          * `invoice` - Invoice containing the credited invoice line items Max length: 5000.
+          * `invoice_line_items` - Credited invoice line items
+          """
+          @type t :: %__MODULE__{
+                  invoice: String.t() | nil,
+                  invoice_line_items: [String.t()] | nil
+                }
+          defstruct [:invoice, :invoice_line_items]
+        end
+
+        def __inner_types__ do
+          %{
+            "credited_items" => __MODULE__.CreditedItems
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "proration_details" => __MODULE__.ProrationDetails
+        }
+      end
+    end
+
+    defmodule SubscriptionItemDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `invoice_item` - The invoice item that generated this line item Max length: 5000. Nullable.
+      * `proration` - Whether this is a proration
+      * `proration_details` - Additional details for proration line items Nullable.
+      * `subscription` - The subscription that the subscription item belongs to Max length: 5000. Nullable.
+      * `subscription_item` - The subscription item that generated this line item Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              invoice_item: String.t() | nil,
+              proration: boolean() | nil,
+              proration_details: map() | nil,
+              subscription: String.t() | nil,
+              subscription_item: String.t() | nil
+            }
+      defstruct [:invoice_item, :proration, :proration_details, :subscription, :subscription_item]
+
+      defmodule ProrationDetails do
+        @moduledoc false
+
+        @typedoc """
+        * `credited_items` - For a credit proration `line_item`, the original debit line_items to which the credit proration applies. Nullable.
+        """
+        @type t :: %__MODULE__{
+                credited_items: map() | nil
+              }
+        defstruct [:credited_items]
+
+        defmodule CreditedItems do
+          @moduledoc false
+
+          @typedoc """
+          * `invoice` - Invoice containing the credited invoice line items Max length: 5000.
+          * `invoice_line_items` - Credited invoice line items
+          """
+          @type t :: %__MODULE__{
+                  invoice: String.t() | nil,
+                  invoice_line_items: [String.t()] | nil
+                }
+          defstruct [:invoice, :invoice_line_items]
+        end
+
+        def __inner_types__ do
+          %{
+            "credited_items" => __MODULE__.CreditedItems
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "proration_details" => __MODULE__.ProrationDetails
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "invoice_item_details" => __MODULE__.InvoiceItemDetails,
+        "subscription_item_details" => __MODULE__.SubscriptionItemDetails
+      }
+    end
+  end
+
+  defmodule Period do
+    @moduledoc false
+
+    @typedoc """
+    * `end` - The end of the period, which must be greater than or equal to the start. This value is inclusive. Format: Unix timestamp.
+    * `start` - The start of the period. This value is inclusive. Format: Unix timestamp.
+    """
+    @type t :: %__MODULE__{
+            end: integer() | nil,
+            start: integer() | nil
+          }
+    defstruct [:end, :start]
+  end
+
+  defmodule PretaxCreditAmounts do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount, in cents (or local equivalent), of the pretax credit amount.
+    * `credit_balance_transaction` - The credit balance transaction that was applied to get this pretax credit amount. Nullable.
+    * `discount` - The discount that was applied to get this pretax credit amount.
+    * `type` - Type of the pretax credit amount referenced. Possible values: `credit_balance_transaction`, `discount`.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            credit_balance_transaction: String.t() | map() | nil,
+            discount: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:amount, :credit_balance_transaction, :discount, :type]
+  end
+
+  defmodule Pricing do
+    @moduledoc false
+
+    @typedoc """
+    * `price_details`
+    * `type` - The type of the pricing details. Possible values: `price_details`.
+    * `unit_amount_decimal` - The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+    """
+    @type t :: %__MODULE__{
+            price_details: map() | nil,
+            type: String.t() | nil,
+            unit_amount_decimal: String.t() | nil
+          }
+    defstruct [:price_details, :type, :unit_amount_decimal]
+
+    defmodule PriceDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `price` - The ID of the price this item is associated with.
+      * `product` - The ID of the product this item is associated with. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              price: String.t() | map() | nil,
+              product: String.t() | nil
+            }
+      defstruct [:price, :product]
+    end
+
+    def __inner_types__ do
+      %{
+        "price_details" => __MODULE__.PriceDetails
+      }
+    end
+  end
+
+  defmodule Taxes do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount of the tax, in cents (or local equivalent).
+    * `tax_behavior` - Whether this tax is inclusive or exclusive. Possible values: `exclusive`, `inclusive`.
+    * `tax_rate_details` - Additional details about the tax rate. Only present when `type` is `tax_rate_details`. Nullable.
+    * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_available`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`.
+    * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
+    * `type` - The type of tax information. Possible values: `tax_rate_details`.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            tax_behavior: String.t() | nil,
+            tax_rate_details: map() | nil,
+            taxability_reason: String.t() | nil,
+            taxable_amount: integer() | nil,
+            type: String.t() | nil
+          }
+    defstruct [
+      :amount,
+      :tax_behavior,
+      :tax_rate_details,
+      :taxability_reason,
+      :taxable_amount,
+      :type
+    ]
+
+    defmodule TaxRateDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `tax_rate` - ID of the tax rate Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              tax_rate: String.t() | nil
+            }
+      defstruct [:tax_rate]
+    end
+
+    def __inner_types__ do
+      %{
+        "tax_rate_details" => __MODULE__.TaxRateDetails
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "discount_amounts" => __MODULE__.DiscountAmounts,
+      "parent" => __MODULE__.Parent,
+      "period" => __MODULE__.Period,
+      "pretax_credit_amounts" => __MODULE__.PretaxCreditAmounts,
+      "pricing" => __MODULE__.Pricing,
+      "taxes" => __MODULE__.Taxes
+    }
+  end
 end

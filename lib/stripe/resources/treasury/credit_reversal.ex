@@ -60,4 +60,22 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["status_transitions", "transaction"]
+
+  defmodule StatusTransitions do
+    @moduledoc false
+
+    @typedoc """
+    * `posted_at` - Timestamp describing when the CreditReversal changed status to `posted` Format: Unix timestamp. Nullable.
+    """
+    @type t :: %__MODULE__{
+            posted_at: integer() | nil
+          }
+    defstruct [:posted_at]
+  end
+
+  def __inner_types__ do
+    %{
+      "status_transitions" => __MODULE__.StatusTransitions
+    }
+  end
 end

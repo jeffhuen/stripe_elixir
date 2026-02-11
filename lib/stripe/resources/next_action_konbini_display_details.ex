@@ -12,7 +12,7 @@ defmodule Stripe.Resources.NextActionKonbiniDisplayDetails do
   @type t :: %__MODULE__{
           expires_at: integer(),
           hosted_voucher_url: String.t(),
-          stores: String.t() | map()
+          stores: map()
         }
 
   defstruct [:expires_at, :hosted_voucher_url, :stores]
@@ -21,4 +21,10 @@ defmodule Stripe.Resources.NextActionKonbiniDisplayDetails do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["stores"]
+
+  def __inner_types__ do
+    %{
+      "stores" => Stripe.Resources.Stores
+    }
+  end
 end

@@ -10,7 +10,7 @@ defmodule Stripe.Resources.InboundTransfers do
   * `ach` - Expandable.
   """
   @type t :: %__MODULE__{
-          ach: String.t() | map() | nil
+          ach: map() | nil
         }
 
   defstruct [:ach]
@@ -19,4 +19,10 @@ defmodule Stripe.Resources.InboundTransfers do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["ach"]
+
+  def __inner_types__ do
+    %{
+      "ach" => Stripe.Resources.InboundAchToggleSettings
+    }
+  end
 end

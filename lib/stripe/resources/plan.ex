@@ -85,4 +85,45 @@ defmodule Stripe.Resources.Plan do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["product", "tiers", "transform_usage"]
+
+  defmodule Tiers do
+    @moduledoc false
+
+    @typedoc """
+    * `flat_amount` - Price for the entire tier. Nullable.
+    * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+    * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
+    * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+    * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
+    """
+    @type t :: %__MODULE__{
+            flat_amount: integer() | nil,
+            flat_amount_decimal: String.t() | nil,
+            unit_amount: integer() | nil,
+            unit_amount_decimal: String.t() | nil,
+            up_to: integer() | nil
+          }
+    defstruct [:flat_amount, :flat_amount_decimal, :unit_amount, :unit_amount_decimal, :up_to]
+  end
+
+  defmodule TransformUsage do
+    @moduledoc false
+
+    @typedoc """
+    * `divide_by` - Divide usage by this number.
+    * `round` - After division, either round the result `up` or `down`. Possible values: `down`, `up`.
+    """
+    @type t :: %__MODULE__{
+            divide_by: integer() | nil,
+            round: String.t() | nil
+          }
+    defstruct [:divide_by, :round]
+  end
+
+  def __inner_types__ do
+    %{
+      "tiers" => __MODULE__.Tiers,
+      "transform_usage" => __MODULE__.TransformUsage
+    }
+  end
 end

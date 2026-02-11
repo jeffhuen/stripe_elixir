@@ -31,4 +31,26 @@ defmodule Stripe.Resources.Issuing.PhysicalBundle do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["features"]
+
+  defmodule Features do
+    @moduledoc false
+
+    @typedoc """
+    * `card_logo` - The policy for how to use card logo images in a card design with this physical bundle. Possible values: `optional`, `required`, `unsupported`.
+    * `carrier_text` - The policy for how to use carrier letter text in a card design with this physical bundle. Possible values: `optional`, `required`, `unsupported`.
+    * `second_line` - The policy for how to use a second line on a card with this physical bundle. Possible values: `optional`, `required`, `unsupported`.
+    """
+    @type t :: %__MODULE__{
+            card_logo: String.t() | nil,
+            carrier_text: String.t() | nil,
+            second_line: String.t() | nil
+          }
+    defstruct [:card_logo, :carrier_text, :second_line]
+  end
+
+  def __inner_types__ do
+    %{
+      "features" => __MODULE__.Features
+    }
+  end
 end

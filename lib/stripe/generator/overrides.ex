@@ -180,6 +180,26 @@ defmodule Stripe.Generator.Overrides do
 
   def params_overrides, do: @params_overrides
 
+  # ---------------------------------------------------------------------------
+  # Field overrides: add or replace properties on a resource.
+  #
+  # Key: schema_id (e.g. "charge")
+  # Value: %{ field_name => %{type: ..., description: ..., ...} }
+  # ---------------------------------------------------------------------------
+  @field_overrides %{
+    "charge" => %{
+      "invoice" => %{
+        type: {:expandable_ref, "invoice"},
+        description: "ID of the invoice this charge is for if one exists.",
+        nullable: true,
+        reason: "Spec omits invoice on Charge; API returns it. Ruby handles via method_missing.",
+        ruby: "charge.rb"
+      }
+    }
+  }
+
+  def field_overrides, do: @field_overrides
+
   # Schemas to skip entirely.
   @skip_schemas MapSet.new([])
 

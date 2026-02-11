@@ -12,7 +12,7 @@ defmodule Stripe.Resources.CashappHandleRedirectOrDisplayQrCode do
   @type t :: %__MODULE__{
           hosted_instructions_url: String.t(),
           mobile_auth_url: String.t(),
-          qr_code: String.t() | map()
+          qr_code: map()
         }
 
   defstruct [:hosted_instructions_url, :mobile_auth_url, :qr_code]
@@ -21,4 +21,10 @@ defmodule Stripe.Resources.CashappHandleRedirectOrDisplayQrCode do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["qr_code"]
+
+  def __inner_types__ do
+    %{
+      "qr_code" => Stripe.Resources.CashappQrCode
+    }
+  end
 end

@@ -71,4 +71,95 @@ defmodule Stripe.Resources.Billing.CreditGrant do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["amount", "applicability_config", "customer", "test_clock"]
+
+  defmodule Amount do
+    @moduledoc false
+
+    @typedoc """
+    * `monetary` - The monetary amount. Nullable.
+    * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
+    """
+    @type t :: %__MODULE__{
+            monetary: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:monetary, :type]
+
+    defmodule Monetary do
+      @moduledoc false
+
+      @typedoc """
+      * `currency` - Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Max length: 5000.
+      * `value` - A positive integer representing the amount.
+      """
+      @type t :: %__MODULE__{
+              currency: String.t() | nil,
+              value: integer() | nil
+            }
+      defstruct [:currency, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "monetary" => __MODULE__.Monetary
+      }
+    end
+  end
+
+  defmodule ApplicabilityConfig do
+    @moduledoc false
+
+    @typedoc """
+    * `scope`
+    """
+    @type t :: %__MODULE__{
+            scope: map() | nil
+          }
+    defstruct [:scope]
+
+    defmodule Scope do
+      @moduledoc false
+
+      @typedoc """
+      * `price_type` - The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`. Possible values: `metered`.
+      * `prices` - The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
+      """
+      @type t :: %__MODULE__{
+              price_type: String.t() | nil,
+              prices: [map()] | nil
+            }
+      defstruct [:price_type, :prices]
+
+      defmodule Prices do
+        @moduledoc false
+
+        @typedoc """
+        * `id` - Unique identifier for the object. Max length: 5000. Nullable.
+        """
+        @type t :: %__MODULE__{
+                id: String.t() | nil
+              }
+        defstruct [:id]
+      end
+
+      def __inner_types__ do
+        %{
+          "prices" => __MODULE__.Prices
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "scope" => __MODULE__.Scope
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "amount" => __MODULE__.Amount,
+      "applicability_config" => __MODULE__.ApplicabilityConfig
+    }
+  end
 end

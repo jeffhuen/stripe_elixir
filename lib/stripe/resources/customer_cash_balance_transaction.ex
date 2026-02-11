@@ -28,7 +28,7 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
   * `unapplied_from_payment` - Expandable.
   """
   @type t :: %__MODULE__{
-          adjusted_for_overdraft: String.t() | map() | nil,
+          adjusted_for_overdraft: map() | nil,
           applied_to_payment: map() | nil,
           created: integer(),
           currency: String.t(),
@@ -40,10 +40,10 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
           livemode: boolean(),
           net_amount: integer(),
           object: String.t(),
-          refunded_from_payment: String.t() | map() | nil,
-          transferred_to_balance: String.t() | map() | nil,
+          refunded_from_payment: map() | nil,
+          transferred_to_balance: map() | nil,
           type: String.t(),
-          unapplied_from_payment: String.t() | map() | nil
+          unapplied_from_payment: map() | nil
         }
 
   defstruct [
@@ -78,4 +78,145 @@ defmodule Stripe.Resources.CustomerCashBalanceTransaction do
       "transferred_to_balance",
       "unapplied_from_payment"
     ]
+
+  defmodule AppliedToPayment do
+    @moduledoc false
+
+    @typedoc """
+    * `payment_intent` - The [Payment Intent](https://docs.stripe.com/api/payment_intents/object) that funds were applied to.
+    """
+    @type t :: %__MODULE__{
+            payment_intent: String.t() | map() | nil
+          }
+    defstruct [:payment_intent]
+  end
+
+  defmodule Funded do
+    @moduledoc false
+
+    @typedoc """
+    * `bank_transfer`
+    """
+    @type t :: %__MODULE__{
+            bank_transfer: map() | nil
+          }
+    defstruct [:bank_transfer]
+
+    defmodule BankTransfer do
+      @moduledoc false
+
+      @typedoc """
+      * `eu_bank_transfer`
+      * `gb_bank_transfer`
+      * `jp_bank_transfer`
+      * `reference` - The user-supplied reference field on the bank transfer. Max length: 5000. Nullable.
+      * `type` - The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`. Possible values: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, `us_bank_transfer`.
+      * `us_bank_transfer`
+      """
+      @type t :: %__MODULE__{
+              eu_bank_transfer: map() | nil,
+              gb_bank_transfer: map() | nil,
+              jp_bank_transfer: map() | nil,
+              reference: String.t() | nil,
+              type: String.t() | nil,
+              us_bank_transfer: map() | nil
+            }
+      defstruct [
+        :eu_bank_transfer,
+        :gb_bank_transfer,
+        :jp_bank_transfer,
+        :reference,
+        :type,
+        :us_bank_transfer
+      ]
+
+      defmodule EuBankTransfer do
+        @moduledoc false
+
+        @typedoc """
+        * `bic` - The BIC of the bank of the sender of the funding. Max length: 5000. Nullable.
+        * `iban_last4` - The last 4 digits of the IBAN of the sender of the funding. Max length: 5000. Nullable.
+        * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
+        """
+        @type t :: %__MODULE__{
+                bic: String.t() | nil,
+                iban_last4: String.t() | nil,
+                sender_name: String.t() | nil
+              }
+        defstruct [:bic, :iban_last4, :sender_name]
+      end
+
+      defmodule GbBankTransfer do
+        @moduledoc false
+
+        @typedoc """
+        * `account_number_last4` - The last 4 digits of the account number of the sender of the funding. Max length: 5000. Nullable.
+        * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
+        * `sort_code` - The sort code of the bank of the sender of the funding Max length: 5000. Nullable.
+        """
+        @type t :: %__MODULE__{
+                account_number_last4: String.t() | nil,
+                sender_name: String.t() | nil,
+                sort_code: String.t() | nil
+              }
+        defstruct [:account_number_last4, :sender_name, :sort_code]
+      end
+
+      defmodule JpBankTransfer do
+        @moduledoc false
+
+        @typedoc """
+        * `sender_bank` - The name of the bank of the sender of the funding. Max length: 5000. Nullable.
+        * `sender_branch` - The name of the bank branch of the sender of the funding. Max length: 5000. Nullable.
+        * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
+        """
+        @type t :: %__MODULE__{
+                sender_bank: String.t() | nil,
+                sender_branch: String.t() | nil,
+                sender_name: String.t() | nil
+              }
+        defstruct [:sender_bank, :sender_branch, :sender_name]
+      end
+
+      defmodule UsBankTransfer do
+        @moduledoc false
+
+        @typedoc """
+        * `network` - The banking network used for this funding. Possible values: `ach`, `domestic_wire_us`, `swift`.
+        * `sender_name` - The full name of the sender, as supplied by the sending bank. Max length: 5000. Nullable.
+        """
+        @type t :: %__MODULE__{
+                network: String.t() | nil,
+                sender_name: String.t() | nil
+              }
+        defstruct [:network, :sender_name]
+      end
+
+      def __inner_types__ do
+        %{
+          "eu_bank_transfer" => __MODULE__.EuBankTransfer,
+          "gb_bank_transfer" => __MODULE__.GbBankTransfer,
+          "jp_bank_transfer" => __MODULE__.JpBankTransfer,
+          "us_bank_transfer" => __MODULE__.UsBankTransfer
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "bank_transfer" => __MODULE__.BankTransfer
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "adjusted_for_overdraft" => Stripe.Resources.AdjustedForOverdraft,
+      "applied_to_payment" => __MODULE__.AppliedToPayment,
+      "funded" => __MODULE__.Funded,
+      "refunded_from_payment" => Stripe.Resources.RefundedFromPayment,
+      "transferred_to_balance" => Stripe.Resources.TransferredToBalance,
+      "unapplied_from_payment" => Stripe.Resources.UnappliedFromPayment
+    }
+  end
 end

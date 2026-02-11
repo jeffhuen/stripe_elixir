@@ -70,4 +70,120 @@ defmodule Stripe.Resources.SourceTransaction do
       "paper_check",
       "sepa_credit_transfer"
     ]
+
+  defmodule AchCreditTransfer do
+    @moduledoc false
+
+    @typedoc """
+    * `customer_data` - Customer data associated with the transfer. Max length: 5000.
+    * `fingerprint` - Bank account fingerprint associated with the transfer. Max length: 5000.
+    * `last4` - Last 4 digits of the account number associated with the transfer. Max length: 5000.
+    * `routing_number` - Routing number associated with the transfer. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            customer_data: String.t() | nil,
+            fingerprint: String.t() | nil,
+            last4: String.t() | nil,
+            routing_number: String.t() | nil
+          }
+    defstruct [:customer_data, :fingerprint, :last4, :routing_number]
+  end
+
+  defmodule ChfCreditTransfer do
+    @moduledoc false
+
+    @typedoc """
+    * `reference` - Reference associated with the transfer. Max length: 5000.
+    * `sender_address_country` - Sender's country address. Max length: 5000.
+    * `sender_address_line1` - Sender's line 1 address. Max length: 5000.
+    * `sender_iban` - Sender's bank account IBAN. Max length: 5000.
+    * `sender_name` - Sender's name. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            reference: String.t() | nil,
+            sender_address_country: String.t() | nil,
+            sender_address_line1: String.t() | nil,
+            sender_iban: String.t() | nil,
+            sender_name: String.t() | nil
+          }
+    defstruct [
+      :reference,
+      :sender_address_country,
+      :sender_address_line1,
+      :sender_iban,
+      :sender_name
+    ]
+  end
+
+  defmodule GbpCreditTransfer do
+    @moduledoc false
+
+    @typedoc """
+    * `fingerprint` - Bank account fingerprint associated with the Stripe owned bank account receiving the transfer. Max length: 5000.
+    * `funding_method` - The credit transfer rails the sender used to push this transfer. The possible rails are: Faster Payments, BACS, CHAPS, and wire transfers. Currently only Faster Payments is supported. Max length: 5000.
+    * `last4` - Last 4 digits of sender account number associated with the transfer. Max length: 5000.
+    * `reference` - Sender entered arbitrary information about the transfer. Max length: 5000.
+    * `sender_account_number` - Sender account number associated with the transfer. Max length: 5000.
+    * `sender_name` - Sender name associated with the transfer. Max length: 5000.
+    * `sender_sort_code` - Sender sort code associated with the transfer. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            fingerprint: String.t() | nil,
+            funding_method: String.t() | nil,
+            last4: String.t() | nil,
+            reference: String.t() | nil,
+            sender_account_number: String.t() | nil,
+            sender_name: String.t() | nil,
+            sender_sort_code: String.t() | nil
+          }
+    defstruct [
+      :fingerprint,
+      :funding_method,
+      :last4,
+      :reference,
+      :sender_account_number,
+      :sender_name,
+      :sender_sort_code
+    ]
+  end
+
+  defmodule PaperCheck do
+    @moduledoc false
+
+    @typedoc """
+    * `available_at` - Time at which the deposited funds will be available for use. Measured in seconds since the Unix epoch. Max length: 5000.
+    * `invoices` - Comma-separated list of invoice IDs associated with the paper check. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            available_at: String.t() | nil,
+            invoices: String.t() | nil
+          }
+    defstruct [:available_at, :invoices]
+  end
+
+  defmodule SepaCreditTransfer do
+    @moduledoc false
+
+    @typedoc """
+    * `reference` - Reference associated with the transfer. Max length: 5000.
+    * `sender_iban` - Sender's bank account IBAN. Max length: 5000.
+    * `sender_name` - Sender's name. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            reference: String.t() | nil,
+            sender_iban: String.t() | nil,
+            sender_name: String.t() | nil
+          }
+    defstruct [:reference, :sender_iban, :sender_name]
+  end
+
+  def __inner_types__ do
+    %{
+      "ach_credit_transfer" => __MODULE__.AchCreditTransfer,
+      "chf_credit_transfer" => __MODULE__.ChfCreditTransfer,
+      "gbp_credit_transfer" => __MODULE__.GbpCreditTransfer,
+      "paper_check" => __MODULE__.PaperCheck,
+      "sepa_credit_transfer" => __MODULE__.SepaCreditTransfer
+    }
+  end
 end

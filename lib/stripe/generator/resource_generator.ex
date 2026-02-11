@@ -56,13 +56,28 @@ defmodule Stripe.Generator.ResourceGenerator do
 
     inner_type_blocks = generate_inner_types(resource.inner_types, "  ")
 
+    # Build __inner_types__ from BOTH inner types (nested modules) and resource inner refs
+    inner_entries =
+      resource.inner_types
+      |> Enum.sort_by(fn {name, _} -> name end)
+      |> Enum.map(fn {name, inner} -> {name, "__MODULE__.#{inner.class_name}"} end)
+
+    resource_ref_entries =
+      (resource[:resource_inner_refs] || %{})
+      |> Enum.sort_by(fn {name, _} -> name end)
+      |> Enum.map(fn {name, meta} ->
+        mod = Naming.resource_module(meta.class_name, meta.package)
+        {name, inspect(mod)}
+      end)
+
+    all_inner_entries = Enum.sort_by(inner_entries ++ resource_ref_entries, &elem(&1, 0))
+
     inner_types_fn =
-      if map_size(resource.inner_types) > 0 do
+      if all_inner_entries != [] do
         entries =
-          resource.inner_types
-          |> Enum.sort_by(fn {name, _} -> name end)
-          |> Enum.map_join(",\n", fn {name, inner} ->
-            ~s(    "#{name}" => __MODULE__.#{inner.class_name})
+          all_inner_entries
+          |> Enum.map_join(",\n", fn {name, mod_str} ->
+            ~s(    "#{name}" => #{mod_str})
           end)
 
         """
@@ -139,7 +154,29 @@ defmodule Stripe.Generator.ResourceGenerator do
         "#{indent}        #{p.name}: #{type_str} | nil"
       end)
 
-    nested_blocks = generate_inner_types(inner[:inner_types] || inner.inner_types, indent <> "  ")
+    inner_inner_types = inner[:inner_types] || inner.inner_types
+    nested_blocks = generate_inner_types(inner_inner_types, indent <> "  ")
+
+    inner_types_fn_block =
+      if is_map(inner_inner_types) and map_size(inner_inner_types) > 0 do
+        entries =
+          inner_inner_types
+          |> Enum.sort_by(fn {name, _} -> name end)
+          |> Enum.map_join(",\n", fn {name, nested} ->
+            ~s(#{indent}    "#{name}" => __MODULE__.#{nested.class_name})
+          end)
+
+        """
+
+        #{indent}  def __inner_types__ do
+        #{indent}    %{
+        #{entries}
+        #{indent}    }
+        #{indent}  end
+        """
+      else
+        ""
+      end
 
     typedoc =
       case DocFormatter.build_typedoc_table(props) do
@@ -156,24 +193,17 @@ defmodule Stripe.Generator.ResourceGenerator do
     #{type_fields}
     #{indent}    }
     #{indent}  defstruct [#{struct_fields}]
-    #{nested_blocks}#{indent}end
+    #{nested_blocks}#{inner_types_fn_block}#{indent}end
     """
   end
 
   # -- Type specs -------------------------------------------------------------
 
-  defp type_to_typespec({:ref, ref_name}, field_name, resource, resource_ids) do
-    if MapSet.member?(resource_ids, ref_name) do
-      # Expandable field check
-      if field_name in resource.expandable_fields do
-        "String.t() | map()"
-      else
-        "map()"
-      end
-    else
-      "map()"
-    end
+  defp type_to_typespec({:expandable_ref, ref_name}, _field_name, _resource, resource_ids) do
+    if MapSet.member?(resource_ids, ref_name), do: "String.t() | map()", else: "map()"
   end
+
+  defp type_to_typespec({:ref, _ref_name}, _field_name, _resource, _resource_ids), do: "map()"
 
   defp type_to_typespec({:list, inner}, field_name, resource, resource_ids) do
     inner_spec = type_to_typespec(inner, field_name, resource, resource_ids)
@@ -200,6 +230,7 @@ defmodule Stripe.Generator.ResourceGenerator do
   defp simple_typespec({:list, inner}), do: "[#{simple_typespec(inner)}]"
   defp simple_typespec({:nullable, inner}), do: simple_typespec(inner)
   defp simple_typespec({:ref, _}), do: "map()"
+  defp simple_typespec({:expandable_ref, _}), do: "String.t() | map()"
   defp simple_typespec({:inner, _}), do: "map()"
   defp simple_typespec(_), do: "term()"
 end

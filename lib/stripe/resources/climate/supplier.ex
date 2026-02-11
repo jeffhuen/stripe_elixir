@@ -31,4 +31,30 @@ defmodule Stripe.Resources.Climate.Supplier do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["locations"]
+
+  defmodule Locations do
+    @moduledoc false
+
+    @typedoc """
+    * `city` - The city where the supplier is located. Max length: 5000. Nullable.
+    * `country` - Two-letter ISO code representing the country where the supplier is located. Max length: 5000.
+    * `latitude` - The geographic latitude where the supplier is located. Nullable.
+    * `longitude` - The geographic longitude where the supplier is located. Nullable.
+    * `region` - The state/county/province/region where the supplier is located. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            city: String.t() | nil,
+            country: String.t() | nil,
+            latitude: float() | nil,
+            longitude: float() | nil,
+            region: String.t() | nil
+          }
+    defstruct [:city, :country, :latitude, :longitude, :region]
+  end
+
+  def __inner_types__ do
+    %{
+      "locations" => __MODULE__.Locations
+    }
+  end
 end

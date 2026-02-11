@@ -47,17 +47,17 @@ defmodule Stripe.Resources.Customer do
   * `test_clock` - ID of the test clock that this customer belongs to. Nullable. Expandable.
   """
   @type t :: %__MODULE__{
-          address: String.t() | map() | nil,
+          address: map() | nil,
           balance: integer() | nil,
           business_name: String.t() | nil,
-          cash_balance: String.t() | map() | nil,
+          cash_balance: map() | nil,
           created: integer(),
           currency: String.t() | nil,
           customer_account: String.t() | nil,
           default_source: String.t() | map(),
           delinquent: boolean() | nil,
           description: String.t(),
-          discount: String.t() | map() | nil,
+          discount: map() | nil,
           email: String.t(),
           id: String.t(),
           individual_name: String.t() | nil,
@@ -71,7 +71,7 @@ defmodule Stripe.Resources.Customer do
           object: String.t(),
           phone: String.t() | nil,
           preferred_locales: [String.t()] | nil,
-          shipping: String.t() | map(),
+          shipping: map(),
           sources: map() | nil,
           subscriptions: map() | nil,
           tax: map() | nil,
@@ -132,6 +132,59 @@ defmodule Stripe.Resources.Customer do
       "test_clock"
     ]
 
+  defmodule InvoiceSettings do
+    @moduledoc false
+
+    @typedoc """
+    * `custom_fields` - Default custom fields to be displayed on invoices for this customer. Nullable.
+    * `default_payment_method` - ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices. Nullable.
+    * `footer` - Default footer to be displayed on invoices for this customer. Max length: 5000. Nullable.
+    * `rendering_options` - Default options for invoice PDF rendering for this customer. Nullable.
+    """
+    @type t :: %__MODULE__{
+            custom_fields: [map()] | nil,
+            default_payment_method: String.t() | map() | nil,
+            footer: String.t() | nil,
+            rendering_options: map() | nil
+          }
+    defstruct [:custom_fields, :default_payment_method, :footer, :rendering_options]
+
+    defmodule CustomFields do
+      @moduledoc false
+
+      @typedoc """
+      * `name` - The name of the custom field. Max length: 5000.
+      * `value` - The value of the custom field. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              name: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:name, :value]
+    end
+
+    defmodule RenderingOptions do
+      @moduledoc false
+
+      @typedoc """
+      * `amount_tax_display` - How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. Max length: 5000. Nullable.
+      * `template` - ID of the invoice rendering template to be used for this customer's invoices. If set, the template will be used on all invoices for this customer unless a template is set directly on the invoice. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              amount_tax_display: String.t() | nil,
+              template: String.t() | nil
+            }
+      defstruct [:amount_tax_display, :template]
+    end
+
+    def __inner_types__ do
+      %{
+        "custom_fields" => __MODULE__.CustomFields,
+        "rendering_options" => __MODULE__.RenderingOptions
+      }
+    end
+  end
+
   defmodule Sources do
     @moduledoc false
 
@@ -168,6 +221,46 @@ defmodule Stripe.Resources.Customer do
     defstruct [:data, :has_more, :object, :url]
   end
 
+  defmodule Tax do
+    @moduledoc false
+
+    @typedoc """
+    * `automatic_tax` - Surfaces if automatic tax computation is possible given the current customer location information. Possible values: `failed`, `not_collecting`, `supported`, `unrecognized_location`.
+    * `ip_address` - A recent IP address of the customer used for tax reporting and tax location inference. Max length: 5000. Nullable.
+    * `location` - The identified tax location of the customer. Nullable.
+    * `provider` - The tax calculation provider used for location resolution. Defaults to `stripe` when not using a [third-party provider](https://stripe.com/tax/third-party-apps). Possible values: `anrok`, `avalara`, `sphere`, `stripe`.
+    """
+    @type t :: %__MODULE__{
+            automatic_tax: String.t() | nil,
+            ip_address: String.t() | nil,
+            location: map() | nil,
+            provider: String.t() | nil
+          }
+    defstruct [:automatic_tax, :ip_address, :location, :provider]
+
+    defmodule Location do
+      @moduledoc false
+
+      @typedoc """
+      * `country` - The identified tax country of the customer. Max length: 5000.
+      * `source` - The data source used to infer the customer's location. Possible values: `billing_address`, `ip_address`, `payment_method`, `shipping_destination`.
+      * `state` - The identified tax state, county, province, or region of the customer. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              country: String.t() | nil,
+              source: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:country, :source, :state]
+    end
+
+    def __inner_types__ do
+      %{
+        "location" => __MODULE__.Location
+      }
+    end
+  end
+
   defmodule TaxIds do
     @moduledoc false
 
@@ -188,8 +281,14 @@ defmodule Stripe.Resources.Customer do
 
   def __inner_types__ do
     %{
+      "address" => Stripe.Resources.Address,
+      "cash_balance" => Stripe.Resources.CashBalance,
+      "discount" => Stripe.Resources.Discount,
+      "invoice_settings" => __MODULE__.InvoiceSettings,
+      "shipping" => Stripe.Resources.ShippingDetails,
       "sources" => __MODULE__.Sources,
       "subscriptions" => __MODULE__.Subscriptions,
+      "tax" => __MODULE__.Tax,
       "tax_ids" => __MODULE__.TaxIds
     }
   end

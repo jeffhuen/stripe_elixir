@@ -10,7 +10,7 @@ defmodule Stripe.Resources.CardPresent do
   """
   @type t :: %__MODULE__{
           generated_card: String.t() | map(),
-          offline: String.t() | map()
+          offline: map()
         }
 
   defstruct [:generated_card, :offline]
@@ -19,4 +19,10 @@ defmodule Stripe.Resources.CardPresent do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["generated_card", "offline"]
+
+  def __inner_types__ do
+    %{
+      "offline" => Stripe.Resources.Offline
+    }
+  end
 end

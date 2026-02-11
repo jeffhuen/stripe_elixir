@@ -97,4 +97,225 @@ defmodule Stripe.Resources.Identity.VerificationSession do
       "related_person",
       "verified_outputs"
     ]
+
+  defmodule LastError do
+    @moduledoc false
+
+    @typedoc """
+    * `code` - A short machine-readable string giving the reason for the verification or user-session failure. Possible values: `abandoned`, `consent_declined`, `country_not_supported`, `device_not_supported`, `document_expired`, `document_type_not_supported`, `document_unverified_other`, `email_unverified_other`, `email_verification_declined`, `id_number_insufficient_document_data`, `id_number_mismatch`, `id_number_unverified_other`, `phone_unverified_other`, `phone_verification_declined`, `selfie_document_missing_photo`, `selfie_face_mismatch`, `selfie_manipulated`, `selfie_unverified_other`, `under_supported_age`. Nullable.
+    * `reason` - A message that explains the reason for verification or user-session failure. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            code: String.t() | nil,
+            reason: String.t() | nil
+          }
+    defstruct [:code, :reason]
+  end
+
+  defmodule Options do
+    @moduledoc false
+
+    @typedoc """
+    * `document`
+    * `email`
+    * `id_number`
+    * `matching`
+    * `phone`
+    """
+    @type t :: %__MODULE__{
+            document: map() | nil,
+            email: map() | nil,
+            id_number: map() | nil,
+            matching: map() | nil,
+            phone: map() | nil
+          }
+    defstruct [:document, :email, :id_number, :matching, :phone]
+
+    defmodule Document do
+      @moduledoc false
+
+      @typedoc """
+      * `allowed_types` - Array of strings of allowed identity document types. If the provided identity document isn’t one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
+      * `require_id_number` - Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document’s extracted name and date of birth.
+      * `require_live_capture` - Disable image uploads, identity document images have to be captured using the device’s camera.
+      * `require_matching_selfie` - Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user’s face. [Learn more](https://docs.stripe.com/identity/selfie).
+      """
+      @type t :: %__MODULE__{
+              allowed_types: [String.t()] | nil,
+              require_id_number: boolean() | nil,
+              require_live_capture: boolean() | nil,
+              require_matching_selfie: boolean() | nil
+            }
+      defstruct [
+        :allowed_types,
+        :require_id_number,
+        :require_live_capture,
+        :require_matching_selfie
+      ]
+    end
+
+    defmodule Email do
+      @moduledoc false
+
+      @typedoc """
+      * `require_verification` - Request one time password verification of `provided_details.email`.
+      """
+      @type t :: %__MODULE__{
+              require_verification: boolean() | nil
+            }
+      defstruct [:require_verification]
+    end
+
+    defmodule Matching do
+      @moduledoc false
+
+      @typedoc """
+      * `dob` - Strictness of the DOB matching policy to apply. Possible values: `none`, `similar`.
+      * `name` - Strictness of the name matching policy to apply. Possible values: `none`, `similar`.
+      """
+      @type t :: %__MODULE__{
+              dob: String.t() | nil,
+              name: String.t() | nil
+            }
+      defstruct [:dob, :name]
+    end
+
+    defmodule Phone do
+      @moduledoc false
+
+      @typedoc """
+      * `require_verification` - Request one time password verification of `provided_details.phone`.
+      """
+      @type t :: %__MODULE__{
+              require_verification: boolean() | nil
+            }
+      defstruct [:require_verification]
+    end
+
+    def __inner_types__ do
+      %{
+        "document" => __MODULE__.Document,
+        "email" => __MODULE__.Email,
+        "matching" => __MODULE__.Matching,
+        "phone" => __MODULE__.Phone
+      }
+    end
+  end
+
+  defmodule ProvidedDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `email` - Email of user being verified Max length: 5000.
+    * `phone` - Phone number of user being verified Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            email: String.t() | nil,
+            phone: String.t() | nil
+          }
+    defstruct [:email, :phone]
+  end
+
+  defmodule Redaction do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - Indicates whether this object and its related objects have been redacted or not. Possible values: `processing`, `redacted`.
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil
+          }
+    defstruct [:status]
+  end
+
+  defmodule RelatedPerson do
+    @moduledoc false
+
+    @typedoc """
+    * `account` - Token referencing the associated Account of the related Person resource. Max length: 5000.
+    * `person` - Token referencing the related Person resource. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            account: String.t() | nil,
+            person: String.t() | nil
+          }
+    defstruct [:account, :person]
+  end
+
+  defmodule VerifiedOutputs do
+    @moduledoc false
+
+    @typedoc """
+    * `address` - The user's verified address. Nullable.
+    * `dob` - The user’s verified date of birth. Nullable.
+    * `email` - The user's verified email address Max length: 5000. Nullable.
+    * `first_name` - The user's verified first name. Max length: 5000. Nullable.
+    * `id_number` - The user's verified id number. Max length: 5000. Nullable.
+    * `id_number_type` - The user's verified id number type. Possible values: `br_cpf`, `sg_nric`, `us_ssn`. Nullable.
+    * `last_name` - The user's verified last name. Max length: 5000. Nullable.
+    * `phone` - The user's verified phone number Max length: 5000. Nullable.
+    * `sex` - The user's verified sex. Possible values: `[redacted]`, `female`, `male`, `unknown`. Nullable.
+    * `unparsed_place_of_birth` - The user's verified place of birth as it appears in the document. Max length: 5000. Nullable.
+    * `unparsed_sex` - The user's verified sex as it appears in the document. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            address: map() | nil,
+            dob: map() | nil,
+            email: String.t() | nil,
+            first_name: String.t() | nil,
+            id_number: String.t() | nil,
+            id_number_type: String.t() | nil,
+            last_name: String.t() | nil,
+            phone: String.t() | nil,
+            sex: String.t() | nil,
+            unparsed_place_of_birth: String.t() | nil,
+            unparsed_sex: String.t() | nil
+          }
+    defstruct [
+      :address,
+      :dob,
+      :email,
+      :first_name,
+      :id_number,
+      :id_number_type,
+      :last_name,
+      :phone,
+      :sex,
+      :unparsed_place_of_birth,
+      :unparsed_sex
+    ]
+
+    defmodule Dob do
+      @moduledoc false
+
+      @typedoc """
+      * `day` - Numerical day between 1 and 31. Nullable.
+      * `month` - Numerical month between 1 and 12. Nullable.
+      * `year` - The four-digit year. Nullable.
+      """
+      @type t :: %__MODULE__{
+              day: integer() | nil,
+              month: integer() | nil,
+              year: integer() | nil
+            }
+      defstruct [:day, :month, :year]
+    end
+
+    def __inner_types__ do
+      %{
+        "dob" => __MODULE__.Dob
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "last_error" => __MODULE__.LastError,
+      "options" => __MODULE__.Options,
+      "provided_details" => __MODULE__.ProvidedDetails,
+      "redaction" => __MODULE__.Redaction,
+      "related_person" => __MODULE__.RelatedPerson,
+      "verified_outputs" => __MODULE__.VerifiedOutputs
+    }
+  end
 end

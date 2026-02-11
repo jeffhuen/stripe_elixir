@@ -71,6 +71,22 @@ defmodule Stripe.Resources.ApplicationFee do
       "refunds"
     ]
 
+  defmodule FeeSource do
+    @moduledoc false
+
+    @typedoc """
+    * `charge` - Charge ID that created this application fee. Max length: 5000.
+    * `payout` - Payout ID that created this application fee. Max length: 5000.
+    * `type` - Type of object that created the application fee. Possible values: `charge`, `payout`.
+    """
+    @type t :: %__MODULE__{
+            charge: String.t() | nil,
+            payout: String.t() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:charge, :payout, :type]
+  end
+
   defmodule Refunds do
     @moduledoc false
 
@@ -91,6 +107,7 @@ defmodule Stripe.Resources.ApplicationFee do
 
   def __inner_types__ do
     %{
+      "fee_source" => __MODULE__.FeeSource,
       "refunds" => __MODULE__.Refunds
     }
   end

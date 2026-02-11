@@ -70,4 +70,356 @@ defmodule Stripe.Resources.Identity.VerificationReport do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["document", "email", "id_number", "options", "phone", "selfie"]
+
+  defmodule Document do
+    @moduledoc false
+
+    @typedoc """
+    * `address` - Address as it appears in the document. Nullable.
+    * `dob` - Date of birth as it appears in the document. Nullable.
+    * `error` - Details on the verification error. Present when status is `unverified`. Nullable.
+    * `expiration_date` - Expiration date of the document. Nullable.
+    * `files` - Array of [File](https://docs.stripe.com/api/files) ids containing images for this document. Nullable.
+    * `first_name` - First name as it appears in the document. Max length: 5000. Nullable.
+    * `issued_date` - Issued date of the document. Nullable.
+    * `issuing_country` - Issuing country of the document. Max length: 5000. Nullable.
+    * `last_name` - Last name as it appears in the document. Max length: 5000. Nullable.
+    * `number` - Document ID number. Max length: 5000. Nullable.
+    * `sex` - Sex of the person in the document. Possible values: `[redacted]`, `female`, `male`, `unknown`. Nullable.
+    * `status` - Status of this `document` check. Possible values: `unverified`, `verified`.
+    * `type` - Type of the document. Possible values: `driving_license`, `id_card`, `passport`. Nullable.
+    * `unparsed_place_of_birth` - Place of birth as it appears in the document. Max length: 5000. Nullable.
+    * `unparsed_sex` - Sex as it appears in the document. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            address: map() | nil,
+            dob: map() | nil,
+            error: map() | nil,
+            expiration_date: map() | nil,
+            files: [String.t()] | nil,
+            first_name: String.t() | nil,
+            issued_date: map() | nil,
+            issuing_country: String.t() | nil,
+            last_name: String.t() | nil,
+            number: String.t() | nil,
+            sex: String.t() | nil,
+            status: String.t() | nil,
+            type: String.t() | nil,
+            unparsed_place_of_birth: String.t() | nil,
+            unparsed_sex: String.t() | nil
+          }
+    defstruct [
+      :address,
+      :dob,
+      :error,
+      :expiration_date,
+      :files,
+      :first_name,
+      :issued_date,
+      :issuing_country,
+      :last_name,
+      :number,
+      :sex,
+      :status,
+      :type,
+      :unparsed_place_of_birth,
+      :unparsed_sex
+    ]
+
+    defmodule Dob do
+      @moduledoc false
+
+      @typedoc """
+      * `day` - Numerical day between 1 and 31. Nullable.
+      * `month` - Numerical month between 1 and 12. Nullable.
+      * `year` - The four-digit year. Nullable.
+      """
+      @type t :: %__MODULE__{
+              day: integer() | nil,
+              month: integer() | nil,
+              year: integer() | nil
+            }
+      defstruct [:day, :month, :year]
+    end
+
+    defmodule Error do
+      @moduledoc false
+
+      @typedoc """
+      * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `document_expired`, `document_type_not_supported`, `document_unverified_other`. Nullable.
+      * `reason` - A human-readable message giving the reason for the failure. These messages can be shown to your users. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              code: String.t() | nil,
+              reason: String.t() | nil
+            }
+      defstruct [:code, :reason]
+    end
+
+    defmodule ExpirationDate do
+      @moduledoc false
+
+      @typedoc """
+      * `day` - Numerical day between 1 and 31. Nullable.
+      * `month` - Numerical month between 1 and 12. Nullable.
+      * `year` - The four-digit year. Nullable.
+      """
+      @type t :: %__MODULE__{
+              day: integer() | nil,
+              month: integer() | nil,
+              year: integer() | nil
+            }
+      defstruct [:day, :month, :year]
+    end
+
+    defmodule IssuedDate do
+      @moduledoc false
+
+      @typedoc """
+      * `day` - Numerical day between 1 and 31. Nullable.
+      * `month` - Numerical month between 1 and 12. Nullable.
+      * `year` - The four-digit year. Nullable.
+      """
+      @type t :: %__MODULE__{
+              day: integer() | nil,
+              month: integer() | nil,
+              year: integer() | nil
+            }
+      defstruct [:day, :month, :year]
+    end
+
+    def __inner_types__ do
+      %{
+        "dob" => __MODULE__.Dob,
+        "error" => __MODULE__.Error,
+        "expiration_date" => __MODULE__.ExpirationDate,
+        "issued_date" => __MODULE__.IssuedDate
+      }
+    end
+  end
+
+  defmodule Email do
+    @moduledoc false
+
+    @typedoc """
+    * `email` - Email to be verified. Max length: 5000. Nullable.
+    * `error` - Details on the verification error. Present when status is `unverified`. Nullable.
+    * `status` - Status of this `email` check. Possible values: `unverified`, `verified`.
+    """
+    @type t :: %__MODULE__{
+            email: String.t() | nil,
+            error: map() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:email, :error, :status]
+
+    defmodule Error do
+      @moduledoc false
+
+      @typedoc """
+      * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `email_unverified_other`, `email_verification_declined`. Nullable.
+      * `reason` - A human-readable message giving the reason for the failure. These messages can be shown to your users. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              code: String.t() | nil,
+              reason: String.t() | nil
+            }
+      defstruct [:code, :reason]
+    end
+
+    def __inner_types__ do
+      %{
+        "error" => __MODULE__.Error
+      }
+    end
+  end
+
+  defmodule IdNumber do
+    @moduledoc false
+
+    @typedoc """
+    * `dob` - Date of birth. Nullable.
+    * `error` - Details on the verification error. Present when status is `unverified`. Nullable.
+    * `first_name` - First name. Max length: 5000. Nullable.
+    * `id_number` - ID number. When `id_number_type` is `us_ssn`, only the last 4 digits are present. Max length: 5000. Nullable.
+    * `id_number_type` - Type of ID number. Possible values: `br_cpf`, `sg_nric`, `us_ssn`. Nullable.
+    * `last_name` - Last name. Max length: 5000. Nullable.
+    * `status` - Status of this `id_number` check. Possible values: `unverified`, `verified`.
+    """
+    @type t :: %__MODULE__{
+            dob: map() | nil,
+            error: map() | nil,
+            first_name: String.t() | nil,
+            id_number: String.t() | nil,
+            id_number_type: String.t() | nil,
+            last_name: String.t() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:dob, :error, :first_name, :id_number, :id_number_type, :last_name, :status]
+
+    defmodule Dob do
+      @moduledoc false
+
+      @typedoc """
+      * `day` - Numerical day between 1 and 31. Nullable.
+      * `month` - Numerical month between 1 and 12. Nullable.
+      * `year` - The four-digit year. Nullable.
+      """
+      @type t :: %__MODULE__{
+              day: integer() | nil,
+              month: integer() | nil,
+              year: integer() | nil
+            }
+      defstruct [:day, :month, :year]
+    end
+
+    defmodule Error do
+      @moduledoc false
+
+      @typedoc """
+      * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `id_number_insufficient_document_data`, `id_number_mismatch`, `id_number_unverified_other`. Nullable.
+      * `reason` - A human-readable message giving the reason for the failure. These messages can be shown to your users. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              code: String.t() | nil,
+              reason: String.t() | nil
+            }
+      defstruct [:code, :reason]
+    end
+
+    def __inner_types__ do
+      %{
+        "dob" => __MODULE__.Dob,
+        "error" => __MODULE__.Error
+      }
+    end
+  end
+
+  defmodule Options do
+    @moduledoc false
+
+    @typedoc """
+    * `document`
+    * `id_number`
+    """
+    @type t :: %__MODULE__{
+            document: map() | nil,
+            id_number: map() | nil
+          }
+    defstruct [:document, :id_number]
+
+    defmodule Document do
+      @moduledoc false
+
+      @typedoc """
+      * `allowed_types` - Array of strings of allowed identity document types. If the provided identity document isn’t one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
+      * `require_id_number` - Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document’s extracted name and date of birth.
+      * `require_live_capture` - Disable image uploads, identity document images have to be captured using the device’s camera.
+      * `require_matching_selfie` - Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user’s face. [Learn more](https://docs.stripe.com/identity/selfie).
+      """
+      @type t :: %__MODULE__{
+              allowed_types: [String.t()] | nil,
+              require_id_number: boolean() | nil,
+              require_live_capture: boolean() | nil,
+              require_matching_selfie: boolean() | nil
+            }
+      defstruct [
+        :allowed_types,
+        :require_id_number,
+        :require_live_capture,
+        :require_matching_selfie
+      ]
+    end
+
+    def __inner_types__ do
+      %{
+        "document" => __MODULE__.Document
+      }
+    end
+  end
+
+  defmodule Phone do
+    @moduledoc false
+
+    @typedoc """
+    * `error` - Details on the verification error. Present when status is `unverified`. Nullable.
+    * `phone` - Phone to be verified. Max length: 5000. Nullable.
+    * `status` - Status of this `phone` check. Possible values: `unverified`, `verified`.
+    """
+    @type t :: %__MODULE__{
+            error: map() | nil,
+            phone: String.t() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:error, :phone, :status]
+
+    defmodule Error do
+      @moduledoc false
+
+      @typedoc """
+      * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `phone_unverified_other`, `phone_verification_declined`. Nullable.
+      * `reason` - A human-readable message giving the reason for the failure. These messages can be shown to your users. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              code: String.t() | nil,
+              reason: String.t() | nil
+            }
+      defstruct [:code, :reason]
+    end
+
+    def __inner_types__ do
+      %{
+        "error" => __MODULE__.Error
+      }
+    end
+  end
+
+  defmodule Selfie do
+    @moduledoc false
+
+    @typedoc """
+    * `document` - ID of the [File](https://docs.stripe.com/api/files) holding the image of the identity document used in this check. Max length: 5000. Nullable.
+    * `error` - Details on the verification error. Present when status is `unverified`. Nullable.
+    * `selfie` - ID of the [File](https://docs.stripe.com/api/files) holding the image of the selfie used in this check. Max length: 5000. Nullable.
+    * `status` - Status of this `selfie` check. Possible values: `unverified`, `verified`.
+    """
+    @type t :: %__MODULE__{
+            document: String.t() | nil,
+            error: map() | nil,
+            selfie: String.t() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:document, :error, :selfie, :status]
+
+    defmodule Error do
+      @moduledoc false
+
+      @typedoc """
+      * `code` - A short machine-readable string giving the reason for the verification failure. Possible values: `selfie_document_missing_photo`, `selfie_face_mismatch`, `selfie_manipulated`, `selfie_unverified_other`. Nullable.
+      * `reason` - A human-readable message giving the reason for the failure. These messages can be shown to your users. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              code: String.t() | nil,
+              reason: String.t() | nil
+            }
+      defstruct [:code, :reason]
+    end
+
+    def __inner_types__ do
+      %{
+        "error" => __MODULE__.Error
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "document" => __MODULE__.Document,
+      "email" => __MODULE__.Email,
+      "id_number" => __MODULE__.IdNumber,
+      "options" => __MODULE__.Options,
+      "phone" => __MODULE__.Phone,
+      "selfie" => __MODULE__.Selfie
+    }
+  end
 end

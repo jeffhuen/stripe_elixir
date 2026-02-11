@@ -26,25 +26,25 @@ defmodule Stripe.Resources.Components do
   * `tax_settings` - Expandable.
   """
   @type t :: %__MODULE__{
-          account_management: String.t() | map(),
-          account_onboarding: String.t() | map(),
-          balances: String.t() | map(),
-          disputes_list: String.t() | map(),
-          documents: String.t() | map(),
-          financial_account: String.t() | map(),
-          financial_account_transactions: String.t() | map(),
-          instant_payouts_promotion: String.t() | map(),
-          issuing_card: String.t() | map(),
-          issuing_cards_list: String.t() | map(),
-          notification_banner: String.t() | map(),
-          payment_details: String.t() | map(),
-          payment_disputes: String.t() | map(),
-          payments: String.t() | map(),
-          payout_details: String.t() | map(),
-          payouts: String.t() | map(),
-          payouts_list: String.t() | map(),
-          tax_registrations: String.t() | map(),
-          tax_settings: String.t() | map()
+          account_management: map(),
+          account_onboarding: map(),
+          balances: map(),
+          disputes_list: map(),
+          documents: map(),
+          financial_account: map(),
+          financial_account_transactions: map(),
+          instant_payouts_promotion: map(),
+          issuing_card: map(),
+          issuing_cards_list: map(),
+          notification_banner: map(),
+          payment_details: map(),
+          payment_disputes: map(),
+          payments: map(),
+          payout_details: map(),
+          payouts: map(),
+          payouts_list: map(),
+          tax_registrations: map(),
+          tax_settings: map()
         }
 
   defstruct [
@@ -94,4 +94,28 @@ defmodule Stripe.Resources.Components do
       "tax_registrations",
       "tax_settings"
     ]
+
+  def __inner_types__ do
+    %{
+      "account_management" => Stripe.Resources.AccountConfig,
+      "account_onboarding" => Stripe.Resources.AccountConfig,
+      "balances" => Stripe.Resources.PayoutsConfig,
+      "disputes_list" => Stripe.Resources.DisputesListConfig,
+      "documents" => Stripe.Resources.BaseConfig,
+      "financial_account" => Stripe.Resources.FinancialAccountConfig,
+      "financial_account_transactions" => Stripe.Resources.FinancialAccountTransactionsConfig,
+      "instant_payouts_promotion" => Stripe.Resources.InstantPayoutsPromotionConfig,
+      "issuing_card" => Stripe.Resources.IssuingCardConfig,
+      "issuing_cards_list" => Stripe.Resources.IssuingCardsListConfig,
+      "notification_banner" => Stripe.Resources.AccountConfig,
+      "payment_details" => Stripe.Resources.PaymentsConfig,
+      "payment_disputes" => Stripe.Resources.PaymentDisputesConfig,
+      "payments" => Stripe.Resources.PaymentsConfig,
+      "payout_details" => Stripe.Resources.BaseConfig,
+      "payouts" => Stripe.Resources.PayoutsConfig,
+      "payouts_list" => Stripe.Resources.BaseConfig,
+      "tax_registrations" => Stripe.Resources.BaseConfig,
+      "tax_settings" => Stripe.Resources.BaseConfig
+    }
+  end
 end

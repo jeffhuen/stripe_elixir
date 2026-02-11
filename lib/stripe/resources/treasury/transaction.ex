@@ -64,6 +64,22 @@ defmodule Stripe.Resources.Treasury.Transaction do
 
   def expandable_fields, do: ["balance_impact", "entries", "flow_details", "status_transitions"]
 
+  defmodule BalanceImpact do
+    @moduledoc false
+
+    @typedoc """
+    * `cash` - The change made to funds the user can spend right now.
+    * `inbound_pending` - The change made to funds that are not spendable yet, but will become available at a later time.
+    * `outbound_pending` - The change made to funds in the account, but not spendable because they are being held for pending outbound flows.
+    """
+    @type t :: %__MODULE__{
+            cash: integer() | nil,
+            inbound_pending: integer() | nil,
+            outbound_pending: integer() | nil
+          }
+    defstruct [:cash, :inbound_pending, :outbound_pending]
+  end
+
   defmodule Entries do
     @moduledoc false
 
@@ -82,9 +98,64 @@ defmodule Stripe.Resources.Treasury.Transaction do
     defstruct [:data, :has_more, :object, :url]
   end
 
+  defmodule FlowDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `credit_reversal`
+    * `debit_reversal`
+    * `inbound_transfer`
+    * `issuing_authorization`
+    * `outbound_payment`
+    * `outbound_transfer`
+    * `received_credit`
+    * `received_debit`
+    * `type` - Type of the flow that created the Transaction. Set to the same value as `flow_type`. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
+    """
+    @type t :: %__MODULE__{
+            credit_reversal: map() | nil,
+            debit_reversal: map() | nil,
+            inbound_transfer: map() | nil,
+            issuing_authorization: map() | nil,
+            outbound_payment: map() | nil,
+            outbound_transfer: map() | nil,
+            received_credit: map() | nil,
+            received_debit: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [
+      :credit_reversal,
+      :debit_reversal,
+      :inbound_transfer,
+      :issuing_authorization,
+      :outbound_payment,
+      :outbound_transfer,
+      :received_credit,
+      :received_debit,
+      :type
+    ]
+  end
+
+  defmodule StatusTransitions do
+    @moduledoc false
+
+    @typedoc """
+    * `posted_at` - Timestamp describing when the Transaction changed status to `posted`. Format: Unix timestamp. Nullable.
+    * `void_at` - Timestamp describing when the Transaction changed status to `void`. Format: Unix timestamp. Nullable.
+    """
+    @type t :: %__MODULE__{
+            posted_at: integer() | nil,
+            void_at: integer() | nil
+          }
+    defstruct [:posted_at, :void_at]
+  end
+
   def __inner_types__ do
     %{
-      "entries" => __MODULE__.Entries
+      "balance_impact" => __MODULE__.BalanceImpact,
+      "entries" => __MODULE__.Entries,
+      "flow_details" => __MODULE__.FlowDetails,
+      "status_transitions" => __MODULE__.StatusTransitions
     }
   end
 end

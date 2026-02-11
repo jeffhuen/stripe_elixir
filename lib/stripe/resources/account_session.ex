@@ -27,7 +27,7 @@ defmodule Stripe.Resources.AccountSession do
   @type t :: %__MODULE__{
           account: String.t(),
           client_secret: String.t(),
-          components: String.t() | map(),
+          components: map(),
           expires_at: integer(),
           livemode: boolean(),
           object: String.t()
@@ -39,4 +39,10 @@ defmodule Stripe.Resources.AccountSession do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["components"]
+
+  def __inner_types__ do
+    %{
+      "components" => Stripe.Resources.Components
+    }
+  end
 end

@@ -10,7 +10,7 @@ defmodule Stripe.Resources.FinancialAddresses do
   * `aba` - Expandable.
   """
   @type t :: %__MODULE__{
-          aba: String.t() | map() | nil
+          aba: map() | nil
         }
 
   defstruct [:aba]
@@ -19,4 +19,10 @@ defmodule Stripe.Resources.FinancialAddresses do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["aba"]
+
+  def __inner_types__ do
+    %{
+      "aba" => Stripe.Resources.AbaToggleSettings
+    }
+  end
 end

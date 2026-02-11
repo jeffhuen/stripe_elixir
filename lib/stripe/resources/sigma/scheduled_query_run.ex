@@ -26,7 +26,7 @@ defmodule Stripe.Resources.Sigma.ScheduledQueryRun do
           created: integer(),
           data_load_time: integer(),
           error: map() | nil,
-          file: String.t() | map(),
+          file: map(),
           id: String.t(),
           livemode: boolean(),
           object: String.t(),
@@ -54,4 +54,23 @@ defmodule Stripe.Resources.Sigma.ScheduledQueryRun do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["error", "file"]
+
+  defmodule Error do
+    @moduledoc false
+
+    @typedoc """
+    * `message` - Information about the run failure. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            message: String.t() | nil
+          }
+    defstruct [:message]
+  end
+
+  def __inner_types__ do
+    %{
+      "error" => __MODULE__.Error,
+      "file" => Stripe.Resources.File
+    }
+  end
 end

@@ -58,7 +58,7 @@ defmodule Stripe.Resources.InvoiceItem do
           proration: boolean(),
           proration_details: map() | nil,
           quantity: integer(),
-          tax_rates: [String.t() | map()],
+          tax_rates: [map()],
           test_clock: String.t() | map()
         }
 
@@ -102,4 +102,129 @@ defmodule Stripe.Resources.InvoiceItem do
       "tax_rates",
       "test_clock"
     ]
+
+  defmodule Parent do
+    @moduledoc false
+
+    @typedoc """
+    * `subscription_details` - Details about the subscription that generated this invoice item Nullable.
+    * `type` - The type of parent that generated this invoice item Possible values: `subscription_details`.
+    """
+    @type t :: %__MODULE__{
+            subscription_details: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:subscription_details, :type]
+
+    defmodule SubscriptionDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `subscription` - The subscription that generated this invoice item Max length: 5000.
+      * `subscription_item` - The subscription item that generated this invoice item Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              subscription: String.t() | nil,
+              subscription_item: String.t() | nil
+            }
+      defstruct [:subscription, :subscription_item]
+    end
+
+    def __inner_types__ do
+      %{
+        "subscription_details" => __MODULE__.SubscriptionDetails
+      }
+    end
+  end
+
+  defmodule Period do
+    @moduledoc false
+
+    @typedoc """
+    * `end` - The end of the period, which must be greater than or equal to the start. This value is inclusive. Format: Unix timestamp.
+    * `start` - The start of the period. This value is inclusive. Format: Unix timestamp.
+    """
+    @type t :: %__MODULE__{
+            end: integer() | nil,
+            start: integer() | nil
+          }
+    defstruct [:end, :start]
+  end
+
+  defmodule Pricing do
+    @moduledoc false
+
+    @typedoc """
+    * `price_details`
+    * `type` - The type of the pricing details. Possible values: `price_details`.
+    * `unit_amount_decimal` - The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+    """
+    @type t :: %__MODULE__{
+            price_details: map() | nil,
+            type: String.t() | nil,
+            unit_amount_decimal: String.t() | nil
+          }
+    defstruct [:price_details, :type, :unit_amount_decimal]
+
+    defmodule PriceDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `price` - The ID of the price this item is associated with.
+      * `product` - The ID of the product this item is associated with. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              price: String.t() | map() | nil,
+              product: String.t() | nil
+            }
+      defstruct [:price, :product]
+    end
+
+    def __inner_types__ do
+      %{
+        "price_details" => __MODULE__.PriceDetails
+      }
+    end
+  end
+
+  defmodule ProrationDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `discount_amounts` - Discount amounts applied when the proration was created.
+    """
+    @type t :: %__MODULE__{
+            discount_amounts: [map()] | nil
+          }
+    defstruct [:discount_amounts]
+
+    defmodule DiscountAmounts do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - The amount, in cents (or local equivalent), of the discount.
+      * `discount` - The discount that was applied to get this discount amount.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              discount: map() | nil
+            }
+      defstruct [:amount, :discount]
+    end
+
+    def __inner_types__ do
+      %{
+        "discount_amounts" => __MODULE__.DiscountAmounts
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "parent" => __MODULE__.Parent,
+      "period" => __MODULE__.Period,
+      "pricing" => __MODULE__.Pricing,
+      "proration_details" => __MODULE__.ProrationDetails
+    }
+  end
 end

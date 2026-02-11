@@ -159,6 +159,12 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
             }
       defstruct [:date, :ip, :user_agent]
     end
+
+    def __inner_types__ do
+      %{
+        "account" => __MODULE__.Account
+      }
+    end
   end
 
   defmodule Address do
@@ -280,6 +286,12 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
               }
         defstruct [:back, :front]
       end
+
+      def __inner_types__ do
+        %{
+          "front_back" => __MODULE__.FrontBack
+        }
+      end
     end
 
     defmodule SecondaryVerification do
@@ -308,6 +320,12 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
               }
         defstruct [:back, :front]
       end
+
+      def __inner_types__ do
+        %{
+          "front_back" => __MODULE__.FrontBack
+        }
+      end
     end
 
     defmodule Visa do
@@ -322,6 +340,16 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
               type: String.t() | nil
             }
       defstruct [:files, :type]
+    end
+
+    def __inner_types__ do
+      %{
+        "company_authorization" => __MODULE__.CompanyAuthorization,
+        "passport" => __MODULE__.Passport,
+        "primary_verification" => __MODULE__.PrimaryVerification,
+        "secondary_verification" => __MODULE__.SecondaryVerification,
+        "visa" => __MODULE__.Visa
+      }
     end
   end
 
@@ -432,6 +460,13 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
             }
       defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
     end
+
+    def __inner_types__ do
+      %{
+        "kana" => __MODULE__.Kana,
+        "kanji" => __MODULE__.Kanji
+      }
+    end
   end
 
   defmodule ScriptNames do
@@ -473,6 +508,13 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
               surname: String.t() | nil
             }
       defstruct [:given_name, :surname]
+    end
+
+    def __inner_types__ do
+      %{
+        "kana" => __MODULE__.Kana,
+        "kanji" => __MODULE__.Kanji
+      }
     end
   end
 

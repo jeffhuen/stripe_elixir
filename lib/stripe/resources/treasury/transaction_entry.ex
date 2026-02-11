@@ -57,4 +57,65 @@ defmodule Stripe.Resources.Treasury.TransactionEntry do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["balance_impact", "flow_details", "transaction"]
+
+  defmodule BalanceImpact do
+    @moduledoc false
+
+    @typedoc """
+    * `cash` - The change made to funds the user can spend right now.
+    * `inbound_pending` - The change made to funds that are not spendable yet, but will become available at a later time.
+    * `outbound_pending` - The change made to funds in the account, but not spendable because they are being held for pending outbound flows.
+    """
+    @type t :: %__MODULE__{
+            cash: integer() | nil,
+            inbound_pending: integer() | nil,
+            outbound_pending: integer() | nil
+          }
+    defstruct [:cash, :inbound_pending, :outbound_pending]
+  end
+
+  defmodule FlowDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `credit_reversal`
+    * `debit_reversal`
+    * `inbound_transfer`
+    * `issuing_authorization`
+    * `outbound_payment`
+    * `outbound_transfer`
+    * `received_credit`
+    * `received_debit`
+    * `type` - Type of the flow that created the Transaction. Set to the same value as `flow_type`. Possible values: `credit_reversal`, `debit_reversal`, `inbound_transfer`, `issuing_authorization`, `other`, `outbound_payment`, `outbound_transfer`, `received_credit`, `received_debit`.
+    """
+    @type t :: %__MODULE__{
+            credit_reversal: map() | nil,
+            debit_reversal: map() | nil,
+            inbound_transfer: map() | nil,
+            issuing_authorization: map() | nil,
+            outbound_payment: map() | nil,
+            outbound_transfer: map() | nil,
+            received_credit: map() | nil,
+            received_debit: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [
+      :credit_reversal,
+      :debit_reversal,
+      :inbound_transfer,
+      :issuing_authorization,
+      :outbound_payment,
+      :outbound_transfer,
+      :received_credit,
+      :received_debit,
+      :type
+    ]
+  end
+
+  def __inner_types__ do
+    %{
+      "balance_impact" => __MODULE__.BalanceImpact,
+      "flow_details" => __MODULE__.FlowDetails
+    }
+  end
 end

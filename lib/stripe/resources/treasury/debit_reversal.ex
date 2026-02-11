@@ -63,4 +63,35 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["linked_flows", "status_transitions", "transaction"]
+
+  defmodule LinkedFlows do
+    @moduledoc false
+
+    @typedoc """
+    * `issuing_dispute` - Set if there is an Issuing dispute associated with the DebitReversal. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            issuing_dispute: String.t() | nil
+          }
+    defstruct [:issuing_dispute]
+  end
+
+  defmodule StatusTransitions do
+    @moduledoc false
+
+    @typedoc """
+    * `completed_at` - Timestamp describing when the DebitReversal changed status to `completed`. Format: Unix timestamp. Nullable.
+    """
+    @type t :: %__MODULE__{
+            completed_at: integer() | nil
+          }
+    defstruct [:completed_at]
+  end
+
+  def __inner_types__ do
+    %{
+      "linked_flows" => __MODULE__.LinkedFlows,
+      "status_transitions" => __MODULE__.StatusTransitions
+    }
+  end
 end

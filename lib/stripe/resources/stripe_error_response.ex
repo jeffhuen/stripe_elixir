@@ -15,4 +15,10 @@ defmodule Stripe.Resources.StripeErrorResponse do
 
   @object_name "error"
   def object_name, do: @object_name
+
+  def __inner_types__ do
+    %{
+      "error" => Stripe.Resources.StripeError
+    }
+  end
 end

@@ -38,7 +38,7 @@ defmodule Stripe.Resources.Reporting.ReportRun do
           object: String.t(),
           parameters: map(),
           report_type: String.t(),
-          result: String.t() | map(),
+          result: map(),
           status: String.t(),
           succeeded_at: integer()
         }
@@ -60,4 +60,46 @@ defmodule Stripe.Resources.Reporting.ReportRun do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["parameters", "result"]
+
+  defmodule Parameters do
+    @moduledoc false
+
+    @typedoc """
+    * `columns` - The set of output columns requested for inclusion in the report run.
+    * `connected_account` - Connected account ID by which to filter the report run. Max length: 5000.
+    * `currency` - Currency of objects to be included in the report run. Format: ISO 4217 currency code.
+    * `interval_end` - Ending timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after the user specified `interval_start` and 1 second before this report's last `data_available_end` value. Format: Unix timestamp.
+    * `interval_start` - Starting timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after this report's `data_available_start` and 1 second before the user specified `interval_end` value. Format: Unix timestamp.
+    * `payout` - Payout ID by which to filter the report run. Max length: 5000.
+    * `reporting_category` - Category of balance transactions to be included in the report run. Max length: 5000.
+    * `timezone` - Defaults to `Etc/UTC`. The output timezone for all timestamps in the report. A list of possible time zone values is maintained at the [IANA Time Zone Database](http://www.iana.org/time-zones). Has no effect on `interval_start` or `interval_end`. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            columns: [String.t()] | nil,
+            connected_account: String.t() | nil,
+            currency: String.t() | nil,
+            interval_end: integer() | nil,
+            interval_start: integer() | nil,
+            payout: String.t() | nil,
+            reporting_category: String.t() | nil,
+            timezone: String.t() | nil
+          }
+    defstruct [
+      :columns,
+      :connected_account,
+      :currency,
+      :interval_end,
+      :interval_start,
+      :payout,
+      :reporting_category,
+      :timezone
+    ]
+  end
+
+  def __inner_types__ do
+    %{
+      "parameters" => __MODULE__.Parameters,
+      "result" => Stripe.Resources.File
+    }
+  end
 end

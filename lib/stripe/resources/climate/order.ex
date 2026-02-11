@@ -85,4 +85,69 @@ defmodule Stripe.Resources.Climate.Order do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["beneficiary", "delivery_details", "product"]
+
+  defmodule Beneficiary do
+    @moduledoc false
+
+    @typedoc """
+    * `public_name` - Publicly displayable name for the end beneficiary of carbon removal. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            public_name: String.t() | nil
+          }
+    defstruct [:public_name]
+  end
+
+  defmodule DeliveryDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `delivered_at` - Time at which the delivery occurred. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+    * `location` - Specific location of this delivery. Nullable.
+    * `metric_tons` - Quantity of carbon removal supplied by this delivery. Max length: 5000.
+    * `registry_url` - Once retired, a URL to the registry entry for the tons from this delivery. Max length: 5000. Nullable.
+    * `supplier`
+    """
+    @type t :: %__MODULE__{
+            delivered_at: integer() | nil,
+            location: map() | nil,
+            metric_tons: String.t() | nil,
+            registry_url: String.t() | nil,
+            supplier: map() | nil
+          }
+    defstruct [:delivered_at, :location, :metric_tons, :registry_url, :supplier]
+
+    defmodule Location do
+      @moduledoc false
+
+      @typedoc """
+      * `city` - The city where the supplier is located. Max length: 5000. Nullable.
+      * `country` - Two-letter ISO code representing the country where the supplier is located. Max length: 5000.
+      * `latitude` - The geographic latitude where the supplier is located. Nullable.
+      * `longitude` - The geographic longitude where the supplier is located. Nullable.
+      * `region` - The state/county/province/region where the supplier is located. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              latitude: float() | nil,
+              longitude: float() | nil,
+              region: String.t() | nil
+            }
+      defstruct [:city, :country, :latitude, :longitude, :region]
+    end
+
+    def __inner_types__ do
+      %{
+        "location" => __MODULE__.Location
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "beneficiary" => __MODULE__.Beneficiary,
+      "delivery_details" => __MODULE__.DeliveryDetails
+    }
+  end
 end

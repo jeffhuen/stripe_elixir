@@ -67,6 +67,69 @@ defmodule Stripe.Resources.Tax.Calculation do
   def expandable_fields,
     do: ["customer_details", "line_items", "ship_from_details", "shipping_cost", "tax_breakdown"]
 
+  defmodule CustomerDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `address` - The customer's postal address (for example, home or business location). Nullable.
+    * `address_source` - The type of customer address provided. Possible values: `billing`, `shipping`. Nullable.
+    * `ip_address` - The customer's IP address (IPv4 or IPv6). Max length: 5000. Nullable.
+    * `tax_ids` - The customer's tax IDs (for example, EU VAT numbers).
+    * `taxability_override` - The taxability override used for taxation. Possible values: `customer_exempt`, `none`, `reverse_charge`.
+    """
+    @type t :: %__MODULE__{
+            address: map() | nil,
+            address_source: String.t() | nil,
+            ip_address: String.t() | nil,
+            tax_ids: [map()] | nil,
+            taxability_override: String.t() | nil
+          }
+    defstruct [:address, :address_source, :ip_address, :tax_ids, :taxability_override]
+
+    defmodule Address do
+      @moduledoc false
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000. Nullable.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000. Nullable.
+      * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
+      * `state` - State/province as an [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) subdivision code, without country prefix, such as "NY" or "TX". Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    defmodule TaxIds do
+      @moduledoc false
+
+      @typedoc """
+      * `type` - The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown` Possible values: `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `unknown`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, `zw_tin`.
+      * `value` - The value of the tax ID. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              type: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:type, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "address" => __MODULE__.Address,
+        "tax_ids" => __MODULE__.TaxIds
+      }
+    end
+  end
+
   defmodule LineItems do
     @moduledoc false
 
@@ -85,9 +148,199 @@ defmodule Stripe.Resources.Tax.Calculation do
     defstruct [:data, :has_more, :object, :url]
   end
 
+  defmodule ShipFromDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `address`
+    """
+    @type t :: %__MODULE__{
+            address: map() | nil
+          }
+    defstruct [:address]
+
+    defmodule Address do
+      @moduledoc false
+
+      @typedoc """
+      * `city` - City, district, suburb, town, or village. Max length: 5000. Nullable.
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+      * `line1` - Address line 1, such as the street, PO Box, or company name. Max length: 5000. Nullable.
+      * `line2` - Address line 2, such as the apartment, suite, unit, or building. Max length: 5000. Nullable.
+      * `postal_code` - ZIP or postal code. Max length: 5000. Nullable.
+      * `state` - State/province as an [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) subdivision code, without country prefix, such as "NY" or "TX". Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              city: String.t() | nil,
+              country: String.t() | nil,
+              line1: String.t() | nil,
+              line2: String.t() | nil,
+              postal_code: String.t() | nil,
+              state: String.t() | nil
+            }
+      defstruct [:city, :country, :line1, :line2, :postal_code, :state]
+    end
+
+    def __inner_types__ do
+      %{
+        "address" => __MODULE__.Address
+      }
+    end
+  end
+
+  defmodule ShippingCost do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The shipping amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+    * `amount_tax` - The amount of tax calculated for shipping, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+    * `shipping_rate` - The ID of an existing [ShippingRate](https://docs.stripe.com/api/shipping_rates/object). Max length: 5000.
+    * `tax_behavior` - Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Possible values: `exclusive`, `inclusive`.
+    * `tax_breakdown` - Detailed account of taxes relevant to shipping cost.
+    * `tax_code` - The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for shipping. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            amount_tax: integer() | nil,
+            shipping_rate: String.t() | nil,
+            tax_behavior: String.t() | nil,
+            tax_breakdown: [map()] | nil,
+            tax_code: String.t() | nil
+          }
+    defstruct [:amount, :amount_tax, :shipping_rate, :tax_behavior, :tax_breakdown, :tax_code]
+
+    defmodule TaxBreakdown do
+      @moduledoc false
+
+      @typedoc """
+      * `amount` - The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+      * `jurisdiction`
+      * `sourcing` - Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address). Possible values: `destination`, `origin`.
+      * `tax_rate_details` - Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax. Nullable.
+      * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`.
+      * `taxable_amount` - The amount on which tax is calculated, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              jurisdiction: map() | nil,
+              sourcing: String.t() | nil,
+              tax_rate_details: map() | nil,
+              taxability_reason: String.t() | nil,
+              taxable_amount: integer() | nil
+            }
+      defstruct [
+        :amount,
+        :jurisdiction,
+        :sourcing,
+        :tax_rate_details,
+        :taxability_reason,
+        :taxable_amount
+      ]
+
+      defmodule Jurisdiction do
+        @moduledoc false
+
+        @typedoc """
+        * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000.
+        * `display_name` - A human-readable name for the jurisdiction imposing the tax. Max length: 5000.
+        * `level` - Indicates the level of the jurisdiction imposing the tax. Possible values: `city`, `country`, `county`, `district`, `state`.
+        * `state` - [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States. Max length: 5000. Nullable.
+        """
+        @type t :: %__MODULE__{
+                country: String.t() | nil,
+                display_name: String.t() | nil,
+                level: String.t() | nil,
+                state: String.t() | nil
+              }
+        defstruct [:country, :display_name, :level, :state]
+      end
+
+      defmodule TaxRateDetails do
+        @moduledoc false
+
+        @typedoc """
+        * `display_name` - A localized display name for tax type, intended to be human-readable. For example, "Local Sales and Use Tax", "Value-added tax (VAT)", or "Umsatzsteuer (USt.)". Max length: 5000.
+        * `percentage_decimal` - The tax rate percentage as a string. For example, 8.5% is represented as "8.5". Max length: 5000.
+        * `tax_type` - The tax type, such as `vat` or `sales_tax`. Possible values: `amusement_tax`, `communications_tax`, `gst`, `hst`, `igst`, `jct`, `lease_tax`, `pst`, `qst`, `retail_delivery_fee`, `rst`, `sales_tax`, `service_tax`, `vat`.
+        """
+        @type t :: %__MODULE__{
+                display_name: String.t() | nil,
+                percentage_decimal: String.t() | nil,
+                tax_type: String.t() | nil
+              }
+        defstruct [:display_name, :percentage_decimal, :tax_type]
+      end
+
+      def __inner_types__ do
+        %{
+          "jurisdiction" => __MODULE__.Jurisdiction,
+          "tax_rate_details" => __MODULE__.TaxRateDetails
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "tax_breakdown" => __MODULE__.TaxBreakdown
+      }
+    end
+  end
+
+  defmodule TaxBreakdown do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount of tax, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+    * `inclusive` - Specifies whether the tax amount is included in the line item amount.
+    * `tax_rate_details`
+    * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. We might extend the possible values for this field to support new tax rules. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`.
+    * `taxable_amount` - The amount on which tax is calculated, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            inclusive: boolean() | nil,
+            tax_rate_details: map() | nil,
+            taxability_reason: String.t() | nil,
+            taxable_amount: integer() | nil
+          }
+    defstruct [:amount, :inclusive, :tax_rate_details, :taxability_reason, :taxable_amount]
+
+    defmodule TaxRateDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `country` - Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Max length: 5000. Nullable.
+      * `flat_amount` - The amount of the tax rate when the `rate_type` is `flat_amount`. Tax rates with `rate_type` `percentage` can vary based on the transaction, resulting in this field being `null`. This field exposes the amount and currency of the flat tax rate. Nullable.
+      * `percentage_decimal` - The tax rate percentage as a string. For example, 8.5% is represented as `"8.5"`. Max length: 5000.
+      * `rate_type` - Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location. This field is only present for TaxRates created by Stripe Tax. Possible values: `flat_amount`, `percentage`. Nullable.
+      * `state` - State, county, province, or region ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)). Max length: 5000. Nullable.
+      * `tax_type` - The tax type, such as `vat` or `sales_tax`. Possible values: `amusement_tax`, `communications_tax`, `gst`, `hst`, `igst`, `jct`, `lease_tax`, `pst`, `qst`, `retail_delivery_fee`, `rst`, `sales_tax`, `service_tax`, `vat`. Nullable.
+      """
+      @type t :: %__MODULE__{
+              country: String.t() | nil,
+              flat_amount: map() | nil,
+              percentage_decimal: String.t() | nil,
+              rate_type: String.t() | nil,
+              state: String.t() | nil,
+              tax_type: String.t() | nil
+            }
+      defstruct [:country, :flat_amount, :percentage_decimal, :rate_type, :state, :tax_type]
+    end
+
+    def __inner_types__ do
+      %{
+        "tax_rate_details" => __MODULE__.TaxRateDetails
+      }
+    end
+  end
+
   def __inner_types__ do
     %{
-      "line_items" => __MODULE__.LineItems
+      "customer_details" => __MODULE__.CustomerDetails,
+      "line_items" => __MODULE__.LineItems,
+      "ship_from_details" => __MODULE__.ShipFromDetails,
+      "shipping_cost" => __MODULE__.ShippingCost,
+      "tax_breakdown" => __MODULE__.TaxBreakdown
     }
   end
 end

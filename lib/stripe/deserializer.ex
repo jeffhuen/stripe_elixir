@@ -3,6 +3,17 @@ defmodule Stripe.Deserializer do
 
   alias Stripe.ObjectTypes
 
+  @doc """
+  Decode a JSON string and cast into typed structs.
+  """
+  @spec from_json(String.t(), keyword()) :: {:ok, term()} | {:error, term()}
+  def from_json(json_string, opts \\ []) when is_binary(json_string) do
+    case JSON.decode(json_string) do
+      {:ok, data} -> {:ok, cast(data, opts)}
+      {:error, _} = error -> error
+    end
+  end
+
   @spec cast(map() | list() | term(), keyword()) :: struct() | map() | list() | term()
   def cast(data, opts \\ [])
 

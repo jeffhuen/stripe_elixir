@@ -126,4 +126,22 @@ defmodule Stripe.Resources.Card do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["account", "customer", "networks"]
+
+  defmodule Networks do
+    @moduledoc false
+
+    @typedoc """
+    * `preferred` - The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            preferred: String.t() | nil
+          }
+    defstruct [:preferred]
+  end
+
+  def __inner_types__ do
+    %{
+      "networks" => __MODULE__.Networks
+    }
+  end
 end

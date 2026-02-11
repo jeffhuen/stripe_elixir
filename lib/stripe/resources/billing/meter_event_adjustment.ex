@@ -29,4 +29,22 @@ defmodule Stripe.Resources.Billing.MeterEventAdjustment do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["cancel"]
+
+  defmodule Cancel do
+    @moduledoc false
+
+    @typedoc """
+    * `identifier` - Unique identifier for the event. Max length: 100. Nullable.
+    """
+    @type t :: %__MODULE__{
+            identifier: String.t() | nil
+          }
+    defstruct [:identifier]
+  end
+
+  def __inner_types__ do
+    %{
+      "cancel" => __MODULE__.Cancel
+    }
+  end
 end

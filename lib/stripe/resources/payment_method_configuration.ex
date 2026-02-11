@@ -273,4 +273,2007 @@ defmodule Stripe.Resources.PaymentMethodConfiguration do
       "wechat_pay",
       "zip"
     ]
+
+  defmodule AcssDebit do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Affirm do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule AfterpayClearpay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Alipay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Alma do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule AmazonPay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule ApplePay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule AuBecsDebit do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule BacsDebit do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Bancontact do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Billie do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Blik do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Boleto do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Card do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule CartesBancaires do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Cashapp do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Crypto do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule CustomerBalance do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Eps do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Fpx do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Giropay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule GooglePay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Grabpay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Ideal do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Jcb do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule KakaoPay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Klarna do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Konbini do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule KrCard do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Link do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule MbWay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Mobilepay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Multibanco do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule NaverPay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule NzBankAccount do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Oxxo do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule P24 do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule PayByBank do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Payco do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Paynow do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Paypal do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Payto do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Pix do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Promptpay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule RevolutPay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule SamsungPay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Satispay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule SepaDebit do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Sofort do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Swish do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Twint do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule UsBankAccount do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule WechatPay do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  defmodule Zip do
+    @moduledoc false
+
+    @typedoc """
+    * `available` - Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+    * `display_preference`
+    """
+    @type t :: %__MODULE__{
+            available: boolean() | nil,
+            display_preference: map() | nil
+          }
+    defstruct [:available, :display_preference]
+
+    defmodule DisplayPreference do
+      @moduledoc false
+
+      @typedoc """
+      * `overridable` - For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used. Nullable.
+      * `preference` - The account's display preference. Possible values: `none`, `off`, `on`.
+      * `value` - The effective display preference value. Possible values: `off`, `on`.
+      """
+      @type t :: %__MODULE__{
+              overridable: boolean() | nil,
+              preference: String.t() | nil,
+              value: String.t() | nil
+            }
+      defstruct [:overridable, :preference, :value]
+    end
+
+    def __inner_types__ do
+      %{
+        "display_preference" => __MODULE__.DisplayPreference
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "acss_debit" => __MODULE__.AcssDebit,
+      "affirm" => __MODULE__.Affirm,
+      "afterpay_clearpay" => __MODULE__.AfterpayClearpay,
+      "alipay" => __MODULE__.Alipay,
+      "alma" => __MODULE__.Alma,
+      "amazon_pay" => __MODULE__.AmazonPay,
+      "apple_pay" => __MODULE__.ApplePay,
+      "au_becs_debit" => __MODULE__.AuBecsDebit,
+      "bacs_debit" => __MODULE__.BacsDebit,
+      "bancontact" => __MODULE__.Bancontact,
+      "billie" => __MODULE__.Billie,
+      "blik" => __MODULE__.Blik,
+      "boleto" => __MODULE__.Boleto,
+      "card" => __MODULE__.Card,
+      "cartes_bancaires" => __MODULE__.CartesBancaires,
+      "cashapp" => __MODULE__.Cashapp,
+      "crypto" => __MODULE__.Crypto,
+      "customer_balance" => __MODULE__.CustomerBalance,
+      "eps" => __MODULE__.Eps,
+      "fpx" => __MODULE__.Fpx,
+      "giropay" => __MODULE__.Giropay,
+      "google_pay" => __MODULE__.GooglePay,
+      "grabpay" => __MODULE__.Grabpay,
+      "ideal" => __MODULE__.Ideal,
+      "jcb" => __MODULE__.Jcb,
+      "kakao_pay" => __MODULE__.KakaoPay,
+      "klarna" => __MODULE__.Klarna,
+      "konbini" => __MODULE__.Konbini,
+      "kr_card" => __MODULE__.KrCard,
+      "link" => __MODULE__.Link,
+      "mb_way" => __MODULE__.MbWay,
+      "mobilepay" => __MODULE__.Mobilepay,
+      "multibanco" => __MODULE__.Multibanco,
+      "naver_pay" => __MODULE__.NaverPay,
+      "nz_bank_account" => __MODULE__.NzBankAccount,
+      "oxxo" => __MODULE__.Oxxo,
+      "p24" => __MODULE__.P24,
+      "pay_by_bank" => __MODULE__.PayByBank,
+      "payco" => __MODULE__.Payco,
+      "paynow" => __MODULE__.Paynow,
+      "paypal" => __MODULE__.Paypal,
+      "payto" => __MODULE__.Payto,
+      "pix" => __MODULE__.Pix,
+      "promptpay" => __MODULE__.Promptpay,
+      "revolut_pay" => __MODULE__.RevolutPay,
+      "samsung_pay" => __MODULE__.SamsungPay,
+      "satispay" => __MODULE__.Satispay,
+      "sepa_debit" => __MODULE__.SepaDebit,
+      "sofort" => __MODULE__.Sofort,
+      "swish" => __MODULE__.Swish,
+      "twint" => __MODULE__.Twint,
+      "us_bank_account" => __MODULE__.UsBankAccount,
+      "wechat_pay" => __MODULE__.WechatPay,
+      "zip" => __MODULE__.Zip
+    }
+  end
 end

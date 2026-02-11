@@ -75,6 +75,12 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
               }
         defstruct [:fields, :future_requirements]
       end
+
+      def __inner_types__ do
+        %{
+          "collection_options" => __MODULE__.CollectionOptions
+        }
+      end
     end
 
     defmodule AccountUpdate do
@@ -107,6 +113,19 @@ defmodule Stripe.Resources.V2.Core.AccountLink do
               }
         defstruct [:fields, :future_requirements]
       end
+
+      def __inner_types__ do
+        %{
+          "collection_options" => __MODULE__.CollectionOptions
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "account_onboarding" => __MODULE__.AccountOnboarding,
+        "account_update" => __MODULE__.AccountUpdate
+      }
     end
   end
 

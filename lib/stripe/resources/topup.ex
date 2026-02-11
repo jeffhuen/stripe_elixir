@@ -41,7 +41,7 @@ defmodule Stripe.Resources.Topup do
           livemode: boolean(),
           metadata: map(),
           object: String.t(),
-          source: String.t() | map(),
+          source: map(),
           statement_descriptor: String.t(),
           status: String.t(),
           transfer_group: String.t()
@@ -70,4 +70,10 @@ defmodule Stripe.Resources.Topup do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["balance_transaction", "source"]
+
+  def __inner_types__ do
+    %{
+      "source" => Stripe.Resources.Source
+    }
+  end
 end

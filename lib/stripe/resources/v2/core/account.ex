@@ -138,6 +138,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:country, :state]
         end
+
+        def __inner_types__ do
+          %{
+            "location" => __MODULE__.Location
+          }
+        end
       end
 
       defmodule Billing do
@@ -199,6 +205,19 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:amount_tax_display, :template]
           end
+
+          def __inner_types__ do
+            %{
+              "custom_fields" => __MODULE__.CustomFields,
+              "rendering" => __MODULE__.Rendering
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "invoice" => __MODULE__.Invoice
+          }
         end
       end
 
@@ -239,6 +258,18 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "automatic_indirect_tax" => __MODULE__.AutomaticIndirectTax
+          }
         end
       end
 
@@ -278,6 +309,21 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:city, :country, :line1, :line2, :postal_code, :state]
         end
+
+        def __inner_types__ do
+          %{
+            "address" => __MODULE__.Address
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "automatic_indirect_tax" => __MODULE__.AutomaticIndirectTax,
+          "billing" => __MODULE__.Billing,
+          "capabilities" => __MODULE__.Capabilities,
+          "shipping" => __MODULE__.Shipping
+        }
       end
     end
 
@@ -527,6 +573,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule AcssDebitPayments do
@@ -554,6 +606,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -583,6 +641,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule AfterpayClearpayPayments do
@@ -610,6 +674,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -639,6 +709,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule AmazonPayPayments do
@@ -666,6 +742,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -695,6 +777,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule BacsDebitPayments do
@@ -722,6 +810,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -751,6 +845,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule BlikPayments do
@@ -778,6 +878,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -807,6 +913,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule CardPayments do
@@ -834,6 +946,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -863,6 +981,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule CashappPayments do
@@ -890,6 +1014,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -919,6 +1049,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule FpxPayments do
@@ -946,6 +1082,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -975,6 +1117,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule GrabpayPayments do
@@ -1002,6 +1150,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1031,6 +1185,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule JcbPayments do
@@ -1058,6 +1218,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1087,6 +1253,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule KakaoPayPayments do
@@ -1114,6 +1286,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1143,6 +1321,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule KonbiniPayments do
@@ -1170,6 +1354,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1199,6 +1389,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule LinkPayments do
@@ -1226,6 +1422,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1255,6 +1457,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule MultibancoPayments do
@@ -1282,6 +1490,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1311,6 +1525,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule NaverPayPayments do
@@ -1338,6 +1558,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1367,6 +1593,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule P24Payments do
@@ -1394,6 +1626,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1423,6 +1661,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule PaycoPayments do
@@ -1450,6 +1694,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1479,6 +1729,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule PromptpayPayments do
@@ -1506,6 +1762,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1535,6 +1797,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule SamsungPayPayments do
@@ -1562,6 +1830,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1591,6 +1865,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule SepaDebitPayments do
@@ -1618,6 +1898,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1658,6 +1944,18 @@ defmodule Stripe.Resources.V2.Core.Account do
                     }
               defstruct [:code, :resolution]
             end
+
+            def __inner_types__ do
+              %{
+                "status_details" => __MODULE__.StatusDetails
+              }
+            end
+          end
+
+          def __inner_types__ do
+            %{
+              "payouts" => __MODULE__.Payouts
+            }
           end
         end
 
@@ -1687,6 +1985,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule TwintPayments do
@@ -1714,6 +2018,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     resolution: String.t() | nil
                   }
             defstruct [:code, :resolution]
+          end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
           end
         end
 
@@ -1743,6 +2053,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
         end
 
         defmodule ZipPayments do
@@ -1771,6 +2087,62 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:code, :resolution]
           end
+
+          def __inner_types__ do
+            %{
+              "status_details" => __MODULE__.StatusDetails
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "ach_debit_payments" => __MODULE__.AchDebitPayments,
+            "acss_debit_payments" => __MODULE__.AcssDebitPayments,
+            "affirm_payments" => __MODULE__.AffirmPayments,
+            "afterpay_clearpay_payments" => __MODULE__.AfterpayClearpayPayments,
+            "alma_payments" => __MODULE__.AlmaPayments,
+            "amazon_pay_payments" => __MODULE__.AmazonPayPayments,
+            "au_becs_debit_payments" => __MODULE__.AuBecsDebitPayments,
+            "bacs_debit_payments" => __MODULE__.BacsDebitPayments,
+            "bancontact_payments" => __MODULE__.BancontactPayments,
+            "blik_payments" => __MODULE__.BlikPayments,
+            "boleto_payments" => __MODULE__.BoletoPayments,
+            "card_payments" => __MODULE__.CardPayments,
+            "cartes_bancaires_payments" => __MODULE__.CartesBancairesPayments,
+            "cashapp_payments" => __MODULE__.CashappPayments,
+            "eps_payments" => __MODULE__.EpsPayments,
+            "fpx_payments" => __MODULE__.FpxPayments,
+            "gb_bank_transfer_payments" => __MODULE__.GbBankTransferPayments,
+            "grabpay_payments" => __MODULE__.GrabpayPayments,
+            "ideal_payments" => __MODULE__.IdealPayments,
+            "jcb_payments" => __MODULE__.JcbPayments,
+            "jp_bank_transfer_payments" => __MODULE__.JpBankTransferPayments,
+            "kakao_pay_payments" => __MODULE__.KakaoPayPayments,
+            "klarna_payments" => __MODULE__.KlarnaPayments,
+            "konbini_payments" => __MODULE__.KonbiniPayments,
+            "kr_card_payments" => __MODULE__.KrCardPayments,
+            "link_payments" => __MODULE__.LinkPayments,
+            "mobilepay_payments" => __MODULE__.MobilepayPayments,
+            "multibanco_payments" => __MODULE__.MultibancoPayments,
+            "mx_bank_transfer_payments" => __MODULE__.MxBankTransferPayments,
+            "naver_pay_payments" => __MODULE__.NaverPayPayments,
+            "oxxo_payments" => __MODULE__.OxxoPayments,
+            "p24_payments" => __MODULE__.P24Payments,
+            "pay_by_bank_payments" => __MODULE__.PayByBankPayments,
+            "payco_payments" => __MODULE__.PaycoPayments,
+            "paynow_payments" => __MODULE__.PaynowPayments,
+            "promptpay_payments" => __MODULE__.PromptpayPayments,
+            "revolut_pay_payments" => __MODULE__.RevolutPayPayments,
+            "samsung_pay_payments" => __MODULE__.SamsungPayPayments,
+            "sepa_bank_transfer_payments" => __MODULE__.SepaBankTransferPayments,
+            "sepa_debit_payments" => __MODULE__.SepaDebitPayments,
+            "stripe_balance" => __MODULE__.StripeBalance,
+            "swish_payments" => __MODULE__.SwishPayments,
+            "twint_payments" => __MODULE__.TwintPayments,
+            "us_bank_transfer_payments" => __MODULE__.UsBankTransferPayments,
+            "zip_payments" => __MODULE__.ZipPayments
+          }
         end
       end
 
@@ -1797,6 +2169,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   cvc_failure: boolean() | nil
                 }
           defstruct [:avs_failure, :cvc_failure]
+        end
+
+        def __inner_types__ do
+          %{
+            "decline_on" => __MODULE__.DeclineOn
+          }
         end
       end
 
@@ -1839,6 +2217,18 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:end_time, :start_time]
           end
+
+          def __inner_types__ do
+            %{
+              "hours" => __MODULE__.Hours
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "support" => __MODULE__.Support
+          }
         end
       end
 
@@ -1881,6 +2271,13 @@ defmodule Stripe.Resources.V2.Core.Account do
                   prefix: String.t() | nil
                 }
           defstruct [:descriptor, :prefix]
+        end
+
+        def __inner_types__ do
+          %{
+            "kana" => __MODULE__.Kana,
+            "kanji" => __MODULE__.Kanji
+          }
         end
       end
 
@@ -1950,6 +2347,26 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
         end
+
+        def __inner_types__ do
+          %{
+            "address" => __MODULE__.Address
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "bacs_debit_payments" => __MODULE__.BacsDebitPayments,
+          "branding" => __MODULE__.Branding,
+          "capabilities" => __MODULE__.Capabilities,
+          "card_payments" => __MODULE__.CardPayments,
+          "konbini_payments" => __MODULE__.KonbiniPayments,
+          "script_statement_descriptor" => __MODULE__.ScriptStatementDescriptor,
+          "sepa_debit_payments" => __MODULE__.SepaDebitPayments,
+          "statement_descriptor" => __MODULE__.StatementDescriptor,
+          "support" => __MODULE__.Support
+        }
       end
     end
 
@@ -2016,6 +2433,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                     }
               defstruct [:code, :resolution]
             end
+
+            def __inner_types__ do
+              %{
+                "status_details" => __MODULE__.StatusDetails
+              }
+            end
           end
 
           defmodule StripeTransfers do
@@ -2044,9 +2467,42 @@ defmodule Stripe.Resources.V2.Core.Account do
                     }
               defstruct [:code, :resolution]
             end
+
+            def __inner_types__ do
+              %{
+                "status_details" => __MODULE__.StatusDetails
+              }
+            end
+          end
+
+          def __inner_types__ do
+            %{
+              "payouts" => __MODULE__.Payouts,
+              "stripe_transfers" => __MODULE__.StripeTransfers
+            }
           end
         end
+
+        def __inner_types__ do
+          %{
+            "stripe_balance" => __MODULE__.StripeBalance
+          }
+        end
       end
+
+      def __inner_types__ do
+        %{
+          "capabilities" => __MODULE__.Capabilities
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "customer" => __MODULE__.Customer,
+        "merchant" => __MODULE__.Merchant,
+        "recipient" => __MODULE__.Recipient
+      }
     end
   end
 
@@ -2097,6 +2553,13 @@ defmodule Stripe.Resources.V2.Core.Account do
               requirements_collector: String.t() | nil
             }
       defstruct [:fees_collector, :losses_collector, :requirements_collector]
+    end
+
+    def __inner_types__ do
+      %{
+        "profile" => __MODULE__.Profile,
+        "responsibilities" => __MODULE__.Responsibilities
+      }
     end
   end
 
@@ -2197,6 +2660,18 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:status]
           end
+
+          def __inner_types__ do
+            %{
+              "deadline" => __MODULE__.Deadline
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "restricts_capabilities" => __MODULE__.RestrictsCapabilities
+          }
         end
       end
 
@@ -2240,6 +2715,16 @@ defmodule Stripe.Resources.V2.Core.Account do
               }
         defstruct [:code]
       end
+
+      def __inner_types__ do
+        %{
+          "errors" => __MODULE__.Errors,
+          "impact" => __MODULE__.Impact,
+          "minimum_deadline" => __MODULE__.MinimumDeadline,
+          "reference" => __MODULE__.Reference,
+          "requested_reasons" => __MODULE__.RequestedReasons
+        }
+      end
     end
 
     defmodule Summary do
@@ -2266,6 +2751,19 @@ defmodule Stripe.Resources.V2.Core.Account do
               }
         defstruct [:status, :time]
       end
+
+      def __inner_types__ do
+        %{
+          "minimum_deadline" => __MODULE__.MinimumDeadline
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "entries" => __MODULE__.Entries,
+        "summary" => __MODULE__.Summary
+      }
     end
   end
 
@@ -2405,6 +2903,22 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:date, :ip, :user_agent]
         end
+
+        def __inner_types__ do
+          %{
+            "account" => __MODULE__.Account
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "directorship_declaration" => __MODULE__.DirectorshipDeclaration,
+          "ownership_declaration" => __MODULE__.OwnershipDeclaration,
+          "persons_provided" => __MODULE__.PersonsProvided,
+          "representative_declaration" => __MODULE__.RepresentativeDeclaration,
+          "terms_of_service" => __MODULE__.TermsOfService
+        }
       end
     end
 
@@ -2503,6 +3017,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   value: integer() | nil
                 }
           defstruct [:currency, :value]
+        end
+
+        def __inner_types__ do
+          %{
+            "amount" => __MODULE__.Amount
+          }
         end
       end
 
@@ -2656,6 +3176,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:back, :front]
           end
+
+          def __inner_types__ do
+            %{
+              "front_back" => __MODULE__.FrontBack
+            }
+          end
         end
 
         defmodule ProofOfAddress do
@@ -2699,6 +3225,22 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:files, :type]
         end
+
+        def __inner_types__ do
+          %{
+            "bank_account_ownership_verification" => __MODULE__.BankAccountOwnershipVerification,
+            "company_license" => __MODULE__.CompanyLicense,
+            "company_memorandum_of_association" => __MODULE__.CompanyMemorandumOfAssociation,
+            "company_ministerial_decree" => __MODULE__.CompanyMinisterialDecree,
+            "company_registration_verification" => __MODULE__.CompanyRegistrationVerification,
+            "company_tax_id_verification" => __MODULE__.CompanyTaxIdVerification,
+            "primary_verification" => __MODULE__.PrimaryVerification,
+            "proof_of_address" => __MODULE__.ProofOfAddress,
+            "proof_of_registration" => __MODULE__.ProofOfRegistration,
+            "proof_of_ultimate_beneficial_ownership" =>
+              __MODULE__.ProofOfUltimateBeneficialOwnership
+          }
+        end
       end
 
       defmodule IdNumbers do
@@ -2738,6 +3280,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   value: integer() | nil
                 }
           defstruct [:currency, :value]
+        end
+
+        def __inner_types__ do
+          %{
+            "amount" => __MODULE__.Amount
+          }
         end
       end
 
@@ -2817,6 +3365,13 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
         end
+
+        def __inner_types__ do
+          %{
+            "kana" => __MODULE__.Kana,
+            "kanji" => __MODULE__.Kanji
+          }
+        end
       end
 
       defmodule ScriptNames do
@@ -2855,6 +3410,26 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:registered_name]
         end
+
+        def __inner_types__ do
+          %{
+            "kana" => __MODULE__.Kana,
+            "kanji" => __MODULE__.Kanji
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "address" => __MODULE__.Address,
+          "annual_revenue" => __MODULE__.AnnualRevenue,
+          "documents" => __MODULE__.Documents,
+          "id_numbers" => __MODULE__.IdNumbers,
+          "monthly_estimated_revenue" => __MODULE__.MonthlyEstimatedRevenue,
+          "registration_date" => __MODULE__.RegistrationDate,
+          "script_addresses" => __MODULE__.ScriptAddresses,
+          "script_names" => __MODULE__.ScriptNames
+        }
       end
     end
 
@@ -3007,6 +3582,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:date, :ip, :user_agent]
         end
+
+        def __inner_types__ do
+          %{
+            "account" => __MODULE__.Account
+          }
+        end
       end
 
       defmodule Address do
@@ -3128,6 +3709,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:back, :front]
           end
+
+          def __inner_types__ do
+            %{
+              "front_back" => __MODULE__.FrontBack
+            }
+          end
         end
 
         defmodule SecondaryVerification do
@@ -3156,6 +3743,12 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:back, :front]
           end
+
+          def __inner_types__ do
+            %{
+              "front_back" => __MODULE__.FrontBack
+            }
+          end
         end
 
         defmodule Visa do
@@ -3170,6 +3763,16 @@ defmodule Stripe.Resources.V2.Core.Account do
                   type: String.t() | nil
                 }
           defstruct [:files, :type]
+        end
+
+        def __inner_types__ do
+          %{
+            "company_authorization" => __MODULE__.CompanyAuthorization,
+            "passport" => __MODULE__.Passport,
+            "primary_verification" => __MODULE__.PrimaryVerification,
+            "secondary_verification" => __MODULE__.SecondaryVerification,
+            "visa" => __MODULE__.Visa
+          }
         end
       end
 
@@ -3280,6 +3883,13 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:city, :country, :line1, :line2, :postal_code, :state, :town]
         end
+
+        def __inner_types__ do
+          %{
+            "kana" => __MODULE__.Kana,
+            "kanji" => __MODULE__.Kanji
+          }
+        end
       end
 
       defmodule ScriptNames do
@@ -3322,7 +3932,37 @@ defmodule Stripe.Resources.V2.Core.Account do
                 }
           defstruct [:given_name, :surname]
         end
+
+        def __inner_types__ do
+          %{
+            "kana" => __MODULE__.Kana,
+            "kanji" => __MODULE__.Kanji
+          }
+        end
       end
+
+      def __inner_types__ do
+        %{
+          "additional_addresses" => __MODULE__.AdditionalAddresses,
+          "additional_names" => __MODULE__.AdditionalNames,
+          "additional_terms_of_service" => __MODULE__.AdditionalTermsOfService,
+          "address" => __MODULE__.Address,
+          "date_of_birth" => __MODULE__.DateOfBirth,
+          "documents" => __MODULE__.Documents,
+          "id_numbers" => __MODULE__.IdNumbers,
+          "relationship" => __MODULE__.Relationship,
+          "script_addresses" => __MODULE__.ScriptAddresses,
+          "script_names" => __MODULE__.ScriptNames
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "attestations" => __MODULE__.Attestations,
+        "business_details" => __MODULE__.BusinessDetails,
+        "individual" => __MODULE__.Individual
+      }
     end
   end
 
@@ -3421,6 +4061,18 @@ defmodule Stripe.Resources.V2.Core.Account do
                   }
             defstruct [:status]
           end
+
+          def __inner_types__ do
+            %{
+              "deadline" => __MODULE__.Deadline
+            }
+          end
+        end
+
+        def __inner_types__ do
+          %{
+            "restricts_capabilities" => __MODULE__.RestrictsCapabilities
+          }
         end
       end
 
@@ -3464,6 +4116,16 @@ defmodule Stripe.Resources.V2.Core.Account do
               }
         defstruct [:code]
       end
+
+      def __inner_types__ do
+        %{
+          "errors" => __MODULE__.Errors,
+          "impact" => __MODULE__.Impact,
+          "minimum_deadline" => __MODULE__.MinimumDeadline,
+          "reference" => __MODULE__.Reference,
+          "requested_reasons" => __MODULE__.RequestedReasons
+        }
+      end
     end
 
     defmodule Summary do
@@ -3490,6 +4152,19 @@ defmodule Stripe.Resources.V2.Core.Account do
               }
         defstruct [:status, :time]
       end
+
+      def __inner_types__ do
+        %{
+          "minimum_deadline" => __MODULE__.MinimumDeadline
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "entries" => __MODULE__.Entries,
+        "summary" => __MODULE__.Summary
+      }
     end
   end
 

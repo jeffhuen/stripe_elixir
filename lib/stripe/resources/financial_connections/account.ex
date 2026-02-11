@@ -100,4 +100,164 @@ defmodule Stripe.Resources.FinancialConnections.Account do
       "ownership_refresh",
       "transaction_refresh"
     ]
+
+  defmodule AccountHolder do
+    @moduledoc false
+
+    @typedoc """
+    * `account` - The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
+    * `customer` - The ID for an Account representing a customer that this account belongs to. Only available when `account_holder.type` is `customer`.
+    * `customer_account` - Max length: 5000.
+    * `type` - Type of account holder that this account belongs to. Possible values: `account`, `customer`.
+    """
+    @type t :: %__MODULE__{
+            account: String.t() | map() | nil,
+            customer: String.t() | map() | nil,
+            customer_account: String.t() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:account, :customer, :customer_account, :type]
+  end
+
+  defmodule AccountNumbers do
+    @moduledoc false
+
+    @typedoc """
+    * `expected_expiry_date` - When the account number is expected to expire, if applicable. Format: Unix timestamp. Nullable.
+    * `identifier_type` - The type of account number associated with the account. Possible values: `account_number`, `tokenized_account_number`.
+    * `status` - Whether the account number is currently active and usable for transactions. Possible values: `deactivated`, `transactable`.
+    * `supported_networks` - The payment networks that the account number can be used for.
+    """
+    @type t :: %__MODULE__{
+            expected_expiry_date: integer() | nil,
+            identifier_type: String.t() | nil,
+            status: String.t() | nil,
+            supported_networks: [String.t()] | nil
+          }
+    defstruct [:expected_expiry_date, :identifier_type, :status, :supported_networks]
+  end
+
+  defmodule Balance do
+    @moduledoc false
+
+    @typedoc """
+    * `as_of` - The time that the external institution calculated this balance. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+    * `cash`
+    * `credit`
+    * `current` - The balances owed to (or by) the account holder, before subtracting any outbound pending transactions or adding any inbound pending transactions.
+
+    Each key is a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+
+    Each value is a integer amount. A positive amount indicates money owed to the account holder. A negative amount indicates money owed by the account holder.
+    * `type` - The `type` of the balance. An additional hash is included on the balance with a name matching this value. Possible values: `cash`, `credit`.
+    """
+    @type t :: %__MODULE__{
+            as_of: integer() | nil,
+            cash: map() | nil,
+            credit: map() | nil,
+            current: map() | nil,
+            type: String.t() | nil
+          }
+    defstruct [:as_of, :cash, :credit, :current, :type]
+
+    defmodule Cash do
+      @moduledoc false
+
+      @typedoc """
+      * `available` - The funds available to the account holder. Typically this is the current balance after subtracting any outbound pending transactions and adding any inbound pending transactions.
+
+      Each key is a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+
+      Each value is a integer amount. A positive amount indicates money owed to the account holder. A negative amount indicates money owed by the account holder. Nullable.
+      """
+      @type t :: %__MODULE__{
+              available: map() | nil
+            }
+      defstruct [:available]
+    end
+
+    defmodule Credit do
+      @moduledoc false
+
+      @typedoc """
+      * `used` - The credit that has been used by the account holder.
+
+      Each key is a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+
+      Each value is a integer amount. A positive amount indicates money owed to the account holder. A negative amount indicates money owed by the account holder. Nullable.
+      """
+      @type t :: %__MODULE__{
+              used: map() | nil
+            }
+      defstruct [:used]
+    end
+
+    def __inner_types__ do
+      %{
+        "cash" => __MODULE__.Cash,
+        "credit" => __MODULE__.Credit
+      }
+    end
+  end
+
+  defmodule BalanceRefresh do
+    @moduledoc false
+
+    @typedoc """
+    * `last_attempted_at` - The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+    * `next_refresh_available_at` - Time at which the next balance refresh can be initiated. This value will be `null` when `status` is `pending`. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
+    * `status` - The status of the last refresh attempt. Possible values: `failed`, `pending`, `succeeded`.
+    """
+    @type t :: %__MODULE__{
+            last_attempted_at: integer() | nil,
+            next_refresh_available_at: integer() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:last_attempted_at, :next_refresh_available_at, :status]
+  end
+
+  defmodule OwnershipRefresh do
+    @moduledoc false
+
+    @typedoc """
+    * `last_attempted_at` - The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+    * `next_refresh_available_at` - Time at which the next ownership refresh can be initiated. This value will be `null` when `status` is `pending`. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
+    * `status` - The status of the last refresh attempt. Possible values: `failed`, `pending`, `succeeded`.
+    """
+    @type t :: %__MODULE__{
+            last_attempted_at: integer() | nil,
+            next_refresh_available_at: integer() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:last_attempted_at, :next_refresh_available_at, :status]
+  end
+
+  defmodule TransactionRefresh do
+    @moduledoc false
+
+    @typedoc """
+    * `id` - Unique identifier for the object. Max length: 5000.
+    * `last_attempted_at` - The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch. Format: Unix timestamp.
+    * `next_refresh_available_at` - Time at which the next transaction refresh can be initiated. This value will be `null` when `status` is `pending`. Measured in seconds since the Unix epoch. Format: Unix timestamp. Nullable.
+    * `status` - The status of the last refresh attempt. Possible values: `failed`, `pending`, `succeeded`.
+    """
+    @type t :: %__MODULE__{
+            id: String.t() | nil,
+            last_attempted_at: integer() | nil,
+            next_refresh_available_at: integer() | nil,
+            status: String.t() | nil
+          }
+    defstruct [:id, :last_attempted_at, :next_refresh_available_at, :status]
+  end
+
+  def __inner_types__ do
+    %{
+      "account_holder" => __MODULE__.AccountHolder,
+      "account_numbers" => __MODULE__.AccountNumbers,
+      "balance" => __MODULE__.Balance,
+      "balance_refresh" => __MODULE__.BalanceRefresh,
+      "ownership_refresh" => __MODULE__.OwnershipRefresh,
+      "transaction_refresh" => __MODULE__.TransactionRefresh
+    }
+  end
 end

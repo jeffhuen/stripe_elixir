@@ -34,7 +34,7 @@ defmodule Stripe.Resources.LineItem do
           id: String.t(),
           metadata: map(),
           object: String.t(),
-          price: String.t() | map(),
+          price: map(),
           quantity: integer(),
           taxes: [map()] | nil
         }
@@ -60,4 +60,61 @@ defmodule Stripe.Resources.LineItem do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["adjustable_quantity", "discounts", "price", "taxes"]
+
+  defmodule AdjustableQuantity do
+    @moduledoc false
+
+    @typedoc """
+    * `enabled`
+    * `maximum` - Nullable.
+    * `minimum` - Nullable.
+    """
+    @type t :: %__MODULE__{
+            enabled: boolean() | nil,
+            maximum: integer() | nil,
+            minimum: integer() | nil
+          }
+    defstruct [:enabled, :maximum, :minimum]
+  end
+
+  defmodule Discounts do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - The amount discounted.
+    * `discount`
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            discount: map() | nil
+          }
+    defstruct [:amount, :discount]
+  end
+
+  defmodule Taxes do
+    @moduledoc false
+
+    @typedoc """
+    * `amount` - Amount of tax applied for this rate.
+    * `rate`
+    * `taxability_reason` - The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported. Possible values: `customer_exempt`, `not_collecting`, `not_subject_to_tax`, `not_supported`, `portion_product_exempt`, `portion_reduced_rated`, `portion_standard_rated`, `product_exempt`, `product_exempt_holiday`, `proportionally_rated`, `reduced_rated`, `reverse_charge`, `standard_rated`, `taxable_basis_reduced`, `zero_rated`. Nullable.
+    * `taxable_amount` - The amount on which tax is calculated, in cents (or local equivalent). Nullable.
+    """
+    @type t :: %__MODULE__{
+            amount: integer() | nil,
+            rate: map() | nil,
+            taxability_reason: String.t() | nil,
+            taxable_amount: integer() | nil
+          }
+    defstruct [:amount, :rate, :taxability_reason, :taxable_amount]
+  end
+
+  def __inner_types__ do
+    %{
+      "adjustable_quantity" => __MODULE__.AdjustableQuantity,
+      "discounts" => __MODULE__.Discounts,
+      "price" => Stripe.Resources.Price,
+      "taxes" => __MODULE__.Taxes
+    }
+  end
 end

@@ -29,4 +29,24 @@ defmodule Stripe.Resources.CashBalance do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["settings"]
+
+  defmodule Settings do
+    @moduledoc false
+
+    @typedoc """
+    * `reconciliation_mode` - The configuration for how funds that land in the customer cash balance are reconciled. Possible values: `automatic`, `manual`.
+    * `using_merchant_default` - A flag to indicate if reconciliation mode returned is the user's default or is specific to this customer cash balance
+    """
+    @type t :: %__MODULE__{
+            reconciliation_mode: String.t() | nil,
+            using_merchant_default: boolean() | nil
+          }
+    defstruct [:reconciliation_mode, :using_merchant_default]
+  end
+
+  def __inner_types__ do
+    %{
+      "settings" => __MODULE__.Settings
+    }
+  end
 end

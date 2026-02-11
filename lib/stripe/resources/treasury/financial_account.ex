@@ -29,10 +29,10 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
   """
   @type t :: %__MODULE__{
           active_features: [String.t()] | nil,
-          balance: String.t() | map(),
+          balance: map(),
           country: String.t(),
           created: integer(),
-          features: String.t() | map() | nil,
+          features: map() | nil,
           financial_addresses: [map()],
           id: String.t(),
           is_default: boolean() | nil,
@@ -41,10 +41,10 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
           nickname: String.t() | nil,
           object: String.t(),
           pending_features: [String.t()] | nil,
-          platform_restrictions: String.t() | map() | nil,
+          platform_restrictions: map() | nil,
           restricted_features: [String.t()] | nil,
           status: String.t(),
-          status_details: String.t() | map(),
+          status_details: map(),
           supported_currencies: [String.t()]
         }
 
@@ -74,4 +74,30 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
 
   def expandable_fields,
     do: ["balance", "features", "financial_addresses", "platform_restrictions", "status_details"]
+
+  defmodule FinancialAddresses do
+    @moduledoc false
+
+    @typedoc """
+    * `aba`
+    * `supported_networks` - The list of networks that the address supports
+    * `type` - The type of financial address Possible values: `aba`.
+    """
+    @type t :: %__MODULE__{
+            aba: map() | nil,
+            supported_networks: [String.t()] | nil,
+            type: String.t() | nil
+          }
+    defstruct [:aba, :supported_networks, :type]
+  end
+
+  def __inner_types__ do
+    %{
+      "balance" => Stripe.Resources.Balance,
+      "features" => Stripe.Resources.Treasury.FinancialAccountFeatures,
+      "financial_addresses" => __MODULE__.FinancialAddresses,
+      "platform_restrictions" => Stripe.Resources.PlatformRestriction,
+      "status_details" => Stripe.Resources.StatusDetails
+    }
+  end
 end

@@ -10,7 +10,7 @@ defmodule Stripe.Resources.BillingDetails do
   * `name` - Full name. Max length: 5000. Nullable.
   """
   @type t :: %__MODULE__{
-          address: String.t() | map(),
+          address: map(),
           email: String.t(),
           name: String.t()
         }
@@ -21,4 +21,10 @@ defmodule Stripe.Resources.BillingDetails do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["address"]
+
+  def __inner_types__ do
+    %{
+      "address" => Stripe.Resources.Address
+    }
+  end
 end

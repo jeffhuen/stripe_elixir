@@ -58,6 +58,12 @@ defmodule Stripe.Resources.V2.Core.Event do
             }
       defstruct [:id, :idempotency_key]
     end
+
+    def __inner_types__ do
+      %{
+        "request" => __MODULE__.Request
+      }
+    end
   end
 
   def __inner_types__ do

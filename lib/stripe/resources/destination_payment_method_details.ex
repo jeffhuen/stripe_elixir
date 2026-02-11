@@ -11,10 +11,10 @@ defmodule Stripe.Resources.DestinationPaymentMethodDetails do
   * `us_bank_account` - Expandable.
   """
   @type t :: %__MODULE__{
-          billing_details: String.t() | map(),
-          financial_account: String.t() | map() | nil,
+          billing_details: map(),
+          financial_account: map() | nil,
           type: String.t(),
-          us_bank_account: String.t() | map() | nil
+          us_bank_account: map() | nil
         }
 
   defstruct [:billing_details, :financial_account, :type, :us_bank_account]
@@ -23,4 +23,12 @@ defmodule Stripe.Resources.DestinationPaymentMethodDetails do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["billing_details", "financial_account", "us_bank_account"]
+
+  def __inner_types__ do
+    %{
+      "billing_details" => Stripe.Resources.BillingDetails,
+      "financial_account" => Stripe.Resources.FinancialAccount,
+      "us_bank_account" => Stripe.Resources.UsBankAccount
+    }
+  end
 end

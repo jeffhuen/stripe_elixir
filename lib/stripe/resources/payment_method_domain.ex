@@ -57,4 +57,207 @@ defmodule Stripe.Resources.PaymentMethodDomain do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["amazon_pay", "apple_pay", "google_pay", "klarna", "link", "paypal"]
+
+  defmodule AmazonPay do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+    * `status_details`
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil,
+            status_details: map() | nil
+          }
+    defstruct [:status, :status_details]
+
+    defmodule StatusDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              error_message: String.t() | nil
+            }
+      defstruct [:error_message]
+    end
+
+    def __inner_types__ do
+      %{
+        "status_details" => __MODULE__.StatusDetails
+      }
+    end
+  end
+
+  defmodule ApplePay do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+    * `status_details`
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil,
+            status_details: map() | nil
+          }
+    defstruct [:status, :status_details]
+
+    defmodule StatusDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              error_message: String.t() | nil
+            }
+      defstruct [:error_message]
+    end
+
+    def __inner_types__ do
+      %{
+        "status_details" => __MODULE__.StatusDetails
+      }
+    end
+  end
+
+  defmodule GooglePay do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+    * `status_details`
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil,
+            status_details: map() | nil
+          }
+    defstruct [:status, :status_details]
+
+    defmodule StatusDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              error_message: String.t() | nil
+            }
+      defstruct [:error_message]
+    end
+
+    def __inner_types__ do
+      %{
+        "status_details" => __MODULE__.StatusDetails
+      }
+    end
+  end
+
+  defmodule Klarna do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+    * `status_details`
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil,
+            status_details: map() | nil
+          }
+    defstruct [:status, :status_details]
+
+    defmodule StatusDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              error_message: String.t() | nil
+            }
+      defstruct [:error_message]
+    end
+
+    def __inner_types__ do
+      %{
+        "status_details" => __MODULE__.StatusDetails
+      }
+    end
+  end
+
+  defmodule Link do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+    * `status_details`
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil,
+            status_details: map() | nil
+          }
+    defstruct [:status, :status_details]
+
+    defmodule StatusDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              error_message: String.t() | nil
+            }
+      defstruct [:error_message]
+    end
+
+    def __inner_types__ do
+      %{
+        "status_details" => __MODULE__.StatusDetails
+      }
+    end
+  end
+
+  defmodule Paypal do
+    @moduledoc false
+
+    @typedoc """
+    * `status` - The status of the payment method on the domain. Possible values: `active`, `inactive`.
+    * `status_details`
+    """
+    @type t :: %__MODULE__{
+            status: String.t() | nil,
+            status_details: map() | nil
+          }
+    defstruct [:status, :status_details]
+
+    defmodule StatusDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `error_message` - The error message associated with the status of the payment method on the domain. Max length: 5000.
+      """
+      @type t :: %__MODULE__{
+              error_message: String.t() | nil
+            }
+      defstruct [:error_message]
+    end
+
+    def __inner_types__ do
+      %{
+        "status_details" => __MODULE__.StatusDetails
+      }
+    end
+  end
+
+  def __inner_types__ do
+    %{
+      "amazon_pay" => __MODULE__.AmazonPay,
+      "apple_pay" => __MODULE__.ApplePay,
+      "google_pay" => __MODULE__.GooglePay,
+      "klarna" => __MODULE__.Klarna,
+      "link" => __MODULE__.Link,
+      "paypal" => __MODULE__.Paypal
+    }
+  end
 end

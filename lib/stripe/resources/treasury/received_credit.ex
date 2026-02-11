@@ -67,4 +67,110 @@ defmodule Stripe.Resources.Treasury.ReceivedCredit do
 
   def expandable_fields,
     do: ["initiating_payment_method_details", "linked_flows", "reversal_details", "transaction"]
+
+  defmodule InitiatingPaymentMethodDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `balance` - Set when `type` is `balance`. Possible values: `payments`.
+    * `billing_details`
+    * `financial_account`
+    * `issuing_card` - Set when `type` is `issuing_card`. This is an [Issuing Card](https://api.stripe.com#issuing_cards) ID. Max length: 5000.
+    * `type` - Polymorphic type matching the originating money movement's source. This can be an external account, a Stripe balance, or a FinancialAccount. Possible values: `balance`, `financial_account`, `issuing_card`, `stripe`, `us_bank_account`.
+    * `us_bank_account`
+    """
+    @type t :: %__MODULE__{
+            balance: String.t() | nil,
+            billing_details: map() | nil,
+            financial_account: map() | nil,
+            issuing_card: String.t() | nil,
+            type: String.t() | nil,
+            us_bank_account: map() | nil
+          }
+    defstruct [
+      :balance,
+      :billing_details,
+      :financial_account,
+      :issuing_card,
+      :type,
+      :us_bank_account
+    ]
+  end
+
+  defmodule LinkedFlows do
+    @moduledoc false
+
+    @typedoc """
+    * `credit_reversal` - The CreditReversal created as a result of this ReceivedCredit being reversed. Max length: 5000. Nullable.
+    * `issuing_authorization` - Set if the ReceivedCredit was created due to an [Issuing Authorization](https://api.stripe.com#issuing_authorizations) object. Max length: 5000. Nullable.
+    * `issuing_transaction` - Set if the ReceivedCredit is also viewable as an [Issuing transaction](https://api.stripe.com#issuing_transactions) object. Max length: 5000. Nullable.
+    * `source_flow` - ID of the source flow. Set if `network` is `stripe` and the source flow is visible to the user. Examples of source flows include OutboundPayments, payouts, or CreditReversals. Max length: 5000. Nullable.
+    * `source_flow_details` - The expandable object of the source flow. Nullable.
+    * `source_flow_type` - The type of flow that originated the ReceivedCredit (for example, `outbound_payment`). Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            credit_reversal: String.t() | nil,
+            issuing_authorization: String.t() | nil,
+            issuing_transaction: String.t() | nil,
+            source_flow: String.t() | nil,
+            source_flow_details: map() | nil,
+            source_flow_type: String.t() | nil
+          }
+    defstruct [
+      :credit_reversal,
+      :issuing_authorization,
+      :issuing_transaction,
+      :source_flow,
+      :source_flow_details,
+      :source_flow_type
+    ]
+
+    defmodule SourceFlowDetails do
+      @moduledoc false
+
+      @typedoc """
+      * `credit_reversal`
+      * `outbound_payment`
+      * `outbound_transfer`
+      * `payout`
+      * `type` - The type of the source flow that originated the ReceivedCredit. Possible values: `credit_reversal`, `other`, `outbound_payment`, `outbound_transfer`, `payout`.
+      """
+      @type t :: %__MODULE__{
+              credit_reversal: map() | nil,
+              outbound_payment: map() | nil,
+              outbound_transfer: map() | nil,
+              payout: map() | nil,
+              type: String.t() | nil
+            }
+      defstruct [:credit_reversal, :outbound_payment, :outbound_transfer, :payout, :type]
+    end
+
+    def __inner_types__ do
+      %{
+        "source_flow_details" => __MODULE__.SourceFlowDetails
+      }
+    end
+  end
+
+  defmodule ReversalDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `deadline` - Time before which a ReceivedCredit can be reversed. Format: Unix timestamp. Nullable.
+    * `restricted_reason` - Set if a ReceivedCredit cannot be reversed. Possible values: `already_reversed`, `deadline_passed`, `network_restricted`, `other`, `source_flow_restricted`. Nullable.
+    """
+    @type t :: %__MODULE__{
+            deadline: integer() | nil,
+            restricted_reason: String.t() | nil
+          }
+    defstruct [:deadline, :restricted_reason]
+  end
+
+  def __inner_types__ do
+    %{
+      "initiating_payment_method_details" => __MODULE__.InitiatingPaymentMethodDetails,
+      "linked_flows" => __MODULE__.LinkedFlows,
+      "reversal_details" => __MODULE__.ReversalDetails
+    }
+  end
 end

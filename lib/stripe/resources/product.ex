@@ -83,4 +83,41 @@ defmodule Stripe.Resources.Product do
 
   def expandable_fields,
     do: ["default_price", "marketing_features", "package_dimensions", "tax_code"]
+
+  defmodule MarketingFeatures do
+    @moduledoc false
+
+    @typedoc """
+    * `name` - The marketing feature name. Up to 80 characters long. Max length: 5000.
+    """
+    @type t :: %__MODULE__{
+            name: String.t() | nil
+          }
+    defstruct [:name]
+  end
+
+  defmodule PackageDimensions do
+    @moduledoc false
+
+    @typedoc """
+    * `height` - Height, in inches.
+    * `length` - Length, in inches.
+    * `weight` - Weight, in ounces.
+    * `width` - Width, in inches.
+    """
+    @type t :: %__MODULE__{
+            height: float() | nil,
+            length: float() | nil,
+            weight: float() | nil,
+            width: float() | nil
+          }
+    defstruct [:height, :length, :weight, :width]
+  end
+
+  def __inner_types__ do
+    %{
+      "marketing_features" => __MODULE__.MarketingFeatures,
+      "package_dimensions" => __MODULE__.PackageDimensions
+    }
+  end
 end

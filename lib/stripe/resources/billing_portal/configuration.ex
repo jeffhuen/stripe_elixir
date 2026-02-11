@@ -60,4 +60,265 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["application", "business_profile", "features", "login_page"]
+
+  defmodule BusinessProfile do
+    @moduledoc false
+
+    @typedoc """
+    * `headline` - The messaging shown to customers in the portal. Max length: 5000. Nullable.
+    * `privacy_policy_url` - A link to the business’s publicly available privacy policy. Max length: 5000. Nullable.
+    * `terms_of_service_url` - A link to the business’s publicly available terms of service. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            headline: String.t() | nil,
+            privacy_policy_url: String.t() | nil,
+            terms_of_service_url: String.t() | nil
+          }
+    defstruct [:headline, :privacy_policy_url, :terms_of_service_url]
+  end
+
+  defmodule Features do
+    @moduledoc false
+
+    @typedoc """
+    * `customer_update`
+    * `invoice_history`
+    * `payment_method_update`
+    * `subscription_cancel`
+    * `subscription_update`
+    """
+    @type t :: %__MODULE__{
+            customer_update: map() | nil,
+            invoice_history: map() | nil,
+            payment_method_update: map() | nil,
+            subscription_cancel: map() | nil,
+            subscription_update: map() | nil
+          }
+    defstruct [
+      :customer_update,
+      :invoice_history,
+      :payment_method_update,
+      :subscription_cancel,
+      :subscription_update
+    ]
+
+    defmodule CustomerUpdate do
+      @moduledoc false
+
+      @typedoc """
+      * `allowed_updates` - The types of customer updates that are supported. When empty, customers are not updateable.
+      * `enabled` - Whether the feature is enabled.
+      """
+      @type t :: %__MODULE__{
+              allowed_updates: [String.t()] | nil,
+              enabled: boolean() | nil
+            }
+      defstruct [:allowed_updates, :enabled]
+    end
+
+    defmodule InvoiceHistory do
+      @moduledoc false
+
+      @typedoc """
+      * `enabled` - Whether the feature is enabled.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil
+            }
+      defstruct [:enabled]
+    end
+
+    defmodule PaymentMethodUpdate do
+      @moduledoc false
+
+      @typedoc """
+      * `enabled` - Whether the feature is enabled.
+      * `payment_method_configuration` - The [Payment Method Configuration](https://docs.stripe.com/api/payment_method_configurations) to use for this portal session. When specified, customers will be able to update their payment method to one of the options specified by the payment method configuration. If not set, the default payment method configuration is used. Max length: 5000. Nullable.
+      """
+      @type t :: %__MODULE__{
+              enabled: boolean() | nil,
+              payment_method_configuration: String.t() | nil
+            }
+      defstruct [:enabled, :payment_method_configuration]
+    end
+
+    defmodule SubscriptionCancel do
+      @moduledoc false
+
+      @typedoc """
+      * `cancellation_reason`
+      * `enabled` - Whether the feature is enabled.
+      * `mode` - Whether to cancel subscriptions immediately or at the end of the billing period. Possible values: `at_period_end`, `immediately`.
+      * `proration_behavior` - Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`. Possible values: `always_invoice`, `create_prorations`, `none`.
+      """
+      @type t :: %__MODULE__{
+              cancellation_reason: map() | nil,
+              enabled: boolean() | nil,
+              mode: String.t() | nil,
+              proration_behavior: String.t() | nil
+            }
+      defstruct [:cancellation_reason, :enabled, :mode, :proration_behavior]
+
+      defmodule CancellationReason do
+        @moduledoc false
+
+        @typedoc """
+        * `enabled` - Whether the feature is enabled.
+        * `options` - Which cancellation reasons will be given as options to the customer.
+        """
+        @type t :: %__MODULE__{
+                enabled: boolean() | nil,
+                options: [String.t()] | nil
+              }
+        defstruct [:enabled, :options]
+      end
+
+      def __inner_types__ do
+        %{
+          "cancellation_reason" => __MODULE__.CancellationReason
+        }
+      end
+    end
+
+    defmodule SubscriptionUpdate do
+      @moduledoc false
+
+      @typedoc """
+      * `billing_cycle_anchor` - Determines the value to use for the billing cycle anchor on subscription updates. Valid values are `now` or `unchanged`, and the default value is `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle). Possible values: `now`, `unchanged`. Nullable.
+      * `default_allowed_updates` - The types of subscription updates that are supported for items listed in the `products` attribute. When empty, subscriptions are not updateable.
+      * `enabled` - Whether the feature is enabled.
+      * `products` - The list of up to 10 products that support subscription updates. Nullable.
+      * `proration_behavior` - Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Defaults to a value of `none` if you don't set it during creation. Possible values: `always_invoice`, `create_prorations`, `none`.
+      * `schedule_at_period_end`
+      * `trial_update_behavior` - Determines how handle updates to trialing subscriptions. Valid values are `end_trial` and `continue_trial`. Defaults to a value of `end_trial` if you don't set it during creation. Possible values: `continue_trial`, `end_trial`.
+      """
+      @type t :: %__MODULE__{
+              billing_cycle_anchor: String.t() | nil,
+              default_allowed_updates: [String.t()] | nil,
+              enabled: boolean() | nil,
+              products: [map()] | nil,
+              proration_behavior: String.t() | nil,
+              schedule_at_period_end: map() | nil,
+              trial_update_behavior: String.t() | nil
+            }
+      defstruct [
+        :billing_cycle_anchor,
+        :default_allowed_updates,
+        :enabled,
+        :products,
+        :proration_behavior,
+        :schedule_at_period_end,
+        :trial_update_behavior
+      ]
+
+      defmodule Products do
+        @moduledoc false
+
+        @typedoc """
+        * `adjustable_quantity`
+        * `prices` - The list of price IDs which, when subscribed to, a subscription can be updated.
+        * `product` - The product ID. Max length: 5000.
+        """
+        @type t :: %__MODULE__{
+                adjustable_quantity: map() | nil,
+                prices: [String.t()] | nil,
+                product: String.t() | nil
+              }
+        defstruct [:adjustable_quantity, :prices, :product]
+
+        defmodule AdjustableQuantity do
+          @moduledoc false
+
+          @typedoc """
+          * `enabled` - If true, the quantity can be adjusted to any non-negative integer.
+          * `maximum` - The maximum quantity that can be set for the product. Nullable.
+          * `minimum` - The minimum quantity that can be set for the product.
+          """
+          @type t :: %__MODULE__{
+                  enabled: boolean() | nil,
+                  maximum: integer() | nil,
+                  minimum: integer() | nil
+                }
+          defstruct [:enabled, :maximum, :minimum]
+        end
+
+        def __inner_types__ do
+          %{
+            "adjustable_quantity" => __MODULE__.AdjustableQuantity
+          }
+        end
+      end
+
+      defmodule ScheduleAtPeriodEnd do
+        @moduledoc false
+
+        @typedoc """
+        * `conditions` - List of conditions. When any condition is true, an update will be scheduled at the end of the current period.
+        """
+        @type t :: %__MODULE__{
+                conditions: [map()] | nil
+              }
+        defstruct [:conditions]
+
+        defmodule Conditions do
+          @moduledoc false
+
+          @typedoc """
+          * `type` - The type of condition. Possible values: `decreasing_item_amount`, `shortening_interval`.
+          """
+          @type t :: %__MODULE__{
+                  type: String.t() | nil
+                }
+          defstruct [:type]
+        end
+
+        def __inner_types__ do
+          %{
+            "conditions" => __MODULE__.Conditions
+          }
+        end
+      end
+
+      def __inner_types__ do
+        %{
+          "products" => __MODULE__.Products,
+          "schedule_at_period_end" => __MODULE__.ScheduleAtPeriodEnd
+        }
+      end
+    end
+
+    def __inner_types__ do
+      %{
+        "customer_update" => __MODULE__.CustomerUpdate,
+        "invoice_history" => __MODULE__.InvoiceHistory,
+        "payment_method_update" => __MODULE__.PaymentMethodUpdate,
+        "subscription_cancel" => __MODULE__.SubscriptionCancel,
+        "subscription_update" => __MODULE__.SubscriptionUpdate
+      }
+    end
+  end
+
+  defmodule LoginPage do
+    @moduledoc false
+
+    @typedoc """
+    * `enabled` - If `true`, a shareable `url` will be generated that will take your customers to a hosted login page for the customer portal.
+
+    If `false`, the previously generated `url`, if any, will be deactivated.
+    * `url` - A shareable URL to the hosted portal login page. Your customers will be able to log in with their [email](https://docs.stripe.com/api/customers/object#customer_object-email) and receive a link to their customer portal. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            enabled: boolean() | nil,
+            url: String.t() | nil
+          }
+    defstruct [:enabled, :url]
+  end
+
+  def __inner_types__ do
+    %{
+      "business_profile" => __MODULE__.BusinessProfile,
+      "features" => __MODULE__.Features,
+      "login_page" => __MODULE__.LoginPage
+    }
+  end
 end

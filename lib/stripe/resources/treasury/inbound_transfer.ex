@@ -49,7 +49,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
           returned: boolean(),
           statement_descriptor: String.t(),
           status: String.t(),
-          status_transitions: String.t() | map(),
+          status_transitions: map(),
           transaction: String.t() | map()
         }
 
@@ -87,4 +87,53 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
       "status_transitions",
       "transaction"
     ]
+
+  defmodule FailureDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `code` - Reason for the failure. Possible values: `account_closed`, `account_frozen`, `bank_account_restricted`, `bank_ownership_changed`, `debit_not_authorized`, `incorrect_account_holder_address`, `incorrect_account_holder_name`, `incorrect_account_holder_tax_id`, `insufficient_funds`, `invalid_account_number`, `invalid_currency`, `no_account`, `other`.
+    """
+    @type t :: %__MODULE__{
+            code: String.t() | nil
+          }
+    defstruct [:code]
+  end
+
+  defmodule LinkedFlows do
+    @moduledoc false
+
+    @typedoc """
+    * `received_debit` - If funds for this flow were returned after the flow went to the `succeeded` state, this field contains a reference to the ReceivedDebit return. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            received_debit: String.t() | nil
+          }
+    defstruct [:received_debit]
+  end
+
+  defmodule OriginPaymentMethodDetails do
+    @moduledoc false
+
+    @typedoc """
+    * `billing_details`
+    * `type` - The type of the payment method used in the InboundTransfer. Possible values: `us_bank_account`.
+    * `us_bank_account`
+    """
+    @type t :: %__MODULE__{
+            billing_details: map() | nil,
+            type: String.t() | nil,
+            us_bank_account: map() | nil
+          }
+    defstruct [:billing_details, :type, :us_bank_account]
+  end
+
+  def __inner_types__ do
+    %{
+      "failure_details" => __MODULE__.FailureDetails,
+      "linked_flows" => __MODULE__.LinkedFlows,
+      "origin_payment_method_details" => __MODULE__.OriginPaymentMethodDetails,
+      "status_transitions" => Stripe.Resources.StatusTransitions
+    }
+  end
 end

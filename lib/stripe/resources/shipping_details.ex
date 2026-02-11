@@ -12,7 +12,7 @@ defmodule Stripe.Resources.ShippingDetails do
   * `tracking_number` - The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas. Max length: 5000. Nullable.
   """
   @type t :: %__MODULE__{
-          address: String.t() | map() | nil,
+          address: map() | nil,
           carrier: String.t() | nil,
           name: String.t() | nil,
           phone: String.t() | nil,
@@ -25,4 +25,10 @@ defmodule Stripe.Resources.ShippingDetails do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["address"]
+
+  def __inner_types__ do
+    %{
+      "address" => Stripe.Resources.Address
+    }
+  end
 end

@@ -63,4 +63,49 @@ defmodule Stripe.Resources.Review do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["charge", "ip_address_location", "payment_intent", "session"]
+
+  defmodule IpAddressLocation do
+    @moduledoc false
+
+    @typedoc """
+    * `city` - The city where the payment originated. Max length: 5000. Nullable.
+    * `country` - Two-letter ISO code representing the country where the payment originated. Max length: 5000. Nullable.
+    * `latitude` - The geographic latitude where the payment originated. Nullable.
+    * `longitude` - The geographic longitude where the payment originated. Nullable.
+    * `region` - The state/county/province/region where the payment originated. Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            city: String.t() | nil,
+            country: String.t() | nil,
+            latitude: float() | nil,
+            longitude: float() | nil,
+            region: String.t() | nil
+          }
+    defstruct [:city, :country, :latitude, :longitude, :region]
+  end
+
+  defmodule Session do
+    @moduledoc false
+
+    @typedoc """
+    * `browser` - The browser used in this browser session (e.g., `Chrome`). Max length: 5000. Nullable.
+    * `device` - Information about the device used for the browser session (e.g., `Samsung SM-G930T`). Max length: 5000. Nullable.
+    * `platform` - The platform for the browser session (e.g., `Macintosh`). Max length: 5000. Nullable.
+    * `version` - The version for the browser session (e.g., `61.0.3163.100`). Max length: 5000. Nullable.
+    """
+    @type t :: %__MODULE__{
+            browser: String.t() | nil,
+            device: String.t() | nil,
+            platform: String.t() | nil,
+            version: String.t() | nil
+          }
+    defstruct [:browser, :device, :platform, :version]
+  end
+
+  def __inner_types__ do
+    %{
+      "ip_address_location" => __MODULE__.IpAddressLocation,
+      "session" => __MODULE__.Session
+    }
+  end
 end

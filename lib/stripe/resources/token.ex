@@ -37,8 +37,8 @@ defmodule Stripe.Resources.Token do
   * `used` - Determines if you have already used this token (you can only use tokens once).
   """
   @type t :: %__MODULE__{
-          bank_account: String.t() | map() | nil,
-          card: String.t() | map() | nil,
+          bank_account: map() | nil,
+          card: map() | nil,
           client_ip: String.t(),
           created: integer(),
           id: String.t(),
@@ -54,4 +54,11 @@ defmodule Stripe.Resources.Token do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["bank_account", "card"]
+
+  def __inner_types__ do
+    %{
+      "bank_account" => Stripe.Resources.BankAccount,
+      "card" => Stripe.Resources.Card
+    }
+  end
 end
