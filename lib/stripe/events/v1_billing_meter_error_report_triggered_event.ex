@@ -83,7 +83,7 @@ defmodule Stripe.Events.V1BillingMeterErrorReportTriggeredEvent do
     def __inner_types__, do: %{"reason" => Reason}
   end
 
-  defstruct [:created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
 
   def lookup_type, do: "v1.billing.meter.error_report_triggered"
 

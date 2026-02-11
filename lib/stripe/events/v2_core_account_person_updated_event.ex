@@ -17,7 +17,7 @@ defmodule Stripe.Events.V2CoreAccountPersonUpdatedEvent do
     defstruct [:account_id]
   end
 
-  defstruct [:created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
 
   def lookup_type, do: "v2.core.account_person.updated"
 

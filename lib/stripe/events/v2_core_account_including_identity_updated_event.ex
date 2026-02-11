@@ -4,7 +4,7 @@ defmodule Stripe.Events.V2CoreAccountIncludingIdentityUpdatedEvent do
   Occurs when an Identity is updated.
   """
 
-  defstruct [:created, :data, :id, :livemode, :object, :related_object, :type]
+  defstruct [:context, :created, :data, :id, :livemode, :object, :related_object, :type]
 
   def lookup_type, do: "v2.core.account[identity].updated"
 

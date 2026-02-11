@@ -66,8 +66,10 @@ defmodule Stripe.Generator.EventGenerator do
     file_path = Naming.module_to_path(module)
     module_name = inspect(module)
 
-    # Use schema-declared fields for the struct
-    fields = meta.schema_fields |> Enum.map_join(", ", fn f -> ":#{f}" end)
+    # Use schema-declared fields for the struct, plus :context for authentication
+    # context needed by fetch_related_object/2 (matches Ruby SDK attr_reader :context)
+    all_fields = (meta.schema_fields ++ ["context"]) |> Enum.uniq() |> Enum.sort()
+    fields = all_fields |> Enum.map_join(", ", fn f -> ":#{f}" end)
 
     # Generate nested Data module if data has actual properties
     data_tree = build_data_type_tree(meta.data_schema)
