@@ -33,10 +33,10 @@ if [ -z "$TAG" ] || ! echo "$TAG" | grep -qE '^v[0-9]+'; then
 fi
 
 # File naming differs between channels:
-#   latest:  openapi.sdk.spec3.json
+#   latest:  openapi.spec3.sdk.json
 #   preview: openapi.spec3.sdk.json
 if [ "$CHANNEL" = "latest" ]; then
-  REMOTE_FILE="openapi.sdk.spec3.json"
+  REMOTE_FILE="openapi.spec3.sdk.json"
 else
   REMOTE_FILE="openapi.spec3.sdk.json"
 fi
