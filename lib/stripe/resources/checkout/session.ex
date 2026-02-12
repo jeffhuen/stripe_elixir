@@ -140,7 +140,7 @@ defmodule Stripe.Resources.Checkout.Session do
           line_items: __MODULE__.LineItems.t() | nil,
           livemode: boolean(),
           locale: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           mode: String.t(),
           name_collection: __MODULE__.NameCollection.t() | nil,
           object: String.t(),
@@ -790,7 +790,7 @@ defmodule Stripe.Resources.Checkout.Session do
               description: String.t() | nil,
               footer: String.t() | nil,
               issuer: __MODULE__.Issuer.t() | nil,
-              metadata: map() | nil,
+              metadata: %{String.t() => String.t()} | nil,
               rendering_options: __MODULE__.RenderingOptions.t() | nil
             }
       defstruct [

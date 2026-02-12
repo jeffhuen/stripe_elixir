@@ -10,7 +10,7 @@ defmodule Stripe.Params.Issuing.DisputeUpdateParams do
   """
   @type t :: %__MODULE__{
           amount: integer() | nil,
-          evidence: map() | nil,
+          evidence: __MODULE__.Evidence.t() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil
         }

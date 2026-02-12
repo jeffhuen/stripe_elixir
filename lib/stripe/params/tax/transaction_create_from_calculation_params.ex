@@ -12,7 +12,7 @@ defmodule Stripe.Params.Tax.TransactionCreateFromCalculationParams do
   @type t :: %__MODULE__{
           calculation: String.t(),
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           posted_at: integer() | nil,
           reference: String.t()
         }

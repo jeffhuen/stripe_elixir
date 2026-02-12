@@ -13,14 +13,14 @@ defmodule Stripe.Params.TokenCreateParams do
   * `pii` - The PII this token represents.
   """
   @type t :: %__MODULE__{
-          account: map() | nil,
-          bank_account: map() | nil,
+          account: __MODULE__.Account.t() | nil,
+          bank_account: __MODULE__.BankAccount.t() | nil,
           card: map() | nil,
           customer: String.t() | nil,
-          cvc_update: map() | nil,
+          cvc_update: __MODULE__.CvcUpdate.t() | nil,
           expand: [String.t()] | nil,
-          person: map() | nil,
-          pii: map() | nil
+          person: __MODULE__.Person.t() | nil,
+          pii: __MODULE__.Pii.t() | nil
         }
 
   defstruct [:account, :bank_account, :card, :customer, :cvc_update, :expand, :person, :pii]
@@ -36,8 +36,8 @@ defmodule Stripe.Params.TokenCreateParams do
     """
     @type t :: %__MODULE__{
             business_type: String.t() | nil,
-            company: map() | nil,
-            individual: map() | nil,
+            company: __MODULE__.Company.t() | nil,
+            individual: __MODULE__.Individual.t() | nil,
             tos_shown_and_accepted: boolean() | nil
           }
     defstruct [:business_type, :company, :individual, :tos_shown_and_accepted]
@@ -123,12 +123,12 @@ defmodule Stripe.Params.TokenCreateParams do
     * `verification` - The person's verification status.
     """
     @type t :: %__MODULE__{
-            additional_tos_acceptances: map() | nil,
-            address: map() | nil,
-            address_kana: map() | nil,
-            address_kanji: map() | nil,
+            additional_tos_acceptances: __MODULE__.AdditionalTosAcceptances.t() | nil,
+            address: __MODULE__.Address.t() | nil,
+            address_kana: __MODULE__.AddressKana.t() | nil,
+            address_kanji: __MODULE__.AddressKanji.t() | nil,
             dob: map() | nil,
-            documents: map() | nil,
+            documents: __MODULE__.Documents.t() | nil,
             email: String.t() | nil,
             first_name: String.t() | nil,
             first_name_kana: String.t() | nil,
@@ -145,11 +145,11 @@ defmodule Stripe.Params.TokenCreateParams do
             nationality: String.t() | nil,
             phone: String.t() | nil,
             political_exposure: String.t() | nil,
-            registered_address: map() | nil,
-            relationship: map() | nil,
+            registered_address: __MODULE__.RegisteredAddress.t() | nil,
+            relationship: __MODULE__.Relationship.t() | nil,
             ssn_last_4: String.t() | nil,
-            us_cfpb_data: map() | nil,
-            verification: map() | nil
+            us_cfpb_data: __MODULE__.UsCfpbData.t() | nil,
+            verification: __MODULE__.Verification.t() | nil
           }
     defstruct [
       :additional_tos_acceptances,

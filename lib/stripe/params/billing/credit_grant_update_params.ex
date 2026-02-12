@@ -10,7 +10,7 @@ defmodule Stripe.Params.Billing.CreditGrantUpdateParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           expires_at: map() | nil,
-          metadata: map() | nil
+          metadata: %{String.t() => String.t()} | nil
         }
 
   defstruct [:expand, :expires_at, :metadata]

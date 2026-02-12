@@ -37,7 +37,7 @@ defmodule Stripe.Resources.TransferReversal do
           currency: String.t(),
           destination_payment_refund: String.t() | Stripe.Resources.Refund.t(),
           id: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           source_refund: String.t() | Stripe.Resources.Refund.t(),
           transfer: String.t() | Stripe.Resources.Transfer.t()

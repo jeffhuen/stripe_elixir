@@ -39,7 +39,7 @@ defmodule Stripe.Resources.InvoiceLineItem do
           id: String.t(),
           invoice: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           parent: __MODULE__.Parent.t(),
           period: __MODULE__.Period.t(),

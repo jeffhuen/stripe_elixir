@@ -16,13 +16,13 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptParams do
   @type t :: %__MODULE__{
           description: String.t() | nil,
           expand: [String.t()] | nil,
-          failed: map() | nil,
-          guaranteed: map() | nil,
+          failed: __MODULE__.Failed.t() | nil,
+          guaranteed: __MODULE__.Guaranteed.t() | nil,
           initiated_at: integer(),
           metadata: map() | nil,
           outcome: String.t() | nil,
-          payment_method_details: map() | nil,
-          shipping_details: map() | nil
+          payment_method_details: __MODULE__.PaymentMethodDetails.t() | nil,
+          shipping_details: __MODULE__.ShippingDetails.t() | nil
         }
 
   defstruct [
@@ -71,8 +71,8 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptParams do
     * `type` - The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type. Possible values: `custom`.
     """
     @type t :: %__MODULE__{
-            billing_details: map() | nil,
-            custom: map() | nil,
+            billing_details: __MODULE__.BillingDetails.t() | nil,
+            custom: __MODULE__.Custom.t() | nil,
             payment_method: String.t() | nil,
             type: String.t() | nil
           }
@@ -88,7 +88,7 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptParams do
     * `phone` - The shipping recipient's phone number.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             name: String.t() | nil,
             phone: String.t() | nil
           }

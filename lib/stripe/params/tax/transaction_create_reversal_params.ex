@@ -15,12 +15,12 @@ defmodule Stripe.Params.Tax.TransactionCreateReversalParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           flat_amount: integer() | nil,
-          line_items: [map()] | nil,
-          metadata: map() | nil,
+          line_items: [__MODULE__.LineItems.t()] | nil,
+          metadata: %{String.t() => String.t()} | nil,
           mode: String.t(),
           original_transaction: String.t(),
           reference: String.t(),
-          shipping_cost: map() | nil
+          shipping_cost: __MODULE__.ShippingCost.t() | nil
         }
 
   defstruct [
@@ -48,7 +48,7 @@ defmodule Stripe.Params.Tax.TransactionCreateReversalParams do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             amount_tax: integer() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             original_line_item: String.t() | nil,
             quantity: integer() | nil,
             reference: String.t() | nil

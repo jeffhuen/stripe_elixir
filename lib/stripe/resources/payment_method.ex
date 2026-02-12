@@ -114,7 +114,7 @@ defmodule Stripe.Resources.PaymentMethod do
           link: __MODULE__.Link.t() | nil,
           livemode: boolean(),
           mb_way: Stripe.Resources.MbWay.t() | nil,
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           mobilepay: map() | nil,
           multibanco: map() | nil,
           naver_pay: Stripe.Resources.NaverPay.t() | nil,

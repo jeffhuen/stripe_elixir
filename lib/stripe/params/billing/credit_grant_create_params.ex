@@ -16,15 +16,15 @@ defmodule Stripe.Params.Billing.CreditGrantCreateParams do
   * `priority` - The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
   """
   @type t :: %__MODULE__{
-          amount: map(),
-          applicability_config: map(),
+          amount: __MODULE__.Amount.t(),
+          applicability_config: __MODULE__.ApplicabilityConfig.t(),
           category: String.t() | nil,
           customer: String.t() | nil,
           customer_account: String.t() | nil,
           effective_at: integer() | nil,
           expand: [String.t()] | nil,
           expires_at: integer() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t() | nil,
           priority: integer() | nil
         }
@@ -51,7 +51,7 @@ defmodule Stripe.Params.Billing.CreditGrantCreateParams do
     * `type` - The type of this amount. We currently only support `monetary` billing credits. Possible values: `monetary`.
     """
     @type t :: %__MODULE__{
-            monetary: map() | nil,
+            monetary: __MODULE__.Monetary.t() | nil,
             type: String.t() | nil
           }
     defstruct [:monetary, :type]
@@ -64,7 +64,7 @@ defmodule Stripe.Params.Billing.CreditGrantCreateParams do
     * `scope` - Specify the scope of this applicability config.
     """
     @type t :: %__MODULE__{
-            scope: map() | nil
+            scope: __MODULE__.Scope.t() | nil
           }
     defstruct [:scope]
   end

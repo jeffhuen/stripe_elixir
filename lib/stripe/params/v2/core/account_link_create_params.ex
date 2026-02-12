@@ -8,7 +8,7 @@ defmodule Stripe.Params.V2.Core.AccountLinkCreateParams do
   """
   @type t :: %__MODULE__{
           account: String.t(),
-          use_case: map()
+          use_case: __MODULE__.UseCase.t()
         }
 
   defstruct [:account, :use_case]
@@ -22,8 +22,8 @@ defmodule Stripe.Params.V2.Core.AccountLinkCreateParams do
     * `type` - Open Enum. The type of Account Link the user is requesting. Possible values: `account_onboarding`, `account_update`.
     """
     @type t :: %__MODULE__{
-            account_onboarding: map() | nil,
-            account_update: map() | nil,
+            account_onboarding: __MODULE__.AccountOnboarding.t() | nil,
+            account_update: __MODULE__.AccountUpdate.t() | nil,
             type: String.t() | nil
           }
     defstruct [:account_onboarding, :account_update, :type]

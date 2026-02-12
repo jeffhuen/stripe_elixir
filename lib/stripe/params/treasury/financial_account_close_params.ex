@@ -8,7 +8,7 @@ defmodule Stripe.Params.Treasury.FinancialAccountCloseParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          forwarding_settings: map() | nil
+          forwarding_settings: __MODULE__.ForwardingSettings.t() | nil
         }
 
   defstruct [:expand, :forwarding_settings]

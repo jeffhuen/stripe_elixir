@@ -11,7 +11,7 @@ defmodule Stripe.Params.Entitlements.FeatureCreateParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           lookup_key: String.t(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t()
         }
 

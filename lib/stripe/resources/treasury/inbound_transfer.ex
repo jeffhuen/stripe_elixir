@@ -42,7 +42,7 @@ defmodule Stripe.Resources.Treasury.InboundTransfer do
           id: String.t(),
           linked_flows: __MODULE__.LinkedFlows.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           origin_payment_method: String.t(),
           origin_payment_method_details: __MODULE__.OriginPaymentMethodDetails.t(),

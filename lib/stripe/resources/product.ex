@@ -43,7 +43,7 @@ defmodule Stripe.Resources.Product do
           images: [String.t()],
           livemode: boolean(),
           marketing_features: [__MODULE__.MarketingFeatures.t()],
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t(),
           package_dimensions: __MODULE__.PackageDimensions.t(),

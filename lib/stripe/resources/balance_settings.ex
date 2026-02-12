@@ -47,7 +47,7 @@ defmodule Stripe.Resources.BalanceSettings do
       * `status` - Whether the funds in this account can be paid out. Possible values: `disabled`, `enabled`.
       """
       @type t :: %__MODULE__{
-              minimum_balance_by_currency: map() | nil,
+              minimum_balance_by_currency: %{String.t() => integer()} | nil,
               schedule: __MODULE__.Schedule.t() | nil,
               statement_descriptor: String.t() | nil,
               status: String.t() | nil

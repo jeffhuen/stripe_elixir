@@ -33,7 +33,7 @@ defmodule Stripe.Resources.Terminal.Reader do
           last_seen_at: integer(),
           livemode: boolean(),
           location: String.t() | Stripe.Resources.Terminal.Location.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           serial_number: String.t(),
           status: String.t()
@@ -112,7 +112,7 @@ defmodule Stripe.Resources.Terminal.Reader do
       """
       @type t :: %__MODULE__{
               inputs: [__MODULE__.Inputs.t()] | nil,
-              metadata: map() | nil
+              metadata: %{String.t() => String.t()} | nil
             }
       defstruct [:inputs, :metadata]
 
@@ -509,7 +509,7 @@ defmodule Stripe.Resources.Terminal.Reader do
       @type t :: %__MODULE__{
               amount: integer() | nil,
               charge: String.t() | Stripe.Resources.Charge.t() | nil,
-              metadata: map() | nil,
+              metadata: %{String.t() => String.t()} | nil,
               payment_intent: String.t() | Stripe.Resources.PaymentIntent.t() | nil,
               reason: String.t() | nil,
               refund: String.t() | Stripe.Resources.Refund.t() | nil,

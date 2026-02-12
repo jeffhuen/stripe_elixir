@@ -28,7 +28,7 @@ defmodule Stripe.Resources.Issuing.PersonalizationDesign do
           id: String.t(),
           livemode: boolean(),
           lookup_key: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t(),
           physical_bundle: String.t() | Stripe.Resources.Issuing.PhysicalBundle.t(),

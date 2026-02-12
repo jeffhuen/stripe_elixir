@@ -12,10 +12,10 @@ defmodule Stripe.Params.Treasury.FinancialAccountCreateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          features: map() | nil,
-          metadata: map() | nil,
+          features: __MODULE__.Features.t() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           nickname: map() | nil,
-          platform_restrictions: map() | nil,
+          platform_restrictions: __MODULE__.PlatformRestrictions.t() | nil,
           supported_currencies: [String.t()]
         }
 
@@ -41,13 +41,13 @@ defmodule Stripe.Params.Treasury.FinancialAccountCreateParams do
     * `outbound_transfers` - Contains a Feature and settings related to moving money out of the FinancialAccount into another Account with the same owner.
     """
     @type t :: %__MODULE__{
-            card_issuing: map() | nil,
-            deposit_insurance: map() | nil,
-            financial_addresses: map() | nil,
-            inbound_transfers: map() | nil,
-            intra_stripe_flows: map() | nil,
-            outbound_payments: map() | nil,
-            outbound_transfers: map() | nil
+            card_issuing: __MODULE__.CardIssuing.t() | nil,
+            deposit_insurance: __MODULE__.DepositInsurance.t() | nil,
+            financial_addresses: __MODULE__.FinancialAddresses.t() | nil,
+            inbound_transfers: __MODULE__.InboundTransfers.t() | nil,
+            intra_stripe_flows: __MODULE__.IntraStripeFlows.t() | nil,
+            outbound_payments: __MODULE__.OutboundPayments.t() | nil,
+            outbound_transfers: __MODULE__.OutboundTransfers.t() | nil
           }
     defstruct [
       :card_issuing,

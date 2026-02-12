@@ -8,7 +8,7 @@ defmodule Stripe.Params.Terminal.ReaderConfirmPaymentIntentParams do
   * `payment_intent` - The ID of the PaymentIntent to confirm. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          confirm_config: map() | nil,
+          confirm_config: __MODULE__.ConfirmConfig.t() | nil,
           expand: [String.t()] | nil,
           payment_intent: String.t()
         }

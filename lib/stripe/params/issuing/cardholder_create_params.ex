@@ -18,16 +18,16 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
   * `type` - One of `individual` or `company`. See [Choose a cardholder type](https://docs.stripe.com/issuing/other/choose-cardholder) for more details. Possible values: `company`, `individual`.
   """
   @type t :: %__MODULE__{
-          billing: map(),
-          company: map() | nil,
+          billing: __MODULE__.Billing.t(),
+          company: __MODULE__.Company.t() | nil,
           email: String.t() | nil,
           expand: [String.t()] | nil,
-          individual: map() | nil,
-          metadata: map() | nil,
+          individual: __MODULE__.Individual.t() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t(),
           phone_number: String.t() | nil,
           preferred_locales: [String.t()] | nil,
-          spending_controls: map() | nil,
+          spending_controls: __MODULE__.SpendingControls.t() | nil,
           status: String.t() | nil,
           type: String.t() | nil
         }
@@ -54,7 +54,7 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
     * `address` - The cardholder’s billing address.
     """
     @type t :: %__MODULE__{
-            address: map() | nil
+            address: __MODULE__.Address.t() | nil
           }
     defstruct [:address]
   end
@@ -82,11 +82,11 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
     * `verification` - Government-issued ID document for this cardholder.
     """
     @type t :: %__MODULE__{
-            card_issuing: map() | nil,
-            dob: map() | nil,
+            card_issuing: __MODULE__.CardIssuing.t() | nil,
+            dob: __MODULE__.Dob.t() | nil,
             first_name: String.t() | nil,
             last_name: String.t() | nil,
-            verification: map() | nil
+            verification: __MODULE__.Verification.t() | nil
           }
     defstruct [:card_issuing, :dob, :first_name, :last_name, :verification]
   end
@@ -107,7 +107,7 @@ defmodule Stripe.Params.Issuing.CardholderCreateParams do
             allowed_merchant_countries: [String.t()] | nil,
             blocked_categories: [String.t()] | nil,
             blocked_merchant_countries: [String.t()] | nil,
-            spending_limits: [map()] | nil,
+            spending_limits: [__MODULE__.SpendingLimits.t()] | nil,
             spending_limits_currency: String.t() | nil
           }
     defstruct [

@@ -35,28 +35,28 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
   """
   @type t :: %__MODULE__{
           active: boolean() | nil,
-          after_completion: map() | nil,
+          after_completion: __MODULE__.AfterCompletion.t() | nil,
           allow_promotion_codes: boolean() | nil,
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           billing_address_collection: String.t() | nil,
           custom_fields: map() | nil,
-          custom_text: map() | nil,
+          custom_text: __MODULE__.CustomText.t() | nil,
           customer_creation: String.t() | nil,
           expand: [String.t()] | nil,
           inactive_message: map() | nil,
-          invoice_creation: map() | nil,
-          line_items: [map()] | nil,
-          metadata: map() | nil,
+          invoice_creation: __MODULE__.InvoiceCreation.t() | nil,
+          line_items: [__MODULE__.LineItems.t()] | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name_collection: map() | nil,
-          payment_intent_data: map() | nil,
+          payment_intent_data: __MODULE__.PaymentIntentData.t() | nil,
           payment_method_collection: String.t() | nil,
           payment_method_types: map() | nil,
-          phone_number_collection: map() | nil,
+          phone_number_collection: __MODULE__.PhoneNumberCollection.t() | nil,
           restrictions: map() | nil,
           shipping_address_collection: map() | nil,
           submit_type: String.t() | nil,
-          subscription_data: map() | nil,
-          tax_id_collection: map() | nil
+          subscription_data: __MODULE__.SubscriptionData.t() | nil,
+          tax_id_collection: __MODULE__.TaxIdCollection.t() | nil
         }
 
   defstruct [
@@ -94,8 +94,8 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     * `type` - The specified behavior after the purchase is complete. Either `redirect` or `hosted_confirmation`. Possible values: `hosted_confirmation`, `redirect`.
     """
     @type t :: %__MODULE__{
-            hosted_confirmation: map() | nil,
-            redirect: map() | nil,
+            hosted_confirmation: __MODULE__.HostedConfirmation.t() | nil,
+            redirect: __MODULE__.Redirect.t() | nil,
             type: String.t() | nil
           }
     defstruct [:hosted_confirmation, :redirect, :type]
@@ -112,7 +112,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -144,7 +144,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            invoice_data: map() | nil
+            invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
   end
@@ -158,7 +158,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     * `quantity` - The quantity of the line item being purchased.
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             id: String.t() | nil,
             quantity: integer() | nil
           }
@@ -215,7 +215,7 @@ defmodule Stripe.Params.PaymentLinkUpdateParams do
     * `trial_settings` - Settings related to subscription trials.
     """
     @type t :: %__MODULE__{
-            invoice_settings: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
             metadata: map() | nil,
             trial_period_days: map() | nil,
             trial_settings: map() | nil

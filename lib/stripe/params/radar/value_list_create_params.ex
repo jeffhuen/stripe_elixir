@@ -13,7 +13,7 @@ defmodule Stripe.Params.Radar.ValueListCreateParams do
           alias: String.t(),
           expand: [String.t()] | nil,
           item_type: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t()
         }
 

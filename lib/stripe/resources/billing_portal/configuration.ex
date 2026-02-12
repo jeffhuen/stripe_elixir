@@ -33,7 +33,7 @@ defmodule Stripe.Resources.BillingPortal.Configuration do
           is_default: boolean(),
           livemode: boolean(),
           login_page: __MODULE__.LoginPage.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t(),
           updated: integer()

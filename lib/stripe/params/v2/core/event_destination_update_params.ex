@@ -14,9 +14,9 @@ defmodule Stripe.Params.V2.Core.EventDestinationUpdateParams do
           description: String.t() | nil,
           enabled_events: [String.t()] | nil,
           include: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t() | nil,
-          webhook_endpoint: map() | nil
+          webhook_endpoint: __MODULE__.WebhookEndpoint.t() | nil
         }
 
   defstruct [:description, :enabled_events, :include, :metadata, :name, :webhook_endpoint]

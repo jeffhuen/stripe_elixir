@@ -16,17 +16,17 @@ defmodule Stripe.Params.V2.Core.EventDestinationCreateParams do
   * `webhook_endpoint` - Webhook endpoint configuration.
   """
   @type t :: %__MODULE__{
-          amazon_eventbridge: map() | nil,
+          amazon_eventbridge: __MODULE__.AmazonEventbridge.t() | nil,
           description: String.t() | nil,
           enabled_events: [String.t()],
           event_payload: String.t(),
           events_from: [String.t()] | nil,
           include: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t(),
           snapshot_api_version: String.t() | nil,
           type: String.t(),
-          webhook_endpoint: map() | nil
+          webhook_endpoint: __MODULE__.WebhookEndpoint.t() | nil
         }
 
   defstruct [

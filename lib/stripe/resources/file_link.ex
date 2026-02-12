@@ -26,7 +26,7 @@ defmodule Stripe.Resources.FileLink do
           file: String.t() | Stripe.Resources.File.t(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           url: String.t()
         }

@@ -12,7 +12,7 @@ defmodule Stripe.Params.AccountExternalAccountCreateParams do
           default_for_currency: boolean() | nil,
           expand: [String.t()] | nil,
           external_account: String.t(),
-          metadata: map() | nil
+          metadata: %{String.t() => String.t()} | nil
         }
 
   defstruct [:default_for_currency, :expand, :external_account, :metadata]

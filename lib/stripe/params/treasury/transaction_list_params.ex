@@ -22,7 +22,7 @@ defmodule Stripe.Params.Treasury.TransactionListParams do
           order_by: String.t() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil,
-          status_transitions: map() | nil
+          status_transitions: __MODULE__.StatusTransitions.t() | nil
         }
 
   defstruct [

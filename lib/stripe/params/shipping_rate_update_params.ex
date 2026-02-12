@@ -12,7 +12,7 @@ defmodule Stripe.Params.ShippingRateUpdateParams do
   @type t :: %__MODULE__{
           active: boolean() | nil,
           expand: [String.t()] | nil,
-          fixed_amount: map() | nil,
+          fixed_amount: __MODULE__.FixedAmount.t() | nil,
           metadata: map() | nil,
           tax_behavior: String.t() | nil
         }
@@ -26,7 +26,7 @@ defmodule Stripe.Params.ShippingRateUpdateParams do
     * `currency_options` - Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
     """
     @type t :: %__MODULE__{
-            currency_options: map() | nil
+            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
           }
     defstruct [:currency_options]
   end

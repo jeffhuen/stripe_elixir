@@ -41,7 +41,7 @@ defmodule Stripe.Resources.CustomerBalanceTransaction do
           id: String.t(),
           invoice: String.t() | Stripe.Resources.Invoice.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           type: String.t()
         }

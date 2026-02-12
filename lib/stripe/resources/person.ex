@@ -66,7 +66,7 @@ defmodule Stripe.Resources.Person do
           last_name_kana: String.t() | nil,
           last_name_kanji: String.t() | nil,
           maiden_name: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           nationality: String.t() | nil,
           object: String.t(),
           phone: String.t() | nil,

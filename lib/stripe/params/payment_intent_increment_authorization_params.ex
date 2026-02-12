@@ -17,15 +17,15 @@ defmodule Stripe.Params.PaymentIntentIncrementAuthorizationParams do
   """
   @type t :: %__MODULE__{
           amount: integer(),
-          amount_details: map() | nil,
+          amount_details: __MODULE__.AmountDetails.t() | nil,
           application_fee_amount: integer() | nil,
           description: String.t() | nil,
           expand: [String.t()] | nil,
-          hooks: map() | nil,
-          metadata: map() | nil,
-          payment_details: map() | nil,
+          hooks: __MODULE__.Hooks.t() | nil,
+          metadata: %{String.t() => String.t()} | nil,
+          payment_details: __MODULE__.PaymentDetails.t() | nil,
           statement_descriptor: String.t() | nil,
-          transfer_data: map() | nil
+          transfer_data: __MODULE__.TransferData.t() | nil
         }
 
   defstruct [
@@ -74,7 +74,7 @@ defmodule Stripe.Params.PaymentIntentIncrementAuthorizationParams do
     * `inputs` - Arguments passed in automations
     """
     @type t :: %__MODULE__{
-            inputs: map() | nil
+            inputs: __MODULE__.Inputs.t() | nil
           }
     defstruct [:inputs]
   end

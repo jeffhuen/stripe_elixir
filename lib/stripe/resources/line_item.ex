@@ -32,7 +32,7 @@ defmodule Stripe.Resources.LineItem do
           description: String.t(),
           discounts: [__MODULE__.Discounts.t()] | nil,
           id: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           price: Stripe.Resources.Price.t(),
           quantity: integer(),

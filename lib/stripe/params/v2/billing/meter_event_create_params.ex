@@ -18,7 +18,7 @@ defmodule Stripe.Params.V2.Billing.MeterEventCreateParams do
   @type t :: %__MODULE__{
           event_name: String.t(),
           identifier: String.t() | nil,
-          payload: map(),
+          payload: %{String.t() => String.t()},
           timestamp: String.t() | nil
         }
 

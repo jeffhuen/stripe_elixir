@@ -471,8 +471,13 @@ defmodule Stripe.Generator.OpenAPI do
     {{:inner, inner_name}, %{field_name => inner_type}}
   end
 
-  defp do_resolve_type(_field_name, %{"type" => "object"}, _schema_index) do
-    {:map, %{}}
+  defp do_resolve_type(field_name, %{"type" => "object"} = schema, schema_index) do
+    if Map.has_key?(schema, "additionalProperties") and schema["additionalProperties"] != false do
+      {value_type, inner_types} = resolve_type(field_name, schema["additionalProperties"], schema_index)
+      {{:map, value_type}, inner_types}
+    else
+      {:map, %{}}
+    end
   end
 
   defp do_resolve_type(_field_name, %{"type" => "string"}, _schema_index), do: {:string, %{}}
@@ -520,10 +525,17 @@ defmodule Stripe.Generator.OpenAPI do
 
             {type, %{}}
 
-          # Multiple refs without string (polymorphic union) - treat as map
+          # Multiple refs without string (polymorphic union) - treat as Union
           length(refs) > 1 ->
-            type = if has_null, do: {:nullable, :map}, else: :map
-            {type, %{}}
+            # Resolve all variants
+            {types, all_inners} =
+              Enum.map_reduce(non_null, %{}, fn variant, acc ->
+                {t, inners} = resolve_type(field_name, variant, schema_index)
+                {t, Map.merge(acc, inners)}
+              end)
+
+            type = if has_null, do: {:nullable, {:union, types}}, else: {:union, types}
+            {type, all_inners}
 
           # Single non-ref type
           length(non_null) == 1 ->

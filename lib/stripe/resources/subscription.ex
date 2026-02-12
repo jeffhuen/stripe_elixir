@@ -94,7 +94,7 @@ defmodule Stripe.Resources.Subscription do
           items: __MODULE__.Items.t(),
           latest_invoice: String.t() | Stripe.Resources.Invoice.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           next_pending_invoice_item_invoice: integer(),
           object: String.t(),
           on_behalf_of: String.t() | Stripe.Resources.Account.t(),

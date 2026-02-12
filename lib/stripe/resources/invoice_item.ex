@@ -49,7 +49,7 @@ defmodule Stripe.Resources.InvoiceItem do
           id: String.t(),
           invoice: String.t() | Stripe.Resources.Invoice.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           net_amount: integer() | nil,
           object: String.t(),
           parent: __MODULE__.Parent.t(),

@@ -230,6 +230,18 @@ defmodule Stripe.Generator.ResourceGenerator do
   defp type_to_typespec({:inner, name}, _field_name, _resource, _ref_to_module),
     do: "__MODULE__.#{name}.t()"
 
+  defp type_to_typespec({:map, inner}, _field_name, _resource, ref_to_module) do
+    inner_spec = simple_typespec(inner, ref_to_module)
+    "%{String.t() => #{inner_spec}}"
+  end
+
+  defp type_to_typespec({:union, types}, _field_name, _resource, ref_to_module) do
+    types
+    |> Enum.map(&simple_typespec(&1, ref_to_module))
+    |> Enum.uniq()
+    |> Enum.join(" | ")
+  end
+
   defp type_to_typespec(:string, _, _, _), do: "String.t()"
   defp type_to_typespec(:integer, _, _, _), do: "integer()"
   defp type_to_typespec(:float, _, _, _), do: "float()"
@@ -242,6 +254,18 @@ defmodule Stripe.Generator.ResourceGenerator do
   defp simple_typespec(:float, _), do: "float()"
   defp simple_typespec(:boolean, _), do: "boolean()"
   defp simple_typespec(:map, _), do: "map()"
+
+  defp simple_typespec({:map, inner}, ref_to_module) do
+    inner_spec = simple_typespec(inner, ref_to_module)
+    "%{String.t() => #{inner_spec}}"
+  end
+
+  defp simple_typespec({:union, types}, ref_to_module) do
+    types
+    |> Enum.map(&simple_typespec(&1, ref_to_module))
+    |> Enum.uniq()
+    |> Enum.join(" | ")
+  end
 
   defp simple_typespec({:list, inner}, ref_to_module),
     do: "[#{simple_typespec(inner, ref_to_module)}]"

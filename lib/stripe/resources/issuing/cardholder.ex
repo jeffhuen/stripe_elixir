@@ -35,7 +35,7 @@ defmodule Stripe.Resources.Issuing.Cardholder do
           id: String.t(),
           individual: __MODULE__.Individual.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t(),
           phone_number: String.t(),

@@ -10,7 +10,7 @@ defmodule Stripe.Params.ApplicationFeeRefundCreateParams do
   @type t :: %__MODULE__{
           amount: integer() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil
+          metadata: %{String.t() => String.t()} | nil
         }
 
   defstruct [:amount, :expand, :metadata]

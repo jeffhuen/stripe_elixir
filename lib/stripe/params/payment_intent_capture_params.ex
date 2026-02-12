@@ -19,17 +19,17 @@ defmodule Stripe.Params.PaymentIntentCaptureParams do
   is captured. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
   """
   @type t :: %__MODULE__{
-          amount_details: map() | nil,
+          amount_details: __MODULE__.AmountDetails.t() | nil,
           amount_to_capture: integer() | nil,
           application_fee_amount: integer() | nil,
           expand: [String.t()] | nil,
           final_capture: boolean() | nil,
-          hooks: map() | nil,
+          hooks: __MODULE__.Hooks.t() | nil,
           metadata: map() | nil,
           payment_details: map() | nil,
           statement_descriptor: String.t() | nil,
           statement_descriptor_suffix: String.t() | nil,
-          transfer_data: map() | nil
+          transfer_data: __MODULE__.TransferData.t() | nil
         }
 
   defstruct [
@@ -79,7 +79,7 @@ defmodule Stripe.Params.PaymentIntentCaptureParams do
     * `inputs` - Arguments passed in automations
     """
     @type t :: %__MODULE__{
-            inputs: map() | nil
+            inputs: __MODULE__.Inputs.t() | nil
           }
     defstruct [:inputs]
   end

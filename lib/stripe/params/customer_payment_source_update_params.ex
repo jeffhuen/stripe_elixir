@@ -32,7 +32,7 @@ defmodule Stripe.Params.CustomerPaymentSourceUpdateParams do
           expand: [String.t()] | nil,
           metadata: map() | nil,
           name: String.t() | nil,
-          owner: map() | nil
+          owner: __MODULE__.Owner.t() | nil
         }
 
   defstruct [
@@ -62,7 +62,7 @@ defmodule Stripe.Params.CustomerPaymentSourceUpdateParams do
     * `phone` - Owner's phone number. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             email: String.t() | nil,
             name: String.t() | nil,
             phone: String.t() | nil

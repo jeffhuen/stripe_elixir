@@ -38,7 +38,7 @@ defmodule Stripe.Resources.Billing.CreditGrant do
           expires_at: integer(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t(),
           priority: integer() | nil,

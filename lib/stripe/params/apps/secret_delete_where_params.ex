@@ -10,7 +10,7 @@ defmodule Stripe.Params.Apps.SecretDeleteWhereParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           name: String.t(),
-          scope: map()
+          scope: __MODULE__.Scope.t()
         }
 
   defstruct [:expand, :name, :scope]

@@ -9,8 +9,8 @@ defmodule Stripe.Params.Terminal.ReaderCollectInputsParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          inputs: [map()],
-          metadata: map() | nil
+          inputs: [__MODULE__.Inputs.t()],
+          metadata: %{String.t() => String.t()} | nil
         }
 
   defstruct [:expand, :inputs, :metadata]
@@ -26,10 +26,10 @@ defmodule Stripe.Params.Terminal.ReaderCollectInputsParams do
     * `type` - The type of input to collect Possible values: `email`, `numeric`, `phone`, `selection`, `signature`, `text`.
     """
     @type t :: %__MODULE__{
-            custom_text: map() | nil,
+            custom_text: __MODULE__.CustomText.t() | nil,
             required: boolean() | nil,
-            selection: map() | nil,
-            toggles: [map()] | nil,
+            selection: __MODULE__.Selection.t() | nil,
+            toggles: [__MODULE__.Toggles.t()] | nil,
             type: String.t() | nil
           }
     defstruct [:custom_text, :required, :selection, :toggles, :type]

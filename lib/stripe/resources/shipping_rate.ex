@@ -29,7 +29,7 @@ defmodule Stripe.Resources.ShippingRate do
           fixed_amount: __MODULE__.FixedAmount.t() | nil,
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           tax_behavior: String.t(),
           tax_code: String.t() | Stripe.Resources.TaxCode.t(),
@@ -116,9 +116,29 @@ defmodule Stripe.Resources.ShippingRate do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             currency: String.t() | nil,
-            currency_options: map() | nil
+            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
           }
     defstruct [:amount, :currency, :currency_options]
+
+    defmodule CurrencyOptions do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `amount` - A non-negative integer in cents representing how much to charge.
+      * `tax_behavior` - Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Possible values: `exclusive`, `inclusive`, `unspecified`.
+      """
+      @type t :: %__MODULE__{
+              amount: integer() | nil,
+              tax_behavior: String.t() | nil
+            }
+      defstruct [:amount, :tax_behavior]
+    end
+
+    def __inner_types__ do
+      %{
+        "currency_options" => __MODULE__.CurrencyOptions
+      }
+    end
   end
 
   def __inner_types__ do

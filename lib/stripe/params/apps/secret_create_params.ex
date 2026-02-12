@@ -14,7 +14,7 @@ defmodule Stripe.Params.Apps.SecretCreateParams do
           expires_at: integer() | nil,
           name: String.t(),
           payload: String.t(),
-          scope: map()
+          scope: __MODULE__.Scope.t()
         }
 
   defstruct [:expand, :expires_at, :name, :payload, :scope]

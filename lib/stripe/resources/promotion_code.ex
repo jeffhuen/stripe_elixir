@@ -36,7 +36,7 @@ defmodule Stripe.Resources.PromotionCode do
           id: String.t(),
           livemode: boolean(),
           max_redemptions: integer(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           promotion: __MODULE__.Promotion.t(),
           restrictions: __MODULE__.Restrictions.t(),
@@ -89,7 +89,7 @@ defmodule Stripe.Resources.PromotionCode do
     * `minimum_amount_currency` - Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount Max length: 5000. Nullable.
     """
     @type t :: %__MODULE__{
-            currency_options: map() | nil,
+            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
             first_time_transaction: boolean() | nil,
             minimum_amount: integer() | nil,
             minimum_amount_currency: String.t() | nil
@@ -100,6 +100,24 @@ defmodule Stripe.Resources.PromotionCode do
       :minimum_amount,
       :minimum_amount_currency
     ]
+
+    defmodule CurrencyOptions do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `minimum_amount` - Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+      """
+      @type t :: %__MODULE__{
+              minimum_amount: integer() | nil
+            }
+      defstruct [:minimum_amount]
+    end
+
+    def __inner_types__ do
+      %{
+        "currency_options" => __MODULE__.CurrencyOptions
+      }
+    end
   end
 
   def __inner_types__ do

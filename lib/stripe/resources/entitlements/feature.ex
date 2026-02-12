@@ -21,7 +21,7 @@ defmodule Stripe.Resources.Entitlements.Feature do
           id: String.t(),
           livemode: boolean(),
           lookup_key: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t()
         }

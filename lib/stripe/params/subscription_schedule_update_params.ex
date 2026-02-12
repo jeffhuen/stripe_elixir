@@ -11,11 +11,11 @@ defmodule Stripe.Params.SubscriptionScheduleUpdateParams do
   * `proration_behavior` - If the update changes the billing configuration (item price, quantity, etc.) of the current phase, indicates how prorations from this change should be handled. The default value is `create_prorations`. Possible values: `always_invoice`, `create_prorations`, `none`.
   """
   @type t :: %__MODULE__{
-          default_settings: map() | nil,
+          default_settings: __MODULE__.DefaultSettings.t() | nil,
           end_behavior: String.t() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
-          phases: [map()] | nil,
+          phases: [__MODULE__.Phases.t()] | nil,
           proration_behavior: String.t() | nil
         }
 
@@ -38,13 +38,13 @@ defmodule Stripe.Params.SubscriptionScheduleUpdateParams do
     """
     @type t :: %__MODULE__{
             application_fee_percent: float() | nil,
-            automatic_tax: map() | nil,
+            automatic_tax: __MODULE__.AutomaticTax.t() | nil,
             billing_cycle_anchor: String.t() | nil,
             billing_thresholds: map() | nil,
             collection_method: String.t() | nil,
             default_payment_method: String.t() | nil,
             description: map() | nil,
-            invoice_settings: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
             on_behalf_of: map() | nil,
             transfer_data: map() | nil
           }
@@ -90,9 +90,9 @@ defmodule Stripe.Params.SubscriptionScheduleUpdateParams do
     * `trial_end` - Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
     """
     @type t :: %__MODULE__{
-            add_invoice_items: [map()] | nil,
+            add_invoice_items: [__MODULE__.AddInvoiceItems.t()] | nil,
             application_fee_percent: float() | nil,
-            automatic_tax: map() | nil,
+            automatic_tax: __MODULE__.AutomaticTax.t() | nil,
             billing_cycle_anchor: String.t() | nil,
             billing_thresholds: map() | nil,
             collection_method: String.t() | nil,
@@ -101,15 +101,15 @@ defmodule Stripe.Params.SubscriptionScheduleUpdateParams do
             default_tax_rates: map() | nil,
             description: map() | nil,
             discounts: map() | nil,
-            duration: map() | nil,
+            duration: __MODULE__.Duration.t() | nil,
             end_date: map() | nil,
-            invoice_settings: map() | nil,
-            items: [map()] | nil,
-            metadata: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+            items: [__MODULE__.Items.t()] | nil,
+            metadata: %{String.t() => String.t()} | nil,
             on_behalf_of: String.t() | nil,
             proration_behavior: String.t() | nil,
             start_date: map() | nil,
-            transfer_data: map() | nil,
+            transfer_data: __MODULE__.TransferData.t() | nil,
             trial: boolean() | nil,
             trial_end: map() | nil
           }

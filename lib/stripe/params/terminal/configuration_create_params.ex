@@ -15,15 +15,15 @@ defmodule Stripe.Params.Terminal.ConfigurationCreateParams do
   * `wifi` - Configurations for connecting to a WiFi network.
   """
   @type t :: %__MODULE__{
-          bbpos_wisepad3: map() | nil,
-          bbpos_wisepos_e: map() | nil,
+          bbpos_wisepad3: __MODULE__.BbposWisepad3.t() | nil,
+          bbpos_wisepos_e: __MODULE__.BbposWiseposE.t() | nil,
           expand: [String.t()] | nil,
           name: String.t() | nil,
           offline: map() | nil,
-          reboot_window: map() | nil,
-          stripe_s700: map() | nil,
+          reboot_window: __MODULE__.RebootWindow.t() | nil,
+          stripe_s700: __MODULE__.StripeS700.t() | nil,
           tipping: map() | nil,
-          verifone_p400: map() | nil,
+          verifone_p400: __MODULE__.VerifoneP400.t() | nil,
           wifi: map() | nil
         }
 

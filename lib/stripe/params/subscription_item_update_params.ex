@@ -32,7 +32,7 @@ defmodule Stripe.Params.SubscriptionItemUpdateParams do
           payment_behavior: String.t() | nil,
           plan: String.t() | nil,
           price: String.t() | nil,
-          price_data: map() | nil,
+          price_data: __MODULE__.PriceData.t() | nil,
           proration_behavior: String.t() | nil,
           proration_date: integer() | nil,
           quantity: integer() | nil,
@@ -69,7 +69,7 @@ defmodule Stripe.Params.SubscriptionItemUpdateParams do
     @type t :: %__MODULE__{
             currency: String.t() | nil,
             product: String.t() | nil,
-            recurring: map() | nil,
+            recurring: __MODULE__.Recurring.t() | nil,
             tax_behavior: String.t() | nil,
             unit_amount: integer() | nil,
             unit_amount_decimal: String.t() | nil

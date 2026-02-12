@@ -11,8 +11,8 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationFinalizeAmountParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           final_amount: integer(),
-          fleet: map() | nil,
-          fuel: map() | nil
+          fleet: __MODULE__.Fleet.t() | nil,
+          fuel: __MODULE__.Fuel.t() | nil
         }
 
   defstruct [:expand, :final_amount, :fleet, :fuel]
@@ -27,9 +27,9 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationFinalizeAmountParams do
     * `service_type` - The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`. Possible values: `full_service`, `non_fuel_transaction`, `self_service`. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            cardholder_prompt_data: map() | nil,
+            cardholder_prompt_data: __MODULE__.CardholderPromptData.t() | nil,
             purchase_type: String.t() | nil,
-            reported_breakdown: map() | nil,
+            reported_breakdown: __MODULE__.ReportedBreakdown.t() | nil,
             service_type: String.t() | nil
           }
     defstruct [:cardholder_prompt_data, :purchase_type, :reported_breakdown, :service_type]

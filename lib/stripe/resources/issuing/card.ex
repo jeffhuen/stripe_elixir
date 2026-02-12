@@ -48,7 +48,7 @@ defmodule Stripe.Resources.Issuing.Card do
           last4: String.t(),
           latest_fraud_warning: __MODULE__.LatestFraudWarning.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           number: String.t() | nil,
           object: String.t(),
           personalization_design: String.t() | Stripe.Resources.Issuing.PersonalizationDesign.t(),

@@ -9,7 +9,7 @@ defmodule Stripe.Params.CustomerFundingInstructionsCreateFundingInstructionsPara
   * `funding_type` - The `funding_type` to get the instructions for. Possible values: `bank_transfer`.
   """
   @type t :: %__MODULE__{
-          bank_transfer: map(),
+          bank_transfer: __MODULE__.BankTransfer.t(),
           currency: String.t(),
           expand: [String.t()] | nil,
           funding_type: String.t()
@@ -28,7 +28,7 @@ defmodule Stripe.Params.CustomerFundingInstructionsCreateFundingInstructionsPara
     * `type` - The type of the `bank_transfer` Possible values: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, `us_bank_transfer`.
     """
     @type t :: %__MODULE__{
-            eu_bank_transfer: map() | nil,
+            eu_bank_transfer: __MODULE__.EuBankTransfer.t() | nil,
             requested_address_types: [String.t()] | nil,
             type: String.t() | nil
           }

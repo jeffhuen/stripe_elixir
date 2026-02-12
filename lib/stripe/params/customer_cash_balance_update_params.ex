@@ -8,7 +8,7 @@ defmodule Stripe.Params.CustomerCashBalanceUpdateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          settings: map() | nil
+          settings: __MODULE__.Settings.t() | nil
         }
 
   defstruct [:expand, :settings]

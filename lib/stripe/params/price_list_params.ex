@@ -24,7 +24,7 @@ defmodule Stripe.Params.PriceListParams do
           limit: integer() | nil,
           lookup_keys: [String.t()] | nil,
           product: String.t() | nil,
-          recurring: map() | nil,
+          recurring: __MODULE__.Recurring.t() | nil,
           starting_after: String.t() | nil,
           type: String.t() | nil
         }

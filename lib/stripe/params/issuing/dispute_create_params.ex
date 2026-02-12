@@ -12,11 +12,11 @@ defmodule Stripe.Params.Issuing.DisputeCreateParams do
   """
   @type t :: %__MODULE__{
           amount: integer() | nil,
-          evidence: map() | nil,
+          evidence: __MODULE__.Evidence.t() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           transaction: String.t() | nil,
-          treasury: map() | nil
+          treasury: __MODULE__.Treasury.t() | nil
         }
 
   defstruct [:amount, :evidence, :expand, :metadata, :transaction, :treasury]

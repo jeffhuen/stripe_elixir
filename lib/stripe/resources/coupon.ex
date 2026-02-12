@@ -32,13 +32,13 @@ defmodule Stripe.Resources.Coupon do
           applies_to: __MODULE__.AppliesTo.t() | nil,
           created: integer(),
           currency: String.t(),
-          currency_options: map() | nil,
+          currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
           duration: String.t(),
           duration_in_months: integer(),
           id: String.t(),
           livemode: boolean(),
           max_redemptions: integer(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t(),
           percent_off: float(),
@@ -84,9 +84,22 @@ defmodule Stripe.Resources.Coupon do
     defstruct [:products]
   end
 
+  defmodule CurrencyOptions do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `amount_off` - Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
+    """
+    @type t :: %__MODULE__{
+            amount_off: integer() | nil
+          }
+    defstruct [:amount_off]
+  end
+
   def __inner_types__ do
     %{
-      "applies_to" => __MODULE__.AppliesTo
+      "applies_to" => __MODULE__.AppliesTo,
+      "currency_options" => __MODULE__.CurrencyOptions
     }
   end
 end

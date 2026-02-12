@@ -34,7 +34,7 @@ defmodule Stripe.Resources.V2.Core.EventDestination do
           events_from: [String.t()] | nil,
           id: String.t(),
           livemode: boolean(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t(),
           object: String.t(),
           snapshot_api_version: String.t() | nil,

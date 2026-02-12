@@ -86,7 +86,7 @@ defmodule Stripe.Resources.Charge do
           invoice: String.t() | Stripe.Resources.Invoice.t() | nil,
           level3: __MODULE__.Level3.t() | nil,
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           on_behalf_of: String.t() | Stripe.Resources.Account.t(),
           outcome: __MODULE__.Outcome.t(),

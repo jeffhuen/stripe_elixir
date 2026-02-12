@@ -43,36 +43,36 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
   * `transfer_data` - The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
   """
   @type t :: %__MODULE__{
-          after_completion: map() | nil,
+          after_completion: __MODULE__.AfterCompletion.t() | nil,
           allow_promotion_codes: boolean() | nil,
           application_fee_amount: integer() | nil,
           application_fee_percent: float() | nil,
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           billing_address_collection: String.t() | nil,
-          consent_collection: map() | nil,
+          consent_collection: __MODULE__.ConsentCollection.t() | nil,
           currency: String.t() | nil,
-          custom_fields: [map()] | nil,
-          custom_text: map() | nil,
+          custom_fields: [__MODULE__.CustomFields.t()] | nil,
+          custom_text: __MODULE__.CustomText.t() | nil,
           customer_creation: String.t() | nil,
           expand: [String.t()] | nil,
           inactive_message: String.t() | nil,
-          invoice_creation: map() | nil,
-          line_items: [map()],
-          metadata: map() | nil,
-          name_collection: map() | nil,
+          invoice_creation: __MODULE__.InvoiceCreation.t() | nil,
+          line_items: [__MODULE__.LineItems.t()],
+          metadata: %{String.t() => String.t()} | nil,
+          name_collection: __MODULE__.NameCollection.t() | nil,
           on_behalf_of: String.t() | nil,
-          optional_items: [map()] | nil,
-          payment_intent_data: map() | nil,
+          optional_items: [__MODULE__.OptionalItems.t()] | nil,
+          payment_intent_data: __MODULE__.PaymentIntentData.t() | nil,
           payment_method_collection: String.t() | nil,
           payment_method_types: [String.t()] | nil,
-          phone_number_collection: map() | nil,
-          restrictions: map() | nil,
-          shipping_address_collection: map() | nil,
-          shipping_options: [map()] | nil,
+          phone_number_collection: __MODULE__.PhoneNumberCollection.t() | nil,
+          restrictions: __MODULE__.Restrictions.t() | nil,
+          shipping_address_collection: __MODULE__.ShippingAddressCollection.t() | nil,
+          shipping_options: [__MODULE__.ShippingOptions.t()] | nil,
           submit_type: String.t() | nil,
-          subscription_data: map() | nil,
-          tax_id_collection: map() | nil,
-          transfer_data: map() | nil
+          subscription_data: __MODULE__.SubscriptionData.t() | nil,
+          tax_id_collection: __MODULE__.TaxIdCollection.t() | nil,
+          transfer_data: __MODULE__.TransferData.t() | nil
         }
 
   defstruct [
@@ -117,8 +117,8 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     * `type` - The specified behavior after the purchase is complete. Either `redirect` or `hosted_confirmation`. Possible values: `hosted_confirmation`, `redirect`.
     """
     @type t :: %__MODULE__{
-            hosted_confirmation: map() | nil,
-            redirect: map() | nil,
+            hosted_confirmation: __MODULE__.HostedConfirmation.t() | nil,
+            redirect: __MODULE__.Redirect.t() | nil,
             type: String.t() | nil
           }
     defstruct [:hosted_confirmation, :redirect, :type]
@@ -135,7 +135,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -152,7 +152,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public). Possible values: `none`, `required`.
     """
     @type t :: %__MODULE__{
-            payment_method_reuse_agreement: map() | nil,
+            payment_method_reuse_agreement: __MODULE__.PaymentMethodReuseAgreement.t() | nil,
             promotions: String.t() | nil,
             terms_of_service: String.t() | nil
           }
@@ -172,12 +172,12 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     * `type` - The type of the field. Possible values: `dropdown`, `numeric`, `text`.
     """
     @type t :: %__MODULE__{
-            dropdown: map() | nil,
+            dropdown: __MODULE__.Dropdown.t() | nil,
             key: String.t() | nil,
-            label: map() | nil,
-            numeric: map() | nil,
+            label: __MODULE__.Label.t() | nil,
+            numeric: __MODULE__.Numeric.t() | nil,
             optional: boolean() | nil,
-            text: map() | nil,
+            text: __MODULE__.Text.t() | nil,
             type: String.t() | nil
           }
     defstruct [:dropdown, :key, :label, :numeric, :optional, :text, :type]
@@ -210,7 +210,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            invoice_data: map() | nil
+            invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
   end
@@ -225,9 +225,9 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     * `quantity` - The quantity of the line item being purchased.
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             price: String.t() | nil,
-            price_data: map() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
             quantity: integer() | nil
           }
     defstruct [:adjustable_quantity, :price, :price_data, :quantity]
@@ -241,8 +241,8 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     * `individual` - Controls settings applied for collecting the customer's individual name.
     """
     @type t :: %__MODULE__{
-            business: map() | nil,
-            individual: map() | nil
+            business: __MODULE__.Business.t() | nil,
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:business, :individual]
   end
@@ -256,7 +256,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     * `quantity` - The initial quantity of the line item created when a customer chooses to add this optional item to their order.
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             price: String.t() | nil,
             quantity: integer() | nil
           }
@@ -290,7 +290,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     @type t :: %__MODULE__{
             capture_method: String.t() | nil,
             description: String.t() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             setup_future_usage: String.t() | nil,
             statement_descriptor: String.t() | nil,
             statement_descriptor_suffix: String.t() | nil,
@@ -326,7 +326,7 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     * `completed_sessions` - Configuration for the `completed_sessions` restriction type.
     """
     @type t :: %__MODULE__{
-            completed_sessions: map() | nil
+            completed_sessions: __MODULE__.CompletedSessions.t() | nil
           }
     defstruct [:completed_sessions]
   end
@@ -368,10 +368,10 @@ defmodule Stripe.Params.PaymentLinkCreateParams do
     """
     @type t :: %__MODULE__{
             description: String.t() | nil,
-            invoice_settings: map() | nil,
-            metadata: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             trial_period_days: integer() | nil,
-            trial_settings: map() | nil
+            trial_settings: __MODULE__.TrialSettings.t() | nil
           }
     defstruct [:description, :invoice_settings, :metadata, :trial_period_days, :trial_settings]
   end

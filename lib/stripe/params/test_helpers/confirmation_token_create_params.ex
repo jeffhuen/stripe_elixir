@@ -16,11 +16,11 @@ defmodule Stripe.Params.TestHelpers.ConfirmationTokenCreateParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           payment_method: String.t() | nil,
-          payment_method_data: map() | nil,
-          payment_method_options: map() | nil,
+          payment_method_data: __MODULE__.PaymentMethodData.t() | nil,
+          payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
           return_url: String.t() | nil,
           setup_future_usage: String.t() | nil,
-          shipping: map() | nil
+          shipping: __MODULE__.Shipping.t() | nil
         }
 
   defstruct [
@@ -94,59 +94,59 @@ defmodule Stripe.Params.TestHelpers.ConfirmationTokenCreateParams do
     * `zip` - If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
     """
     @type t :: %__MODULE__{
-            acss_debit: map() | nil,
+            acss_debit: __MODULE__.AcssDebit.t() | nil,
             affirm: map() | nil,
             afterpay_clearpay: map() | nil,
             alipay: map() | nil,
             allow_redisplay: String.t() | nil,
             alma: map() | nil,
             amazon_pay: map() | nil,
-            au_becs_debit: map() | nil,
-            bacs_debit: map() | nil,
+            au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
+            bacs_debit: __MODULE__.BacsDebit.t() | nil,
             bancontact: map() | nil,
             billie: map() | nil,
-            billing_details: map() | nil,
+            billing_details: __MODULE__.BillingDetails.t() | nil,
             blik: map() | nil,
-            boleto: map() | nil,
+            boleto: __MODULE__.Boleto.t() | nil,
             cashapp: map() | nil,
             crypto: map() | nil,
             customer_balance: map() | nil,
-            eps: map() | nil,
-            fpx: map() | nil,
+            eps: __MODULE__.Eps.t() | nil,
+            fpx: __MODULE__.Fpx.t() | nil,
             giropay: map() | nil,
             grabpay: map() | nil,
-            ideal: map() | nil,
+            ideal: __MODULE__.Ideal.t() | nil,
             interac_present: map() | nil,
             kakao_pay: map() | nil,
-            klarna: map() | nil,
+            klarna: __MODULE__.Klarna.t() | nil,
             konbini: map() | nil,
             kr_card: map() | nil,
             link: map() | nil,
             mb_way: map() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             mobilepay: map() | nil,
             multibanco: map() | nil,
-            naver_pay: map() | nil,
-            nz_bank_account: map() | nil,
+            naver_pay: __MODULE__.NaverPay.t() | nil,
+            nz_bank_account: __MODULE__.NzBankAccount.t() | nil,
             oxxo: map() | nil,
-            p24: map() | nil,
+            p24: __MODULE__.P24.t() | nil,
             pay_by_bank: map() | nil,
             payco: map() | nil,
             paynow: map() | nil,
             paypal: map() | nil,
-            payto: map() | nil,
+            payto: __MODULE__.Payto.t() | nil,
             pix: map() | nil,
             promptpay: map() | nil,
-            radar_options: map() | nil,
+            radar_options: __MODULE__.RadarOptions.t() | nil,
             revolut_pay: map() | nil,
             samsung_pay: map() | nil,
             satispay: map() | nil,
-            sepa_debit: map() | nil,
-            sofort: map() | nil,
+            sepa_debit: __MODULE__.SepaDebit.t() | nil,
+            sofort: __MODULE__.Sofort.t() | nil,
             swish: map() | nil,
             twint: map() | nil,
             type: String.t() | nil,
-            us_bank_account: map() | nil,
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil,
             wechat_pay: map() | nil,
             zip: map() | nil
           }
@@ -216,7 +216,7 @@ defmodule Stripe.Params.TestHelpers.ConfirmationTokenCreateParams do
     * `card` - Configuration for any card payments confirmed using this ConfirmationToken.
     """
     @type t :: %__MODULE__{
-            card: map() | nil
+            card: __MODULE__.Card.t() | nil
           }
     defstruct [:card]
   end
@@ -230,7 +230,7 @@ defmodule Stripe.Params.TestHelpers.ConfirmationTokenCreateParams do
     * `phone` - Recipient phone (including extension)
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             name: String.t() | nil,
             phone: map() | nil
           }

@@ -13,7 +13,7 @@ defmodule Stripe.Params.Billing.MeterEventCreateParams do
           event_name: String.t(),
           expand: [String.t()] | nil,
           identifier: String.t() | nil,
-          payload: map(),
+          payload: %{String.t() => String.t()},
           timestamp: integer() | nil
         }
 

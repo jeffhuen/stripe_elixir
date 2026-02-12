@@ -21,7 +21,7 @@ defmodule Stripe.Resources.InvoiceRenderingTemplate do
           created: integer(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           nickname: String.t(),
           object: String.t(),
           status: String.t(),

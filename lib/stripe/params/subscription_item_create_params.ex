@@ -27,11 +27,11 @@ defmodule Stripe.Params.SubscriptionItemCreateParams do
           billing_thresholds: map() | nil,
           discounts: map() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           payment_behavior: String.t() | nil,
           plan: String.t() | nil,
           price: String.t() | nil,
-          price_data: map() | nil,
+          price_data: __MODULE__.PriceData.t() | nil,
           proration_behavior: String.t() | nil,
           proration_date: integer() | nil,
           quantity: integer() | nil,
@@ -69,7 +69,7 @@ defmodule Stripe.Params.SubscriptionItemCreateParams do
     @type t :: %__MODULE__{
             currency: String.t() | nil,
             product: String.t() | nil,
-            recurring: map() | nil,
+            recurring: __MODULE__.Recurring.t() | nil,
             tax_behavior: String.t() | nil,
             unit_amount: integer() | nil,
             unit_amount_decimal: String.t() | nil

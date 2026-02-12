@@ -15,7 +15,7 @@ defmodule Stripe.Resources.CashBalance do
   * `settings` - Expandable.
   """
   @type t :: %__MODULE__{
-          available: map(),
+          available: %{String.t() => integer()},
           customer: String.t(),
           customer_account: String.t(),
           livemode: boolean(),

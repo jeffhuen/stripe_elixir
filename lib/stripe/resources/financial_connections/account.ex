@@ -155,7 +155,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
             as_of: integer() | nil,
             cash: __MODULE__.Cash.t() | nil,
             credit: __MODULE__.Credit.t() | nil,
-            current: map() | nil,
+            current: %{String.t() => integer()} | nil,
             type: String.t() | nil
           }
     defstruct [:as_of, :cash, :credit, :current, :type]
@@ -171,7 +171,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
       Each value is a integer amount. A positive amount indicates money owed to the account holder. A negative amount indicates money owed by the account holder. Nullable.
       """
       @type t :: %__MODULE__{
-              available: map() | nil
+              available: %{String.t() => integer()} | nil
             }
       defstruct [:available]
     end
@@ -187,7 +187,7 @@ defmodule Stripe.Resources.FinancialConnections.Account do
       Each value is a integer amount. A positive amount indicates money owed to the account holder. A negative amount indicates money owed by the account holder. Nullable.
       """
       @type t :: %__MODULE__{
-              used: map() | nil
+              used: %{String.t() => integer()} | nil
             }
       defstruct [:used]
     end

@@ -12,10 +12,10 @@ defmodule Stripe.Params.TestHelpers.Terminal.ReaderPresentPaymentMethodParams do
   """
   @type t :: %__MODULE__{
           amount_tip: integer() | nil,
-          card: map() | nil,
-          card_present: map() | nil,
+          card: __MODULE__.Card.t() | nil,
+          card_present: __MODULE__.CardPresent.t() | nil,
           expand: [String.t()] | nil,
-          interac_present: map() | nil,
+          interac_present: __MODULE__.InteracPresent.t() | nil,
           type: String.t() | nil
         }
 

@@ -45,7 +45,7 @@ defmodule Stripe.Resources.Transfer do
           destination_payment: String.t() | Stripe.Resources.Charge.t() | nil,
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           reversals: __MODULE__.Reversals.t(),
           reversed: boolean(),

@@ -18,12 +18,12 @@ defmodule Stripe.Params.Identity.VerificationSessionCreateParams do
   @type t :: %__MODULE__{
           client_reference_id: String.t() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil,
-          options: map() | nil,
-          provided_details: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
+          options: __MODULE__.Options.t() | nil,
+          provided_details: __MODULE__.ProvidedDetails.t() | nil,
           related_customer: String.t() | nil,
           related_customer_account: String.t() | nil,
-          related_person: map() | nil,
+          related_person: __MODULE__.RelatedPerson.t() | nil,
           return_url: String.t() | nil,
           type: String.t() | nil,
           verification_flow: String.t() | nil

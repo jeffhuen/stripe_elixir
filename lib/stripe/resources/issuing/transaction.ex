@@ -49,7 +49,7 @@ defmodule Stripe.Resources.Issuing.Transaction do
           merchant_amount: integer(),
           merchant_currency: String.t(),
           merchant_data: __MODULE__.MerchantData.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           network_data: __MODULE__.NetworkData.t(),
           object: String.t(),
           purchase_details: __MODULE__.PurchaseDetails.t() | nil,

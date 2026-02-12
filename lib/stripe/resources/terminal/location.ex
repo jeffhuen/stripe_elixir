@@ -32,7 +32,7 @@ defmodule Stripe.Resources.Terminal.Location do
           display_name_kanji: String.t() | nil,
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           phone: String.t() | nil
         }

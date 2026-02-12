@@ -29,7 +29,7 @@ defmodule Stripe.Resources.SubscriptionItem do
           current_period_start: integer(),
           discounts: [String.t() | Stripe.Resources.Discount.t()],
           id: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           plan: Stripe.Resources.Plan.t(),
           price: Stripe.Resources.Price.t(),

@@ -15,13 +15,13 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignCreateParams do
   """
   @type t :: %__MODULE__{
           card_logo: String.t() | nil,
-          carrier_text: map() | nil,
+          carrier_text: __MODULE__.CarrierText.t() | nil,
           expand: [String.t()] | nil,
           lookup_key: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t() | nil,
           physical_bundle: String.t(),
-          preferences: map() | nil,
+          preferences: __MODULE__.Preferences.t() | nil,
           transfer_lookup_key: boolean() | nil
         }
 

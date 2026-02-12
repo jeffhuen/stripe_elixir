@@ -20,7 +20,7 @@ defmodule Stripe.Params.PayoutCreateParams do
           description: String.t() | nil,
           destination: String.t() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           method: String.t() | nil,
           payout_method: String.t() | nil,
           source_type: String.t() | nil,

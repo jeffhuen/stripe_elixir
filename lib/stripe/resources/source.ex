@@ -79,7 +79,7 @@ defmodule Stripe.Resources.Source do
           ideal: Stripe.Resources.Ideal.t() | nil,
           klarna: Stripe.Resources.Klarna.t() | nil,
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           multibanco: Stripe.Resources.Multibanco.t() | nil,
           object: String.t(),
           owner: __MODULE__.Owner.t(),

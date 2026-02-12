@@ -25,15 +25,15 @@ defmodule Stripe.Params.ProductCreateParams do
   """
   @type t :: %__MODULE__{
           active: boolean() | nil,
-          default_price_data: map() | nil,
+          default_price_data: __MODULE__.DefaultPriceData.t() | nil,
           description: String.t() | nil,
           expand: [String.t()] | nil,
           id: String.t() | nil,
           images: [String.t()] | nil,
-          marketing_features: [map()] | nil,
-          metadata: map() | nil,
+          marketing_features: [__MODULE__.MarketingFeatures.t()] | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t(),
-          package_dimensions: map() | nil,
+          package_dimensions: __MODULE__.PackageDimensions.t() | nil,
           shippable: boolean() | nil,
           statement_descriptor: String.t() | nil,
           tax_code: String.t() | nil,
@@ -76,10 +76,10 @@ defmodule Stripe.Params.ProductCreateParams do
     """
     @type t :: %__MODULE__{
             currency: String.t() | nil,
-            currency_options: map() | nil,
-            custom_unit_amount: map() | nil,
-            metadata: map() | nil,
-            recurring: map() | nil,
+            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
+            custom_unit_amount: __MODULE__.CustomUnitAmount.t() | nil,
+            metadata: %{String.t() => String.t()} | nil,
+            recurring: __MODULE__.Recurring.t() | nil,
             tax_behavior: String.t() | nil,
             unit_amount: integer() | nil,
             unit_amount_decimal: String.t() | nil

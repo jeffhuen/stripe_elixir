@@ -8,7 +8,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.InboundTransferFailParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          failure_details: map() | nil
+          failure_details: __MODULE__.FailureDetails.t() | nil
         }
 
   defstruct [:expand, :failure_details]

@@ -25,7 +25,7 @@ defmodule Stripe.Resources.V2.Billing.MeterEvent do
           identifier: String.t(),
           livemode: boolean(),
           object: String.t(),
-          payload: map(),
+          payload: %{String.t() => String.t()},
           timestamp: String.t()
         }
 

@@ -10,7 +10,7 @@ defmodule Stripe.Params.InvoiceRemoveLinesParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           invoice_metadata: map() | nil,
-          lines: [map()]
+          lines: [__MODULE__.Lines.t()]
         }
 
   defstruct [:expand, :invoice_metadata, :lines]

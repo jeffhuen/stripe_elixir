@@ -12,7 +12,7 @@ defmodule Stripe.Params.PromotionCodeUpdateParams do
           active: boolean() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
-          restrictions: map() | nil
+          restrictions: __MODULE__.Restrictions.t() | nil
         }
 
   defstruct [:active, :expand, :metadata, :restrictions]
@@ -24,7 +24,7 @@ defmodule Stripe.Params.PromotionCodeUpdateParams do
     * `currency_options` - Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
     """
     @type t :: %__MODULE__{
-            currency_options: map() | nil
+            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
           }
     defstruct [:currency_options]
   end

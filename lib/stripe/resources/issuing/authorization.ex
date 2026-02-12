@@ -59,7 +59,7 @@ defmodule Stripe.Resources.Issuing.Authorization do
           merchant_amount: integer(),
           merchant_currency: String.t(),
           merchant_data: __MODULE__.MerchantData.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           network_data: __MODULE__.NetworkData.t(),
           object: String.t(),
           pending_request: __MODULE__.PendingRequest.t(),

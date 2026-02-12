@@ -8,7 +8,7 @@ defmodule Stripe.Params.Terminal.ReaderSetReaderDisplayParams do
   * `type` - Type of information to display. Only `cart` is currently supported. Possible values: `cart`.
   """
   @type t :: %__MODULE__{
-          cart: map() | nil,
+          cart: __MODULE__.Cart.t() | nil,
           expand: [String.t()] | nil,
           type: String.t()
         }
@@ -26,7 +26,7 @@ defmodule Stripe.Params.Terminal.ReaderSetReaderDisplayParams do
     """
     @type t :: %__MODULE__{
             currency: String.t() | nil,
-            line_items: [map()] | nil,
+            line_items: [__MODULE__.LineItems.t()] | nil,
             tax: integer() | nil,
             total: integer() | nil
           }

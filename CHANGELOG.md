@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.1.7] - 2026-02-12
+
+### Fixed
+
+- Fix generator to produce strongly typed maps for `additionalProperties` fields (e.g., `Price.currency_options` now resolves to `%{String.t() => CurrencyOptions.t()}` instead of `map()`)
+- Fix parameter generator to produce strongly typed maps for nested request parameters (e.g. `Coupon.create` `currency_options` now resolves to `%{String.t() => CurrencyOptions.t()}` instead of `map()`)
+- Fix generator to support `oneOf` unions (polymorphism), enabling future support for disjoint types in V2 events
+
 ## [0.1.6] - 2026-02-11
 
 ### Fixed

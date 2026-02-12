@@ -42,7 +42,7 @@ defmodule Stripe.Resources.Dispute do
           id: String.t(),
           is_charge_refundable: boolean(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           network_reason_code: String.t() | nil,
           object: String.t(),
           payment_intent: String.t() | Stripe.Resources.PaymentIntent.t(),

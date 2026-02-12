@@ -24,24 +24,24 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonCreateParams do
   * `surname` - The person's last name.
   """
   @type t :: %__MODULE__{
-          additional_addresses: [map()] | nil,
-          additional_names: [map()] | nil,
-          additional_terms_of_service: map() | nil,
-          address: map() | nil,
-          date_of_birth: map() | nil,
-          documents: map() | nil,
+          additional_addresses: [__MODULE__.AdditionalAddresses.t()] | nil,
+          additional_names: [__MODULE__.AdditionalNames.t()] | nil,
+          additional_terms_of_service: __MODULE__.AdditionalTermsOfService.t() | nil,
+          address: __MODULE__.Address.t() | nil,
+          date_of_birth: __MODULE__.DateOfBirth.t() | nil,
+          documents: __MODULE__.Documents.t() | nil,
           email: String.t() | nil,
           given_name: String.t() | nil,
-          id_numbers: [map()] | nil,
+          id_numbers: [__MODULE__.IdNumbers.t()] | nil,
           legal_gender: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           nationalities: [String.t()] | nil,
           person_token: String.t() | nil,
           phone: String.t() | nil,
           political_exposure: String.t() | nil,
-          relationship: map() | nil,
-          script_addresses: map() | nil,
-          script_names: map() | nil,
+          relationship: __MODULE__.Relationship.t() | nil,
+          script_addresses: __MODULE__.ScriptAddresses.t() | nil,
+          script_names: __MODULE__.ScriptNames.t() | nil,
           surname: String.t() | nil
         }
 
@@ -118,7 +118,7 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonCreateParams do
     * `account` - Stripe terms of service agreement.
     """
     @type t :: %__MODULE__{
-            account: map() | nil
+            account: __MODULE__.Account.t() | nil
           }
     defstruct [:account]
   end
@@ -174,11 +174,11 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonCreateParams do
     * `visa` - One or more documents showing the person’s visa required for living in the country where they are residing.
     """
     @type t :: %__MODULE__{
-            company_authorization: map() | nil,
-            passport: map() | nil,
-            primary_verification: map() | nil,
-            secondary_verification: map() | nil,
-            visa: map() | nil
+            company_authorization: __MODULE__.CompanyAuthorization.t() | nil,
+            passport: __MODULE__.Passport.t() | nil,
+            primary_verification: __MODULE__.PrimaryVerification.t() | nil,
+            secondary_verification: __MODULE__.SecondaryVerification.t() | nil,
+            visa: __MODULE__.Visa.t() | nil
           }
     defstruct [
       :company_authorization,
@@ -246,8 +246,8 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonCreateParams do
     * `kanji` - Kanji Address.
     """
     @type t :: %__MODULE__{
-            kana: map() | nil,
-            kanji: map() | nil
+            kana: __MODULE__.Kana.t() | nil,
+            kanji: __MODULE__.Kanji.t() | nil
           }
     defstruct [:kana, :kanji]
   end
@@ -260,8 +260,8 @@ defmodule Stripe.Params.V2.Core.Accounts.PersonCreateParams do
     * `kanji` - Persons name in kanji script.
     """
     @type t :: %__MODULE__{
-            kana: map() | nil,
-            kanji: map() | nil
+            kana: __MODULE__.Kana.t() | nil,
+            kanji: __MODULE__.Kanji.t() | nil
           }
     defstruct [:kana, :kanji]
   end

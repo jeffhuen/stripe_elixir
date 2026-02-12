@@ -23,21 +23,21 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
   """
   @type t :: %__MODULE__{
           amount: integer() | nil,
-          amount_details: map() | nil,
+          amount_details: __MODULE__.AmountDetails.t() | nil,
           authorization_method: String.t() | nil,
           card: String.t(),
           currency: String.t() | nil,
           expand: [String.t()] | nil,
-          fleet: map() | nil,
+          fleet: __MODULE__.Fleet.t() | nil,
           fraud_disputability_likelihood: String.t() | nil,
-          fuel: map() | nil,
+          fuel: __MODULE__.Fuel.t() | nil,
           is_amount_controllable: boolean() | nil,
           merchant_amount: integer() | nil,
           merchant_currency: String.t() | nil,
-          merchant_data: map() | nil,
-          network_data: map() | nil,
-          risk_assessment: map() | nil,
-          verification_data: map() | nil,
+          merchant_data: __MODULE__.MerchantData.t() | nil,
+          network_data: __MODULE__.NetworkData.t() | nil,
+          risk_assessment: __MODULE__.RiskAssessment.t() | nil,
+          verification_data: __MODULE__.VerificationData.t() | nil,
           wallet: String.t() | nil
         }
 
@@ -85,9 +85,9 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
     * `service_type` - The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`. Possible values: `full_service`, `non_fuel_transaction`, `self_service`. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            cardholder_prompt_data: map() | nil,
+            cardholder_prompt_data: __MODULE__.CardholderPromptData.t() | nil,
             purchase_type: String.t() | nil,
-            reported_breakdown: map() | nil,
+            reported_breakdown: __MODULE__.ReportedBreakdown.t() | nil,
             service_type: String.t() | nil
           }
     defstruct [:cardholder_prompt_data, :purchase_type, :reported_breakdown, :service_type]
@@ -172,9 +172,9 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
     * `merchant_dispute_risk` - The dispute risk of the merchant (the seller on a purchase) on an authorization based on all Stripe Issuing activity.
     """
     @type t :: %__MODULE__{
-            card_testing_risk: map() | nil,
-            fraud_risk: map() | nil,
-            merchant_dispute_risk: map() | nil
+            card_testing_risk: __MODULE__.CardTestingRisk.t() | nil,
+            fraud_risk: __MODULE__.FraudRisk.t() | nil,
+            merchant_dispute_risk: __MODULE__.MerchantDisputeRisk.t() | nil
           }
     defstruct [:card_testing_risk, :fraud_risk, :merchant_dispute_risk]
   end
@@ -193,10 +193,10 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCreateParams do
     @type t :: %__MODULE__{
             address_line1_check: String.t() | nil,
             address_postal_code_check: String.t() | nil,
-            authentication_exemption: map() | nil,
+            authentication_exemption: __MODULE__.AuthenticationExemption.t() | nil,
             cvc_check: String.t() | nil,
             expiry_check: String.t() | nil,
-            three_d_secure: map() | nil
+            three_d_secure: __MODULE__.ThreeDSecure.t() | nil
           }
     defstruct [
       :address_line1_check,

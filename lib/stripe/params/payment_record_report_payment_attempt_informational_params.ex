@@ -10,7 +10,7 @@ defmodule Stripe.Params.PaymentRecordReportPaymentAttemptInformationalParams do
   * `shipping_details` - Shipping information for this payment.
   """
   @type t :: %__MODULE__{
-          customer_details: map() | nil,
+          customer_details: __MODULE__.CustomerDetails.t() | nil,
           description: map() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,

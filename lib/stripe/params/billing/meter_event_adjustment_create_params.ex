@@ -9,7 +9,7 @@ defmodule Stripe.Params.Billing.MeterEventAdjustmentCreateParams do
   * `type` - Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet. Possible values: `cancel`.
   """
   @type t :: %__MODULE__{
-          cancel: map() | nil,
+          cancel: __MODULE__.Cancel.t() | nil,
           event_name: String.t(),
           expand: [String.t()] | nil,
           type: String.t()

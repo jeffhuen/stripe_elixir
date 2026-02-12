@@ -15,11 +15,11 @@ defmodule Stripe.Params.Tax.CalculationCreateParams do
   @type t :: %__MODULE__{
           currency: String.t(),
           customer: String.t() | nil,
-          customer_details: map() | nil,
+          customer_details: __MODULE__.CustomerDetails.t() | nil,
           expand: [String.t()] | nil,
-          line_items: [map()],
-          ship_from_details: map() | nil,
-          shipping_cost: map() | nil,
+          line_items: [__MODULE__.LineItems.t()],
+          ship_from_details: __MODULE__.ShipFromDetails.t() | nil,
+          shipping_cost: __MODULE__.ShippingCost.t() | nil,
           tax_date: integer() | nil
         }
 
@@ -45,10 +45,10 @@ defmodule Stripe.Params.Tax.CalculationCreateParams do
     * `taxability_override` - Overrides the tax calculation result to allow you to not collect tax from your customer. Use this if you've manually checked your customer's tax exemptions. Prefer providing the customer's `tax_ids` where possible, which automatically determines whether `reverse_charge` applies. Possible values: `customer_exempt`, `none`, `reverse_charge`.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             address_source: String.t() | nil,
             ip_address: String.t() | nil,
-            tax_ids: [map()] | nil,
+            tax_ids: [__MODULE__.TaxIds.t()] | nil,
             taxability_override: String.t() | nil
           }
     defstruct [:address, :address_source, :ip_address, :tax_ids, :taxability_override]
@@ -69,7 +69,7 @@ defmodule Stripe.Params.Tax.CalculationCreateParams do
     """
     @type t :: %__MODULE__{
             amount: integer() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             product: String.t() | nil,
             quantity: integer() | nil,
             reference: String.t() | nil,
@@ -86,7 +86,7 @@ defmodule Stripe.Params.Tax.CalculationCreateParams do
     * `address` - The address from which the goods are being shipped from.
     """
     @type t :: %__MODULE__{
-            address: map() | nil
+            address: __MODULE__.Address.t() | nil
           }
     defstruct [:address]
   end

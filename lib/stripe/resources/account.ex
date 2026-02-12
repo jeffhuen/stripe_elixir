@@ -59,7 +59,7 @@ defmodule Stripe.Resources.Account do
           groups: __MODULE__.Groups.t() | nil,
           id: String.t(),
           individual: Stripe.Resources.Person.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           object: String.t(),
           payouts_enabled: boolean() | nil,
           requirements: __MODULE__.Requirements.t() | nil,

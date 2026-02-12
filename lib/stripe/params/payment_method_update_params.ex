@@ -13,12 +13,12 @@ defmodule Stripe.Params.PaymentMethodUpdateParams do
   """
   @type t :: %__MODULE__{
           allow_redisplay: String.t() | nil,
-          billing_details: map() | nil,
-          card: map() | nil,
+          billing_details: __MODULE__.BillingDetails.t() | nil,
+          card: __MODULE__.Card.t() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
-          payto: map() | nil,
-          us_bank_account: map() | nil
+          payto: __MODULE__.Payto.t() | nil,
+          us_bank_account: __MODULE__.UsBankAccount.t() | nil
         }
 
   defstruct [
@@ -62,7 +62,7 @@ defmodule Stripe.Params.PaymentMethodUpdateParams do
     @type t :: %__MODULE__{
             exp_month: integer() | nil,
             exp_year: integer() | nil,
-            networks: map() | nil
+            networks: __MODULE__.Networks.t() | nil
           }
     defstruct [:exp_month, :exp_year, :networks]
   end

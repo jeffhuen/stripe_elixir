@@ -203,6 +203,12 @@ defmodule Stripe.Generator.ParamsGenerator do
   defp resolve_param_type(_name, %{"type" => "integer"}), do: {:integer, %{}}
   defp resolve_param_type(_name, %{"type" => "number"}), do: {:float, %{}}
   defp resolve_param_type(_name, %{"type" => "boolean"}), do: {:boolean, %{}}
+  defp resolve_param_type(name, %{"type" => "object", "additionalProperties" => add_props})
+       when add_props != false do
+    {value_type, nested} = resolve_param_type(name, add_props)
+    {{:map, value_type}, nested}
+  end
+
   defp resolve_param_type(_name, %{"type" => "object"}), do: {:map, %{}}
   defp resolve_param_type(_name, _), do: {:map, %{}}
 
@@ -240,9 +246,10 @@ defmodule Stripe.Generator.ParamsGenerator do
   defp params_typespec(:float), do: "float()"
   defp params_typespec(:boolean), do: "boolean()"
   defp params_typespec(:map), do: "map()"
+  defp params_typespec({:map, inner}), do: "%{String.t() => #{params_typespec(inner)}}"
   defp params_typespec({:list, inner}), do: "[#{params_typespec(inner)}]"
   defp params_typespec({:nullable, inner}), do: params_typespec(inner)
-  defp params_typespec({:nested, _name}), do: "map()"
+  defp params_typespec({:nested, name}), do: "__MODULE__.#{name}.t()"
   defp params_typespec(_), do: "term()"
 
   # When params_overrides() gains entries, match here like resolve_service/2.

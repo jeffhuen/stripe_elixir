@@ -9,7 +9,7 @@ defmodule Stripe.Params.DisputeUpdateParams do
   * `submit` - Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
   """
   @type t :: %__MODULE__{
-          evidence: map() | nil,
+          evidence: __MODULE__.Evidence.t() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
           submit: boolean() | nil

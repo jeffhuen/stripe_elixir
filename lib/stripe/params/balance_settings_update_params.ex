@@ -8,7 +8,7 @@ defmodule Stripe.Params.BalanceSettingsUpdateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          payments: map() | nil
+          payments: __MODULE__.Payments.t() | nil
         }
 
   defstruct [:expand, :payments]
@@ -23,8 +23,8 @@ defmodule Stripe.Params.BalanceSettingsUpdateParams do
     """
     @type t :: %__MODULE__{
             debit_negative_balances: boolean() | nil,
-            payouts: map() | nil,
-            settlement_timing: map() | nil
+            payouts: __MODULE__.Payouts.t() | nil,
+            settlement_timing: __MODULE__.SettlementTiming.t() | nil
           }
     defstruct [:debit_negative_balances, :payouts, :settlement_timing]
   end

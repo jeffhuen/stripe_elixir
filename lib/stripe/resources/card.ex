@@ -76,7 +76,7 @@ defmodule Stripe.Resources.Card do
           iin: String.t() | nil,
           issuer: String.t() | nil,
           last4: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           networks: __MODULE__.Networks.t() | nil,
           object: String.t(),

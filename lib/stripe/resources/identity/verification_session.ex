@@ -46,7 +46,7 @@ defmodule Stripe.Resources.Identity.VerificationSession do
           last_error: __MODULE__.LastError.t(),
           last_verification_report: String.t() | Stripe.Resources.Identity.VerificationReport.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           options: __MODULE__.Options.t(),
           provided_details: __MODULE__.ProvidedDetails.t() | nil,

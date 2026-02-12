@@ -10,11 +10,11 @@ defmodule Stripe.Params.Radar.PaymentEvaluationCreateParams do
   * `payment_details` - Details about the payment.
   """
   @type t :: %__MODULE__{
-          client_device_metadata_details: map() | nil,
-          customer_details: map(),
+          client_device_metadata_details: __MODULE__.ClientDeviceMetadataDetails.t() | nil,
+          customer_details: __MODULE__.CustomerDetails.t(),
           expand: [String.t()] | nil,
-          metadata: map() | nil,
-          payment_details: map()
+          metadata: %{String.t() => String.t()} | nil,
+          payment_details: __MODULE__.PaymentDetails.t()
         }
 
   defstruct [
@@ -73,9 +73,9 @@ defmodule Stripe.Params.Radar.PaymentEvaluationCreateParams do
             amount: integer() | nil,
             currency: String.t() | nil,
             description: String.t() | nil,
-            money_movement_details: map() | nil,
-            payment_method_details: map() | nil,
-            shipping_details: map() | nil,
+            money_movement_details: __MODULE__.MoneyMovementDetails.t() | nil,
+            payment_method_details: __MODULE__.PaymentMethodDetails.t() | nil,
+            shipping_details: __MODULE__.ShippingDetails.t() | nil,
             statement_descriptor: String.t() | nil
           }
     defstruct [

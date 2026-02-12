@@ -23,7 +23,7 @@ defmodule Stripe.Resources.Tax.CalculationLineItem do
           amount_tax: integer(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           product: String.t(),
           quantity: integer(),

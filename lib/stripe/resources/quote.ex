@@ -70,7 +70,7 @@ defmodule Stripe.Resources.Quote do
           invoice_settings: __MODULE__.InvoiceSettings.t(),
           line_items: __MODULE__.LineItems.t() | nil,
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           number: String.t(),
           object: String.t(),
           on_behalf_of: String.t() | Stripe.Resources.Account.t(),
@@ -526,7 +526,7 @@ defmodule Stripe.Resources.Quote do
             billing_mode: __MODULE__.BillingMode.t() | nil,
             description: String.t() | nil,
             effective_date: integer() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             trial_period_days: integer() | nil
           }
     defstruct [:billing_mode, :description, :effective_date, :metadata, :trial_period_days]

@@ -43,7 +43,7 @@ defmodule Stripe.Resources.TaxRate do
           jurisdiction: String.t(),
           jurisdiction_level: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           percentage: float(),
           rate_type: String.t(),

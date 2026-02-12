@@ -18,10 +18,10 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignUpdateParams do
           carrier_text: map() | nil,
           expand: [String.t()] | nil,
           lookup_key: map() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: map() | nil,
           physical_bundle: String.t() | nil,
-          preferences: map() | nil,
+          preferences: __MODULE__.Preferences.t() | nil,
           transfer_lookup_key: boolean() | nil
         }
 

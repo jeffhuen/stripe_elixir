@@ -16,7 +16,7 @@ defmodule Stripe.Params.AccountLinkCreateParams do
   @type t :: %__MODULE__{
           account: String.t(),
           collect: String.t() | nil,
-          collection_options: map() | nil,
+          collection_options: __MODULE__.CollectionOptions.t() | nil,
           expand: [String.t()] | nil,
           refresh_url: String.t() | nil,
           return_url: String.t() | nil,

@@ -48,7 +48,7 @@ defmodule Stripe.Resources.Climate.Order do
           expected_delivery_year: integer(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           metric_tons: String.t(),
           object: String.t(),
           product: String.t() | Stripe.Resources.Climate.Product.t(),

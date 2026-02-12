@@ -47,7 +47,7 @@ defmodule Stripe.Resources.V2.Core.AccountPerson do
           id_numbers: [__MODULE__.IdNumbers.t()] | nil,
           legal_gender: String.t() | nil,
           livemode: boolean(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           nationalities: [String.t()] | nil,
           object: String.t(),
           phone: String.t() | nil,

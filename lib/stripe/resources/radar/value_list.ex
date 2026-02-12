@@ -28,7 +28,7 @@ defmodule Stripe.Resources.Radar.ValueList do
           item_type: String.t(),
           list_items: __MODULE__.ListItems.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name: String.t(),
           object: String.t()
         }

@@ -23,7 +23,7 @@ defmodule Stripe.Params.ChargeCaptureParams do
           receipt_email: String.t() | nil,
           statement_descriptor: String.t() | nil,
           statement_descriptor_suffix: String.t() | nil,
-          transfer_data: map() | nil,
+          transfer_data: __MODULE__.TransferData.t() | nil,
           transfer_group: String.t() | nil
         }
 

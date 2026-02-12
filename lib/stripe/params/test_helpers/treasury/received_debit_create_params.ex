@@ -17,7 +17,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.ReceivedDebitCreateParams do
           description: String.t() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t(),
-          initiating_payment_method_details: map() | nil,
+          initiating_payment_method_details: __MODULE__.InitiatingPaymentMethodDetails.t() | nil,
           network: String.t()
         }
 
@@ -40,7 +40,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.ReceivedDebitCreateParams do
     """
     @type t :: %__MODULE__{
             type: String.t() | nil,
-            us_bank_account: map() | nil
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil
           }
     defstruct [:type, :us_bank_account]
   end

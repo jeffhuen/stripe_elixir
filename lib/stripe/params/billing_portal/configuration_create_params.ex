@@ -12,12 +12,12 @@ defmodule Stripe.Params.BillingPortal.ConfigurationCreateParams do
   * `name` - The name of the configuration.
   """
   @type t :: %__MODULE__{
-          business_profile: map() | nil,
+          business_profile: __MODULE__.BusinessProfile.t() | nil,
           default_return_url: map() | nil,
           expand: [String.t()] | nil,
-          features: map(),
-          login_page: map() | nil,
-          metadata: map() | nil,
+          features: __MODULE__.Features.t(),
+          login_page: __MODULE__.LoginPage.t() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: map() | nil
         }
 
@@ -58,11 +58,11 @@ defmodule Stripe.Params.BillingPortal.ConfigurationCreateParams do
     * `subscription_update` - Information about updating subscriptions in the portal.
     """
     @type t :: %__MODULE__{
-            customer_update: map() | nil,
-            invoice_history: map() | nil,
-            payment_method_update: map() | nil,
-            subscription_cancel: map() | nil,
-            subscription_update: map() | nil
+            customer_update: __MODULE__.CustomerUpdate.t() | nil,
+            invoice_history: __MODULE__.InvoiceHistory.t() | nil,
+            payment_method_update: __MODULE__.PaymentMethodUpdate.t() | nil,
+            subscription_cancel: __MODULE__.SubscriptionCancel.t() | nil,
+            subscription_update: __MODULE__.SubscriptionUpdate.t() | nil
           }
     defstruct [
       :customer_update,

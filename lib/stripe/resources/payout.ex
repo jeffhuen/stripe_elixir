@@ -58,7 +58,7 @@ defmodule Stripe.Resources.Payout do
           failure_message: String.t(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           method: String.t(),
           object: String.t(),
           original_payout: String.t() | Stripe.Resources.Payout.t(),

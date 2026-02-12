@@ -13,7 +13,7 @@ defmodule Stripe.Params.Apps.SecretListParams do
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,
-          scope: map(),
+          scope: __MODULE__.Scope.t(),
           starting_after: String.t() | nil
         }
 

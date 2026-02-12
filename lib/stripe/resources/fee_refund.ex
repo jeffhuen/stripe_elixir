@@ -27,7 +27,7 @@ defmodule Stripe.Resources.FeeRefund do
           currency: String.t(),
           fee: String.t() | Stripe.Resources.ApplicationFee.t(),
           id: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t()
         }
 

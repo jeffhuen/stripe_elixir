@@ -8,7 +8,7 @@ defmodule Stripe.Params.Terminal.ReaderCollectPaymentMethodParams do
   * `payment_intent` - The ID of the PaymentIntent to collect a payment method for. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          collect_config: map() | nil,
+          collect_config: __MODULE__.CollectConfig.t() | nil,
           expand: [String.t()] | nil,
           payment_intent: String.t()
         }
@@ -28,7 +28,7 @@ defmodule Stripe.Params.Terminal.ReaderCollectPaymentMethodParams do
             allow_redisplay: String.t() | nil,
             enable_customer_cancellation: boolean() | nil,
             skip_tipping: boolean() | nil,
-            tipping: map() | nil
+            tipping: __MODULE__.Tipping.t() | nil
           }
     defstruct [:allow_redisplay, :enable_customer_cancellation, :skip_tipping, :tipping]
   end

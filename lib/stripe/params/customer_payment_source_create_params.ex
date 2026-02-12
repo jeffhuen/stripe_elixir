@@ -10,7 +10,7 @@ defmodule Stripe.Params.CustomerPaymentSourceCreateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           source: String.t(),
           validate: boolean() | nil
         }

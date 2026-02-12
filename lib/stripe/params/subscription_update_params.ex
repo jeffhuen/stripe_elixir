@@ -42,14 +42,14 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
   * `trial_settings` - Settings related to subscription trials.
   """
   @type t :: %__MODULE__{
-          add_invoice_items: [map()] | nil,
+          add_invoice_items: [__MODULE__.AddInvoiceItems.t()] | nil,
           application_fee_percent: map() | nil,
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           billing_cycle_anchor: String.t() | nil,
           billing_thresholds: map() | nil,
           cancel_at: map() | nil,
           cancel_at_period_end: boolean() | nil,
-          cancellation_details: map() | nil,
+          cancellation_details: __MODULE__.CancellationDetails.t() | nil,
           collection_method: String.t() | nil,
           days_until_due: integer() | nil,
           default_payment_method: String.t() | nil,
@@ -58,21 +58,21 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
           description: map() | nil,
           discounts: map() | nil,
           expand: [String.t()] | nil,
-          invoice_settings: map() | nil,
-          items: [map()] | nil,
+          invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+          items: [__MODULE__.Items.t()] | nil,
           metadata: map() | nil,
           off_session: boolean() | nil,
           on_behalf_of: map() | nil,
           pause_collection: map() | nil,
           payment_behavior: String.t() | nil,
-          payment_settings: map() | nil,
+          payment_settings: __MODULE__.PaymentSettings.t() | nil,
           pending_invoice_item_interval: map() | nil,
           proration_behavior: String.t() | nil,
           proration_date: integer() | nil,
           transfer_data: map() | nil,
           trial_end: map() | nil,
           trial_from_plan: boolean() | nil,
-          trial_settings: map() | nil
+          trial_settings: __MODULE__.TrialSettings.t() | nil
         }
 
   defstruct [
@@ -122,11 +122,11 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
     * `tax_rates` - The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
     """
     @type t :: %__MODULE__{
-            discounts: [map()] | nil,
-            metadata: map() | nil,
-            period: map() | nil,
+            discounts: [__MODULE__.Discounts.t()] | nil,
+            metadata: %{String.t() => String.t()} | nil,
+            period: __MODULE__.Period.t() | nil,
             price: String.t() | nil,
-            price_data: map() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
             quantity: integer() | nil,
             tax_rates: map() | nil
           }
@@ -142,7 +142,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -170,7 +170,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
     """
     @type t :: %__MODULE__{
             account_tax_ids: map() | nil,
-            issuer: map() | nil
+            issuer: __MODULE__.Issuer.t() | nil
           }
     defstruct [:account_tax_ids, :issuer]
   end
@@ -200,7 +200,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
             metadata: map() | nil,
             plan: String.t() | nil,
             price: String.t() | nil,
-            price_data: map() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
             quantity: integer() | nil,
             tax_rates: map() | nil
           }
@@ -228,7 +228,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
     * `save_default_payment_method` - Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified. Possible values: `off`, `on_subscription`.
     """
     @type t :: %__MODULE__{
-            payment_method_options: map() | nil,
+            payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
             payment_method_types: map() | nil,
             save_default_payment_method: String.t() | nil
           }
@@ -242,7 +242,7 @@ defmodule Stripe.Params.SubscriptionUpdateParams do
     * `end_behavior` - Defines how the subscription should behave when the user's free trial ends.
     """
     @type t :: %__MODULE__{
-            end_behavior: map() | nil
+            end_behavior: __MODULE__.EndBehavior.t() | nil
           }
     defstruct [:end_behavior]
   end

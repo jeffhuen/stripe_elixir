@@ -20,21 +20,21 @@ defmodule Stripe.Params.InvoiceCreatePreviewParams do
   * `subscription_details` - The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
   """
   @type t :: %__MODULE__{
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           currency: String.t() | nil,
           customer: String.t() | nil,
           customer_account: String.t() | nil,
-          customer_details: map() | nil,
+          customer_details: __MODULE__.CustomerDetails.t() | nil,
           discounts: map() | nil,
           expand: [String.t()] | nil,
-          invoice_items: [map()] | nil,
-          issuer: map() | nil,
+          invoice_items: [__MODULE__.InvoiceItems.t()] | nil,
+          issuer: __MODULE__.Issuer.t() | nil,
           on_behalf_of: map() | nil,
           preview_mode: String.t() | nil,
           schedule: String.t() | nil,
-          schedule_details: map() | nil,
+          schedule_details: __MODULE__.ScheduleDetails.t() | nil,
           subscription: String.t() | nil,
-          subscription_details: map() | nil
+          subscription_details: __MODULE__.SubscriptionDetails.t() | nil
         }
 
   defstruct [
@@ -64,7 +64,7 @@ defmodule Stripe.Params.InvoiceCreatePreviewParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -82,9 +82,9 @@ defmodule Stripe.Params.InvoiceCreatePreviewParams do
     @type t :: %__MODULE__{
             address: map() | nil,
             shipping: map() | nil,
-            tax: map() | nil,
+            tax: __MODULE__.Tax.t() | nil,
             tax_exempt: String.t() | nil,
-            tax_ids: [map()] | nil
+            tax_ids: [__MODULE__.TaxIds.t()] | nil
           }
     defstruct [:address, :shipping, :tax, :tax_exempt, :tax_ids]
   end
@@ -118,9 +118,9 @@ defmodule Stripe.Params.InvoiceCreatePreviewParams do
             discounts: map() | nil,
             invoiceitem: String.t() | nil,
             metadata: map() | nil,
-            period: map() | nil,
+            period: __MODULE__.Period.t() | nil,
             price: String.t() | nil,
-            price_data: map() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
             quantity: integer() | nil,
             tax_behavior: String.t() | nil,
             tax_code: map() | nil,
@@ -172,9 +172,9 @@ defmodule Stripe.Params.InvoiceCreatePreviewParams do
     * `proration_behavior` - In cases where the `schedule_details` params update the currently active phase, specifies if and how to prorate at the time of the request. Possible values: `always_invoice`, `create_prorations`, `none`.
     """
     @type t :: %__MODULE__{
-            billing_mode: map() | nil,
+            billing_mode: __MODULE__.BillingMode.t() | nil,
             end_behavior: String.t() | nil,
-            phases: [map()] | nil,
+            phases: [__MODULE__.Phases.t()] | nil,
             proration_behavior: String.t() | nil
           }
     defstruct [:billing_mode, :end_behavior, :phases, :proration_behavior]
@@ -199,12 +199,12 @@ defmodule Stripe.Params.InvoiceCreatePreviewParams do
     """
     @type t :: %__MODULE__{
             billing_cycle_anchor: map() | nil,
-            billing_mode: map() | nil,
+            billing_mode: __MODULE__.BillingMode.t() | nil,
             cancel_at: map() | nil,
             cancel_at_period_end: boolean() | nil,
             cancel_now: boolean() | nil,
             default_tax_rates: map() | nil,
-            items: [map()] | nil,
+            items: [__MODULE__.Items.t()] | nil,
             proration_behavior: String.t() | nil,
             proration_date: integer() | nil,
             resume_at: String.t() | nil,

@@ -27,20 +27,20 @@ defmodule Stripe.Params.PriceCreateParams do
           active: boolean() | nil,
           billing_scheme: String.t() | nil,
           currency: String.t(),
-          currency_options: map() | nil,
-          custom_unit_amount: map() | nil,
+          currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
+          custom_unit_amount: __MODULE__.CustomUnitAmount.t() | nil,
           expand: [String.t()] | nil,
           lookup_key: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           nickname: String.t() | nil,
           product: String.t() | nil,
-          product_data: map() | nil,
-          recurring: map() | nil,
+          product_data: __MODULE__.ProductData.t() | nil,
+          recurring: __MODULE__.Recurring.t() | nil,
           tax_behavior: String.t() | nil,
-          tiers: [map()] | nil,
+          tiers: [__MODULE__.Tiers.t()] | nil,
           tiers_mode: String.t() | nil,
           transfer_lookup_key: boolean() | nil,
-          transform_quantity: map() | nil,
+          transform_quantity: __MODULE__.TransformQuantity.t() | nil,
           unit_amount: integer() | nil,
           unit_amount_decimal: String.t() | nil
         }
@@ -66,6 +66,26 @@ defmodule Stripe.Params.PriceCreateParams do
     :unit_amount,
     :unit_amount_decimal
   ]
+
+  defmodule CurrencyOptions do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `custom_unit_amount` - When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+    * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`.
+    * `tiers` - Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+    * `unit_amount` - A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+    * `unit_amount_decimal` - Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set. Format: decimal string.
+    """
+    @type t :: %__MODULE__{
+            custom_unit_amount: __MODULE__.CustomUnitAmount.t() | nil,
+            tax_behavior: String.t() | nil,
+            tiers: [__MODULE__.Tiers.t()] | nil,
+            unit_amount: integer() | nil,
+            unit_amount_decimal: String.t() | nil
+          }
+    defstruct [:custom_unit_amount, :tax_behavior, :tiers, :unit_amount, :unit_amount_decimal]
+  end
 
   defmodule CustomUnitAmount do
     @moduledoc "Nested parameters."
@@ -102,7 +122,7 @@ defmodule Stripe.Params.PriceCreateParams do
     @type t :: %__MODULE__{
             active: boolean() | nil,
             id: String.t() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             name: String.t() | nil,
             statement_descriptor: String.t() | nil,
             tax_code: String.t() | nil,

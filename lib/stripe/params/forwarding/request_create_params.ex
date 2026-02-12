@@ -12,10 +12,10 @@ defmodule Stripe.Params.Forwarding.RequestCreateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           payment_method: String.t(),
           replacements: [String.t()],
-          request: map() | nil,
+          request: __MODULE__.Request.t() | nil,
           url: String.t()
         }
 
@@ -30,7 +30,7 @@ defmodule Stripe.Params.Forwarding.RequestCreateParams do
     """
     @type t :: %__MODULE__{
             body: String.t() | nil,
-            headers: [map()] | nil
+            headers: [__MODULE__.Headers.t()] | nil
           }
     defstruct [:body, :headers]
   end

@@ -6,7 +6,7 @@ defmodule Stripe.Params.V2.Billing.MeterEventStreamCreateStreamParams do
   * `events` - List of meter events to include in the request. Supports up to 100 events per request.
   """
   @type t :: %__MODULE__{
-          events: [map()]
+          events: [__MODULE__.Events.t()]
         }
 
   defstruct [:events]
@@ -30,7 +30,7 @@ defmodule Stripe.Params.V2.Billing.MeterEventStreamCreateStreamParams do
     @type t :: %__MODULE__{
             event_name: String.t() | nil,
             identifier: String.t() | nil,
-            payload: map() | nil,
+            payload: %{String.t() => String.t()} | nil,
             timestamp: String.t() | nil
           }
     defstruct [:event_name, :identifier, :payload, :timestamp]

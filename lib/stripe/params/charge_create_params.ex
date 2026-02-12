@@ -33,17 +33,17 @@ defmodule Stripe.Params.ChargeCreateParams do
           currency: String.t() | nil,
           customer: String.t() | nil,
           description: String.t() | nil,
-          destination: map() | nil,
+          destination: __MODULE__.Destination.t() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
           on_behalf_of: String.t() | nil,
-          radar_options: map() | nil,
+          radar_options: __MODULE__.RadarOptions.t() | nil,
           receipt_email: String.t() | nil,
-          shipping: map() | nil,
+          shipping: __MODULE__.Shipping.t() | nil,
           source: String.t() | nil,
           statement_descriptor: String.t() | nil,
           statement_descriptor_suffix: String.t() | nil,
-          transfer_data: map() | nil,
+          transfer_data: __MODULE__.TransferData.t() | nil,
           transfer_group: String.t() | nil
         }
 
@@ -106,7 +106,7 @@ defmodule Stripe.Params.ChargeCreateParams do
     * `tracking_number` - The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             carrier: String.t() | nil,
             name: String.t() | nil,
             phone: String.t() | nil,

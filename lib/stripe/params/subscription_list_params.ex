@@ -20,7 +20,7 @@ defmodule Stripe.Params.SubscriptionListParams do
   * `test_clock` - Filter for subscriptions that are associated with the specified test clock. The response will not include subscriptions with test clocks if this and the customer parameter is not set. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           collection_method: String.t() | nil,
           created: map() | nil,
           current_period_end: map() | nil,

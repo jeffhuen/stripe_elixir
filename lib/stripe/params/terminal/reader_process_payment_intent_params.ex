@@ -10,7 +10,7 @@ defmodule Stripe.Params.Terminal.ReaderProcessPaymentIntentParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           payment_intent: String.t(),
-          process_config: map() | nil
+          process_config: __MODULE__.ProcessConfig.t() | nil
         }
 
   defstruct [:expand, :payment_intent, :process_config]
@@ -30,7 +30,7 @@ defmodule Stripe.Params.Terminal.ReaderProcessPaymentIntentParams do
             enable_customer_cancellation: boolean() | nil,
             return_url: String.t() | nil,
             skip_tipping: boolean() | nil,
-            tipping: map() | nil
+            tipping: __MODULE__.Tipping.t() | nil
           }
     defstruct [
       :allow_redisplay,

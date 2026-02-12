@@ -33,14 +33,14 @@ defmodule Stripe.Params.CustomerUpdateParams do
           address: map() | nil,
           balance: integer() | nil,
           business_name: map() | nil,
-          cash_balance: map() | nil,
+          cash_balance: __MODULE__.CashBalance.t() | nil,
           default_source: String.t() | nil,
           description: String.t() | nil,
           email: String.t() | nil,
           expand: [String.t()] | nil,
           individual_name: map() | nil,
           invoice_prefix: String.t() | nil,
-          invoice_settings: map() | nil,
+          invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
           metadata: map() | nil,
           name: String.t() | nil,
           next_invoice_sequence: integer() | nil,
@@ -48,7 +48,7 @@ defmodule Stripe.Params.CustomerUpdateParams do
           preferred_locales: [String.t()] | nil,
           shipping: map() | nil,
           source: String.t() | nil,
-          tax: map() | nil,
+          tax: __MODULE__.Tax.t() | nil,
           tax_exempt: String.t() | nil,
           validate: boolean() | nil
         }
@@ -85,7 +85,7 @@ defmodule Stripe.Params.CustomerUpdateParams do
     such as reconciliation of funds received.
     """
     @type t :: %__MODULE__{
-            settings: map() | nil
+            settings: __MODULE__.Settings.t() | nil
           }
     defstruct [:settings]
   end

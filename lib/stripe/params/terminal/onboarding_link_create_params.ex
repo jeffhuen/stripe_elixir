@@ -10,7 +10,7 @@ defmodule Stripe.Params.Terminal.OnboardingLinkCreateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          link_options: map(),
+          link_options: __MODULE__.LinkOptions.t(),
           link_type: String.t(),
           on_behalf_of: String.t() | nil
         }
@@ -24,7 +24,7 @@ defmodule Stripe.Params.Terminal.OnboardingLinkCreateParams do
     * `apple_terms_and_conditions` - The options associated with the Apple Terms and Conditions link type.
     """
     @type t :: %__MODULE__{
-            apple_terms_and_conditions: map() | nil
+            apple_terms_and_conditions: __MODULE__.AppleTermsAndConditions.t() | nil
           }
     defstruct [:apple_terms_and_conditions]
   end

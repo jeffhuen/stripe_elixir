@@ -126,55 +126,55 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
   * `wallet_options` - Wallet-specific configuration.
   """
   @type t :: %__MODULE__{
-          adaptive_pricing: map() | nil,
-          after_expiration: map() | nil,
+          adaptive_pricing: __MODULE__.AdaptivePricing.t() | nil,
+          after_expiration: __MODULE__.AfterExpiration.t() | nil,
           allow_promotion_codes: boolean() | nil,
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           billing_address_collection: String.t() | nil,
-          branding_settings: map() | nil,
+          branding_settings: __MODULE__.BrandingSettings.t() | nil,
           cancel_url: String.t() | nil,
           client_reference_id: String.t() | nil,
-          consent_collection: map() | nil,
+          consent_collection: __MODULE__.ConsentCollection.t() | nil,
           currency: String.t() | nil,
-          custom_fields: [map()] | nil,
-          custom_text: map() | nil,
+          custom_fields: [__MODULE__.CustomFields.t()] | nil,
+          custom_text: __MODULE__.CustomText.t() | nil,
           customer: String.t() | nil,
           customer_account: String.t() | nil,
           customer_creation: String.t() | nil,
           customer_email: String.t() | nil,
-          customer_update: map() | nil,
-          discounts: [map()] | nil,
+          customer_update: __MODULE__.CustomerUpdate.t() | nil,
+          discounts: [__MODULE__.Discounts.t()] | nil,
           excluded_payment_method_types: [String.t()] | nil,
           expand: [String.t()] | nil,
           expires_at: integer() | nil,
-          invoice_creation: map() | nil,
-          line_items: [map()] | nil,
+          invoice_creation: __MODULE__.InvoiceCreation.t() | nil,
+          line_items: [__MODULE__.LineItems.t()] | nil,
           locale: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           mode: String.t() | nil,
-          name_collection: map() | nil,
-          optional_items: [map()] | nil,
+          name_collection: __MODULE__.NameCollection.t() | nil,
+          optional_items: [__MODULE__.OptionalItems.t()] | nil,
           origin_context: String.t() | nil,
-          payment_intent_data: map() | nil,
+          payment_intent_data: __MODULE__.PaymentIntentData.t() | nil,
           payment_method_collection: String.t() | nil,
           payment_method_configuration: String.t() | nil,
-          payment_method_data: map() | nil,
-          payment_method_options: map() | nil,
+          payment_method_data: __MODULE__.PaymentMethodData.t() | nil,
+          payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
           payment_method_types: [String.t()] | nil,
-          permissions: map() | nil,
-          phone_number_collection: map() | nil,
+          permissions: __MODULE__.Permissions.t() | nil,
+          phone_number_collection: __MODULE__.PhoneNumberCollection.t() | nil,
           redirect_on_completion: String.t() | nil,
           return_url: String.t() | nil,
-          saved_payment_method_options: map() | nil,
-          setup_intent_data: map() | nil,
-          shipping_address_collection: map() | nil,
-          shipping_options: [map()] | nil,
+          saved_payment_method_options: __MODULE__.SavedPaymentMethodOptions.t() | nil,
+          setup_intent_data: __MODULE__.SetupIntentData.t() | nil,
+          shipping_address_collection: __MODULE__.ShippingAddressCollection.t() | nil,
+          shipping_options: [__MODULE__.ShippingOptions.t()] | nil,
           submit_type: String.t() | nil,
-          subscription_data: map() | nil,
+          subscription_data: __MODULE__.SubscriptionData.t() | nil,
           success_url: String.t() | nil,
-          tax_id_collection: map() | nil,
+          tax_id_collection: __MODULE__.TaxIdCollection.t() | nil,
           ui_mode: String.t() | nil,
-          wallet_options: map() | nil
+          wallet_options: __MODULE__.WalletOptions.t() | nil
         }
 
   defstruct [
@@ -248,7 +248,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `recovery` - Configure a Checkout Session that can be used to recover an expired session.
     """
     @type t :: %__MODULE__{
-            recovery: map() | nil
+            recovery: __MODULE__.Recovery.t() | nil
           }
     defstruct [:recovery]
   end
@@ -264,7 +264,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -287,8 +287,8 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             button_color: map() | nil,
             display_name: String.t() | nil,
             font_family: String.t() | nil,
-            icon: map() | nil,
-            logo: map() | nil
+            icon: __MODULE__.Icon.t() | nil,
+            logo: __MODULE__.Logo.t() | nil
           }
     defstruct [
       :background_color,
@@ -313,7 +313,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public). Possible values: `none`, `required`.
     """
     @type t :: %__MODULE__{
-            payment_method_reuse_agreement: map() | nil,
+            payment_method_reuse_agreement: __MODULE__.PaymentMethodReuseAgreement.t() | nil,
             promotions: String.t() | nil,
             terms_of_service: String.t() | nil
           }
@@ -333,12 +333,12 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `type` - The type of the field. Possible values: `dropdown`, `numeric`, `text`.
     """
     @type t :: %__MODULE__{
-            dropdown: map() | nil,
+            dropdown: __MODULE__.Dropdown.t() | nil,
             key: String.t() | nil,
-            label: map() | nil,
-            numeric: map() | nil,
+            label: __MODULE__.Label.t() | nil,
+            numeric: __MODULE__.Numeric.t() | nil,
             optional: boolean() | nil,
-            text: map() | nil,
+            text: __MODULE__.Text.t() | nil,
             type: String.t() | nil
           }
     defstruct [:dropdown, :key, :label, :numeric, :optional, :text, :type]
@@ -403,7 +403,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            invoice_data: map() | nil
+            invoice_data: __MODULE__.InvoiceData.t() | nil
           }
     defstruct [:enabled, :invoice_data]
   end
@@ -421,11 +421,11 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `tax_rates` - The [tax rates](https://docs.stripe.com/api/tax_rates) which apply to this line item.
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             dynamic_tax_rates: [String.t()] | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             price: String.t() | nil,
-            price_data: map() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
             quantity: integer() | nil,
             tax_rates: [String.t()] | nil
           }
@@ -448,8 +448,8 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `individual` - Controls settings applied for collecting the customer's individual name on the session.
     """
     @type t :: %__MODULE__{
-            business: map() | nil,
-            individual: map() | nil
+            business: __MODULE__.Business.t() | nil,
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:business, :individual]
   end
@@ -463,7 +463,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `quantity` - The initial quantity of the line item created when a customer chooses to add this optional item to their order.
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             price: String.t() | nil,
             quantity: integer() | nil
           }
@@ -515,14 +515,14 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
             application_fee_amount: integer() | nil,
             capture_method: String.t() | nil,
             description: String.t() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             on_behalf_of: String.t() | nil,
             receipt_email: String.t() | nil,
             setup_future_usage: String.t() | nil,
-            shipping: map() | nil,
+            shipping: __MODULE__.Shipping.t() | nil,
             statement_descriptor: String.t() | nil,
             statement_descriptor_suffix: String.t() | nil,
-            transfer_data: map() | nil,
+            transfer_data: __MODULE__.TransferData.t() | nil,
             transfer_group: String.t() | nil
           }
     defstruct [
@@ -604,51 +604,51 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `wechat_pay` - contains details about the WeChat Pay payment method options.
     """
     @type t :: %__MODULE__{
-            acss_debit: map() | nil,
-            affirm: map() | nil,
-            afterpay_clearpay: map() | nil,
-            alipay: map() | nil,
-            alma: map() | nil,
-            amazon_pay: map() | nil,
-            au_becs_debit: map() | nil,
-            bacs_debit: map() | nil,
-            bancontact: map() | nil,
-            billie: map() | nil,
-            boleto: map() | nil,
-            card: map() | nil,
-            cashapp: map() | nil,
-            customer_balance: map() | nil,
-            demo_pay: map() | nil,
-            eps: map() | nil,
-            fpx: map() | nil,
-            giropay: map() | nil,
-            grabpay: map() | nil,
-            ideal: map() | nil,
-            kakao_pay: map() | nil,
-            klarna: map() | nil,
-            konbini: map() | nil,
-            kr_card: map() | nil,
-            link: map() | nil,
-            mobilepay: map() | nil,
-            multibanco: map() | nil,
-            naver_pay: map() | nil,
-            oxxo: map() | nil,
-            p24: map() | nil,
+            acss_debit: __MODULE__.AcssDebit.t() | nil,
+            affirm: __MODULE__.Affirm.t() | nil,
+            afterpay_clearpay: __MODULE__.AfterpayClearpay.t() | nil,
+            alipay: __MODULE__.Alipay.t() | nil,
+            alma: __MODULE__.Alma.t() | nil,
+            amazon_pay: __MODULE__.AmazonPay.t() | nil,
+            au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
+            bacs_debit: __MODULE__.BacsDebit.t() | nil,
+            bancontact: __MODULE__.Bancontact.t() | nil,
+            billie: __MODULE__.Billie.t() | nil,
+            boleto: __MODULE__.Boleto.t() | nil,
+            card: __MODULE__.Card.t() | nil,
+            cashapp: __MODULE__.Cashapp.t() | nil,
+            customer_balance: __MODULE__.CustomerBalance.t() | nil,
+            demo_pay: __MODULE__.DemoPay.t() | nil,
+            eps: __MODULE__.Eps.t() | nil,
+            fpx: __MODULE__.Fpx.t() | nil,
+            giropay: __MODULE__.Giropay.t() | nil,
+            grabpay: __MODULE__.Grabpay.t() | nil,
+            ideal: __MODULE__.Ideal.t() | nil,
+            kakao_pay: __MODULE__.KakaoPay.t() | nil,
+            klarna: __MODULE__.Klarna.t() | nil,
+            konbini: __MODULE__.Konbini.t() | nil,
+            kr_card: __MODULE__.KrCard.t() | nil,
+            link: __MODULE__.Link.t() | nil,
+            mobilepay: __MODULE__.Mobilepay.t() | nil,
+            multibanco: __MODULE__.Multibanco.t() | nil,
+            naver_pay: __MODULE__.NaverPay.t() | nil,
+            oxxo: __MODULE__.Oxxo.t() | nil,
+            p24: __MODULE__.P24.t() | nil,
             pay_by_bank: map() | nil,
-            payco: map() | nil,
-            paynow: map() | nil,
-            paypal: map() | nil,
-            payto: map() | nil,
-            pix: map() | nil,
-            revolut_pay: map() | nil,
-            samsung_pay: map() | nil,
-            satispay: map() | nil,
-            sepa_debit: map() | nil,
-            sofort: map() | nil,
-            swish: map() | nil,
-            twint: map() | nil,
-            us_bank_account: map() | nil,
-            wechat_pay: map() | nil
+            payco: __MODULE__.Payco.t() | nil,
+            paynow: __MODULE__.Paynow.t() | nil,
+            paypal: __MODULE__.Paypal.t() | nil,
+            payto: __MODULE__.Payto.t() | nil,
+            pix: __MODULE__.Pix.t() | nil,
+            revolut_pay: __MODULE__.RevolutPay.t() | nil,
+            samsung_pay: __MODULE__.SamsungPay.t() | nil,
+            satispay: __MODULE__.Satispay.t() | nil,
+            sepa_debit: __MODULE__.SepaDebit.t() | nil,
+            sofort: __MODULE__.Sofort.t() | nil,
+            swish: __MODULE__.Swish.t() | nil,
+            twint: __MODULE__.Twint.t() | nil,
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil,
+            wechat_pay: __MODULE__.WechatPay.t() | nil
           }
     defstruct [
       :acss_debit,
@@ -755,7 +755,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     """
     @type t :: %__MODULE__{
             description: String.t() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             on_behalf_of: String.t() | nil
           }
     defstruct [:description, :metadata, :on_behalf_of]
@@ -783,7 +783,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     """
     @type t :: %__MODULE__{
             shipping_rate: String.t() | nil,
-            shipping_rate_data: map() | nil
+            shipping_rate_data: __MODULE__.ShippingRateData.t() | nil
           }
     defstruct [:shipping_rate, :shipping_rate_data]
   end
@@ -813,17 +813,17 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     @type t :: %__MODULE__{
             application_fee_percent: float() | nil,
             billing_cycle_anchor: integer() | nil,
-            billing_mode: map() | nil,
+            billing_mode: __MODULE__.BillingMode.t() | nil,
             default_tax_rates: [String.t()] | nil,
             description: String.t() | nil,
-            invoice_settings: map() | nil,
-            metadata: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             on_behalf_of: String.t() | nil,
             proration_behavior: String.t() | nil,
-            transfer_data: map() | nil,
+            transfer_data: __MODULE__.TransferData.t() | nil,
             trial_end: integer() | nil,
             trial_period_days: integer() | nil,
-            trial_settings: map() | nil
+            trial_settings: __MODULE__.TrialSettings.t() | nil
           }
     defstruct [
       :application_fee_percent,
@@ -863,7 +863,7 @@ defmodule Stripe.Params.Checkout.SessionCreateParams do
     * `link` - contains details about the Link wallet options.
     """
     @type t :: %__MODULE__{
-            link: map() | nil
+            link: __MODULE__.Link.t() | nil
           }
     defstruct [:link]
   end

@@ -37,7 +37,7 @@ defmodule Stripe.Resources.Treasury.FinancialAccount do
           id: String.t(),
           is_default: boolean() | nil,
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           nickname: String.t() | nil,
           object: String.t(),
           pending_features: [String.t()] | nil,

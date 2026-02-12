@@ -18,7 +18,7 @@ defmodule Stripe.Params.FinancialConnections.TransactionListParams do
           limit: integer() | nil,
           starting_after: String.t() | nil,
           transacted_at: map() | nil,
-          transaction_refresh: map() | nil
+          transaction_refresh: __MODULE__.TransactionRefresh.t() | nil
         }
 
   defstruct [

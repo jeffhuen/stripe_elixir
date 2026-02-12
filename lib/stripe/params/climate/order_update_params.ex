@@ -10,7 +10,7 @@ defmodule Stripe.Params.Climate.OrderUpdateParams do
   @type t :: %__MODULE__{
           beneficiary: map() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil
+          metadata: %{String.t() => String.t()} | nil
         }
 
   defstruct [:beneficiary, :expand, :metadata]

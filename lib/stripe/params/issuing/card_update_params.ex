@@ -17,9 +17,9 @@ defmodule Stripe.Params.Issuing.CardUpdateParams do
           expand: [String.t()] | nil,
           metadata: map() | nil,
           personalization_design: String.t() | nil,
-          pin: map() | nil,
-          shipping: map() | nil,
-          spending_controls: map() | nil,
+          pin: __MODULE__.Pin.t() | nil,
+          shipping: __MODULE__.Shipping.t() | nil,
+          spending_controls: __MODULE__.SpendingControls.t() | nil,
           status: String.t() | nil
         }
 
@@ -60,9 +60,9 @@ defmodule Stripe.Params.Issuing.CardUpdateParams do
     * `type` - Packaging options. Possible values: `bulk`, `individual`.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            address_validation: map() | nil,
-            customs: map() | nil,
+            address: __MODULE__.Address.t() | nil,
+            address_validation: __MODULE__.AddressValidation.t() | nil,
+            customs: __MODULE__.Customs.t() | nil,
             name: String.t() | nil,
             phone_number: String.t() | nil,
             require_signature: boolean() | nil,
@@ -96,7 +96,7 @@ defmodule Stripe.Params.Issuing.CardUpdateParams do
             allowed_merchant_countries: [String.t()] | nil,
             blocked_categories: [String.t()] | nil,
             blocked_merchant_countries: [String.t()] | nil,
-            spending_limits: [map()] | nil
+            spending_limits: [__MODULE__.SpendingLimits.t()] | nil
           }
     defstruct [
       :allowed_categories,

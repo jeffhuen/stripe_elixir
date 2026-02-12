@@ -19,9 +19,9 @@ defmodule Stripe.Params.CouponCreateParams do
   """
   @type t :: %__MODULE__{
           amount_off: integer() | nil,
-          applies_to: map() | nil,
+          applies_to: __MODULE__.AppliesTo.t() | nil,
           currency: String.t() | nil,
-          currency_options: map() | nil,
+          currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
           duration: String.t() | nil,
           duration_in_months: integer() | nil,
           expand: [String.t()] | nil,
@@ -59,5 +59,17 @@ defmodule Stripe.Params.CouponCreateParams do
             products: [String.t()] | nil
           }
     defstruct [:products]
+  end
+
+  defmodule CurrencyOptions do
+    @moduledoc "Nested parameters."
+
+    @typedoc """
+    * `amount_off` - A positive integer representing the amount to subtract from an invoice total.
+    """
+    @type t :: %__MODULE__{
+            amount_off: integer() | nil
+          }
+    defstruct [:amount_off]
   end
 end

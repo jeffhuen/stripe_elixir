@@ -34,12 +34,12 @@ defmodule Stripe.Params.AccountPersonCreateParams do
   * `verification` - The person's verification status.
   """
   @type t :: %__MODULE__{
-          additional_tos_acceptances: map() | nil,
-          address: map() | nil,
-          address_kana: map() | nil,
-          address_kanji: map() | nil,
+          additional_tos_acceptances: __MODULE__.AdditionalTosAcceptances.t() | nil,
+          address: __MODULE__.Address.t() | nil,
+          address_kana: __MODULE__.AddressKana.t() | nil,
+          address_kanji: __MODULE__.AddressKanji.t() | nil,
           dob: map() | nil,
-          documents: map() | nil,
+          documents: __MODULE__.Documents.t() | nil,
           email: String.t() | nil,
           expand: [String.t()] | nil,
           first_name: String.t() | nil,
@@ -58,11 +58,11 @@ defmodule Stripe.Params.AccountPersonCreateParams do
           person_token: String.t() | nil,
           phone: String.t() | nil,
           political_exposure: String.t() | nil,
-          registered_address: map() | nil,
-          relationship: map() | nil,
+          registered_address: __MODULE__.RegisteredAddress.t() | nil,
+          relationship: __MODULE__.Relationship.t() | nil,
           ssn_last_4: String.t() | nil,
-          us_cfpb_data: map() | nil,
-          verification: map() | nil
+          us_cfpb_data: __MODULE__.UsCfpbData.t() | nil,
+          verification: __MODULE__.Verification.t() | nil
         }
 
   defstruct [
@@ -104,7 +104,7 @@ defmodule Stripe.Params.AccountPersonCreateParams do
     * `account` - Details on the legal guardian's acceptance of the main Stripe service agreement.
     """
     @type t :: %__MODULE__{
-            account: map() | nil
+            account: __MODULE__.Account.t() | nil
           }
     defstruct [:account]
   end
@@ -188,9 +188,9 @@ defmodule Stripe.Params.AccountPersonCreateParams do
     * `visa` - One or more documents showing the person's visa required for living in the country where they are residing.
     """
     @type t :: %__MODULE__{
-            company_authorization: map() | nil,
-            passport: map() | nil,
-            visa: map() | nil
+            company_authorization: __MODULE__.CompanyAuthorization.t() | nil,
+            passport: __MODULE__.Passport.t() | nil,
+            visa: __MODULE__.Visa.t() | nil
           }
     defstruct [:company_authorization, :passport, :visa]
   end
@@ -261,8 +261,8 @@ defmodule Stripe.Params.AccountPersonCreateParams do
     * `self_identified_gender` - The persons self-identified gender Max length: 5000.
     """
     @type t :: %__MODULE__{
-            ethnicity_details: map() | nil,
-            race_details: map() | nil,
+            ethnicity_details: __MODULE__.EthnicityDetails.t() | nil,
+            race_details: __MODULE__.RaceDetails.t() | nil,
             self_identified_gender: String.t() | nil
           }
     defstruct [:ethnicity_details, :race_details, :self_identified_gender]
@@ -276,8 +276,8 @@ defmodule Stripe.Params.AccountPersonCreateParams do
     * `document` - An identifying document, either a passport or local ID card.
     """
     @type t :: %__MODULE__{
-            additional_document: map() | nil,
-            document: map() | nil
+            additional_document: __MODULE__.AdditionalDocument.t() | nil,
+            document: __MODULE__.Document.t() | nil
           }
     defstruct [:additional_document, :document]
   end

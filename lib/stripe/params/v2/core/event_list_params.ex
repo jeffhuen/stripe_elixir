@@ -9,7 +9,7 @@ defmodule Stripe.Params.V2.Core.EventListParams do
   * `types` - An array of up to 20 strings containing specific event names.
   """
   @type t :: %__MODULE__{
-          created: map() | nil,
+          created: __MODULE__.Created.t() | nil,
           limit: integer() | nil,
           object_id: String.t() | nil,
           types: [String.t()] | nil

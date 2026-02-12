@@ -23,9 +23,9 @@ defmodule Stripe.Params.InvoiceLineItemUpdateParams do
           discounts: map() | nil,
           expand: [String.t()] | nil,
           metadata: map() | nil,
-          period: map() | nil,
-          price_data: map() | nil,
-          pricing: map() | nil,
+          period: __MODULE__.Period.t() | nil,
+          price_data: __MODULE__.PriceData.t() | nil,
+          pricing: __MODULE__.Pricing.t() | nil,
           quantity: integer() | nil,
           tax_amounts: map() | nil,
           tax_rates: map() | nil
@@ -74,7 +74,7 @@ defmodule Stripe.Params.InvoiceLineItemUpdateParams do
     @type t :: %__MODULE__{
             currency: String.t() | nil,
             product: String.t() | nil,
-            product_data: map() | nil,
+            product_data: __MODULE__.ProductData.t() | nil,
             tax_behavior: String.t() | nil,
             unit_amount: integer() | nil,
             unit_amount_decimal: String.t() | nil

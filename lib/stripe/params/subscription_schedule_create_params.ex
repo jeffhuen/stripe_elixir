@@ -15,15 +15,15 @@ defmodule Stripe.Params.SubscriptionScheduleCreateParams do
   * `start_date` - When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
   """
   @type t :: %__MODULE__{
-          billing_mode: map() | nil,
+          billing_mode: __MODULE__.BillingMode.t() | nil,
           customer: String.t() | nil,
           customer_account: String.t() | nil,
-          default_settings: map() | nil,
+          default_settings: __MODULE__.DefaultSettings.t() | nil,
           end_behavior: String.t() | nil,
           expand: [String.t()] | nil,
           from_subscription: String.t() | nil,
           metadata: map() | nil,
-          phases: [map()] | nil,
+          phases: [__MODULE__.Phases.t()] | nil,
           start_date: map() | nil
         }
 
@@ -48,7 +48,7 @@ defmodule Stripe.Params.SubscriptionScheduleCreateParams do
     * `type` - Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`. Possible values: `classic`, `flexible`.
     """
     @type t :: %__MODULE__{
-            flexible: map() | nil,
+            flexible: __MODULE__.Flexible.t() | nil,
             type: String.t() | nil
           }
     defstruct [:flexible, :type]
@@ -71,13 +71,13 @@ defmodule Stripe.Params.SubscriptionScheduleCreateParams do
     """
     @type t :: %__MODULE__{
             application_fee_percent: float() | nil,
-            automatic_tax: map() | nil,
+            automatic_tax: __MODULE__.AutomaticTax.t() | nil,
             billing_cycle_anchor: String.t() | nil,
             billing_thresholds: map() | nil,
             collection_method: String.t() | nil,
             default_payment_method: String.t() | nil,
             description: map() | nil,
-            invoice_settings: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
             on_behalf_of: map() | nil,
             transfer_data: map() | nil
           }
@@ -122,9 +122,9 @@ defmodule Stripe.Params.SubscriptionScheduleCreateParams do
     * `trial_end` - Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial` Format: Unix timestamp.
     """
     @type t :: %__MODULE__{
-            add_invoice_items: [map()] | nil,
+            add_invoice_items: [__MODULE__.AddInvoiceItems.t()] | nil,
             application_fee_percent: float() | nil,
-            automatic_tax: map() | nil,
+            automatic_tax: __MODULE__.AutomaticTax.t() | nil,
             billing_cycle_anchor: String.t() | nil,
             billing_thresholds: map() | nil,
             collection_method: String.t() | nil,
@@ -133,14 +133,14 @@ defmodule Stripe.Params.SubscriptionScheduleCreateParams do
             default_tax_rates: map() | nil,
             description: map() | nil,
             discounts: map() | nil,
-            duration: map() | nil,
+            duration: __MODULE__.Duration.t() | nil,
             end_date: integer() | nil,
-            invoice_settings: map() | nil,
-            items: [map()] | nil,
-            metadata: map() | nil,
+            invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+            items: [__MODULE__.Items.t()] | nil,
+            metadata: %{String.t() => String.t()} | nil,
             on_behalf_of: String.t() | nil,
             proration_behavior: String.t() | nil,
-            transfer_data: map() | nil,
+            transfer_data: __MODULE__.TransferData.t() | nil,
             trial: boolean() | nil,
             trial_end: integer() | nil
           }

@@ -18,7 +18,7 @@ defmodule Stripe.Params.InvoicePaymentListParams do
           expand: [String.t()] | nil,
           invoice: String.t() | nil,
           limit: integer() | nil,
-          payment: map() | nil,
+          payment: __MODULE__.Payment.t() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil
         }

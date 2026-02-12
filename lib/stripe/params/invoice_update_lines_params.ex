@@ -10,7 +10,7 @@ defmodule Stripe.Params.InvoiceUpdateLinesParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           invoice_metadata: map() | nil,
-          lines: [map()]
+          lines: [__MODULE__.Lines.t()]
         }
 
   defstruct [:expand, :invoice_metadata, :lines]
@@ -39,9 +39,9 @@ defmodule Stripe.Params.InvoiceUpdateLinesParams do
             discounts: map() | nil,
             id: String.t() | nil,
             metadata: map() | nil,
-            period: map() | nil,
-            price_data: map() | nil,
-            pricing: map() | nil,
+            period: __MODULE__.Period.t() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
+            pricing: __MODULE__.Pricing.t() | nil,
             quantity: integer() | nil,
             tax_amounts: map() | nil,
             tax_rates: map() | nil

@@ -48,7 +48,7 @@ defmodule Stripe.Resources.PaymentRecord do
           id: String.t(),
           latest_payment_attempt_record: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           payment_method_details: __MODULE__.PaymentMethodDetails.t(),
           processor_details: __MODULE__.ProcessorDetails.t(),

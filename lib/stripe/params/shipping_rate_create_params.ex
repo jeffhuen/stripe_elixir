@@ -13,11 +13,11 @@ defmodule Stripe.Params.ShippingRateCreateParams do
   * `type` - The type of calculation to use on the shipping rate. Possible values: `fixed_amount`.
   """
   @type t :: %__MODULE__{
-          delivery_estimate: map() | nil,
+          delivery_estimate: __MODULE__.DeliveryEstimate.t() | nil,
           display_name: String.t(),
           expand: [String.t()] | nil,
-          fixed_amount: map() | nil,
-          metadata: map() | nil,
+          fixed_amount: __MODULE__.FixedAmount.t() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           tax_behavior: String.t() | nil,
           tax_code: String.t() | nil,
           type: String.t() | nil
@@ -42,8 +42,8 @@ defmodule Stripe.Params.ShippingRateCreateParams do
     * `minimum` - The lower bound of the estimated range. If empty, represents no lower bound.
     """
     @type t :: %__MODULE__{
-            maximum: map() | nil,
-            minimum: map() | nil
+            maximum: __MODULE__.Maximum.t() | nil,
+            minimum: __MODULE__.Minimum.t() | nil
           }
     defstruct [:maximum, :minimum]
   end
@@ -59,7 +59,7 @@ defmodule Stripe.Params.ShippingRateCreateParams do
     @type t :: %__MODULE__{
             amount: integer() | nil,
             currency: String.t() | nil,
-            currency_options: map() | nil
+            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil
           }
     defstruct [:amount, :currency, :currency_options]
   end

@@ -19,11 +19,12 @@ defmodule Stripe.Params.Treasury.OutboundTransferCreateParams do
           currency: String.t(),
           description: String.t() | nil,
           destination_payment_method: String.t() | nil,
-          destination_payment_method_data: map() | nil,
-          destination_payment_method_options: map() | nil,
+          destination_payment_method_data: __MODULE__.DestinationPaymentMethodData.t() | nil,
+          destination_payment_method_options:
+            __MODULE__.DestinationPaymentMethodOptions.t() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           statement_descriptor: String.t() | nil
         }
 

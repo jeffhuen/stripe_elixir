@@ -26,13 +26,13 @@ defmodule Stripe.Params.SourceCreateParams do
           customer: String.t() | nil,
           expand: [String.t()] | nil,
           flow: String.t() | nil,
-          mandate: map() | nil,
-          metadata: map() | nil,
+          mandate: __MODULE__.Mandate.t() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           original_source: String.t() | nil,
-          owner: map() | nil,
-          receiver: map() | nil,
-          redirect: map() | nil,
-          source_order: map() | nil,
+          owner: __MODULE__.Owner.t() | nil,
+          receiver: __MODULE__.Receiver.t() | nil,
+          redirect: __MODULE__.Redirect.t() | nil,
+          source_order: __MODULE__.SourceOrder.t() | nil,
           statement_descriptor: String.t() | nil,
           token: String.t() | nil,
           type: String.t() | nil,
@@ -69,7 +69,7 @@ defmodule Stripe.Params.SourceCreateParams do
     * `notification_method` - The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification). Possible values: `deprecated_none`, `email`, `manual`, `none`, `stripe_email`. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            acceptance: map() | nil,
+            acceptance: __MODULE__.Acceptance.t() | nil,
             amount: map() | nil,
             currency: String.t() | nil,
             interval: String.t() | nil,
@@ -88,7 +88,7 @@ defmodule Stripe.Params.SourceCreateParams do
     * `phone` - Owner's phone number. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             email: String.t() | nil,
             name: String.t() | nil,
             phone: String.t() | nil
@@ -128,8 +128,8 @@ defmodule Stripe.Params.SourceCreateParams do
     * `shipping` - Shipping address for the order. Required if any of the SKUs are for products that have `shippable` set to true.
     """
     @type t :: %__MODULE__{
-            items: [map()] | nil,
-            shipping: map() | nil
+            items: [__MODULE__.Items.t()] | nil,
+            shipping: __MODULE__.Shipping.t() | nil
           }
     defstruct [:items, :shipping]
   end

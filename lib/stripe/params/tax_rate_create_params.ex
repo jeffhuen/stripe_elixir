@@ -23,7 +23,7 @@ defmodule Stripe.Params.TaxRateCreateParams do
           expand: [String.t()] | nil,
           inclusive: boolean(),
           jurisdiction: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           percentage: float(),
           state: String.t() | nil,
           tax_type: String.t() | nil

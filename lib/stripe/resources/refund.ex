@@ -46,7 +46,7 @@ defmodule Stripe.Resources.Refund do
           failure_reason: String.t() | nil,
           id: String.t(),
           instructions_email: String.t() | nil,
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           next_action: __MODULE__.NextAction.t() | nil,
           object: String.t(),
           payment_intent: String.t() | Stripe.Resources.PaymentIntent.t(),

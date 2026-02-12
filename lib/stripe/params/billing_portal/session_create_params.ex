@@ -17,7 +17,7 @@ defmodule Stripe.Params.BillingPortal.SessionCreateParams do
           customer: String.t() | nil,
           customer_account: String.t() | nil,
           expand: [String.t()] | nil,
-          flow_data: map() | nil,
+          flow_data: __MODULE__.FlowData.t() | nil,
           locale: String.t() | nil,
           on_behalf_of: String.t() | nil,
           return_url: String.t() | nil
@@ -45,10 +45,10 @@ defmodule Stripe.Params.BillingPortal.SessionCreateParams do
     * `type` - Type of flow that the customer will go through. Possible values: `payment_method_update`, `subscription_cancel`, `subscription_update`, `subscription_update_confirm`.
     """
     @type t :: %__MODULE__{
-            after_completion: map() | nil,
-            subscription_cancel: map() | nil,
-            subscription_update: map() | nil,
-            subscription_update_confirm: map() | nil,
+            after_completion: __MODULE__.AfterCompletion.t() | nil,
+            subscription_cancel: __MODULE__.SubscriptionCancel.t() | nil,
+            subscription_update: __MODULE__.SubscriptionUpdate.t() | nil,
+            subscription_update_confirm: __MODULE__.SubscriptionUpdateConfirm.t() | nil,
             type: String.t() | nil
           }
     defstruct [

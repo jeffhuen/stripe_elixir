@@ -12,7 +12,7 @@ defmodule Stripe.Params.Billing.AlertCreateParams do
           alert_type: String.t(),
           expand: [String.t()] | nil,
           title: String.t(),
-          usage_threshold: map() | nil
+          usage_threshold: __MODULE__.UsageThreshold.t() | nil
         }
 
   defstruct [:alert_type, :expand, :title, :usage_threshold]
@@ -27,7 +27,7 @@ defmodule Stripe.Params.Billing.AlertCreateParams do
     * `recurrence` - Defines how the alert will behave. Possible values: `one_time`.
     """
     @type t :: %__MODULE__{
-            filters: [map()] | nil,
+            filters: [__MODULE__.Filters.t()] | nil,
             gte: integer() | nil,
             meter: String.t() | nil,
             recurrence: String.t() | nil

@@ -84,7 +84,7 @@ defmodule Stripe.Resources.SetupIntent do
           latest_attempt: String.t() | Stripe.Resources.SetupAttempt.t(),
           livemode: boolean(),
           mandate: String.t() | Stripe.Resources.Mandate.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           next_action: __MODULE__.NextAction.t(),
           object: String.t(),
           on_behalf_of: String.t() | Stripe.Resources.Account.t(),

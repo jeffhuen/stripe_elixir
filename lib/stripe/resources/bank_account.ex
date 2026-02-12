@@ -50,7 +50,7 @@ defmodule Stripe.Resources.BankAccount do
           future_requirements: __MODULE__.FutureRequirements.t() | nil,
           id: String.t(),
           last4: String.t(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           object: String.t(),
           requirements: __MODULE__.Requirements.t() | nil,
           routing_number: String.t(),

@@ -47,7 +47,7 @@ defmodule Stripe.Resources.PaymentAttemptRecord do
           description: String.t(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           payment_method_details: __MODULE__.PaymentMethodDetails.t(),
           payment_record: String.t(),

@@ -8,7 +8,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.OutboundTransferUpdateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          tracking_details: map()
+          tracking_details: __MODULE__.TrackingDetails.t()
         }
 
   defstruct [:expand, :tracking_details]
@@ -22,9 +22,9 @@ defmodule Stripe.Params.TestHelpers.Treasury.OutboundTransferUpdateParams do
     * `us_domestic_wire` - US domestic wire network tracking details.
     """
     @type t :: %__MODULE__{
-            ach: map() | nil,
+            ach: __MODULE__.Ach.t() | nil,
             type: String.t() | nil,
-            us_domestic_wire: map() | nil
+            us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :type, :us_domestic_wire]
   end

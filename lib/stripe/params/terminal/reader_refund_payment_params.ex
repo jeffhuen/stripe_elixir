@@ -16,10 +16,10 @@ defmodule Stripe.Params.Terminal.ReaderRefundPaymentParams do
           amount: integer() | nil,
           charge: String.t() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           payment_intent: String.t() | nil,
           refund_application_fee: boolean() | nil,
-          refund_payment_config: map() | nil,
+          refund_payment_config: __MODULE__.RefundPaymentConfig.t() | nil,
           reverse_transfer: boolean() | nil
         }
 

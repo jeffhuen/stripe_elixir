@@ -16,15 +16,15 @@ defmodule Stripe.Params.V2.Core.AccountCreateParams do
   """
   @type t :: %__MODULE__{
           account_token: String.t() | nil,
-          configuration: map() | nil,
+          configuration: __MODULE__.Configuration.t() | nil,
           contact_email: String.t() | nil,
           contact_phone: String.t() | nil,
           dashboard: String.t() | nil,
-          defaults: map() | nil,
+          defaults: __MODULE__.Defaults.t() | nil,
           display_name: String.t() | nil,
-          identity: map() | nil,
+          identity: __MODULE__.Identity.t() | nil,
           include: [String.t()] | nil,
-          metadata: map() | nil
+          metadata: %{String.t() => String.t()} | nil
         }
 
   defstruct [
@@ -49,9 +49,9 @@ defmodule Stripe.Params.V2.Core.AccountCreateParams do
     * `recipient` - The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
     """
     @type t :: %__MODULE__{
-            customer: map() | nil,
-            merchant: map() | nil,
-            recipient: map() | nil
+            customer: __MODULE__.Customer.t() | nil,
+            merchant: __MODULE__.Merchant.t() | nil,
+            recipient: __MODULE__.Recipient.t() | nil
           }
     defstruct [:customer, :merchant, :recipient]
   end
@@ -68,8 +68,8 @@ defmodule Stripe.Params.V2.Core.AccountCreateParams do
     @type t :: %__MODULE__{
             currency: String.t() | nil,
             locales: [String.t()] | nil,
-            profile: map() | nil,
-            responsibilities: map() | nil
+            profile: __MODULE__.Profile.t() | nil,
+            responsibilities: __MODULE__.Responsibilities.t() | nil
           }
     defstruct [:currency, :locales, :profile, :responsibilities]
   end
@@ -85,11 +85,11 @@ defmodule Stripe.Params.V2.Core.AccountCreateParams do
     * `individual` - Information about the person represented by the account.
     """
     @type t :: %__MODULE__{
-            attestations: map() | nil,
-            business_details: map() | nil,
+            attestations: __MODULE__.Attestations.t() | nil,
+            business_details: __MODULE__.BusinessDetails.t() | nil,
             country: String.t() | nil,
             entity_type: String.t() | nil,
-            individual: map() | nil
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:attestations, :business_details, :country, :entity_type, :individual]
   end

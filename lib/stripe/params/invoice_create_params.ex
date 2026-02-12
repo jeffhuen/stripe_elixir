@@ -41,7 +41,7 @@ defmodule Stripe.Params.InvoiceCreateParams do
           account_tax_ids: map() | nil,
           application_fee_amount: integer() | nil,
           auto_advance: boolean() | nil,
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           automatically_finalizes_at: integer() | nil,
           collection_method: String.t() | nil,
           currency: String.t() | nil,
@@ -58,19 +58,19 @@ defmodule Stripe.Params.InvoiceCreateParams do
           effective_at: integer() | nil,
           expand: [String.t()] | nil,
           footer: String.t() | nil,
-          from_invoice: map() | nil,
-          issuer: map() | nil,
+          from_invoice: __MODULE__.FromInvoice.t() | nil,
+          issuer: __MODULE__.Issuer.t() | nil,
           metadata: map() | nil,
           number: String.t() | nil,
           on_behalf_of: String.t() | nil,
-          payment_settings: map() | nil,
+          payment_settings: __MODULE__.PaymentSettings.t() | nil,
           pending_invoice_items_behavior: String.t() | nil,
-          rendering: map() | nil,
-          shipping_cost: map() | nil,
-          shipping_details: map() | nil,
+          rendering: __MODULE__.Rendering.t() | nil,
+          shipping_cost: __MODULE__.ShippingCost.t() | nil,
+          shipping_details: __MODULE__.ShippingDetails.t() | nil,
           statement_descriptor: String.t() | nil,
           subscription: String.t() | nil,
-          transfer_data: map() | nil
+          transfer_data: __MODULE__.TransferData.t() | nil
         }
 
   defstruct [
@@ -118,7 +118,7 @@ defmodule Stripe.Params.InvoiceCreateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -161,7 +161,7 @@ defmodule Stripe.Params.InvoiceCreateParams do
     """
     @type t :: %__MODULE__{
             default_mandate: map() | nil,
-            payment_method_options: map() | nil,
+            payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
             payment_method_types: map() | nil
           }
     defstruct [:default_mandate, :payment_method_options, :payment_method_types]
@@ -178,7 +178,7 @@ defmodule Stripe.Params.InvoiceCreateParams do
     """
     @type t :: %__MODULE__{
             amount_tax_display: String.t() | nil,
-            pdf: map() | nil,
+            pdf: __MODULE__.Pdf.t() | nil,
             template: String.t() | nil,
             template_version: map() | nil
           }
@@ -194,7 +194,7 @@ defmodule Stripe.Params.InvoiceCreateParams do
     """
     @type t :: %__MODULE__{
             shipping_rate: String.t() | nil,
-            shipping_rate_data: map() | nil
+            shipping_rate_data: __MODULE__.ShippingRateData.t() | nil
           }
     defstruct [:shipping_rate, :shipping_rate_data]
   end
@@ -208,7 +208,7 @@ defmodule Stripe.Params.InvoiceCreateParams do
     * `phone` - Recipient phone (including extension)
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
+            address: __MODULE__.Address.t() | nil,
             name: String.t() | nil,
             phone: map() | nil
           }

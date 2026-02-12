@@ -24,9 +24,9 @@ defmodule Stripe.Params.PromotionCodeCreateParams do
           expand: [String.t()] | nil,
           expires_at: integer() | nil,
           max_redemptions: integer() | nil,
-          metadata: map() | nil,
-          promotion: map(),
-          restrictions: map() | nil
+          metadata: %{String.t() => String.t()} | nil,
+          promotion: __MODULE__.Promotion.t(),
+          restrictions: __MODULE__.Restrictions.t() | nil
         }
 
   defstruct [
@@ -66,7 +66,7 @@ defmodule Stripe.Params.PromotionCodeCreateParams do
     * `minimum_amount_currency` - Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount Format: ISO 4217 currency code.
     """
     @type t :: %__MODULE__{
-            currency_options: map() | nil,
+            currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
             first_time_transaction: boolean() | nil,
             minimum_amount: integer() | nil,
             minimum_amount_currency: String.t() | nil

@@ -10,7 +10,7 @@ defmodule Stripe.Params.CreditNoteUpdateParams do
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
           memo: String.t() | nil,
-          metadata: map() | nil
+          metadata: %{String.t() => String.t()} | nil
         }
 
   defstruct [:expand, :memo, :metadata]

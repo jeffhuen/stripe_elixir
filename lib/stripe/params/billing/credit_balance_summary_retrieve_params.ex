@@ -12,7 +12,7 @@ defmodule Stripe.Params.Billing.CreditBalanceSummaryRetrieveParams do
           customer: String.t() | nil,
           customer_account: String.t() | nil,
           expand: [String.t()] | nil,
-          filter: map()
+          filter: __MODULE__.Filter.t()
         }
 
   defstruct [:customer, :customer_account, :expand, :filter]
@@ -26,7 +26,7 @@ defmodule Stripe.Params.Billing.CreditBalanceSummaryRetrieveParams do
     * `type` - Specify the type of this filter. Possible values: `applicability_scope`, `credit_grant`.
     """
     @type t :: %__MODULE__{
-            applicability_scope: map() | nil,
+            applicability_scope: __MODULE__.ApplicabilityScope.t() | nil,
             credit_grant: String.t() | nil,
             type: String.t() | nil
           }

@@ -107,7 +107,7 @@ defmodule Stripe.Resources.PaymentIntent do
           last_payment_error: Stripe.Resources.StripeError.t(),
           latest_charge: String.t() | Stripe.Resources.Charge.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           next_action: __MODULE__.NextAction.t(),
           object: String.t(),
           on_behalf_of: String.t() | Stripe.Resources.Account.t(),

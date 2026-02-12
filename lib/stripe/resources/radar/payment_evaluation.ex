@@ -27,7 +27,7 @@ defmodule Stripe.Resources.Radar.PaymentEvaluation do
           id: String.t(),
           insights: __MODULE__.Insights.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           outcome: __MODULE__.Outcome.t() | nil,
           payment_details: __MODULE__.PaymentDetails.t() | nil

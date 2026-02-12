@@ -27,14 +27,14 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
           exp_year: integer() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           personalization_design: String.t() | nil,
-          pin: map() | nil,
+          pin: __MODULE__.Pin.t() | nil,
           replacement_for: String.t() | nil,
           replacement_reason: String.t() | nil,
           second_line: map() | nil,
-          shipping: map() | nil,
-          spending_controls: map() | nil,
+          shipping: __MODULE__.Shipping.t() | nil,
+          spending_controls: __MODULE__.SpendingControls.t() | nil,
           status: String.t() | nil,
           type: String.t()
         }
@@ -84,9 +84,9 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
     * `type` - Packaging options. Possible values: `bulk`, `individual`.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            address_validation: map() | nil,
-            customs: map() | nil,
+            address: __MODULE__.Address.t() | nil,
+            address_validation: __MODULE__.AddressValidation.t() | nil,
+            customs: __MODULE__.Customs.t() | nil,
             name: String.t() | nil,
             phone_number: String.t() | nil,
             require_signature: boolean() | nil,
@@ -120,7 +120,7 @@ defmodule Stripe.Params.Issuing.CardCreateParams do
             allowed_merchant_countries: [String.t()] | nil,
             blocked_categories: [String.t()] | nil,
             blocked_merchant_countries: [String.t()] | nil,
-            spending_limits: [map()] | nil
+            spending_limits: [__MODULE__.SpendingLimits.t()] | nil
           }
     defstruct [
       :allowed_categories,

@@ -43,7 +43,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
           end_behavior: String.t(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           phases: [__MODULE__.Phases.t()],
           released_at: integer(),
@@ -329,7 +329,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
             end_date: integer() | nil,
             invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
             items: [__MODULE__.Items.t()] | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             on_behalf_of: String.t() | Stripe.Resources.Account.t() | nil,
             proration_behavior: String.t() | nil,
             start_date: integer() | nil,
@@ -372,7 +372,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       """
       @type t :: %__MODULE__{
               discounts: [__MODULE__.Discounts.t()] | nil,
-              metadata: map() | nil,
+              metadata: %{String.t() => String.t()} | nil,
               period: __MODULE__.Period.t() | nil,
               price: String.t() | Stripe.Resources.Price.t() | nil,
               quantity: integer() | nil,
@@ -570,7 +570,7 @@ defmodule Stripe.Resources.SubscriptionSchedule do
       @type t :: %__MODULE__{
               billing_thresholds: __MODULE__.BillingThresholds.t() | nil,
               discounts: [__MODULE__.Discounts.t()] | nil,
-              metadata: map() | nil,
+              metadata: %{String.t() => String.t()} | nil,
               plan: String.t() | Stripe.Resources.Plan.t() | nil,
               price: String.t() | Stripe.Resources.Price.t() | nil,
               quantity: integer() | nil,

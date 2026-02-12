@@ -38,7 +38,7 @@ defmodule Stripe.Resources.V2.Core.Account do
           id: String.t(),
           identity: __MODULE__.Identity.t() | nil,
           livemode: boolean(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           object: String.t(),
           requirements: __MODULE__.Requirements.t() | nil
         }
@@ -3479,7 +3479,7 @@ defmodule Stripe.Resources.V2.Core.Account do
               id: String.t() | nil,
               id_numbers: [__MODULE__.IdNumbers.t()] | nil,
               legal_gender: String.t() | nil,
-              metadata: map() | nil,
+              metadata: %{String.t() => String.t()} | nil,
               nationalities: [String.t()] | nil,
               object: String.t() | nil,
               phone: String.t() | nil,

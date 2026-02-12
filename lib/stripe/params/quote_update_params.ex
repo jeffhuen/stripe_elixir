@@ -26,7 +26,7 @@ defmodule Stripe.Params.QuoteUpdateParams do
   @type t :: %__MODULE__{
           application_fee_amount: map() | nil,
           application_fee_percent: map() | nil,
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           collection_method: String.t() | nil,
           customer: String.t() | nil,
           customer_account: String.t() | nil,
@@ -37,11 +37,11 @@ defmodule Stripe.Params.QuoteUpdateParams do
           expires_at: integer() | nil,
           footer: map() | nil,
           header: map() | nil,
-          invoice_settings: map() | nil,
-          line_items: [map()] | nil,
-          metadata: map() | nil,
+          invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
+          line_items: [__MODULE__.LineItems.t()] | nil,
+          metadata: %{String.t() => String.t()} | nil,
           on_behalf_of: map() | nil,
-          subscription_data: map() | nil,
+          subscription_data: __MODULE__.SubscriptionData.t() | nil,
           transfer_data: map() | nil
         }
 
@@ -76,7 +76,7 @@ defmodule Stripe.Params.QuoteUpdateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -90,7 +90,7 @@ defmodule Stripe.Params.QuoteUpdateParams do
     """
     @type t :: %__MODULE__{
             days_until_due: integer() | nil,
-            issuer: map() | nil
+            issuer: __MODULE__.Issuer.t() | nil
           }
     defstruct [:days_until_due, :issuer]
   end
@@ -110,7 +110,7 @@ defmodule Stripe.Params.QuoteUpdateParams do
             discounts: map() | nil,
             id: String.t() | nil,
             price: String.t() | nil,
-            price_data: map() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
             quantity: integer() | nil,
             tax_rates: map() | nil
           }
@@ -129,7 +129,7 @@ defmodule Stripe.Params.QuoteUpdateParams do
     @type t :: %__MODULE__{
             description: map() | nil,
             effective_date: map() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             trial_period_days: map() | nil
           }
     defstruct [:description, :effective_date, :metadata, :trial_period_days]

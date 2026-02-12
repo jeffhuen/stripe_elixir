@@ -34,7 +34,7 @@ defmodule Stripe.Resources.WebhookEndpoint do
           enabled_events: [String.t()],
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           secret: String.t() | nil,
           status: String.t(),

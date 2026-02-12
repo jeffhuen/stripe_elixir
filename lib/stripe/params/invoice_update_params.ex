@@ -35,7 +35,7 @@ defmodule Stripe.Params.InvoiceUpdateParams do
           account_tax_ids: map() | nil,
           application_fee_amount: integer() | nil,
           auto_advance: boolean() | nil,
-          automatic_tax: map() | nil,
+          automatic_tax: __MODULE__.AutomaticTax.t() | nil,
           automatically_finalizes_at: integer() | nil,
           collection_method: String.t() | nil,
           custom_fields: map() | nil,
@@ -49,12 +49,12 @@ defmodule Stripe.Params.InvoiceUpdateParams do
           effective_at: map() | nil,
           expand: [String.t()] | nil,
           footer: String.t() | nil,
-          issuer: map() | nil,
+          issuer: __MODULE__.Issuer.t() | nil,
           metadata: map() | nil,
           number: map() | nil,
           on_behalf_of: map() | nil,
-          payment_settings: map() | nil,
-          rendering: map() | nil,
+          payment_settings: __MODULE__.PaymentSettings.t() | nil,
+          rendering: __MODULE__.Rendering.t() | nil,
           shipping_cost: map() | nil,
           shipping_details: map() | nil,
           statement_descriptor: String.t() | nil,
@@ -100,7 +100,7 @@ defmodule Stripe.Params.InvoiceUpdateParams do
     """
     @type t :: %__MODULE__{
             enabled: boolean() | nil,
-            liability: map() | nil
+            liability: __MODULE__.Liability.t() | nil
           }
     defstruct [:enabled, :liability]
   end
@@ -129,7 +129,7 @@ defmodule Stripe.Params.InvoiceUpdateParams do
     """
     @type t :: %__MODULE__{
             default_mandate: map() | nil,
-            payment_method_options: map() | nil,
+            payment_method_options: __MODULE__.PaymentMethodOptions.t() | nil,
             payment_method_types: map() | nil
           }
     defstruct [:default_mandate, :payment_method_options, :payment_method_types]
@@ -146,7 +146,7 @@ defmodule Stripe.Params.InvoiceUpdateParams do
     """
     @type t :: %__MODULE__{
             amount_tax_display: String.t() | nil,
-            pdf: map() | nil,
+            pdf: __MODULE__.Pdf.t() | nil,
             template: String.t() | nil,
             template_version: map() | nil
           }

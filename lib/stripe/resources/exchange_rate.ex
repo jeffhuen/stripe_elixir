@@ -41,7 +41,7 @@ defmodule Stripe.Resources.ExchangeRate do
   @type t :: %__MODULE__{
           id: String.t(),
           object: String.t(),
-          rates: map()
+          rates: %{String.t() => float()}
         }
 
   defstruct [:id, :object, :rates]

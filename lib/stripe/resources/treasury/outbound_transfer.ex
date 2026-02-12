@@ -46,7 +46,7 @@ defmodule Stripe.Resources.Treasury.OutboundTransfer do
           hosted_regulatory_receipt_url: String.t(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           returned_details: Stripe.Resources.ReturnedDetails.t(),
           statement_descriptor: String.t(),

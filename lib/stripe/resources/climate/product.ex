@@ -22,7 +22,7 @@ defmodule Stripe.Resources.Climate.Product do
   """
   @type t :: %__MODULE__{
           created: integer(),
-          current_prices_per_metric_ton: map(),
+          current_prices_per_metric_ton: %{String.t() => __MODULE__.CurrentPricesPerMetricTon.t()},
           delivery_year: integer(),
           id: String.t(),
           livemode: boolean(),
@@ -48,4 +48,26 @@ defmodule Stripe.Resources.Climate.Product do
   def object_name, do: @object_name
 
   def expandable_fields, do: ["current_prices_per_metric_ton", "suppliers"]
+
+  defmodule CurrentPricesPerMetricTon do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `amount_fees` - Fees for one metric ton of carbon removal in the currency's smallest unit.
+    * `amount_subtotal` - Subtotal for one metric ton of carbon removal (excluding fees) in the currency's smallest unit.
+    * `amount_total` - Total for one metric ton of carbon removal (including fees) in the currency's smallest unit.
+    """
+    @type t :: %__MODULE__{
+            amount_fees: integer() | nil,
+            amount_subtotal: integer() | nil,
+            amount_total: integer() | nil
+          }
+    defstruct [:amount_fees, :amount_subtotal, :amount_total]
+  end
+
+  def __inner_types__ do
+    %{
+      "current_prices_per_metric_ton" => __MODULE__.CurrentPricesPerMetricTon
+    }
+  end
 end

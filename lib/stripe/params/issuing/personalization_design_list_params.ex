@@ -16,7 +16,7 @@ defmodule Stripe.Params.Issuing.PersonalizationDesignListParams do
           expand: [String.t()] | nil,
           limit: integer() | nil,
           lookup_keys: [String.t()] | nil,
-          preferences: map() | nil,
+          preferences: __MODULE__.Preferences.t() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil
         }

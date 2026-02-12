@@ -13,14 +13,14 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
   * `outbound_transfers` - Contains a Feature and settings related to moving money out of the FinancialAccount into another Account with the same owner.
   """
   @type t :: %__MODULE__{
-          card_issuing: map() | nil,
-          deposit_insurance: map() | nil,
+          card_issuing: __MODULE__.CardIssuing.t() | nil,
+          deposit_insurance: __MODULE__.DepositInsurance.t() | nil,
           expand: [String.t()] | nil,
-          financial_addresses: map() | nil,
-          inbound_transfers: map() | nil,
-          intra_stripe_flows: map() | nil,
-          outbound_payments: map() | nil,
-          outbound_transfers: map() | nil
+          financial_addresses: __MODULE__.FinancialAddresses.t() | nil,
+          inbound_transfers: __MODULE__.InboundTransfers.t() | nil,
+          intra_stripe_flows: __MODULE__.IntraStripeFlows.t() | nil,
+          outbound_payments: __MODULE__.OutboundPayments.t() | nil,
+          outbound_transfers: __MODULE__.OutboundTransfers.t() | nil
         }
 
   defstruct [
@@ -65,7 +65,7 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
     * `aba` - Adds an ABA FinancialAddress to the FinancialAccount.
     """
     @type t :: %__MODULE__{
-            aba: map() | nil
+            aba: __MODULE__.Aba.t() | nil
           }
     defstruct [:aba]
   end
@@ -77,7 +77,7 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
     * `ach` - Enables ACH Debits via the InboundTransfers API.
     """
     @type t :: %__MODULE__{
-            ach: map() | nil
+            ach: __MODULE__.Ach.t() | nil
           }
     defstruct [:ach]
   end
@@ -102,8 +102,8 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
     * `us_domestic_wire` - Enables US domestic wire transfers via the OutboundPayments API.
     """
     @type t :: %__MODULE__{
-            ach: map() | nil,
-            us_domestic_wire: map() | nil
+            ach: __MODULE__.Ach.t() | nil,
+            us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :us_domestic_wire]
   end
@@ -116,8 +116,8 @@ defmodule Stripe.Params.Treasury.FinancialAccountFeaturesUpdateFeaturesParams do
     * `us_domestic_wire` - Enables US domestic wire transfers via the OutboundTransfers API.
     """
     @type t :: %__MODULE__{
-            ach: map() | nil,
-            us_domestic_wire: map() | nil
+            ach: __MODULE__.Ach.t() | nil,
+            us_domestic_wire: __MODULE__.UsDomesticWire.t() | nil
           }
     defstruct [:ach, :us_domestic_wire]
   end

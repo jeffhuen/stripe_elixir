@@ -39,12 +39,12 @@ defmodule Stripe.Resources.Price do
           billing_scheme: String.t(),
           created: integer(),
           currency: String.t(),
-          currency_options: map() | nil,
+          currency_options: %{String.t() => __MODULE__.CurrencyOptions.t()} | nil,
           custom_unit_amount: __MODULE__.CustomUnitAmount.t(),
           id: String.t(),
           livemode: boolean(),
           lookup_key: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           nickname: String.t(),
           object: String.t(),
           product: String.t() | Stripe.Resources.Product.t(),
@@ -94,6 +94,69 @@ defmodule Stripe.Resources.Price do
       "tiers",
       "transform_quantity"
     ]
+
+  defmodule CurrencyOptions do
+    @moduledoc "Nested struct within the parent resource."
+
+    @typedoc """
+    * `custom_unit_amount` - When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links. Nullable.
+    * `tax_behavior` - Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed. Possible values: `exclusive`, `inclusive`, `unspecified`. Nullable.
+    * `tiers` - Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+    * `unit_amount` - The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`. Nullable.
+    * `unit_amount_decimal` - The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`. Format: decimal string. Nullable.
+    """
+    @type t :: %__MODULE__{
+            custom_unit_amount: __MODULE__.CustomUnitAmount.t() | nil,
+            tax_behavior: String.t() | nil,
+            tiers: [__MODULE__.Tiers.t()] | nil,
+            unit_amount: integer() | nil,
+            unit_amount_decimal: String.t() | nil
+          }
+    defstruct [:custom_unit_amount, :tax_behavior, :tiers, :unit_amount, :unit_amount_decimal]
+
+    defmodule CustomUnitAmount do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `maximum` - The maximum unit amount the customer can specify for this item. Nullable.
+      * `minimum` - The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount. Nullable.
+      * `preset` - The starting unit amount which can be updated by the customer. Nullable.
+      """
+      @type t :: %__MODULE__{
+              maximum: integer() | nil,
+              minimum: integer() | nil,
+              preset: integer() | nil
+            }
+      defstruct [:maximum, :minimum, :preset]
+    end
+
+    defmodule Tiers do
+      @moduledoc "Nested struct within the parent resource."
+
+      @typedoc """
+      * `flat_amount` - Price for the entire tier. Nullable.
+      * `flat_amount_decimal` - Same as `flat_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+      * `unit_amount` - Per unit price for units relevant to the tier. Nullable.
+      * `unit_amount_decimal` - Same as `unit_amount`, but contains a decimal value with at most 12 decimal places. Format: decimal string. Nullable.
+      * `up_to` - Up to and including to this quantity will be contained in the tier. Nullable.
+      """
+      @type t :: %__MODULE__{
+              flat_amount: integer() | nil,
+              flat_amount_decimal: String.t() | nil,
+              unit_amount: integer() | nil,
+              unit_amount_decimal: String.t() | nil,
+              up_to: integer() | nil
+            }
+      defstruct [:flat_amount, :flat_amount_decimal, :unit_amount, :unit_amount_decimal, :up_to]
+    end
+
+    def __inner_types__ do
+      %{
+        "custom_unit_amount" => __MODULE__.CustomUnitAmount,
+        "tiers" => __MODULE__.Tiers
+      }
+    end
+  end
 
   defmodule CustomUnitAmount do
     @moduledoc "Nested struct within the parent resource."
@@ -167,6 +230,7 @@ defmodule Stripe.Resources.Price do
 
   def __inner_types__ do
     %{
+      "currency_options" => __MODULE__.CurrencyOptions,
       "custom_unit_amount" => __MODULE__.CustomUnitAmount,
       "recurring" => __MODULE__.Recurring,
       "tiers" => __MODULE__.Tiers,

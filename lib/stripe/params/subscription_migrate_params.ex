@@ -7,7 +7,7 @@ defmodule Stripe.Params.SubscriptionMigrateParams do
   * `expand` - Specifies which fields in the response should be expanded.
   """
   @type t :: %__MODULE__{
-          billing_mode: map(),
+          billing_mode: __MODULE__.BillingMode.t(),
           expand: [String.t()] | nil
         }
 
@@ -21,7 +21,7 @@ defmodule Stripe.Params.SubscriptionMigrateParams do
     * `type` - Controls the calculation and orchestration of prorations and invoices for subscriptions. Possible values: `flexible`.
     """
     @type t :: %__MODULE__{
-            flexible: map() | nil,
+            flexible: __MODULE__.Flexible.t() | nil,
             type: String.t() | nil
           }
     defstruct [:flexible, :type]

@@ -31,7 +31,7 @@ defmodule Stripe.Params.AccountExternalAccountUpdateParams do
           address_state: String.t() | nil,
           address_zip: String.t() | nil,
           default_for_currency: boolean() | nil,
-          documents: map() | nil,
+          documents: __MODULE__.Documents.t() | nil,
           exp_month: String.t() | nil,
           exp_year: String.t() | nil,
           expand: [String.t()] | nil,
@@ -65,7 +65,8 @@ defmodule Stripe.Params.AccountExternalAccountUpdateParams do
     * `bank_account_ownership_verification` - One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
     """
     @type t :: %__MODULE__{
-            bank_account_ownership_verification: map() | nil
+            bank_account_ownership_verification:
+              __MODULE__.BankAccountOwnershipVerification.t() | nil
           }
     defstruct [:bank_account_ownership_verification]
   end

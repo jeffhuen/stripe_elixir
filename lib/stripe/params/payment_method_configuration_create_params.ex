@@ -64,65 +64,65 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
   * `zip` - Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
   """
   @type t :: %__MODULE__{
-          acss_debit: map() | nil,
-          affirm: map() | nil,
-          afterpay_clearpay: map() | nil,
-          alipay: map() | nil,
-          alma: map() | nil,
-          amazon_pay: map() | nil,
-          apple_pay: map() | nil,
-          apple_pay_later: map() | nil,
-          au_becs_debit: map() | nil,
-          bacs_debit: map() | nil,
-          bancontact: map() | nil,
-          billie: map() | nil,
-          blik: map() | nil,
-          boleto: map() | nil,
-          card: map() | nil,
-          cartes_bancaires: map() | nil,
-          cashapp: map() | nil,
-          crypto: map() | nil,
-          customer_balance: map() | nil,
-          eps: map() | nil,
+          acss_debit: __MODULE__.AcssDebit.t() | nil,
+          affirm: __MODULE__.Affirm.t() | nil,
+          afterpay_clearpay: __MODULE__.AfterpayClearpay.t() | nil,
+          alipay: __MODULE__.Alipay.t() | nil,
+          alma: __MODULE__.Alma.t() | nil,
+          amazon_pay: __MODULE__.AmazonPay.t() | nil,
+          apple_pay: __MODULE__.ApplePay.t() | nil,
+          apple_pay_later: __MODULE__.ApplePayLater.t() | nil,
+          au_becs_debit: __MODULE__.AuBecsDebit.t() | nil,
+          bacs_debit: __MODULE__.BacsDebit.t() | nil,
+          bancontact: __MODULE__.Bancontact.t() | nil,
+          billie: __MODULE__.Billie.t() | nil,
+          blik: __MODULE__.Blik.t() | nil,
+          boleto: __MODULE__.Boleto.t() | nil,
+          card: __MODULE__.Card.t() | nil,
+          cartes_bancaires: __MODULE__.CartesBancaires.t() | nil,
+          cashapp: __MODULE__.Cashapp.t() | nil,
+          crypto: __MODULE__.Crypto.t() | nil,
+          customer_balance: __MODULE__.CustomerBalance.t() | nil,
+          eps: __MODULE__.Eps.t() | nil,
           expand: [String.t()] | nil,
-          fpx: map() | nil,
-          fr_meal_voucher_conecs: map() | nil,
-          giropay: map() | nil,
-          google_pay: map() | nil,
-          grabpay: map() | nil,
-          ideal: map() | nil,
-          jcb: map() | nil,
-          kakao_pay: map() | nil,
-          klarna: map() | nil,
-          konbini: map() | nil,
-          kr_card: map() | nil,
-          link: map() | nil,
-          mb_way: map() | nil,
-          mobilepay: map() | nil,
-          multibanco: map() | nil,
+          fpx: __MODULE__.Fpx.t() | nil,
+          fr_meal_voucher_conecs: __MODULE__.FrMealVoucherConecs.t() | nil,
+          giropay: __MODULE__.Giropay.t() | nil,
+          google_pay: __MODULE__.GooglePay.t() | nil,
+          grabpay: __MODULE__.Grabpay.t() | nil,
+          ideal: __MODULE__.Ideal.t() | nil,
+          jcb: __MODULE__.Jcb.t() | nil,
+          kakao_pay: __MODULE__.KakaoPay.t() | nil,
+          klarna: __MODULE__.Klarna.t() | nil,
+          konbini: __MODULE__.Konbini.t() | nil,
+          kr_card: __MODULE__.KrCard.t() | nil,
+          link: __MODULE__.Link.t() | nil,
+          mb_way: __MODULE__.MbWay.t() | nil,
+          mobilepay: __MODULE__.Mobilepay.t() | nil,
+          multibanco: __MODULE__.Multibanco.t() | nil,
           name: String.t() | nil,
-          naver_pay: map() | nil,
-          nz_bank_account: map() | nil,
-          oxxo: map() | nil,
-          p24: map() | nil,
+          naver_pay: __MODULE__.NaverPay.t() | nil,
+          nz_bank_account: __MODULE__.NzBankAccount.t() | nil,
+          oxxo: __MODULE__.Oxxo.t() | nil,
+          p24: __MODULE__.P24.t() | nil,
           parent: String.t() | nil,
-          pay_by_bank: map() | nil,
-          payco: map() | nil,
-          paynow: map() | nil,
-          paypal: map() | nil,
-          payto: map() | nil,
-          pix: map() | nil,
-          promptpay: map() | nil,
-          revolut_pay: map() | nil,
-          samsung_pay: map() | nil,
-          satispay: map() | nil,
-          sepa_debit: map() | nil,
-          sofort: map() | nil,
-          swish: map() | nil,
-          twint: map() | nil,
-          us_bank_account: map() | nil,
-          wechat_pay: map() | nil,
-          zip: map() | nil
+          pay_by_bank: __MODULE__.PayByBank.t() | nil,
+          payco: __MODULE__.Payco.t() | nil,
+          paynow: __MODULE__.Paynow.t() | nil,
+          paypal: __MODULE__.Paypal.t() | nil,
+          payto: __MODULE__.Payto.t() | nil,
+          pix: __MODULE__.Pix.t() | nil,
+          promptpay: __MODULE__.Promptpay.t() | nil,
+          revolut_pay: __MODULE__.RevolutPay.t() | nil,
+          samsung_pay: __MODULE__.SamsungPay.t() | nil,
+          satispay: __MODULE__.Satispay.t() | nil,
+          sepa_debit: __MODULE__.SepaDebit.t() | nil,
+          sofort: __MODULE__.Sofort.t() | nil,
+          swish: __MODULE__.Swish.t() | nil,
+          twint: __MODULE__.Twint.t() | nil,
+          us_bank_account: __MODULE__.UsBankAccount.t() | nil,
+          wechat_pay: __MODULE__.WechatPay.t() | nil,
+          zip: __MODULE__.Zip.t() | nil
         }
 
   defstruct [
@@ -194,7 +194,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -206,7 +206,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -218,7 +218,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -230,7 +230,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -242,7 +242,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -254,7 +254,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -266,7 +266,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -278,7 +278,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -290,7 +290,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -302,7 +302,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -314,7 +314,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -326,7 +326,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -338,7 +338,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -350,7 +350,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -362,7 +362,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -374,7 +374,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -386,7 +386,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -398,7 +398,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -410,7 +410,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -422,7 +422,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -434,7 +434,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -446,7 +446,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -458,7 +458,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -470,7 +470,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -482,7 +482,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -494,7 +494,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -506,7 +506,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -518,7 +518,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -530,7 +530,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -542,7 +542,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -554,7 +554,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -566,7 +566,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -578,7 +578,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -590,7 +590,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -602,7 +602,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -614,7 +614,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -626,7 +626,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -638,7 +638,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -650,7 +650,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -662,7 +662,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -674,7 +674,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -686,7 +686,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -698,7 +698,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -710,7 +710,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -722,7 +722,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -734,7 +734,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -746,7 +746,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -758,7 +758,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -770,7 +770,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -782,7 +782,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -794,7 +794,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -806,7 +806,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -818,7 +818,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -830,7 +830,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -842,7 +842,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end
@@ -854,7 +854,7 @@ defmodule Stripe.Params.PaymentMethodConfigurationCreateParams do
     * `display_preference` - Whether or not the payment method should be displayed.
     """
     @type t :: %__MODULE__{
-            display_preference: map() | nil
+            display_preference: __MODULE__.DisplayPreference.t() | nil
           }
     defstruct [:display_preference]
   end

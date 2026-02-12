@@ -11,9 +11,9 @@ defmodule Stripe.Params.Identity.VerificationSessionUpdateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          metadata: map() | nil,
-          options: map() | nil,
-          provided_details: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
+          options: __MODULE__.Options.t() | nil,
+          provided_details: __MODULE__.ProvidedDetails.t() | nil,
           type: String.t() | nil
         }
 

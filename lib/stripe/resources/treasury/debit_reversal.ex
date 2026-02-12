@@ -32,7 +32,7 @@ defmodule Stripe.Resources.Treasury.DebitReversal do
           id: String.t(),
           linked_flows: __MODULE__.LinkedFlows.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           network: String.t(),
           object: String.t(),
           received_debit: String.t(),

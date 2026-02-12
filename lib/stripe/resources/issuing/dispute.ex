@@ -32,7 +32,7 @@ defmodule Stripe.Resources.Issuing.Dispute do
           id: String.t(),
           livemode: boolean(),
           loss_reason: String.t() | nil,
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           status: String.t(),
           transaction: String.t() | Stripe.Resources.Issuing.Transaction.t(),

@@ -10,7 +10,7 @@ defmodule Stripe.Params.Forwarding.RequestListParams do
   * `starting_after` - A pagination cursor to fetch the next page of the list. The value must be a ForwardingRequest ID. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          created: map() | nil,
+          created: __MODULE__.Created.t() | nil,
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,

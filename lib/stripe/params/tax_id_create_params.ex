@@ -10,7 +10,7 @@ defmodule Stripe.Params.TaxIdCreateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          owner: map() | nil,
+          owner: __MODULE__.Owner.t() | nil,
           type: String.t(),
           value: String.t()
         }

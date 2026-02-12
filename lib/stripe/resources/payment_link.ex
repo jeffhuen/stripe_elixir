@@ -66,7 +66,7 @@ defmodule Stripe.Resources.PaymentLink do
           invoice_creation: __MODULE__.InvoiceCreation.t(),
           line_items: __MODULE__.LineItems.t() | nil,
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           name_collection: __MODULE__.NameCollection.t() | nil,
           object: String.t(),
           on_behalf_of: String.t() | Stripe.Resources.Account.t(),
@@ -465,7 +465,7 @@ defmodule Stripe.Resources.PaymentLink do
               description: String.t() | nil,
               footer: String.t() | nil,
               issuer: __MODULE__.Issuer.t() | nil,
-              metadata: map() | nil,
+              metadata: %{String.t() => String.t()} | nil,
               rendering_options: __MODULE__.RenderingOptions.t() | nil
             }
       defstruct [
@@ -656,7 +656,7 @@ defmodule Stripe.Resources.PaymentLink do
     @type t :: %__MODULE__{
             capture_method: String.t() | nil,
             description: String.t() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             setup_future_usage: String.t() | nil,
             statement_descriptor: String.t() | nil,
             statement_descriptor_suffix: String.t() | nil,
@@ -756,7 +756,7 @@ defmodule Stripe.Resources.PaymentLink do
     @type t :: %__MODULE__{
             description: String.t() | nil,
             invoice_settings: __MODULE__.InvoiceSettings.t() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             trial_period_days: integer() | nil,
             trial_settings: __MODULE__.TrialSettings.t() | nil
           }

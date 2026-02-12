@@ -38,7 +38,7 @@ defmodule Stripe.Resources.Forwarding.Request do
           created: integer(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           object: String.t(),
           payment_method: String.t(),
           replacements: [String.t()],

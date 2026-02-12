@@ -22,12 +22,13 @@ defmodule Stripe.Params.Treasury.OutboundPaymentCreateParams do
           customer: String.t() | nil,
           description: String.t() | nil,
           destination_payment_method: String.t() | nil,
-          destination_payment_method_data: map() | nil,
-          destination_payment_method_options: map() | nil,
-          end_user_details: map() | nil,
+          destination_payment_method_data: __MODULE__.DestinationPaymentMethodData.t() | nil,
+          destination_payment_method_options:
+            __MODULE__.DestinationPaymentMethodOptions.t() | nil,
+          end_user_details: __MODULE__.EndUserDetails.t() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           statement_descriptor: String.t() | nil
         }
 
@@ -57,11 +58,11 @@ defmodule Stripe.Params.Treasury.OutboundPaymentCreateParams do
     * `us_bank_account` - Required hash if type is set to `us_bank_account`.
     """
     @type t :: %__MODULE__{
-            billing_details: map() | nil,
+            billing_details: __MODULE__.BillingDetails.t() | nil,
             financial_account: String.t() | nil,
-            metadata: map() | nil,
+            metadata: %{String.t() => String.t()} | nil,
             type: String.t() | nil,
-            us_bank_account: map() | nil
+            us_bank_account: __MODULE__.UsBankAccount.t() | nil
           }
     defstruct [:billing_details, :financial_account, :metadata, :type, :us_bank_account]
   end

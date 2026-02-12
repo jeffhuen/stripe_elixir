@@ -12,13 +12,13 @@ defmodule Stripe.Params.Billing.MeterCreateParams do
   * `value_settings` - Fields that specify how to calculate a meter event's value.
   """
   @type t :: %__MODULE__{
-          customer_mapping: map() | nil,
-          default_aggregation: map(),
+          customer_mapping: __MODULE__.CustomerMapping.t() | nil,
+          default_aggregation: __MODULE__.DefaultAggregation.t(),
           display_name: String.t(),
           event_name: String.t(),
           event_time_window: String.t() | nil,
           expand: [String.t()] | nil,
-          value_settings: map() | nil
+          value_settings: __MODULE__.ValueSettings.t() | nil
         }
 
   defstruct [

@@ -9,7 +9,7 @@ defmodule Stripe.Params.Treasury.DebitReversalCreateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           received_debit: String.t()
         }
 

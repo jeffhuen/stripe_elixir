@@ -39,7 +39,7 @@ defmodule Stripe.Resources.Topup do
           failure_message: String.t(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           source: Stripe.Resources.Source.t(),
           statement_descriptor: String.t(),

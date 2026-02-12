@@ -1,0 +1,55 @@
+Auditing spec: /Users/jeffhuen/Documents/GitHub/tiger_stripe/priv/openapi/spec3.sdk.json
+Total findings: 2111
+----------------------------------------
+
+### Polymorphism (anyOf - complex) (1724)
+  - Polymorphism (anyOf - complex): paths./v1/accounts.get.parameters[0].schema
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.business_profile.properties.support_url
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.company.properties.registration_date
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.groups.properties.payments_pricing
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.individual.properties.dob
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.individual.properties.full_name_aliases
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.individual.properties.metadata
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.individual.properties.relationship.properties.percent_ownership
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.metadata
+  - Polymorphism (anyOf - complex): paths./v1/accounts.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.settings.properties.card_issuing.properties.tos_acceptance.properties.user_agent
+  ... and 1714 more
+
+### Dynamic Map (additionalProperties) (37)
+  - Dynamic Map (additionalProperties): paths./v1/balance_settings.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.payments.properties.payouts.properties.minimum_balance_by_currency.anyOf[0]
+  - Dynamic Map (additionalProperties): paths./v1/billing/meter_events.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.payload
+  - Dynamic Map (additionalProperties): paths./v1/checkout/sessions.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.shipping_options.items.properties.shipping_rate_data.properties.fixed_amount.properties.currency_options
+  - Dynamic Map (additionalProperties): paths./v1/checkout/sessions/{session}.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.shipping_options.anyOf[0].items.properties.shipping_rate_data.properties.fixed_amount.properties.currency_options
+  - Dynamic Map (additionalProperties): paths./v1/coupons.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.currency_options
+  - Dynamic Map (additionalProperties): paths./v1/coupons/{coupon}.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.currency_options
+  - Dynamic Map (additionalProperties): paths./v1/credit_notes/preview.get.parameters[8].schema
+  - Dynamic Map (additionalProperties): paths./v1/credit_notes/preview/lines.get.parameters[10].schema
+  - Dynamic Map (additionalProperties): paths./v1/invoices.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.shipping_cost.properties.shipping_rate_data.properties.fixed_amount.properties.currency_options
+  - Dynamic Map (additionalProperties): paths./v1/invoices/{invoice}.post.requestBody.content.application/x-www-form-urlencoded.schema.properties.shipping_cost.anyOf[0].properties.shipping_rate_data.properties.fixed_amount.properties.currency_options
+  ... and 27 more
+
+### Polymorphism (oneOf) (329)
+  - Polymorphism (oneOf): paths./v2/billing/meter_event_adjustments.post.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/billing/meter_event_session.post.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/billing/meter_event_stream.post.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/billing/meter_events.post.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/core/account_links.post.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/core/account_tokens.post.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/core/account_tokens/{id}.get.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/core/accounts.get.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/core/accounts.post.responses.default.content.application/json.schema
+  - Polymorphism (oneOf): paths./v2/core/accounts/{account_id}/person_tokens.post.responses.default.content.application/json.schema
+  ... and 319 more
+
+### Generic Object (no props, implicit dynamic) (21)
+  - Generic Object (no props, implicit dynamic): components.schemas.notification_event_data.properties.object
+  - Generic Object (no props, implicit dynamic): components.schemas.notification_event_data.properties.previous_attributes
+  - Generic Object (no props, implicit dynamic): components.schemas.payment_intent_next_action.properties.use_stripe_sdk
+  - Generic Object (no props, implicit dynamic): components.schemas.setup_intent_next_action.properties.use_stripe_sdk
+  - Generic Object (no props, implicit dynamic): components.schemas.v2.core.account.closed.properties.changes.properties.after
+  - Generic Object (no props, implicit dynamic): components.schemas.v2.core.account.closed.properties.changes.properties.before
+  - Generic Object (no props, implicit dynamic): components.schemas.v2.core.account.created.properties.changes.properties.after
+  - Generic Object (no props, implicit dynamic): components.schemas.v2.core.account.created.properties.changes.properties.before
+  - Generic Object (no props, implicit dynamic): components.schemas.v2.core.account.updated.properties.changes.properties.after
+  - Generic Object (no props, implicit dynamic): components.schemas.v2.core.account.updated.properties.changes.properties.before
+  ... and 11 more

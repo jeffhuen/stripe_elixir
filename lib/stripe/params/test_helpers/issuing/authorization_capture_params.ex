@@ -12,7 +12,7 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCaptureParams do
           capture_amount: integer() | nil,
           close_authorization: boolean() | nil,
           expand: [String.t()] | nil,
-          purchase_details: map() | nil
+          purchase_details: __MODULE__.PurchaseDetails.t() | nil
         }
 
   defstruct [:capture_amount, :close_authorization, :expand, :purchase_details]
@@ -29,11 +29,11 @@ defmodule Stripe.Params.TestHelpers.Issuing.AuthorizationCaptureParams do
     * `reference` - A merchant-specific order number. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            fleet: map() | nil,
-            flight: map() | nil,
-            fuel: map() | nil,
-            lodging: map() | nil,
-            receipt: [map()] | nil,
+            fleet: __MODULE__.Fleet.t() | nil,
+            flight: __MODULE__.Flight.t() | nil,
+            fuel: __MODULE__.Fuel.t() | nil,
+            lodging: __MODULE__.Lodging.t() | nil,
+            receipt: [__MODULE__.Receipt.t()] | nil,
             reference: String.t() | nil
           }
     defstruct [:fleet, :flight, :fuel, :lodging, :receipt, :reference]

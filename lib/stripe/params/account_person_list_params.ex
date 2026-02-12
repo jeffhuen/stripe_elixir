@@ -13,7 +13,7 @@ defmodule Stripe.Params.AccountPersonListParams do
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,
-          relationship: map() | nil,
+          relationship: __MODULE__.Relationship.t() | nil,
           starting_after: String.t() | nil
         }
 

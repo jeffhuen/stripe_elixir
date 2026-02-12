@@ -30,7 +30,7 @@ defmodule Stripe.Resources.Treasury.CreditReversal do
           hosted_regulatory_receipt_url: String.t(),
           id: String.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           network: String.t(),
           object: String.t(),
           received_credit: String.t(),

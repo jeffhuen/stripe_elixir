@@ -18,7 +18,7 @@ defmodule Stripe.Params.Treasury.InboundTransferCreateParams do
           description: String.t() | nil,
           expand: [String.t()] | nil,
           financial_account: String.t(),
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           origin_payment_method: String.t(),
           statement_descriptor: String.t() | nil
         }

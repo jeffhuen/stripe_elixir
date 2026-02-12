@@ -13,9 +13,9 @@ defmodule Stripe.Params.FinancialConnections.SessionCreateParams do
   * `return_url` - For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app. Max length: 5000.
   """
   @type t :: %__MODULE__{
-          account_holder: map(),
+          account_holder: __MODULE__.AccountHolder.t(),
           expand: [String.t()] | nil,
-          filters: map() | nil,
+          filters: __MODULE__.Filters.t() | nil,
           permissions: [String.t()],
           prefetch: [String.t()] | nil,
           return_url: String.t() | nil

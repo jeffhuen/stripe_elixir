@@ -19,7 +19,7 @@ defmodule Stripe.Params.TransferCreateParams do
           description: String.t() | nil,
           destination: String.t(),
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           source_transaction: String.t() | nil,
           source_type: String.t() | nil,
           transfer_group: String.t() | nil

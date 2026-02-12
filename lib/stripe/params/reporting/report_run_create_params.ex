@@ -9,7 +9,7 @@ defmodule Stripe.Params.Reporting.ReportRunCreateParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          parameters: map() | nil,
+          parameters: __MODULE__.Parameters.t() | nil,
           report_type: String.t()
         }
 

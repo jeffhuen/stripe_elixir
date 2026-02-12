@@ -9,7 +9,7 @@ defmodule Stripe.Params.AccountSessionCreateParams do
   """
   @type t :: %__MODULE__{
           account: String.t(),
-          components: map(),
+          components: __MODULE__.Components.t(),
           expand: [String.t()] | nil
         }
 
@@ -40,25 +40,25 @@ defmodule Stripe.Params.AccountSessionCreateParams do
     * `tax_settings` - Configuration for the [tax settings](https://stripe.com/connect/supported-embedded-components/tax-settings/) embedded component.
     """
     @type t :: %__MODULE__{
-            account_management: map() | nil,
-            account_onboarding: map() | nil,
-            balances: map() | nil,
-            disputes_list: map() | nil,
-            documents: map() | nil,
-            financial_account: map() | nil,
-            financial_account_transactions: map() | nil,
-            instant_payouts_promotion: map() | nil,
-            issuing_card: map() | nil,
-            issuing_cards_list: map() | nil,
-            notification_banner: map() | nil,
-            payment_details: map() | nil,
-            payment_disputes: map() | nil,
-            payments: map() | nil,
-            payout_details: map() | nil,
-            payouts: map() | nil,
-            payouts_list: map() | nil,
-            tax_registrations: map() | nil,
-            tax_settings: map() | nil
+            account_management: __MODULE__.AccountManagement.t() | nil,
+            account_onboarding: __MODULE__.AccountOnboarding.t() | nil,
+            balances: __MODULE__.Balances.t() | nil,
+            disputes_list: __MODULE__.DisputesList.t() | nil,
+            documents: __MODULE__.Documents.t() | nil,
+            financial_account: __MODULE__.FinancialAccount.t() | nil,
+            financial_account_transactions: __MODULE__.FinancialAccountTransactions.t() | nil,
+            instant_payouts_promotion: __MODULE__.InstantPayoutsPromotion.t() | nil,
+            issuing_card: __MODULE__.IssuingCard.t() | nil,
+            issuing_cards_list: __MODULE__.IssuingCardsList.t() | nil,
+            notification_banner: __MODULE__.NotificationBanner.t() | nil,
+            payment_details: __MODULE__.PaymentDetails.t() | nil,
+            payment_disputes: __MODULE__.PaymentDisputes.t() | nil,
+            payments: __MODULE__.Payments.t() | nil,
+            payout_details: __MODULE__.PayoutDetails.t() | nil,
+            payouts: __MODULE__.Payouts.t() | nil,
+            payouts_list: __MODULE__.PayoutsList.t() | nil,
+            tax_registrations: __MODULE__.TaxRegistrations.t() | nil,
+            tax_settings: __MODULE__.TaxSettings.t() | nil
           }
     defstruct [
       :account_management,

@@ -173,7 +173,7 @@ defmodule Stripe.Resources.Invoice do
           latest_revision: String.t() | Stripe.Resources.Invoice.t(),
           lines: __MODULE__.Lines.t(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           next_payment_attempt: integer(),
           number: String.t(),
           object: String.t(),
@@ -491,7 +491,7 @@ defmodule Stripe.Resources.Invoice do
       * `subscription_proration_date` - Only set for upcoming invoices that preview prorations. The time used to calculate prorations. Format: Unix timestamp.
       """
       @type t :: %__MODULE__{
-              metadata: map() | nil,
+              metadata: %{String.t() => String.t()} | nil,
               subscription: String.t() | Stripe.Resources.Subscription.t() | nil,
               subscription_proration_date: integer() | nil
             }

@@ -15,8 +15,8 @@ defmodule Stripe.Params.TestHelpers.Issuing.TransactionCreateUnlinkedRefundParam
           card: String.t(),
           currency: String.t() | nil,
           expand: [String.t()] | nil,
-          merchant_data: map() | nil,
-          purchase_details: map() | nil
+          merchant_data: __MODULE__.MerchantData.t() | nil,
+          purchase_details: __MODULE__.PurchaseDetails.t() | nil
         }
 
   defstruct [:amount, :card, :currency, :expand, :merchant_data, :purchase_details]
@@ -71,11 +71,11 @@ defmodule Stripe.Params.TestHelpers.Issuing.TransactionCreateUnlinkedRefundParam
     * `reference` - A merchant-specific order number. Max length: 5000.
     """
     @type t :: %__MODULE__{
-            fleet: map() | nil,
-            flight: map() | nil,
-            fuel: map() | nil,
-            lodging: map() | nil,
-            receipt: [map()] | nil,
+            fleet: __MODULE__.Fleet.t() | nil,
+            flight: __MODULE__.Flight.t() | nil,
+            fuel: __MODULE__.Fuel.t() | nil,
+            lodging: __MODULE__.Lodging.t() | nil,
+            receipt: [__MODULE__.Receipt.t()] | nil,
             reference: String.t() | nil
           }
     defstruct [:fleet, :flight, :fuel, :lodging, :receipt, :reference]

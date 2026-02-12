@@ -15,9 +15,9 @@ defmodule Stripe.Params.Terminal.LocationCreateParams do
   * `phone` - The phone number for the location.
   """
   @type t :: %__MODULE__{
-          address: map() | nil,
-          address_kana: map() | nil,
-          address_kanji: map() | nil,
+          address: __MODULE__.Address.t() | nil,
+          address_kana: __MODULE__.AddressKana.t() | nil,
+          address_kanji: __MODULE__.AddressKanji.t() | nil,
           configuration_overrides: String.t() | nil,
           display_name: String.t() | nil,
           display_name_kana: String.t() | nil,

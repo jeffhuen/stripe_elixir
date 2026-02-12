@@ -30,14 +30,14 @@ defmodule Stripe.Params.CreditNotePreviewLinesPreviewLinesParams do
           expand: [String.t()] | nil,
           invoice: String.t(),
           limit: integer() | nil,
-          lines: [map()] | nil,
+          lines: [__MODULE__.Lines.t()] | nil,
           memo: String.t() | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           out_of_band_amount: integer() | nil,
           reason: String.t() | nil,
           refund_amount: integer() | nil,
-          refunds: [map()] | nil,
-          shipping_cost: map() | nil,
+          refunds: [__MODULE__.Refunds.t()] | nil,
+          shipping_cost: __MODULE__.ShippingCost.t() | nil,
           starting_after: String.t() | nil
         }
 
@@ -110,7 +110,7 @@ defmodule Stripe.Params.CreditNotePreviewLinesPreviewLinesParams do
     """
     @type t :: %__MODULE__{
             amount_refunded: integer() | nil,
-            payment_record_refund: map() | nil,
+            payment_record_refund: __MODULE__.PaymentRecordRefund.t() | nil,
             refund: String.t() | nil,
             type: String.t() | nil
           }

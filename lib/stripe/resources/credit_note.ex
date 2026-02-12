@@ -61,7 +61,7 @@ defmodule Stripe.Resources.CreditNote do
           lines: __MODULE__.Lines.t(),
           livemode: boolean(),
           memo: String.t(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           number: String.t(),
           object: String.t(),
           out_of_band_amount: integer(),

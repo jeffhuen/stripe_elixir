@@ -8,7 +8,7 @@ defmodule Stripe.Params.TestHelpers.Issuing.PersonalizationDesignRejectParams do
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          rejection_reasons: map()
+          rejection_reasons: __MODULE__.RejectionReasons.t()
         }
 
   defstruct [:expand, :rejection_reasons]

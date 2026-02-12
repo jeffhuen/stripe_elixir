@@ -11,7 +11,7 @@ defmodule Stripe.Params.Terminal.ReaderProcessSetupIntentParams do
   @type t :: %__MODULE__{
           allow_redisplay: String.t(),
           expand: [String.t()] | nil,
-          process_config: map() | nil,
+          process_config: __MODULE__.ProcessConfig.t() | nil,
           setup_intent: String.t()
         }
 

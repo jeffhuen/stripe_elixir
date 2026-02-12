@@ -11,7 +11,7 @@ defmodule Stripe.Params.Radar.ValueListUpdateParams do
   @type t :: %__MODULE__{
           alias: String.t() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           name: String.t() | nil
         }
 

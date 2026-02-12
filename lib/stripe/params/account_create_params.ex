@@ -33,22 +33,22 @@ defmodule Stripe.Params.AccountCreateParams do
   """
   @type t :: %__MODULE__{
           account_token: String.t() | nil,
-          business_profile: map() | nil,
+          business_profile: __MODULE__.BusinessProfile.t() | nil,
           business_type: String.t() | nil,
-          capabilities: map() | nil,
-          company: map() | nil,
-          controller: map() | nil,
+          capabilities: __MODULE__.Capabilities.t() | nil,
+          company: __MODULE__.Company.t() | nil,
+          controller: __MODULE__.Controller.t() | nil,
           country: String.t() | nil,
           default_currency: String.t() | nil,
-          documents: map() | nil,
+          documents: __MODULE__.Documents.t() | nil,
           email: String.t() | nil,
           expand: [String.t()] | nil,
           external_account: String.t() | nil,
-          groups: map() | nil,
-          individual: map() | nil,
+          groups: __MODULE__.Groups.t() | nil,
+          individual: __MODULE__.Individual.t() | nil,
           metadata: map() | nil,
-          settings: map() | nil,
-          tos_acceptance: map() | nil,
+          settings: __MODULE__.Settings.t() | nil,
+          tos_acceptance: __MODULE__.TosAcceptance.t() | nil,
           type: String.t() | nil
         }
 
@@ -91,14 +91,14 @@ defmodule Stripe.Params.AccountCreateParams do
     * `url` - The business's publicly available website.
     """
     @type t :: %__MODULE__{
-            annual_revenue: map() | nil,
+            annual_revenue: __MODULE__.AnnualRevenue.t() | nil,
             estimated_worker_count: integer() | nil,
             mcc: String.t() | nil,
             minority_owned_business_designation: [String.t()] | nil,
-            monthly_estimated_revenue: map() | nil,
+            monthly_estimated_revenue: __MODULE__.MonthlyEstimatedRevenue.t() | nil,
             name: String.t() | nil,
             product_description: String.t() | nil,
-            support_address: map() | nil,
+            support_address: __MODULE__.SupportAddress.t() | nil,
             support_email: String.t() | nil,
             support_phone: String.t() | nil,
             support_url: map() | nil,
@@ -187,67 +187,68 @@ defmodule Stripe.Params.AccountCreateParams do
     * `zip_payments` - The zip_payments capability.
     """
     @type t :: %__MODULE__{
-            acss_debit_payments: map() | nil,
-            affirm_payments: map() | nil,
-            afterpay_clearpay_payments: map() | nil,
-            alma_payments: map() | nil,
-            amazon_pay_payments: map() | nil,
-            au_becs_debit_payments: map() | nil,
-            bacs_debit_payments: map() | nil,
-            bancontact_payments: map() | nil,
-            bank_transfer_payments: map() | nil,
-            billie_payments: map() | nil,
-            blik_payments: map() | nil,
-            boleto_payments: map() | nil,
-            card_issuing: map() | nil,
-            card_payments: map() | nil,
-            cartes_bancaires_payments: map() | nil,
-            cashapp_payments: map() | nil,
-            crypto_payments: map() | nil,
-            eps_payments: map() | nil,
-            fpx_payments: map() | nil,
-            gb_bank_transfer_payments: map() | nil,
-            giropay_payments: map() | nil,
-            grabpay_payments: map() | nil,
-            ideal_payments: map() | nil,
-            india_international_payments: map() | nil,
-            jcb_payments: map() | nil,
-            jp_bank_transfer_payments: map() | nil,
-            kakao_pay_payments: map() | nil,
-            klarna_payments: map() | nil,
-            konbini_payments: map() | nil,
-            kr_card_payments: map() | nil,
-            legacy_payments: map() | nil,
-            link_payments: map() | nil,
-            mb_way_payments: map() | nil,
-            mobilepay_payments: map() | nil,
-            multibanco_payments: map() | nil,
-            mx_bank_transfer_payments: map() | nil,
-            naver_pay_payments: map() | nil,
-            nz_bank_account_becs_debit_payments: map() | nil,
-            oxxo_payments: map() | nil,
-            p24_payments: map() | nil,
-            pay_by_bank_payments: map() | nil,
-            payco_payments: map() | nil,
-            paynow_payments: map() | nil,
-            payto_payments: map() | nil,
-            pix_payments: map() | nil,
-            promptpay_payments: map() | nil,
-            revolut_pay_payments: map() | nil,
-            samsung_pay_payments: map() | nil,
-            satispay_payments: map() | nil,
-            sepa_bank_transfer_payments: map() | nil,
-            sepa_debit_payments: map() | nil,
-            sofort_payments: map() | nil,
-            swish_payments: map() | nil,
-            tax_reporting_us_1099_k: map() | nil,
-            tax_reporting_us_1099_misc: map() | nil,
-            transfers: map() | nil,
-            treasury: map() | nil,
-            twint_payments: map() | nil,
-            us_bank_account_ach_payments: map() | nil,
-            us_bank_transfer_payments: map() | nil,
-            zip_payments: map() | nil
+            acss_debit_payments: __MODULE__.AcssDebitPayments.t() | nil,
+            affirm_payments: __MODULE__.AffirmPayments.t() | nil,
+            afterpay_clearpay_payments: __MODULE__.AfterpayClearpayPayments.t() | nil,
+            alma_payments: __MODULE__.AlmaPayments.t() | nil,
+            amazon_pay_payments: __MODULE__.AmazonPayPayments.t() | nil,
+            au_becs_debit_payments: __MODULE__.AuBecsDebitPayments.t() | nil,
+            bacs_debit_payments: __MODULE__.BacsDebitPayments.t() | nil,
+            bancontact_payments: __MODULE__.BancontactPayments.t() | nil,
+            bank_transfer_payments: __MODULE__.BankTransferPayments.t() | nil,
+            billie_payments: __MODULE__.BilliePayments.t() | nil,
+            blik_payments: __MODULE__.BlikPayments.t() | nil,
+            boleto_payments: __MODULE__.BoletoPayments.t() | nil,
+            card_issuing: __MODULE__.CardIssuing.t() | nil,
+            card_payments: __MODULE__.CardPayments.t() | nil,
+            cartes_bancaires_payments: __MODULE__.CartesBancairesPayments.t() | nil,
+            cashapp_payments: __MODULE__.CashappPayments.t() | nil,
+            crypto_payments: __MODULE__.CryptoPayments.t() | nil,
+            eps_payments: __MODULE__.EpsPayments.t() | nil,
+            fpx_payments: __MODULE__.FpxPayments.t() | nil,
+            gb_bank_transfer_payments: __MODULE__.GbBankTransferPayments.t() | nil,
+            giropay_payments: __MODULE__.GiropayPayments.t() | nil,
+            grabpay_payments: __MODULE__.GrabpayPayments.t() | nil,
+            ideal_payments: __MODULE__.IdealPayments.t() | nil,
+            india_international_payments: __MODULE__.IndiaInternationalPayments.t() | nil,
+            jcb_payments: __MODULE__.JcbPayments.t() | nil,
+            jp_bank_transfer_payments: __MODULE__.JpBankTransferPayments.t() | nil,
+            kakao_pay_payments: __MODULE__.KakaoPayPayments.t() | nil,
+            klarna_payments: __MODULE__.KlarnaPayments.t() | nil,
+            konbini_payments: __MODULE__.KonbiniPayments.t() | nil,
+            kr_card_payments: __MODULE__.KrCardPayments.t() | nil,
+            legacy_payments: __MODULE__.LegacyPayments.t() | nil,
+            link_payments: __MODULE__.LinkPayments.t() | nil,
+            mb_way_payments: __MODULE__.MbWayPayments.t() | nil,
+            mobilepay_payments: __MODULE__.MobilepayPayments.t() | nil,
+            multibanco_payments: __MODULE__.MultibancoPayments.t() | nil,
+            mx_bank_transfer_payments: __MODULE__.MxBankTransferPayments.t() | nil,
+            naver_pay_payments: __MODULE__.NaverPayPayments.t() | nil,
+            nz_bank_account_becs_debit_payments:
+              __MODULE__.NzBankAccountBecsDebitPayments.t() | nil,
+            oxxo_payments: __MODULE__.OxxoPayments.t() | nil,
+            p24_payments: __MODULE__.P24Payments.t() | nil,
+            pay_by_bank_payments: __MODULE__.PayByBankPayments.t() | nil,
+            payco_payments: __MODULE__.PaycoPayments.t() | nil,
+            paynow_payments: __MODULE__.PaynowPayments.t() | nil,
+            payto_payments: __MODULE__.PaytoPayments.t() | nil,
+            pix_payments: __MODULE__.PixPayments.t() | nil,
+            promptpay_payments: __MODULE__.PromptpayPayments.t() | nil,
+            revolut_pay_payments: __MODULE__.RevolutPayPayments.t() | nil,
+            samsung_pay_payments: __MODULE__.SamsungPayPayments.t() | nil,
+            satispay_payments: __MODULE__.SatispayPayments.t() | nil,
+            sepa_bank_transfer_payments: __MODULE__.SepaBankTransferPayments.t() | nil,
+            sepa_debit_payments: __MODULE__.SepaDebitPayments.t() | nil,
+            sofort_payments: __MODULE__.SofortPayments.t() | nil,
+            swish_payments: __MODULE__.SwishPayments.t() | nil,
+            tax_reporting_us_1099_k: __MODULE__.TaxReportingUs1099K.t() | nil,
+            tax_reporting_us_1099_misc: __MODULE__.TaxReportingUs1099Misc.t() | nil,
+            transfers: __MODULE__.Transfers.t() | nil,
+            treasury: __MODULE__.Treasury.t() | nil,
+            twint_payments: __MODULE__.TwintPayments.t() | nil,
+            us_bank_account_ach_payments: __MODULE__.UsBankAccountAchPayments.t() | nil,
+            us_bank_transfer_payments: __MODULE__.UsBankTransferPayments.t() | nil,
+            zip_payments: __MODULE__.ZipPayments.t() | nil
           }
     defstruct [
       :acss_debit_payments,
@@ -343,11 +344,11 @@ defmodule Stripe.Params.AccountCreateParams do
     * `verification` - Information on the verification state of the company.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            address_kana: map() | nil,
-            address_kanji: map() | nil,
+            address: __MODULE__.Address.t() | nil,
+            address_kana: __MODULE__.AddressKana.t() | nil,
+            address_kanji: __MODULE__.AddressKanji.t() | nil,
             directors_provided: boolean() | nil,
-            directorship_declaration: map() | nil,
+            directorship_declaration: __MODULE__.DirectorshipDeclaration.t() | nil,
             executives_provided: boolean() | nil,
             export_license_id: String.t() | nil,
             export_purpose_code: String.t() | nil,
@@ -355,17 +356,17 @@ defmodule Stripe.Params.AccountCreateParams do
             name_kana: String.t() | nil,
             name_kanji: String.t() | nil,
             owners_provided: boolean() | nil,
-            ownership_declaration: map() | nil,
+            ownership_declaration: __MODULE__.OwnershipDeclaration.t() | nil,
             ownership_exemption_reason: String.t() | nil,
             phone: String.t() | nil,
             registration_date: map() | nil,
             registration_number: String.t() | nil,
-            representative_declaration: map() | nil,
+            representative_declaration: __MODULE__.RepresentativeDeclaration.t() | nil,
             structure: String.t() | nil,
             tax_id: String.t() | nil,
             tax_id_registrar: String.t() | nil,
             vat_id: String.t() | nil,
-            verification: map() | nil
+            verification: __MODULE__.Verification.t() | nil
           }
     defstruct [
       :address,
@@ -404,10 +405,10 @@ defmodule Stripe.Params.AccountCreateParams do
     * `stripe_dashboard` - A hash of configuration for Stripe-hosted dashboards.
     """
     @type t :: %__MODULE__{
-            fees: map() | nil,
-            losses: map() | nil,
+            fees: __MODULE__.Fees.t() | nil,
+            losses: __MODULE__.Losses.t() | nil,
             requirement_collection: String.t() | nil,
-            stripe_dashboard: map() | nil
+            stripe_dashboard: __MODULE__.StripeDashboard.t() | nil
           }
     defstruct [:fees, :losses, :requirement_collection, :stripe_dashboard]
   end
@@ -427,15 +428,19 @@ defmodule Stripe.Params.AccountCreateParams do
     * `proof_of_ultimate_beneficial_ownership` - One or more documents that demonstrate proof of ultimate beneficial ownership.
     """
     @type t :: %__MODULE__{
-            bank_account_ownership_verification: map() | nil,
-            company_license: map() | nil,
-            company_memorandum_of_association: map() | nil,
-            company_ministerial_decree: map() | nil,
-            company_registration_verification: map() | nil,
-            company_tax_id_verification: map() | nil,
-            proof_of_address: map() | nil,
-            proof_of_registration: map() | nil,
-            proof_of_ultimate_beneficial_ownership: map() | nil
+            bank_account_ownership_verification:
+              __MODULE__.BankAccountOwnershipVerification.t() | nil,
+            company_license: __MODULE__.CompanyLicense.t() | nil,
+            company_memorandum_of_association:
+              __MODULE__.CompanyMemorandumOfAssociation.t() | nil,
+            company_ministerial_decree: __MODULE__.CompanyMinisterialDecree.t() | nil,
+            company_registration_verification:
+              __MODULE__.CompanyRegistrationVerification.t() | nil,
+            company_tax_id_verification: __MODULE__.CompanyTaxIdVerification.t() | nil,
+            proof_of_address: __MODULE__.ProofOfAddress.t() | nil,
+            proof_of_registration: __MODULE__.ProofOfRegistration.t() | nil,
+            proof_of_ultimate_beneficial_ownership:
+              __MODULE__.ProofOfUltimateBeneficialOwnership.t() | nil
           }
     defstruct [
       :bank_account_ownership_verification,
@@ -491,9 +496,9 @@ defmodule Stripe.Params.AccountCreateParams do
     * `verification` - The individual's verification document information.
     """
     @type t :: %__MODULE__{
-            address: map() | nil,
-            address_kana: map() | nil,
-            address_kanji: map() | nil,
+            address: __MODULE__.Address.t() | nil,
+            address_kana: __MODULE__.AddressKana.t() | nil,
+            address_kanji: __MODULE__.AddressKanji.t() | nil,
             dob: map() | nil,
             email: String.t() | nil,
             first_name: String.t() | nil,
@@ -510,10 +515,10 @@ defmodule Stripe.Params.AccountCreateParams do
             metadata: map() | nil,
             phone: String.t() | nil,
             political_exposure: String.t() | nil,
-            registered_address: map() | nil,
-            relationship: map() | nil,
+            registered_address: __MODULE__.RegisteredAddress.t() | nil,
+            relationship: __MODULE__.Relationship.t() | nil,
             ssn_last_4: String.t() | nil,
-            verification: map() | nil
+            verification: __MODULE__.Verification.t() | nil
           }
     defstruct [
       :address,
@@ -556,14 +561,14 @@ defmodule Stripe.Params.AccountCreateParams do
     * `treasury` - Settings specific to the account's Treasury FinancialAccounts.
     """
     @type t :: %__MODULE__{
-            bacs_debit_payments: map() | nil,
-            branding: map() | nil,
-            card_issuing: map() | nil,
-            card_payments: map() | nil,
-            invoices: map() | nil,
-            payments: map() | nil,
-            payouts: map() | nil,
-            treasury: map() | nil
+            bacs_debit_payments: __MODULE__.BacsDebitPayments.t() | nil,
+            branding: __MODULE__.Branding.t() | nil,
+            card_issuing: __MODULE__.CardIssuing.t() | nil,
+            card_payments: __MODULE__.CardPayments.t() | nil,
+            invoices: __MODULE__.Invoices.t() | nil,
+            payments: __MODULE__.Payments.t() | nil,
+            payouts: __MODULE__.Payouts.t() | nil,
+            treasury: __MODULE__.Treasury.t() | nil
           }
     defstruct [
       :bacs_debit_payments,

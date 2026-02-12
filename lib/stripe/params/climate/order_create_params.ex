@@ -13,10 +13,10 @@ defmodule Stripe.Params.Climate.OrderCreateParams do
   """
   @type t :: %__MODULE__{
           amount: integer() | nil,
-          beneficiary: map() | nil,
+          beneficiary: __MODULE__.Beneficiary.t() | nil,
           currency: String.t() | nil,
           expand: [String.t()] | nil,
-          metadata: map() | nil,
+          metadata: %{String.t() => String.t()} | nil,
           metric_tons: String.t() | nil,
           product: String.t()
         }

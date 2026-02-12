@@ -16,7 +16,7 @@ defmodule Stripe.Params.Treasury.ReceivedCreditListParams do
           expand: [String.t()] | nil,
           financial_account: String.t(),
           limit: integer() | nil,
-          linked_flows: map() | nil,
+          linked_flows: __MODULE__.LinkedFlows.t() | nil,
           starting_after: String.t() | nil,
           status: String.t() | nil
         }

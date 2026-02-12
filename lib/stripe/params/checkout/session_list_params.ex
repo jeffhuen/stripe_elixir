@@ -20,7 +20,7 @@ defmodule Stripe.Params.Checkout.SessionListParams do
           created: map() | nil,
           customer: String.t() | nil,
           customer_account: String.t() | nil,
-          customer_details: map() | nil,
+          customer_details: __MODULE__.CustomerDetails.t() | nil,
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,

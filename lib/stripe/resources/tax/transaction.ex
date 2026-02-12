@@ -34,7 +34,7 @@ defmodule Stripe.Resources.Tax.Transaction do
           id: String.t(),
           line_items: __MODULE__.LineItems.t() | nil,
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           object: String.t(),
           posted_at: integer(),
           reference: String.t(),

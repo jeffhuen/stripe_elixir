@@ -22,9 +22,9 @@ defmodule Stripe.Params.Checkout.SessionUpdateParams do
   * `shipping_options` - The shipping rate options to apply to this Session. Up to a maximum of 5.
   """
   @type t :: %__MODULE__{
-          collected_information: map() | nil,
+          collected_information: __MODULE__.CollectedInformation.t() | nil,
           expand: [String.t()] | nil,
-          line_items: [map()] | nil,
+          line_items: [__MODULE__.LineItems.t()] | nil,
           metadata: map() | nil,
           shipping_options: map() | nil
         }
@@ -38,7 +38,7 @@ defmodule Stripe.Params.Checkout.SessionUpdateParams do
     * `shipping_details` - The shipping details to apply to this Session.
     """
     @type t :: %__MODULE__{
-            shipping_details: map() | nil
+            shipping_details: __MODULE__.ShippingDetails.t() | nil
           }
     defstruct [:shipping_details]
   end
@@ -56,11 +56,11 @@ defmodule Stripe.Params.Checkout.SessionUpdateParams do
     * `tax_rates` - The [tax rates](https://docs.stripe.com/api/tax_rates) which apply to this line item.
     """
     @type t :: %__MODULE__{
-            adjustable_quantity: map() | nil,
+            adjustable_quantity: __MODULE__.AdjustableQuantity.t() | nil,
             id: String.t() | nil,
             metadata: map() | nil,
             price: String.t() | nil,
-            price_data: map() | nil,
+            price_data: __MODULE__.PriceData.t() | nil,
             quantity: integer() | nil,
             tax_rates: map() | nil
           }

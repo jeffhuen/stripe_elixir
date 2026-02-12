@@ -46,7 +46,7 @@ defmodule Stripe.Resources.Plan do
           interval: String.t(),
           interval_count: integer(),
           livemode: boolean(),
-          metadata: map(),
+          metadata: %{String.t() => String.t()},
           meter: String.t(),
           nickname: String.t(),
           object: String.t(),

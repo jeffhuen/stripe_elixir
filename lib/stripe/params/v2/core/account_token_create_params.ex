@@ -12,7 +12,7 @@ defmodule Stripe.Params.V2.Core.AccountTokenCreateParams do
           contact_email: String.t() | nil,
           contact_phone: String.t() | nil,
           display_name: String.t() | nil,
-          identity: map() | nil
+          identity: __MODULE__.Identity.t() | nil
         }
 
   defstruct [:contact_email, :contact_phone, :display_name, :identity]
@@ -27,10 +27,10 @@ defmodule Stripe.Params.V2.Core.AccountTokenCreateParams do
     * `individual` - Information about the person represented by the account.
     """
     @type t :: %__MODULE__{
-            attestations: map() | nil,
-            business_details: map() | nil,
+            attestations: __MODULE__.Attestations.t() | nil,
+            business_details: __MODULE__.BusinessDetails.t() | nil,
             entity_type: String.t() | nil,
-            individual: map() | nil
+            individual: __MODULE__.Individual.t() | nil
           }
     defstruct [:attestations, :business_details, :entity_type, :individual]
   end

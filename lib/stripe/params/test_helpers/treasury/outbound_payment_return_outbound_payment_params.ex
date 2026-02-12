@@ -8,7 +8,7 @@ defmodule Stripe.Params.TestHelpers.Treasury.OutboundPaymentReturnOutboundPaymen
   """
   @type t :: %__MODULE__{
           expand: [String.t()] | nil,
-          returned_details: map() | nil
+          returned_details: __MODULE__.ReturnedDetails.t() | nil
         }
 
   defstruct [:expand, :returned_details]

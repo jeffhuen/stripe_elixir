@@ -8,9 +8,9 @@ defmodule Stripe.Params.Tax.SettingsUpdateParams do
   * `head_office` - The place where your business is located.
   """
   @type t :: %__MODULE__{
-          defaults: map() | nil,
+          defaults: __MODULE__.Defaults.t() | nil,
           expand: [String.t()] | nil,
-          head_office: map() | nil
+          head_office: __MODULE__.HeadOffice.t() | nil
         }
 
   defstruct [:defaults, :expand, :head_office]
@@ -36,7 +36,7 @@ defmodule Stripe.Params.Tax.SettingsUpdateParams do
     * `address` - The location of the business for tax purposes.
     """
     @type t :: %__MODULE__{
-            address: map() | nil
+            address: __MODULE__.Address.t() | nil
           }
     defstruct [:address]
   end

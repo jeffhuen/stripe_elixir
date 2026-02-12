@@ -25,7 +25,7 @@ defmodule Stripe.Resources.CountrySpec do
           default_currency: String.t(),
           id: String.t(),
           object: String.t(),
-          supported_bank_account_currencies: map(),
+          supported_bank_account_currencies: %{String.t() => [String.t()]},
           supported_payment_currencies: [String.t()],
           supported_payment_methods: [String.t()],
           supported_transfer_countries: [String.t()],

@@ -13,7 +13,7 @@ defmodule Stripe.Params.TaxIdListParams do
           ending_before: String.t() | nil,
           expand: [String.t()] | nil,
           limit: integer() | nil,
-          owner: map() | nil,
+          owner: __MODULE__.Owner.t() | nil,
           starting_after: String.t() | nil
         }
 

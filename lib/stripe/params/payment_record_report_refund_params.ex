@@ -12,13 +12,13 @@ defmodule Stripe.Params.PaymentRecordReportRefundParams do
   * `refunded` - Information about the payment attempt refund.
   """
   @type t :: %__MODULE__{
-          amount: map() | nil,
+          amount: __MODULE__.Amount.t() | nil,
           expand: [String.t()] | nil,
           initiated_at: integer() | nil,
           metadata: map() | nil,
           outcome: String.t(),
-          processor_details: map(),
-          refunded: map()
+          processor_details: __MODULE__.ProcessorDetails.t(),
+          refunded: __MODULE__.Refunded.t()
         }
 
   defstruct [:amount, :expand, :initiated_at, :metadata, :outcome, :processor_details, :refunded]
@@ -45,7 +45,7 @@ defmodule Stripe.Params.PaymentRecordReportRefundParams do
     * `type` - The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor. Possible values: `custom`.
     """
     @type t :: %__MODULE__{
-            custom: map() | nil,
+            custom: __MODULE__.Custom.t() | nil,
             type: String.t() | nil
           }
     defstruct [:custom, :type]

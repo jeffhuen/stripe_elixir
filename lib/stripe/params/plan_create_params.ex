@@ -36,9 +36,9 @@ defmodule Stripe.Params.PlanCreateParams do
           meter: String.t() | nil,
           nickname: String.t() | nil,
           product: map() | nil,
-          tiers: [map()] | nil,
+          tiers: [__MODULE__.Tiers.t()] | nil,
           tiers_mode: String.t() | nil,
-          transform_usage: map() | nil,
+          transform_usage: __MODULE__.TransformUsage.t() | nil,
           trial_period_days: integer() | nil,
           usage_type: String.t() | nil
         }
