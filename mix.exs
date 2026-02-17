@@ -2,7 +2,7 @@ defmodule Stripe.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/jeffhuen/tiger_stripe"
-  @version "0.1.8"
+  @version "0.1.9"
 
   def project do
     [
@@ -79,7 +79,8 @@ defmodule Stripe.MixProject do
         "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md"
       },
       files:
-        ~w(lib guides .formatter.exs mix.exs README.md LICENSE CHANGELOG.md OPENAPI_VERSION usage-rules.md)
+        ~w(lib guides .formatter.exs mix.exs README.md LICENSE CHANGELOG.md OPENAPI_VERSION usage-rules.md),
+      exclude_patterns: ~w(lib/stripe/generator lib/mix/tasks/stripe.generate.ex)
     ]
   end
 

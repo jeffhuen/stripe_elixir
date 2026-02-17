@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+## [0.1.9] - 2026-02-17
+
+### Changed
+
+- Exclude code generator and `mix stripe.generate` task from hex package — the package is regenerated weekly from the latest Stripe OpenAPI spec, so end users only need the generated output; contributors who need immediate regeneration can use `mix stripe.generate` from the repo. This also drops the `rustyjson` transitive dependency
+
 ## [0.1.8] - 2026-02-16
 
 ### Changed
@@ -94,6 +100,7 @@ The format is based on [Common Changelog](https://common-changelog.org/).
 - Add telemetry events for request lifecycle observability
 - Add Finch HTTP client with connection pooling (Mint + NimblePool)
 
+[0.1.9]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/jeffhuen/tiger_stripe/compare/v0.1.5...v0.1.6
